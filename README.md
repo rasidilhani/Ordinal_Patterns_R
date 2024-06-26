@@ -1,0 +1,1 @@
+# Ordinal_Patterns_R
