@@ -1,0 +1,262 @@
+---
+title: "Ordinal_patterns"
+output: html_document
+date: "2024-06-25"
+---
+
+```{r}
+install.packages("readxl")
+library(statcomp)
+library(tidyverse)
+library(ggplot2)
+library(readxl)
+```
+
+```{r}
+# Function to compute ordinal patterns for a given embedding dimension
+compute_ordinal_patterns <- function(series, emb_dim) {
+  n <- length(series)
+  patterns <- vector("list", n - emb_dim + 1)
+  
+  for (i in 1:(n - emb_dim + 1)) {
+    subseries <- series[i:(i + emb_dim - 1)]
+    # Get the order pattern as a permutation of the indices
+    patterns[[i]] <- order(subseries)
+  }
+  
+  return(patterns)
+}
+
+# Function to find the frequency of each ordinal pattern
+ordinal_pattern_frequencies <- function(series, emb_dim) {
+  patterns <- compute_ordinal_patterns(series, emb_dim)
+  patterns_str <- sapply(patterns, paste, collapse = "-")
+  freq_table <- table(patterns_str)
+  
+  # Convert to data frame for better readability
+  freq_df <- as.data.frame(freq_table)
+  colnames(freq_df) <- c("Pattern", "Frequency")
+  
+  return(freq_df)
+}
+
+# Function to calculate probabilities from frequencies
+calculate_probabilities <- function(freq_df) {
+  total_patterns <- sum(freq_df$Frequency)
+  probabilities <- freq_df$Frequency / total_patterns
+  return(probabilities)
+}
+
+# Function to calculate Shannon entropy from pattern frequencies
+calculate_entropy <- function(freq_df) {
+  total_patterns <- sum(freq_df$Frequency)
+  probabilities <- freq_df$Frequency / total_patterns
+  entropy <- -sum(probabilities * log2(probabilities))
+  
+  return(entropy)
+}
+
+# Function to calculate Kullback-Leibler divergence
+kl_divergence <- function(P, Q) {
+  divergence <- sum(P * log2(P / Q), na.rm = TRUE)
+  return(divergence)
+}
+
+# Function to calculate Jensen-Shannon divergence
+js_divergence <- function(P, Q) {
+  M <- 0.5 * (P + Q)
+  jsd <- 0.5 * kl_divergence(P, M) + 0.5 * kl_divergence(Q, M)
+  return(jsd)
+}
+
+# Function to calculate Jensen-Shannon entropy
+calculate_js_entropy <- function(probabilities) {
+  uniform_prob <- rep(1/length(probabilities), length(probabilities))
+  jsd <- js_divergence(probabilities, uniform_prob)
+  js_entropy <- sqrt(jsd)
+  return(js_entropy)
+}
+
+# Function to calculate complexity using Shannon and Jensen-Shannon entropy
+calculate_complexity <- function(series, emb_dim) {
+  pattern_frequencies <- ordinal_pattern_frequencies(series, emb_dim)
+  probabilities <- calculate_probabilities(pattern_frequencies)
+  
+  shannon_entropy <- calculate_shannon_entropy(probabilities)
+  js_entropy <- calculate_js_entropy(probabilities)
+  
+  # Normalize Shannon entropy by the maximum possible entropy (log2 of number of patterns)
+  max_entropy <- log2(length(probabilities))
+  normalized_shannon_entropy <- shannon_entropy / max_entropy
+  
+  # Calculate complexity as the product of normalized Shannon entropy and Jensen-Shannon entropy
+  complexity <- normalized_shannon_entropy * js_entropy
+  
+  return(list(ShannonEntropy = shannon_entropy, JensenShannonEntropy = js_entropy, Complexity = complexity))
+}
+
+# Example usage
+CAC <- read_excel("Load/CAC.xlsx")
+View(CAC)
+series <- CAC[[2]]   # the second column contains the series
+timestamp <- CAC[[1]]
+ emb_dim <- 3               # Define the embedding dimension
+
+# Plot time series data
+ ggplot (CAC, aes(x = CAC$TIMESTAMP, y = CAC$VALUE)) +
+ geom_line(color = "blue") + 
+   labs(x = "Month",
+   y = "Electricity Demand",
+   title = "Year 2009 Electricity consumption at the Central Area Thailand")
+ 
+ # Compute ordinal pattern frequencies
+pattern_frequencies <- ordinal_pattern_frequencies(series, emb_dim)
+
+# Calculate probabilities
+probabilities <- calculate_probabilities(pattern_frequencies)
+
+# Calculate Jensen-Shannon entropy
+js_entropy <- calculate_js_entropy(probabilities)
+
+# Display the results
+print(series)
+print(pattern_frequencies)
+print(probabilities)
+print(paste("Jensen-Shannon Entropy:", js_entropy))
+```
+
+
+
+
+```{r}
+# Function to compute ordinal patterns for a given embedding dimension
+compute_ordinal_patterns <- function(series, emb_dim) {
+  n <- length(series)
+  patterns <- vector("list", n - emb_dim + 1)
+  
+  for (i in 1:(n - emb_dim + 1)) {
+    subseries <- series[i:(i + emb_dim - 1)]
+    # Get the order pattern as a permutation of the indices
+    patterns[[i]] <- order(subseries)
+  }
+  
+  return(patterns)
+}
+
+# Example usage
+CAC <- read_excel("Load/CAC.xlsx")
+View(CAC)
+series <- CAC[[2]]   # the second column contains the series
+timestamp <- CAC[[1]]
+
+# Define the embedding dimension 
+emb_dim <- 3               
+
+# compute ordinal patterns
+patterns <- compute_ordinal_patterns(series, emb_dim)
+
+#convert patterns to string to facilitate a plot
+patterns_str <- sapply(patterns, paste, collapse = "")
+
+# Function to create a graph from permutation patterns
+plot_permutation_patterns <- function(pattern, title_text) {
+  positions <- switch(pattern,
+                      "123" = data.frame(x = 1:3, y = c(1, 2, 3)),
+                      "132" = data.frame(x = 1:3, y = c(1, 3, 2)),
+                      "213" = data.frame(x = 1:3, y = c(2, 1, 3)),
+                      "231" = data.frame(x = 1:3, y = c(2, 3, 1)),
+                      "312" = data.frame(x = 1:3, y = c(3, 1, 2)),
+                      "321" = data.frame(x = 1:3, y = c(3, 2, 1)))
+  
+  p <- ggplot(positions, aes(x = x, y = y)) +
+    geom_line() +
+    geom_point(size = 3) +
+    scale_y_continuous(breaks = 1:3) +
+    scale_x_continuous(breaks = 1:3) +
+    ggtitle(title_text) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+      axis.text = element_text(size = 12),
+      axis.title = element_blank()
+    )
+  return(p)
+}
+
+# List of unique patterns
+unique_patterns <- unique(patterns_str)
+
+# Generate patterns from the ordinal patterns
+plots <- lapply(unique_patterns, function(pattern) {
+  plot_permutation_patterns(pattern, pattern)
+})
+
+# Exhibit of graphs
+for (p in plots) {
+ print(p) 
+}
+```
+
+
+
+```{r}
+# Function to calculate permutation entropy
+calculate_permutation_entropy <- function(probabilities) {
+  entropy <- -sum(probabilities * log2(probabilities), na.rm = TRUE)
+  return(entropy)
+}
+
+# Function to calculate KL divergence
+kl_divergence <- function(P, Q) {
+  divergence <- sum(P * log2(P / Q), na.rm = TRUE)
+  return(divergence)
+}
+
+# Function to calculate JS divergence
+js_divergence <- function(P, Q) {
+  M <- 0.5 * (P + Q)
+  jsd <- 0.5 * kl_divergence(P, M) + 0.5 * kl_divergence(Q, M)
+  return(jsd)
+}
+
+# Function to calculate JS entropy
+calculate_js_entropy <- function(probabilities) {
+  uniform_prob <- rep(1 / length(probabilities), length(probabilities))
+  jsd <- js_divergence(probabilities, uniform_prob)
+  js_entropy <- sqrt(jsd)
+  return(js_entropy)
+}
+
+# Function to plot the frequencies of the ordinal patterns (Histogram)
+plot_frequencies <- function(freq_df, title_txt) {
+  ggplot(freq_df, aes(x = factor(Pattern, levels = c("123", "132", "213", "231", "312", "321")), y = Probability)) +
+    geom_bar(stat = "identity", fill = "gray30", color = "black", width = 0.7) +
+    xlab("pattern") +
+    ylab(expression(P(π))) +
+    ggtitle(title_txt) +
+    theme_bw() +
+    theme(
+      axis.text.x = element_text(angle = 0, hjust = 0.5, vjust = 1),
+      axis.text.y = element_text(size = 12),
+      axis.title.y = element_text(size = 14),
+      plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank()) +
+    ylim(0, 0.3)
+  
+}
+
+# Function to compute ordinal patterns from a given embedding dimension
+compute_ordinal_patterns <- function(series, emb_dim) {
+  n <- length(series)
+  patterns <- vector("list", n - emb_dim + 1)
+  
+  for (i in 1:(n - emb_dim + 1)) {
+    subseries <- series[i:(i + emb_dim - 1)]
+    patterns[[i]] <- order(subseries)
+  }
+  return(patterns)
+}
+
+# Function to find the frequency of each ordinal pattern
+```
