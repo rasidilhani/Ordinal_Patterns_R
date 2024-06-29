@@ -85,11 +85,11 @@ calculate_complexity <- function(series, emb_dim) {
   shannon_entropy <- calculate_shannon_entropy(probabilities)
   js_entropy <- calculate_js_entropy(probabilities)
   
-  # Normalize Shannon entropy by the maximum possible entropy (log2 of number of patterns)
+# Normalize Shannon entropy by the maximum possible entropy (log2 of number of patterns)
   max_entropy <- log2(length(probabilities))
   normalized_shannon_entropy <- shannon_entropy / max_entropy
   
-  # Calculate complexity as the product of normalized Shannon entropy and Jensen-Shannon entropy
+# Calculate complexity as the product of normalized Shannon entropy and Jensen-Shannon entropy
   complexity <- normalized_shannon_entropy * js_entropy
   
   return(list(ShannonEntropy = shannon_entropy, JensenShannonEntropy = js_entropy, Complexity = complexity))
@@ -259,4 +259,72 @@ compute_ordinal_patterns <- function(series, emb_dim) {
 }
 
 # Function to find the frequency of each ordinal pattern
+ordinal_pattern_frequencies <- function(series, emb_dim) {
+  patterns <- compute_ordinal_patterns(series, emb_dim)
+  patterns_str <- sapply(patterns, paste, collase = "")
+  freq_table <- table(patterns_str)
+
+# Convert to data frame for better readability
+freq_df <- as.data.frame(freq_table)
+colnames(freq_df) <- c("Pattern", "Frequency")
+return(freq_df)
+}
+
+# Function to calculate probabilities from frequencies
+calculate_probabilities <- function(freq_df) {
+  total_patterns <- sum(freq_df$Frequency)
+  probabilities <- freq_df$Frequency / total_patterns
+  freq_df$Probabilities <- probabilities
+  return(probabilities)
+  return(freq_df)
+}
+
+# Example usage
+CAC <- read_excel("Load/CAC.xlsx")
+View(CAC)
+series <- CAC[[2]]   # the second column contains the series
+timestamp <- CAC[[1]]
+
+# Define the embedding dimension 
+emb_dim <- 3   
+
+# Title for specific data figure
+title <- c("Complete", "Time Ordered", "Random", "Data-Driven")
+
+# Function to obtain a series from modified series
+get_modified_series <- function(series, method) {
+  if(method == "Complete") {
+    return(series)
+  } else if (method == "Time Ordered") {
+    return(series)
+  } else if (method == "Random") {
+    set.seed(123)
+    return(sample(series))
+  } else if (method == "Data-Driven") {
+    return(series)
+  }
+}
+
+# Calculate a plot to each title specific data figures
+for(i in 1:4) {
+  method <- title[i]
+  modified_series <- get_modified_series(series, method)
+  pattern_frequencies <-ordinal_pattern_frequencies(modified_series, emb_dim)
+  probabilities_df <- calculate_probabilities(pattern_frequencies)
+  probabilities <- probabilities_df$Probability
+  shannon_entropy <- calculate_permutation_entropy(probabilities)
+  js_entropy <- calculate_js_entropy(probabilities)
+
+  complexity_results[[as.character(emb_dim)]] <- data.frame(
+    Emb_Dim = emb_dim,                                                                         PermutationEntropy = shannon_entropy,
+    JensenShannoEntropy = js_entropy
+    )
+
+  print(paste("Embedding Dimension:", emb_dim))
+  print(paste("Permutation Entropy:", shannon_entropy))
+  print(paste("Jensen Shannon Entropy:", js_entropy))
+
+# Plot frequencies for a embedding dimension from a specific title
+   print(plot_frequencies(probabilities_df, method))
+}
 ```
