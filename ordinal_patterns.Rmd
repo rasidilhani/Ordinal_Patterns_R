@@ -5,7 +5,7 @@ date: "2024-06-25"
 ---
 
 ```{r}
-install.packages("readxl")
+#install.packages("readxl")
 library(statcomp)
 library(tidyverse)
 library(ggplot2)
@@ -127,7 +127,6 @@ print(paste("Jensen-Shannon Entropy:", js_entropy))
 
 
 
-
 ```{r}
 # Function to compute ordinal patterns for a given embedding dimension
 compute_ordinal_patterns <- function(series, emb_dim) {
@@ -200,6 +199,10 @@ for (p in plots) {
 
 
 ```{r}
+# Load necessary libraries
+library(readxl)
+library(ggplot2)
+
 # Function to calculate permutation entropy
 calculate_permutation_entropy <- function(probabilities) {
   entropy <- -sum(probabilities * log2(probabilities), na.rm = TRUE)
@@ -227,23 +230,39 @@ calculate_js_entropy <- function(probabilities) {
   return(js_entropy)
 }
 
+# Function to generate all possible permutations of a given length
+generate_permutations <- function(n) {
+  permute <- function(x) {
+    if (length(x) == 1) return(x)
+    out <- c()
+    for (i in 1:length(x)) {
+      sub_perms <- permute(x[-i])
+      out <- c(out, paste(x[i], sub_perms, sep = ""))
+    }
+    return(out)
+  }
+  return(permute(1:n))
+}
+
 # Function to plot the frequencies of the ordinal patterns (Histogram)
-plot_frequencies <- function(freq_df, title_txt) {
-  ggplot(freq_df, aes(x = factor(Pattern, levels = c("123", "132", "213", "231", "312", "321")), y = Probability)) +
+plot_frequencies <- function(freq_df, title_txt, emb_dim) {
+  patterns <- generate_permutations(emb_dim)
+  freq_df <- merge(data.frame(Pattern = patterns), freq_df, by = "Pattern", all.x = TRUE)
+  freq_df[is.na(freq_df)] <- 0
+  ggplot(freq_df, aes(x = factor(Pattern, levels = patterns), y = Probability)) +
     geom_bar(stat = "identity", fill = "gray30", color = "black", width = 0.7) +
     xlab("pattern") +
     ylab(expression(P(π))) +
     ggtitle(title_txt) +
     theme_bw() +
     theme(
-      axis.text.x = element_text(angle = 0, hjust = 0.5, vjust = 1),
+      axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
       axis.text.y = element_text(size = 12),
       axis.title.y = element_text(size = 14),
       plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank()) +
     ylim(0, 0.3)
-  
 }
 
 # Function to compute ordinal patterns from a given embedding dimension
@@ -261,21 +280,20 @@ compute_ordinal_patterns <- function(series, emb_dim) {
 # Function to find the frequency of each ordinal pattern
 ordinal_pattern_frequencies <- function(series, emb_dim) {
   patterns <- compute_ordinal_patterns(series, emb_dim)
-  patterns_str <- sapply(patterns, paste, collase = "")
+  patterns_str <- sapply(patterns, paste, collapse = "")
   freq_table <- table(patterns_str)
-
-# Convert to data frame for better readability
-freq_df <- as.data.frame(freq_table)
-colnames(freq_df) <- c("Pattern", "Frequency")
-return(freq_df)
+  
+  # Convert to data frame for better readability
+  freq_df <- as.data.frame(freq_table)
+  colnames(freq_df) <- c("Pattern", "Frequency")
+  return(freq_df)
 }
 
 # Function to calculate probabilities from frequencies
 calculate_probabilities <- function(freq_df) {
   total_patterns <- sum(freq_df$Frequency)
   probabilities <- freq_df$Frequency / total_patterns
-  freq_df$Probabilities <- probabilities
-  return(probabilities)
+  freq_df$Probability <- probabilities
   return(freq_df)
 }
 
@@ -285,46 +303,43 @@ View(CAC)
 series <- CAC[[2]]   # the second column contains the series
 timestamp <- CAC[[1]]
 
-# Define the embedding dimension 
-emb_dim <- 3   
+# Define the range of embedding dimensions
+embedding_dimensions <- 3:7   
 
-# Title for specific data figure
-title <- c("Complete", "Time Ordered", "Random", "Data-Driven")
+# Initialize a list to store results
+complexity_results <- list()
 
-# Function to obtain a series from modified series
-get_modified_series <- function(series, method) {
-  if(method == "Complete") {
-    return(series)
-  } else if (method == "Time Ordered") {
-    return(series)
-  } else if (method == "Random") {
-    set.seed(123)
-    return(sample(series))
-  } else if (method == "Data-Driven") {
-    return(series)
-  }
-}
-
-# Calculate a plot to each title specific data figures
-for(i in 1:4) {
-  method <- title[i]
-  modified_series <- get_modified_series(series, method)
-  pattern_frequencies <-ordinal_pattern_frequencies(modified_series, emb_dim)
+# Calculate and plot results for each embedding dimension
+for (emb_dim in embedding_dimensions) {
+  pattern_frequencies <- ordinal_pattern_frequencies(series, emb_dim)
   probabilities_df <- calculate_probabilities(pattern_frequencies)
   probabilities <- probabilities_df$Probability
   shannon_entropy <- calculate_permutation_entropy(probabilities)
   js_entropy <- calculate_js_entropy(probabilities)
-
+  
   complexity_results[[as.character(emb_dim)]] <- data.frame(
-    Emb_Dim = emb_dim,                                                                         PermutationEntropy = shannon_entropy,
-    JensenShannoEntropy = js_entropy
-    )
-
+    Emb_Dim = emb_dim,
+    PermutationEntropy = shannon_entropy,
+    JensenShannonEntropy = js_entropy
+  )
+  
   print(paste("Embedding Dimension:", emb_dim))
   print(paste("Permutation Entropy:", shannon_entropy))
   print(paste("Jensen Shannon Entropy:", js_entropy))
-
-# Plot frequencies for a embedding dimension from a specific title
-   print(plot_frequencies(probabilities_df, method))
+  
+  # Plot frequencies for a specific embedding dimension
+  print(plot_frequencies(probabilities_df, paste("Embedding Dimension", emb_dim), emb_dim))
 }
+
+# Combine all results into a single data frame
+complexity_df <- do.call(rbind, complexity_results)
+
+# Plot Shannon Entropy vs JS Entropy
+ggplot(complexity_df, aes(x = PermutationEntropy, y = JensenShannonEntropy, color = as.factor(Emb_Dim), group = Emb_Dim)) +
+  geom_point(size = 4) +
+  geom_line(linetype = "dashed") +
+  labs(x = "Permutation Entropy", y = "Jensen-Shannon Entropy", color = "Embedding Dimension") +
+  theme_minimal() +
+  ggtitle("Shannon Entropy vs Jensen-Shannon Entropy")
+
 ```
