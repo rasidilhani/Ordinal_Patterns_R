@@ -1,0 +1,55 @@
+---
+title: "remote_sensing_research"
+output: html_document
+date: "2024-07-04"
+---
+
+```{r cars}
+install.packages("tidyverse")
+install.packages("statcomp")
+install.packages("readxl")
+install.packages("dplyr")
+library(tidyverse)
+library(dplyr)
+library(statcomp)
+```
+
+
+```{r}
+# Remote sensing research work
+Journal_comparison_data <- read_excel("D:/Documents/Journal_comparison_data.xlsx")
+data <- select(Journal_comparison_data, Source, Year, CiteScore)
+View(data)
+
+```
+
+
+```{r}
+wider_data_citescore <- data %>% 
+  pivot_wider(names_from = Year, values_from = CiteScore)
+View(wider_data_citescore)
+
+Journal_comparison_data %>% 
+  ggplot(aes(Year, Citations, color = Source))+
+  geom_point(size = 5, alpha = 0.5) + theme_bw() + labs(title = "Year and Citation by Source")
+```
+
+
+
+```{r}
+Journal_comparison_data %>% 
+  ggplot(aes(Year, Citations, color = Source))+
+  geom_point(size = 2, alpha = 0.8) + 
+  geom_smooth() +
+  facet_wrap(~ Source) +
+  theme_bw() + 
+  labs(title = "Year and Citation by Source")
+
+```
+
+```{r}
+
+```
+
+
+
