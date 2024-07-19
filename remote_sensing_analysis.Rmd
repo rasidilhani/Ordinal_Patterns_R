@@ -5,29 +5,31 @@ date: "2024-07-04"
 ---
 
 ```{r cars}
-install.packages("tidyverse")
-install.packages("statcomp")
-install.packages("readxl")
-install.packages("dplyr")
+# install.packages("tidyverse")
+# install.packages("statcomp")
+# install.packages("readxl")
+# install.packages("dplyr")
 library(tidyverse)
 library(dplyr)
 library(statcomp)
+library(readxl)
 ```
 
 
 ```{r}
 # Remote sensing research work
-Journal_comparison_data <- read_excel("D:/Documents/Journal_comparison_data.xlsx")
-data <- select(Journal_comparison_data, Source, Year, CiteScore)
+Journal_comparison_data <- read_excel("Journal_comparison_data.xlsx")
+View(Journal_comparison_data)
+data <- select(Journal_comparison_data, Source, Year, Citations)
 View(data)
 
 ```
 
 
 ```{r}
-wider_data_citescore <- data %>% 
-  pivot_wider(names_from = Year, values_from = CiteScore)
-View(wider_data_citescore)
+wider_data_citations <- data %>% 
+  pivot_wider(names_from = Year, values_from = Citations)
+View(wider_data_citations)
 
 Journal_comparison_data %>% 
   ggplot(aes(Year, Citations, color = Source))+
@@ -38,6 +40,8 @@ Journal_comparison_data %>%
 
 ```{r}
 Journal_comparison_data %>% 
+  # Set theme
+theme_set(theme_minimal())
   ggplot(aes(Year, Citations, color = Source))+
   geom_point(size = 2, alpha = 0.8) + 
   geom_smooth() +
@@ -48,8 +52,41 @@ Journal_comparison_data %>%
 ```
 
 ```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(gtsummary)
+
+# Load data
+data(Journal_comparison_data)
+glimpse(Journal_comparison_data)
+
+# Exclude columns 'Source' and 'Year' and create summary table
+Journal_comparison_data %>%
+  select(-Source, -Year) %>%
+  tbl_summary()
 
 ```
 
 
 
+```{r}
+# Assign data to df
+df <- Journal_comparison_data
+
+# # Inspect the citation column
+# str(df$Citations)
+# 
+# # Convert citation to numeric if necessary
+# df$Citations <- as.numeric(as.character(df$Citations))
+
+# Summarize the data to get the mean of citations
+df1 <- summarise(df, mean_citation = mean(Citations, na.rm = TRUE))
+
+# Summarize the data by 'Source' to get the mean and standard deviation of citations
+df2 <- df %>%
+  group_by(Source) %>%
+  summarise(
+    Mean = mean(Citations, na.rm = TRUE),
+    SD = sd(Citations, na.rm = TRUE))
+```
