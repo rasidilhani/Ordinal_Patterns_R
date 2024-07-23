@@ -1,0 +1,114 @@
+---
+title: "Bearing_Fault_Data"
+output: html_document
+date: "2024-07-21"
+---
+
+```{r setup}
+install.packages("readxl")
+install.packages("ggplot2")
+install.packages("statcomp")
+library(readxl)
+library(ggplot2)
+library(statcomp)
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+# Read excel data 
+Normal_Baseline_Data <- read_excel("Normal Baseline Data.xlsx")
+series <- Normal_Baseline_Data[[2]]
+View(Normal_Baseline_Data)
+
+# Get the sheet names
+sheet_names <- excel_sheets(Normal_Baseline_Data)
+
+# Initialize lists to store time series data
+DE_Time <- list()
+FE_Time <- list()
+
+# Read each sheet and extract the time series data
+for (sheet in sheet_names) {
+    data <- read_excel(file_path, sheet = sheet)
+    DE_Time[[sheet]] <- data$DE_Time
+    FE_Time[[sheet]] <- data$FE_Time
+}
+
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot_time_series <- function(ts_data, ts_name) {
+    df <- data.frame(Time = 1:length(ts_data), Value = ts_data)
+    ggplot(df, aes(x = Time, y = Value)) +
+        geom_line() +
+        ggtitle(paste("Time Series:", ts_name)) +
+        xlab("Time") +
+        ylab("Value")
+}
+
+# Plot DE_Time and FE_Time for each sheet
+for (sheet in sheet_names) {
+    print(plot_time_series(DE_Time[[sheet]], paste(sheet, "DE_Time")))
+    print(plot_time_series(FE_Time[[sheet]], paste(sheet, "FE_Time")))
+}
+
+```
+
+
+````{r}
+calculate_ordinal_patterns <- function(ts_data, embedding_dim) {
+    n <- length(ts_data)
+    patterns <- matrix(NA, n - embedding_dim + 1, embedding_dim)
+    for (i in 1:(n - embedding_dim + 1)) {
+        patterns[i, ] <- rank(ts_data[i:(i + embedding_dim - 1)])
+    }
+    return(patterns)
+}
+
+
+``````
+
+
+
+```{r}
+compute_complexity_plane <- function(patterns) {
+    # Calculate the H and C values using the statcomp package
+    # This assumes 'patterns' are already normalized and properly formatted
+    h <- statcomp::h_func(patterns)
+    c <- statcomp::c_func(patterns)
+    hc <- h * c
+    return(hc)
+}
+
+# Example usage for embedding dimensions 3 to 6
+for (sheet in sheet_names) {
+    for (embedding_dim in 3:6) {
+        op_de <- calculate_ordinal_patterns(DE_Time[[sheet]], embedding_dim)
+        op_fe <- calculate_ordinal_patterns(FE_Time[[sheet]], embedding_dim)
+        
+        # Compute complexity plane
+        hc_de <- compute_complexity_plane(op_de)
+        hc_fe <- compute_complexity_plane(op_fe)
+        
+        print(paste("Sheet:", sheet, "Embedding Dim:", embedding_dim))
+        print("DE_Time Complexity Plane (H*C):")
+        print(hc_de)
+        print("FE_Time Complexity Plane (H*C):")
+        print(hc_fe)
+    }
+}
+
+
+
+``````
