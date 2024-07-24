@@ -1,10 +1,3 @@
----
-title: "Bearing_Fault_Data"
-output: html_document
-date: "2024-07-21"
----
-
-```{r setup}
 # Load required libraries
 library(readxl)
 library(ggplot2)
@@ -12,11 +5,6 @@ library(tidyverse)
 library(dplyr)
 library(statcomp)
 
-```
-
-
-
-```{r}
 # Function to compute ordinal patterns for a given embedding dimension
 compute_ordinal_patterns <- function(series, emb_dim) {
   n <- length(series)
@@ -72,11 +60,6 @@ calculate_js_entropy <- function(probabilities) {
   js_entropy <- sqrt(jsd)
   return(js_entropy)
 }
-````
-
-
-
-```{r}
 
 # Function to plot time series
 plot_time_series <- function(time_series, title) {
@@ -90,7 +73,7 @@ plot_time_series <- function(time_series, title) {
 # Function to plot frequencies of the ordinal patterns (Histogram)
 plot_frequencies <- function(freq_df, title_txt) {
   ggplot(freq_df, aes(x = factor(Pattern, levels = unique(Pattern)), y = Probability)) +
-    geom_bar(stat = "identity", fill = "blue", color = "red", width = 0.7) +
+    geom_bar(stat = "identity", fill = "gray30", color = "blue", width = 0.7) +
     xlab("Pattern") +
     ylab("Probability") +
     ggtitle(title_txt) +
@@ -105,11 +88,6 @@ plot_frequencies <- function(freq_df, title_txt) {
     ) +
     ylim(0, 1)
 }
-```
-
-
-
-```{r}
 
 # Read the Excel file
 file_path <- "Normal Baseline Data.xlsx"
@@ -179,11 +157,6 @@ for (sheet in sheet_names) {
   }
 }
 
-```
-
-
-
-```{r}
 # Prepare data for complexity plane
 complexity_data <- do.call(rbind, lapply(names(results), function(name) {
   result <- results[[name]]
@@ -226,4 +199,16 @@ summary_table <- do.call(rbind, lapply(names(results), function(name) {
 # Print the summary table
 print(summary_table)
 
-``````
+# # Create a confusion matrix based on the patterns
+# confusion_matrix <- function(data) {
+#   table(data$Pattern)
+# }
+# 
+# # Print confusion matrix for each sheet
+# for (sheet in sheet_names) {
+#   if (sheet %in% names(DE_Time) & sheet %in% names(FE_Time)) {
+#     print(confusion_matrix(ordinal_pattern_frequencies(DE_Time[[sheet]], 3)))
+#     print(confusion_matrix(ordinal_pattern_frequencies(FE_Time[[sheet]], 3)))
+#   }
+# }
+
