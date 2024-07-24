@@ -72,7 +72,7 @@ calculate_js_entropy <- function(probabilities) {
   js_entropy <- sqrt(jsd)
   return(js_entropy)
 }
-````
+```
 
 
 
@@ -112,7 +112,7 @@ plot_frequencies <- function(freq_df, title_txt) {
 ```{r}
 
 # Read the Excel file
-file_path <- "Normal Baseline Data.xlsx"
+file_path <- "../../Data/XLS/Normal Baseline Data.xlsx"
 
 # Define sheet names
 sheet_names <- c("Normal 0", "Normal 1", "Normal 2", "Normal 3")
@@ -226,4 +226,4 @@ summary_table <- do.call(rbind, lapply(names(results), function(name) {
 # Print the summary table
 print(summary_table)
 
-``````
+```
