@@ -182,6 +182,64 @@ for (sheet in sheet_names) {
 ```
 
 
+```{r}
+# Prepare data for complexity plane
+complexity_data <- do.call(rbind, lapply(names(results), function(name) {
+  result <- results[[name]]
+  data.frame(
+    Sheet = result$Sheet,
+    Emb_Dim = result$Emb_Dim,
+    ShannonEntropy = result$ShannonEntropy,
+    JSEntropy = result$JSEntropy
+  )
+}))
+
+# Function to generate feasible region bounds
+generate_feasible_region <- function() {
+  data.frame(
+    ShannonEntropy = c(0, 1, 1, 0, 0),
+    JSEntropy = c(0, 0, 1, 1, 0)
+  )
+}
+
+# Generate feasible region
+feasible_region <- generate_feasible_region()
+
+# Function to plot the complexity plane with feasible region for each embedding dimension
+plot_complexity_planes <- function(data, feasible_region) {
+  unique_dims <- unique(data$Emb_Dim)
+  plots <- list()
+  
+  for (dim in unique_dims) {
+    data_dim <- subset(data, Emb_Dim == dim)
+    p <- ggplot() +
+      geom_polygon(data = feasible_region, aes(x = ShannonEntropy, y = JSEntropy), fill = "lightgray", alpha = 0.5) +
+      geom_point(data = data_dim, aes(x = ShannonEntropy, y = JSEntropy, color = Sheet), size = 3) +
+      theme_minimal() +
+      xlab("Normalized Shannon Entropy") +
+      ylab("Normalized Jensen-Shannon Entropy") +
+      ggtitle(paste("Complexity Plane H*C - Embedding Dimension", dim)) +
+      scale_color_discrete(name = "Sheet") +
+      xlim(0, 1) +
+      ylim(0, 1)
+    plots[[as.character(dim)]] <- p
+  }
+  return(plots)
+}
+
+# Convert results to a data frame for plotting
+complexity_data_df <- as.data.frame(complexity_data)
+
+# Plot the complexity planes
+complexity_planes <- plot_complexity_planes(complexity_data_df, feasible_region)
+
+# Print the complexity planes
+for (plot in complexity_planes) {
+  print(plot)
+}
+
+```
+
 
 ```{r}
 # Prepare data for complexity plane
