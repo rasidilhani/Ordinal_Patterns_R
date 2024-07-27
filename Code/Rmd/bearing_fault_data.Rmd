@@ -241,6 +241,86 @@ for (plot in complexity_planes) {
 ```
 
 
+
+```{r}
+```{r}
+# Prepare data for complexity plane
+complexity_data <- do.call(rbind, lapply(names(results), function(name) {
+  result <- results[[name]]
+  data.frame(
+    Sheet = result$Sheet,
+    Emb_Dim = result$Emb_Dim,
+    ShannonEntropy = result$ShannonEntropy,
+    JSEntropy = result$JSEntropy
+  )
+}))
+
+# Function to generate feasible region bounds
+generate_feasible_region <- function() {
+  data.frame(
+    ShannonEntropy = c(0, 1, 1, 0, 0),
+    JSEntropy = c(0, 0, 1, 1, 0)
+  )
+}
+
+# Generate feasible region
+feasible_region <- generate_feasible_region()
+
+# Function to calculate mean and standard deviation for each time series
+calculate_summary_stats <- function(data) {
+  summary_stats <- data %>%
+    group_by(Sheet, Emb_Dim) %>%
+    summarize(
+      MeanShannon = mean(ShannonEntropy),
+      SdShannon = sd(ShannonEntropy),
+      MeanJSEntropy = mean(JSEntropy),
+      SdJSEntropy = sd(JSEntropy)
+    )
+  return(summary_stats)
+}
+
+# Calculate summary statistics
+summary_stats <- calculate_summary_stats(complexity_data)
+
+# Merge summary statistics with the original complexity data
+complexity_data_with_stats <- merge(complexity_data, summary_stats, by = c("Sheet", "Emb_Dim"))
+
+# Function to plot the complexity plane with confidence intervals for each embedding dimension
+plot_complexity_planes <- function(data, feasible_region) {
+  unique_dims <- unique(data$Emb_Dim)
+  plots <- list()
+  
+  for (dim in unique_dims) {
+    data_dim <- subset(data, Emb_Dim == dim)
+    p <- ggplot() +
+      geom_polygon(data = feasible_region, aes(x = ShannonEntropy, y = JSEntropy), fill = "lightgray", alpha = 0.5) +
+      geom_point(data = data_dim, aes(x = ShannonEntropy, y = JSEntropy, color = Sheet), size = 3) +
+      geom_errorbar(data = data_dim, aes(x = MeanShannon, ymin = MeanJSEntropy - SdJSEntropy, ymax = MeanJSEntropy + SdJSEntropy, color = Sheet), width = 0.02) +
+      geom_errorbarh(data = data_dim, aes(y = MeanJSEntropy, xmin = MeanShannon - SdShannon, xmax = MeanShannon + SdShannon, color = Sheet), height = 0.02) +
+      theme_minimal() +
+      xlab("Normalized Shannon Entropy") +
+      ylab("Normalized Jensen-Shannon Entropy") +
+      ggtitle(paste("Complexity Plane H*C for Embedding Dimension", dim))
+    plots[[as.character(dim)]] <- p
+  }
+  return(plots)
+}
+
+# Generate plots for each embedding dimension
+plots <- plot_complexity_planes(complexity_data_with_stats, feasible_region)
+
+# Display the plots
+for (plot in plots) {
+  print(plot)
+}
+
+
+```
+
+
+```
+
+
 ```{r}
 # Prepare data for complexity plane
 complexity_data <- do.call(rbind, lapply(names(results), function(name) {
