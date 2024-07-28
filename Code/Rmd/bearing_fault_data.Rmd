@@ -2,6 +2,7 @@
 title: "Bearing_Fault_Data"
 output: html_document
 date: "2024-07-21"
+author: "Rasika anda Keila"
 ---
 
 ```{r setup}
@@ -11,10 +12,199 @@ library(ggplot2)
 library(tidyverse)
 library(dplyr)
 library(statcomp)
+```
+
+# Step 1: Data Collection (Done)
+Download Data:
+Normal Baseline Data: Download
+12k Drive End Bearing Fault Data: Download
+48k Drive End Bearing Fault Data: Download
+Fan-End Bearing Fault Data: Download
+
+# Step 2: Data Preparation
+Read and Organize Data:
+Use the R.matlab library in R to read the Matlab files.
+Organize the data into a structured format (e.g., data frames or lists) for analysis.
+
+```{r}
+# Install and load required packages if not already installed
+if (!require("R.matlab")) {
+  install.packages("R.matlab")
+  library(R.matlab)
+}
+
+if (!require("writexl")) {
+  install.packages("writexl")
+  library(writexl)
+}
+
+# Function to read a .mat file and convert it to a data frame
+read_mat_to_df <- function(file_path) {
+  if (file.exists(file_path)) {
+    data <- readMat(file_path)
+    # Assuming the time series data is stored in a variable named 'X'
+    # Adjust according to the actual structure of your .mat files
+    data_frame <- as.data.frame(data$X)
+    return(data_frame)
+  } else {
+    stop(paste("File not found:", file_path))
+  }
+}
+
+# Specify the file paths of the manually downloaded .mat files
+file_paths <- c("~/Documents/Ordinal_Patterns_R/Data/mat/97.mat",
+                "../Documents/Ordinal_Patterns_R/Data/mat/98.mat",
+                "../Documents/Ordinal_Patterns_R/Data/mat/99.mat",
+                "../Documents/Ordinal_Patterns_R/Data/mat/100.mat")
+
+
+# Check if all specified files exist
+for (file in file_paths) {
+  if (!file.exists(file)) {
+    stop(paste("File not found:", file))
+  }
+}
+
+# Read the files into data frames
+df_list <- lapply(file_paths, read_mat_to_df)
+
+# Combine data frames into a single data frame
+combined_df <- do.call(rbind, df_list)
+
+# Write the combined data frame to an XLS file
+write_xlsx(combined_df, "Normal_Baseline_Data.xlsx") #Use .csv is easier to handle large data
+
+message("Data has been successfully written to 'Normal_Baseline_Data.xlsx'.")
 
 ```
 
+# Step 3: Preliminary Analysis
+Compute HxC Points:
+Use the statcomp library to compute the HxC point for each compatible time series.
+Check the documentation to match time series with the same measurement.
 
+```{r}
+
+```
+
+# Step 4: Visualization
+Visualize Data:
+Plot the HxC points in the HxC manifold.
+Identify if different categories form distinct clusters.
+
+```{r}
+
+```
+
+# Step 5: Literature Review
+Analyze Literature:
+Analyze the references from the Web of Science and additional references from Scopus.
+Identify relevant scientific questions and gaps in the literature.
+Review existing studies on Ordinal Patterns or Permutation Entropy.
+
+## Research on the Use of CWRU Bearing Data Center Data
+
+The Case Western Reserve University (CWRU) Bearing Data Center provides a well-known dataset extensively used in research for bearing fault diagnosis and machine learning applications. 
+
+## Key Areas of Research
+
+### 1. Fault Diagnosis and Prognosis
+Many studies have utilized the CWRU dataset to develop and validate fault diagnosis methods for bearings. Techniques such as deep learning, machine learning, and traditional signal processing have been applied to detect and classify faults in bearings https://www.mdpi.com/2076-3417/8/12/2357 and https://link.springer.com/chapter/10.1007/978-3-031-07322-9_32.
+
+### 2. Benchmarking and Algorithm Development
+The dataset is commonly used to benchmark new algorithms and methods for fault detection and classification. This includes the use of Convolutional Neural Networks (CNNs), Transfer Learning (TL), and other advanced neural network architectures to improve diagnostic accuracy and robustness under varying operational conditions https://www.mdpi.com/2076-3417/8/12/2357.
+
+### 3. Signal Processing Techniques
+Researchers have applied various signal processing techniques, such as the Stockwell Transform, to extract features from the vibration data. These features are then used for fault detection and classification, showcasing the dataset's utility in validating new signal processing methods https://www.mdpi.com/2076-3417/8/12/2357;.
+
+### 4. Unsupervised Learning and Clustering
+The dataset has also been employed in unsupervised learning approaches, where clustering algorithms are used to distinguish between different bearing states without labeled data. This helps in understanding the natural grouping of data and improving the reliability of fault diagnosis systems https://link.springer.com/chapter/10.1007/978-3-031-07322-9_32.
+
+## Application of Ordinal Patterns and Bandt-Pompe Theory
+Regarding the use of Ordinal Patterns and Bandt-Pompe Theory, there is no specific mention in the available literature that directly applies these methods to the CWRU dataset. Ordinal Patterns and the Bandt-Pompe approach are typically used in the context of time series analysis to detect complex patterns and anomalies. While these methods could theoretically be applied to the CWRU bearing data for novel insights, existing studies have primarily focused on more conventional machine learning and signal processing techniques.
+
+The CWRU Bearing Data Center dataset continues to be a valuable resource for researchers in the field of fault diagnosis and machine learning. It supports the development and validation of new diagnostic algorithms, benchmarking of various approaches, and exploration of advanced signal processing techniques. Although the Bandt-Pompe Theory and Ordinal Patterns have not been prominently featured in this context, there remains potential for future research to explore these methodologies using the CWRU dataset.
+
+-------------------------------------------------------------------------------------------------------
+Given the existing research on the CWRU Bearing Data Center dataset and the lack of application of Bandt-Pompe Theory and Ordinal Patterns, you can contribute to the state of the art by exploring these methodologies.
+
+## Potential Research Directions
+
+### 1. Application of Ordinal Patterns for Feature Extraction
+**Objective**: Investigate the effectiveness of ordinal patterns in extracting features from vibration signals of bearings.
+**Approach**: Apply ordinal pattern analysis to the vibration data to capture the dynamics and inherent structures in the time series. Evaluate the discriminative power of these features for fault diagnosis.
+
+### 2. Permutation Entropy for Fault Detection
+**Objective**: Utilize permutation entropy as a measure to detect and classify bearing faults.
+**Approach**: Compute permutation entropy for the time series data and use it as a feature for machine learning models. Compare its performance with traditional features like statistical measures and spectral features.
+
+### 3. HxC Plane Analysis
+**Objective**: Explore the use of the HxC plane (entropy-complexity plane) to distinguish between different bearing conditions.
+**Approach**: Calculate the permutation entropy and statistical complexity for the time series data. Plot the results in the HxC plane and analyze the clustering of different fault types. This could provide insights into the complexity and randomness of the signal patterns associated with different fault conditions.
+
+### 4. Integration of Ordinal Pattern and Machine Learning Models
+**Objective**: Develop machine learning models that integrate ordinal pattern features for improved fault classification.
+**Approach**: Extract ordinal pattern-based features from the dataset and use them to train various machine learning models (e.g., SVM, Random Forest, Neural Networks). Assess the models' performance and compare it with models using traditional features.
+
+### 5. Multiscale Permutation Entropy
+**Objective**: Investigate the use of multiscale permutation entropy for multi-scale analysis of bearing vibration signals.
+**Approach**: Compute permutation entropy at multiple scales to capture the signal’s complexity at different time resolutions. This can help in understanding the multi-scale behavior of the vibration signals and its correlation with bearing conditions.
+
+### 6. Hybrid Models Combining Ordinal Patterns and Deep Learning
+**Objective**: Enhance fault diagnosis accuracy by combining ordinal pattern-based features with deep learning architectures.
+**Approach**: Use ordinal patterns to preprocess the data and extract meaningful features. Feed these features into deep learning models (e.g., CNNs, LSTMs) to classify bearing faults. Evaluate the hybrid model's performance against traditional and pure deep learning approaches.
+
+By applying Bandt-Pompe Theory and Ordinal Patterns to the CWRU Bearing Data Center dataset, you can contribute novel insights and methodologies to the field of bearing fault diagnosis. This research has the potential to enhance the understanding of complex vibration signals and improve the accuracy of fault detection systems.
+
+For further information and to get started, you can refer to the articles and resources on platforms like ScienceDirect - https://www.sciencedirect.com/, IEEE Xplore - https://ieeexplore.ieee.org/, and SpringerLink - https://link.springer.com/. These platforms provide access to a wealth of research papers and articles that can guide your study.
+-------------------------------------------------------------------------------------------------------
+
+## Steps for Conducting the Research
+
+### Literature Review
+Conduct a thorough literature review on the application of ordinal patterns and permutation entropy in time series analysis. Identify gaps and opportunities for applying these methods to bearing fault diagnosis.
+
+### Data Preprocessing
+Clean and preprocess the CWRU dataset to ensure it is suitable for analysis. This may include normalization, noise reduction, and segmentation of the time series data.
+
+### Feature Extraction
+Implement algorithms to extract ordinal patterns, permutation entropy, and complexity measures from the vibration signals.
+
+### Model Development
+Develop and train machine learning models using the extracted features. Experiment with different algorithms and parameter settings to optimize performance.
+
+### Evaluation
+Evaluate the models using standard metrics such as accuracy, precision, recall, and F1-score. Compare the performance with baseline models using traditional features.
+
+### Analysis and Interpretation
+Analyze the results to understand the effectiveness of ordinal patterns and permutation entropy in distinguishing different bearing conditions. Provide insights into the potential advantages and limitations of these methods.
+-------------------------------------------------------------------------------------------------------
+
+# Step 6: Bibliometric Analysis
+Identify Relevant Journals:
+Use bibliometrix to analyze the database and identify the most relevant journals for the topic.
+
+# Step 7: Study Design
+Design the Study:
+Based on the results and literature review, design a study to be submitted to a journal.
+Define the research questions, hypotheses, and methodology.
+
+# Step 8: Results Presentation
+Prepare for Conference:
+Prepare the findings for presentation at the NZSA conference or other.
+Create visualizations and summaries of the HxC points and clusters.
+
+# Step 9: Writing and Submission
+Write and Submit Paper:
+Draft the paper based on the study design and results.
+Follow the guidelines of the identified relevant journals.
+Submit the paper for publication.
+
+# Tools and Resources
+R.matlab Library: For reading Matlab files in R.
+statcomp Library: For computing HxC points.
+JabRef: For managing BibTeX files.
+bibliometrix: For bibliometric analysis.
 
 ```{r}
 # Function to compute ordinal patterns for a given embedding dimension
