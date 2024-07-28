@@ -2,7 +2,7 @@
 title: "Bearing_Fault_Data"
 output: html_document
 date: "2024-07-21"
-author: "Rasika anda Keila"
+author: "Rasika and Keila"
 ---
 
 ```{r setup}
@@ -27,6 +27,9 @@ Use the R.matlab library in R to read the Matlab files.
 Organize the data into a structured format (e.g., data frames or lists) for analysis.
 
 ```{r}
+
+library(rprojroot)
+
 # Install and load required packages if not already installed
 if (!require("R.matlab")) {
   install.packages("R.matlab")
@@ -51,19 +54,25 @@ read_mat_to_df <- function(file_path) {
   }
 }
 
-# Specify the file paths of the manually downloaded .mat files
-file_paths <- c("~/Documents/Ordinal_Patterns_R/Data/mat/97.mat",
-                "../Documents/Ordinal_Patterns_R/Data/mat/98.mat",
-                "../Documents/Ordinal_Patterns_R/Data/mat/99.mat",
-                "../Documents/Ordinal_Patterns_R/Data/mat/100.mat")
+# Define o caminho base do projeto usando rprojroot
+base_path <- find_root(has_file("README.md"))
 
+# Especifica os caminhos relativos dos arquivos .mat sem repetição do diretório
+file_paths <- c(
+  file.path(base_path, "Data", "mat", "Normal_Baseline_Data", "97.mat"),
+  file.path(base_path, "Data", "mat", "Normal_Baseline_Data", "98.mat"),
+  file.path(base_path, "Data", "mat", "Normal_Baseline_Data", "99.mat"),
+  file.path(base_path, "Data", "mat", "Normal_Baseline_Data", "100.mat")
+)
 
-# Check if all specified files exist
-for (file in file_paths) {
-  if (!file.exists(file)) {
-    stop(paste("File not found:", file))
-  }
+# Verifica se os arquivos existem
+file_paths_exist <- sapply(file_paths, file.exists)
+print(file_paths_exist)
+
+if (any(!file_paths_exist)) {
+  stop("Some files do not exist: ", paste(file_paths[!file_paths_exist], collapse = ", "))
 }
+
 
 # Read the files into data frames
 df_list <- lapply(file_paths, read_mat_to_df)
@@ -72,7 +81,7 @@ df_list <- lapply(file_paths, read_mat_to_df)
 combined_df <- do.call(rbind, df_list)
 
 # Write the combined data frame to an XLS file
-write_xlsx(combined_df, "Normal_Baseline_Data.xlsx") #Use .csv is easier to handle large data
+#write_xlsx(combined_df, "Normal_Baseline_Data.xlsx") #Use .csv is easier to handle large data
 
 message("Data has been successfully written to 'Normal_Baseline_Data.xlsx'.")
 
@@ -297,12 +306,36 @@ plot_frequencies <- function(freq_df, title_txt) {
 }
 ```
 
+```{r}
+file_paths
+````
+
 
 
 ```{r}
 
-# Read the Excel file
-file_path <- "../../Data/XLS/Normal Baseline Data.xlsx"
+# Instale os pacotes se ainda não estiverem instalados
+if (!requireNamespace("rprojroot", quietly = TRUE)) {
+  install.packages("rprojroot")
+}
+if (!requireNamespace("readxl", quietly = TRUE)) {
+  install.packages("readxl")
+}
+
+# Carrega os pacotes necessários
+library(rprojroot)
+library(readxl)
+
+# Define o caminho base do projeto usando rprojroot
+base_path <- find_root(has_file("README.md"))
+
+# Construa o caminho relativo para o arquivo Excel
+file_path <- file.path(base_path, "Data", "XLS", "Normal Baseline Data.xlsx")
+
+# Verifique se o arquivo existe
+if (!file.exists(file_path)) {
+  stop("O arquivo não existe: ", file_path)
+}
 
 # Define sheet names
 sheet_names <- c("Normal 0", "Normal 1", "Normal 2", "Normal 3")
