@@ -16,25 +16,30 @@ classoptions:
   # - lineno        # Optional: Add line numbers
   # - iicol         # Optional: Double column layour
 
-title: Laboratory Notebook
+title: Ordinal Pattern Analysis for Early Bearing Fault Detection and Classification in Rotating Machinery  
 titlerunning: Lab Notebook
 
 authors: 
-  - prefix: Dr.
-    firstname: Leading
-    particle: van 
-    lastname: Author
-    suffix: III
-    naturename: Poet Laureate
-    degrees: MSc, PhD
-    email: abc@def
-    affiliation: [1,2]
+  - prefix: 
+    firstname: Rasika
+    particle:  
+    lastname: Dilhani
+    suffix: 
+    naturename: 
+    degrees: MSc
+    email: rasika.dilhani@vuw.ac.nz
+    affiliation: [1]
     corresponding: TRUE
     equalcont: These authors contributed equally to this work.
     
-  - firstname: Second
+  - firstname: Keila
     lastname: Author
-    affiliation: 2
+    affiliation: [1,2]
+    equalcont: These authors contributed equally to this work.
+    
+  - firstname: Alejandro
+    lastname: Author
+    affiliation: 1
     equalcont: These authors contributed equally to this work.
 
 
@@ -42,14 +47,14 @@ affiliations:
   - number: 1
     corresponding: TRUE
     info:
-      orgdiv: Department
-      orgname: Organization
+      orgdiv: School of Mathematics and Statistics
+      orgname: Victoria University of Wellington
     address:
-        street: Street
-        city: City
-        postcode: 100190
-        state: State
-        country: Country
+        street: 
+        city: Wellington
+        postcode: 6012
+        state: 
+        country: New Zealand
   - number: 2
     corresponding: TRUE
     info:
@@ -76,14 +81,15 @@ pacs:
 # Sample for structured abstract
 abstract: |
   **Purpose**: The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
-
+  
   **Methods:** The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
 
   **Results:** The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
 
   **Conclusion:** The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.}
 
-bibliography: bibliography.bib
+bibliography: ['BearingFaultDiagnosis.bib']
+link-citations: True
 
 header-includes: |
   %% Per the spinger doc, new theorem styles can be included using built in style, 
@@ -114,13 +120,28 @@ knitr::opts_chunk$set(echo = FALSE,
 
 # Introduction {#sec1}
 
-The Introduction section, of referenced text @bib1 expands on the background of the work (some overlap with the Abstract is acceptable). The introduction should not include subheadings.
+Bearings are critical components in rotating machinery, yet their demanding operating conditions involving high loads and impacts often lead to various faults. These faults can result in significant downtime, costly maintenance, and even complete machine failure. Therefore, early and accurate detection and classification of bearing faults are essential for ensuring operational reliability and minimizing maintenance expenses. 
 
-Springer Nature does not impose a strict layout as standard however authors are advised to check the individual requirements for the journal they are planning to submit to as there may be journal-level preferences. 
-When preparing your text please also be aware that some stylistic choices are not supported in full text XML (publication version), including coloured font. 
-These will not be replicated in the typeset article if it is accepted.
+Traditional fault detection methods primarily rely on analyzing physical parameters and trends using techniques such as vibration analysis, thermal monitoring, and current signature analysis. While these methods have proven effective, they can be susceptible to noise and often require substantial computational resources. Ordinal pattern analysis has emerged as a promising alternative, offering a robust and computationally efficient approach for analyzing time series data. 
 
-# Results {#sec2}
+At its core, ordinal pattern analysis involves transforming continuous time series data into a sequence of ordinal patterns that represent the order relationships among data points within a given time window. This approach effectively captures the fundamental dynamics of the signal in a manner that is inherently robust to noise and distortions. By analyzing these patterns, it becomes possible to identify subtle changes in system behavior that may indicate the presence of a fault. 
+
+This study investigates the application of ordinal pattern analysis for early detection and classification of bearing faults, focusing on common fault types such as ball, outer race, and inner race defects. Using a publicly available dataset from the Case Western Reserve University Bearing Data Center, we will demonstrate the effectiveness of ordinal patterns in distinguishing between healthy and faulty bearing conditions. 
+
+Our research will explore the advantages of ordinal pattern analysis in detecting changes in system dynamics associated with faults. By identifying alterations in the frequency and recurrence of specific temporal patterns, this technique can reveal subtle indicators of developing faults. Furthermore, unlike some traditional methods limited to linear systems, ordinal pattern analysis can effectively detect faults in complex, non-linear systems, broadening its applicability. 
+
+This study will also compare the performance of ordinal pattern analysis with traditional fault detection techniques, evaluating metrics such as accuracy, sensitivity, and computational efficiency. While traditional methods often rely on specialized sensors and data acquisition systems, ordinal pattern analysis can potentially achieve comparable results using simpler time series data, highlighting its potential for wider adoption. Additionally, we will investigate the sensitivity of ordinal pattern analysis to subtle changes in system dynamics, particularly within complex systems, where its strengths may be most pronounced. 
+
+We aim to establish ordinal pattern analysis as a viable and advantageous tool for bearing fault diagnosis, contributing to the advancement of predictive maintenance technologies and promoting more efficient and reliable operation of rotating machinery.
+
+# Ordinal Patterns {#sec2}
+
+# Literature Review {#sec3}
+
+The authors of  [1] present an enhanced method for detecting bearing faults by leveraging high frequency resonance, which improves the accuracy and reliability of fault diagnosis in mechanical systems. The study demonstrates that the improved technique effectively identifies early-stage bearing defects, providing a significant advancement over traditional diagnostic methods. The paper [2] introduces a novel method for fault detection that utilizes an adaptive rank-order morphological filter to classify patterns in one-dimensional signals. This approach enhances the accuracy and robustness of fault diagnosis by effectively filtering and identifying signal anomalies. Moreover, in the literature, authors in [3] proposes a method for early fault detection in machines by analyzing truncated vibration signals using Shannon wavelet spectrum analysis. This technique enhances the identification of incipient faults, improving the predictive maintenance of machinery. A prototype FPGA implementation leverages machine learning to convert analog signals into succinct feature representations, using an event-based approach to enhance the efficiency and accuracy of signal processing in various applications [4]. A dedicated hierarchy of neural networks is applied to assess bearing degradation, improving the accuracy and reliability of diagnosing the condition and remaining useful life of bearings in machinery was discusses in the paper [5]. In the paper [6], the fault diagnosis of rolling bearings is enhanced by combining multifractal detrended fluctuation analysis with the Mahalanobis distance criterion, enhancing diagnostic accuracy and providing effective, validated techniques for early fault detection in industrial applications. Another interesting research work in the paper [7] presents a diagnostic method for rolling element bearings based on the theory of active perception, which involves analyzing dynamic interactions between the bearing and its environment. Significant findings include the method’s ability to accurately assess bearing condition by incorporating perceptual cues and responses, thus improving fault detection and predictive maintenance strategies. With the research implement of [8] introduces a fault diagnosis method for rolling element bearings that employs Empirical Mode Decomposition (EMD) combined with Discrete Fourier Domain Analysis (DFDA). The method effectively isolates and analyzes fault-related features in vibration signals, leading to improved accuracy and reliability in diagnosing bearing conditions. A signal-based triangular structuring element for mathematical morphological analysis, applying this approach to enhance fault diagnosis in rolling element bearings by effectively processing and interpreting vibration signal features were discussed in the [9]. Moreover, a hybrid CEEMD-EMD approach for fault detection in rolling bearings, which combines Complete Ensemble Empirical Mode Decomposition with Noise (CEEMD) and traditional Empirical Mode Decomposition (EMD) to improve the accuracy of vibration signal analysis and enhance fault detection capabilities have improved in the paper [10].  Authors in the paper [11] proposes a bearing fault detection method that utilizes compressive measurements of vibration signals to efficiently identify faults, enhancing diagnostic accuracy while reducing the data processing burden. A novel feature extraction method based on the crossover characteristics of nonlinear data, applying it to improve fault diagnosis in rotary machinery by effectively identifying critical patterns in complex signal data has been studied with [12]. The studies demonstrate that Self-Organizing Maps (SOMs) effectively diagnose motor bearing faults by classifying complex vibration data, while methods based on fast nonlocal means and envelope spectra improve fault diagnosis accuracy. Additionally, a low-dimensional compressed measurement approach enhances fault detection efficiency, and a smoothness index-guided Bayesian inference technique offers precise identification of various bearing faults by analyzing anti-symmetric real Laplace wavelet parameters [13, 14, 15, 16]. Recent research has focused on advanced techniques for bearing fault diagnosis using vibration signals. Statistical locally linear embedding has been proposed as an effective method for dimensionality reduction and feature extraction, outperforming traditional approaches like PCA and LDA (17). Wavelet packet decomposition combined with multi-scale permutation entropy has shown promise in accurately identifying bearing faults using hidden Markov models (18 and 19, 20 is not considered). A novel two-step approach utilizing permutation entropy for fault detection and a combination of wavelet packet transform, envelope analysis, and neuro-fuzzy classification for fault isolation has also been developed, showing improved diagnostic capabilities compared to existing methods (Rajabi et al., 2022). These advancements contribute to more accurate and efficient bearing fault diagnosis in industrial rotating equipment. 
+
+
+# Results {#sec4}
 
 Sample body text. 
 Sample body text. 
@@ -131,7 +152,7 @@ Sample body text.
 Sample body text. 
 Sample body text.
 
-# This is an example for first level head---section head {#sec3}
+# This is an example for first level head---section head {#sec5}
 
 ## This is an example for second level head---subsection head {#subsec2}
 
@@ -145,7 +166,7 @@ Sample body text.
 Sample body text. 
 Sample body text.
 
-# Equations {#sec4}
+# Equations {#sec6}
 
 Equations in \LaTeX\ can either be inline or on-a-line by itself ("display equations"). For
 inline equations use the `$...$` commands. E.g.: The equation
@@ -182,7 +203,7 @@ The class file also supports the use of `\mathbb{}`, `\mathscr{}` and
 and `\mathcal{R}` produces $\mathbb{R}$, $\mathscr{R}$ and $\mathcal{R}$
 respectively (refer Subsubsection\ \ref{subsubsec2}).
 
-# Tables {#sec5}
+# Tables {#sec7}
 
 Tables can be inserted via the normal `knitr::kable()` function or other table-generating packages. 
 
