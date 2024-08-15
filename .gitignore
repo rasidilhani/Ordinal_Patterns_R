@@ -54,5 +54,8 @@ Code/Rmd/bearing_fault_data.html
 .DS_Store
 
 # Large files
-Data/
-Plots/
+Data/*
+!Data/csv/
+Plots/*
+!Plots/histograms/
+!Plots/complexity_plane/

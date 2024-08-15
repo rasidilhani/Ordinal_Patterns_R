@@ -24,14 +24,6 @@ library(dplyr)
 library(tidyverse)
 library(ggplot2)
 
-#a <- as.data.frame(c(1, 2, 3, 4, 5))
-#print(a)
-
-#ggplot(a, aes(x)) +
-#  geom_line() +
-#  ggtitle(title) +
-#  theme_minimal()
-
 # Example: 
 #x <- c(1.5, 2.3, 3.1, 2.9, 4.0, 3.5, 2.7, 4.2, 3.8, 5.0)
 
@@ -42,7 +34,9 @@ base_path <- find_root(has_file("README.md"))
 file_path <- file.path(base_path, "Data", "csv", "Normal_baseline_data.csv")
 plot_path <- file.path(base_path, "Plots")
 
-
+if(!dir.exists(plot_path)) {
+  dir.create(plot_path)
+}
 
 #Initialize lists to store time series data and results
 DE_Time <- list()
@@ -70,8 +64,9 @@ read_data_file <- function(file_path){
 }
 
 # function for time series plot
+# function for time series plot
 plot_time_series <- function(dataset, title, xlabel="Index", ylabel, color="#000000") {
-  png(filename=file.path(plot_path, paste(title, ".png")), width=2000, height=500)
+  pdf(file=file.path(plot_path, paste(title, ".pdf")), width = 20, height = 5)
   plot(dataset, type='l', main=title, xlab = xlabel, ylab = ylabel, col=color)
   dev.off()
 }
@@ -112,7 +107,7 @@ gen_ord_pattern_and_hist <- function(dataset, ndim=3, title, xlabel="Index", yla
     dir.create(png_file_path)
   }
   
-  png(filename=file.path(png_file_path, paste("Ordinal pattern ", title, ".png")), width=2000, height=500)
+  pdf(file=file.path(png_file_path, paste("Ordinal pattern ", title, ".pdf")), width=20, height=5)
   hist(ord_patt, main=title, xlab = xlabel, ylab = ylabel, col=color)
   dev.off()
 }
@@ -178,25 +173,74 @@ Embed_dim <- embed_dim_list
 DF_key <- df_key_list
 #Opd <- opd_list
 S_entropy <- S_entropy_list
-Complexity_PE <- complexity_pe_list
-Complexity_MPR <- complexity_mpr_list
+P_entropy <- complexity_pe_list
+Stat_complexity <- complexity_mpr_list
 
-results_df <- as.data.frame (cbind(Motor_load, Embed_dim, DF_key, S_entropy, Complexity_PE, Complexity_MPR))
+results_df <- as.data.frame (cbind(Motor_load, Embed_dim, DF_key, S_entropy, P_entropy, Stat_complexity))
 
 results_df
 
 write.csv(results_df, file.path(base_path, "Data", "csv", "Complexity_results1.csv"), row.names = FALSE)
 
 #############################
-#Complexity plot
+# Complexity plot
+#############################
 
-embed_dim_3_ind = which(results_df$Embed_dim == 3)
-embed_dim_3_df <- results_df[embed_dim_3_ind, ]
-embed_dim_3_df$DF_key <- as.factor(embed_dim_3_df$DF_key)
-embed_dim_3_df$Motor_load <- as.factor(embed_dim_3_df$Motor_load)
+min_func = list(NULL, NULL,mind3, mind4, mind5, mind6)
+max_func = list(NULL, NULL,maxd3, maxd4, maxd5, maxd6)
+
+
+for(em_dim in 3:6) {
+  embed_dim_n_ind = which(results_df$Embed_dim == em_dim)
+  embed_dim_n_df <- results_df[embed_dim_n_ind, ]
+  embed_dim_n_df$DF_key <- as.factor(embed_dim_n_df$DF_key)
+  embed_dim_n_df$Motor_load <- as.factor(embed_dim_n_df$Motor_load)
+  embed_dim_n_df$S_entropy <- as.numeric(embed_dim_n_df$S_entropy)
+  embed_dim_n_df$Stat_complexity <- as.numeric(embed_dim_n_df$Stat_complexity)
+  
+  min_limit_data = min_func[em_dim][[1]]
+  max_limit_data = max_func[em_dim][[1]]
+  
+  graph_title = sprintf("Complexity Plane - Embed dimenssion %s", em_dim)
+
+  ggplot() +
+    geom_point(data=embed_dim_n_df, aes(x=S_entropy, y=Stat_complexity, colour = DF_key, shape = Motor_load)) +
+    geom_line(data = max_limit_data, aes(x=x, y=y), color='red') +
+    geom_line(data = min_limit_data, aes(x=x, y=y), color='blue') +
+    labs(
+      title = graph_title,
+      x="Entropy",
+      y="Complexity"
+    )
+
+  pdf_file_name = file.path(plot_path, "complexity_plane", paste(sprintf("complexity_plane_graph_em_dim_%s", em_dim), ".pdf"))
+  ggsave(pdf_file_name, width=20, height = 5, units = "in", dpi = 300)
+}
+
+
+#a = limit_curves(ndemb = 3, fun = 'max')
+#print(a)
+#plot()
+
+print(dim(c))
+#plot(x=cbind(b$x[1:494], c$x[1:494]), y=cbind(b$y[1:494], c$y[1:494]), type = 'l')
+
+comp_plot = ggplot(embed_dim_3_df, aes(x=S_entropy, y=Stat_complexity, colour = DF_key, shape = Motor_load)) + geom_point() + coord_equal(ratio = 1)
+comp_plot + geom_line(data = b, aes(x=x, y=y))
+comp_plot
 embed_dim_3_df
 
-ggplot(embed_dim_3_df, aes(x=S_entropy, y=Complexity_MPR, colour = DF_key, shape = Motor_load)) + geom_point()
+
+
+#  + ggplot(data = embed_dim_3_df, aes(x=S_entropy, y=Stat_complexity, colour = DF_key, shape = Motor_load)) + geom_point()
+
+c$x[min(embed_dim_3_df$S_entropy):max(embed_dim_3_df$S_entropy)]
+
+#######################################
+#Boundaries for the complexity plane
+#############################################
+
+
 
 # opd <- ordinal_pattern_distribution(data_normal$DE_time, ndemb = 3)
 # opd
@@ -255,5 +299,6 @@ ggplot(embed_dim_3_df, aes(x=S_entropy, y=Complexity_MPR, colour = DF_key, shape
 # # complexity measure
 # complexity <- global_complexity(opd, ndemb = 3)
 # print(complexity)
+
 
 
