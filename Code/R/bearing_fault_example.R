@@ -23,6 +23,9 @@ library(readr)
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
+library(ggthemes)
+  theme_set(theme_clean()+theme(legend.position = "top"))
+  
 
 # Example: 
 #x <- c(1.5, 2.3, 3.1, 2.9, 4.0, 3.5, 2.7, 4.2, 3.8, 5.0)
@@ -204,9 +207,11 @@ for(em_dim in 3:6) {
   graph_title = sprintf("Complexity Plane - Embed dimenssion %s", em_dim)
 
   ggplot() +
-    geom_point(data=embed_dim_n_df, aes(x=S_entropy, y=Stat_complexity, colour = DF_key, shape = Motor_load)) +
-    geom_line(data = max_limit_data, aes(x=x, y=y), color='red') +
-    geom_line(data = min_limit_data, aes(x=x, y=y), color='blue') +
+    geom_point(data=embed_dim_n_df, 
+               aes(x=S_entropy, y=Stat_complexity, colour = DF_key, shape = Motor_load), 
+               size = 3) +
+    geom_line(data = max_limit_data, aes(x=x, y=y), color='gray') +
+    geom_line(data = min_limit_data, aes(x=x, y=y), color='gray') +
     labs(
       title = graph_title,
       x="Entropy",
@@ -214,7 +219,7 @@ for(em_dim in 3:6) {
     )
 
   pdf_file_name = file.path(plot_path, "complexity_plane", paste(sprintf("complexity_plane_graph_em_dim_%s", em_dim), ".pdf"))
-  ggsave(pdf_file_name, width=20, height = 5, units = "in", dpi = 300)
+  ggsave(pdf_file_name, width=16, height = 10, units = "in", dpi = 300)
 }
 
 
