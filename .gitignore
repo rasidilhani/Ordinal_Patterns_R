@@ -56,6 +56,7 @@ Code/Rmd/bearing_fault_data.html
 # Large files
 Data/*
 !Data/csv/
+
 Plots/*
 !Plots/histograms/
 !Plots/complexity_plane/

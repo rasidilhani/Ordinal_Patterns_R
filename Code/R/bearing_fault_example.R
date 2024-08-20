@@ -65,7 +65,7 @@ read_data_file <- function(file_path){
 
 # function for time series plot
 # function for time series plot
-plot_time_series <- function(dataset, title, xlabel="Index", ylabel, color="#000000") {
+plot_time_series <- function(dataset, title, xlabel="Index", ylabel, color="black") {
   pdf(file=file.path(plot_path, paste(title, ".pdf")), width = 20, height = 5)
   plot(dataset, type='l', main=title, xlab = xlabel, ylab = ylabel, col=color)
   dev.off()
@@ -74,7 +74,7 @@ plot_time_series <- function(dataset, title, xlabel="Index", ylabel, color="#000
 df <- read_data_file(file_path)
 
 df_keys <- list("DE_time", "FE_time", "BA_time")
-plot_colors <- list("#1B9E77", "#D95F02", "#7570B3")
+plot_colors <- list("green", "orange", "purple")
 #df_keys <- list("DE_time")
 
 for(motor_load in 0:3){
@@ -222,19 +222,11 @@ for(em_dim in 3:6) {
 #print(a)
 #plot()
 
-print(dim(c))
+#print(dim(c))
 #plot(x=cbind(b$x[1:494], c$x[1:494]), y=cbind(b$y[1:494], c$y[1:494]), type = 'l')
-
-comp_plot = ggplot(embed_dim_3_df, aes(x=S_entropy, y=Stat_complexity, colour = DF_key, shape = Motor_load)) + geom_point() + coord_equal(ratio = 1)
-comp_plot + geom_line(data = b, aes(x=x, y=y))
-comp_plot
-embed_dim_3_df
-
 
 
 #  + ggplot(data = embed_dim_3_df, aes(x=S_entropy, y=Stat_complexity, colour = DF_key, shape = Motor_load)) + geom_point()
-
-c$x[min(embed_dim_3_df$S_entropy):max(embed_dim_3_df$S_entropy)]
 
 #######################################
 #Boundaries for the complexity plane
