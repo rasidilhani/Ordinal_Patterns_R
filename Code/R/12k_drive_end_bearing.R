@@ -28,18 +28,15 @@ library(dplyr)
 library(tidyverse)
 library(ggplot2)
 library(ggthemes)
-  theme_set(theme_clean()+theme(legend.position = "top"))
-  
+theme_set(theme_clean()+theme(legend.position = "top"))
 
-# Example: 
-#x <- c(1.5, 2.3, 3.1, 2.9, 4.0, 3.5, 2.7, 4.2, 3.8, 5.0)
 
 # Define the base path of the project using rprojroot
 base_path <- find_root(has_file("README.md"))
 
 # Build the relative path to the Excel file
-file_path <- file.path(base_path, "Data", "csv", "Normal_baseline_data.csv")
-plot_path <- file.path(base_path, "Plots")
+file_path <- file.path(base_path, "Data", "csv", "12k_drive_end_bearing_fault_data.csv")
+plot_path <- file.path(base_path, "Plots2")
 
 if(!dir.exists(plot_path)) {
   dir.create(plot_path)
@@ -70,7 +67,6 @@ read_data_file <- function(file_path){
   
 }
 
-# function for time series plot
 # function for time series plot
 plot_time_series <- function(dataset, title, xlabel="Index", ylabel, color="black") {
   pdf(file=file.path(plot_path, paste(title, ".pdf")), width = 20, height = 5)
@@ -185,7 +181,7 @@ results_df <- as.data.frame (cbind(Motor_load, Embed_dim, DF_key, S_entropy, P_e
 
 results_df
 
-write.csv(results_df, file.path(base_path, "Data", "csv", "Complexity_results1.csv"), row.names = FALSE)
+write.csv(results_df, file.path(base_path, "Data", "csv", "Complexity_results2.csv"), row.names = FALSE)
 
 #############################
 # Complexity plot
@@ -248,7 +244,7 @@ generate_complexity_plot <- function(pref_df_key="all", full_limit_curve=FALSE) 
   } 
 }
 
-# complexity plane plot for both DE_time and FE_time with full limit curve
+# complexity plane plot for both DE_time, FE_time, and BA_time with full limit curve
 generate_complexity_plot(full_limit_curve = TRUE)
 
 # complexity plane plot for DE_time with full limit curve
@@ -257,7 +253,10 @@ generate_complexity_plot(pref_df_key = "DE_time", full_limit_curve = TRUE)
 # complexity plane plot for FE_time with full limit curve
 generate_complexity_plot(pref_df_key = "FE_time", full_limit_curve = TRUE)
 
-# complexity plane plot for both DE_time and FE_time
+# complexity plane plot for BA_time with full limit curve
+generate_complexity_plot(pref_df_key = "BA_time", full_limit_curve = TRUE)
+
+# complexity plane plot for both DE_time, FE_time and BA_time
 generate_complexity_plot()
 
 # complexity plane plot for DE_time
@@ -265,6 +264,9 @@ generate_complexity_plot(pref_df_key = "DE_time")
 
 # complexity plane plot for FE_time
 generate_complexity_plot(pref_df_key = "FE_time")
+
+# complexity plane plot for BA_time
+generate_complexity_plot(pref_df_key = "BA_time")
 
 #a = limit_curves(ndemb = 3, fun = 'max')
 #print(a)

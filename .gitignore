@@ -58,5 +58,6 @@ Data/*
 !Data/csv/
 
 Plots/*
+Plots2/*
 !Plots/histograms/
 !Plots/complexity_plane/
