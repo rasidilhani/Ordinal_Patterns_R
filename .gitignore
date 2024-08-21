@@ -5,6 +5,7 @@ Plots2/
 Text/Laboratory Notebook/Laboratory-Notebook_files/
 
 ### LaTeX ###
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -633,8 +634,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/r,latex,macos,windows,python,matlab
-Text/Laboratory Notebook/Laboratory Notebook.Rmd
-Text/Laboratory Notebook/Laboratory-Notebook.log
 Text/Laboratory Notebook/Laboratory-Notebook.pdf
-Text/Laboratory Notebook/Laboratory-Notebook.tex
-Text/Laboratory Notebook/Laboratory-Notebook_files/figure-latex/fig1-1.pdf
