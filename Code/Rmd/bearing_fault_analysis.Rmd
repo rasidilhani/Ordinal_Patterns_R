@@ -131,11 +131,11 @@ We will compute the asymptotic variances from each time series.
 ```{r AsymptoticVariances, echo=FALSE}
 
 D <- 4 # Embedding dimension
-MD <- 0 # motor load
+ML <- 0 # motor load
 
-de_time_data <- df[df$Motor_load == MD, ]$DE_time
-fe_time_data <- df[df$Motor_load == MD, ]$FE_time
-ba_time_data <- df[df$Motor_load == MD, ]$BA_time
+de_time_data <- df[df$Motor_load == ML, ]$DE_time
+fe_time_data <- df[df$Motor_load == ML, ]$FE_time
+ba_time_data <- df[df$Motor_load == ML, ]$BA_time
 
 # Matrix that stores the variances
 Variances <- matrix(nrow=2, ncol=1)
@@ -216,11 +216,17 @@ StandardDeviations <- sqrt(Variances[,1])
 SemiLength <- StandardDeviations/sqrt(length(x1sub)-D)*qnorm(1-alpha/2) 
   # The three time series have the same length, but they could be different
 
+features_c <- c("DE time", "FE time")
+    
+if(sum(!is.na(ba_time_data)) > 0) {
+  features_c <- c("DE time", "FE time", "BA_time")
+}
+
 HCPoints <- data.frame(H=ShannonEntropies,
                        C=StatisticalComplexities,
                        STD=StandardDeviations,
                        SemiLength=SemiLength,
-                       Series=as.factor(c("DE time", "FE time")))
+                       Series=as.factor(features_c))
 
 directory_path_complexity_plane = file.path(plot_path, "fault_analysis")
 
@@ -228,7 +234,7 @@ if(!dir.exists(directory_path_complexity_plane)) {
         dir.create(directory_path_complexity_plane)
 }
 
-pdf_file_name <- file.path(directory_path_complexity_plane, paste(sprintf("confidence_interval_%s_%s", D, 0), ".pdf"))
+pdf_file_name <- file.path(directory_path_complexity_plane, paste(sprintf("confidence_interval_Embed_dim_%s_Motor_load_%s", D, ML), ".pdf"))
 
 ggplot(subset(LinfLsup, Side=="Lower" & Dimension==as.character(D)), 
        aes(x=H, y=C)) +
