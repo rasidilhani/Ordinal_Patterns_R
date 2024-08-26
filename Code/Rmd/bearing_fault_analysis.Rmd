@@ -1,0 +1,245 @@
+---
+title: "bearing_fault_analysis"
+date: "2024-08-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# install required packages if not installed
+if(!requireNamespace("rprojroot", quietly = TRUE)){
+  install.packages("rprojroot")
+}
+
+# if(!requireNamespace("readxl", quietly = TRUE)){
+#   install.packages("readxl")
+# }
+
+if(!requireNamespace("reader", quietly = TRUE)){
+  install.packages("reader")
+}
+
+if(!requireNamespace("dplyr", quietly = TRUE)){
+  install.packages("dplyr")
+}
+
+if(!requireNamespace("ggthemes", quietly = TRUE)){
+  install.packages("ggthemes")
+}
+```
+
+
+```{r setup}
+# Required libraries
+library(rprojroot)
+library(readr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(ggthemes)
+  theme_set(theme_clean()+theme(legend.position = "top"))
+library(StatOrdPattHxC)
+```
+
+
+# Step 1: Data Collection 
+Download Data:
+Normal Baseline Data: Download
+12k Drive End Bearing Fault Data: Download
+48k Drive End Bearing Fault Data: Download
+12k Fan-End Bearing Fault Data: Download
+
+# Step 2: Data Preparation
+Read and Organize Data:
+Use the R.matlab library in R to read the Matlab files.
+Read CSV files to  for analysis
+Organize the data into a structured format (e.g., data frames or lists) for analysis.
+
+# Step 3: Preliminary Analysis
+Compute HxC Points:
+Use the statOrdPattHxC library to compute the HxC point for each compatible time series.
+Check the documentation to match time series with the same measurement.
+
+# Step 4: Visualization
+Visualize Data:
+Plot the HxC points in the HxC manifold.
+Identify if different categories form distinct clusters.
+
+# Step 5: Literature Review
+Analyze Literature:
+Analyze the references from the Web of Science and additional references from Scopus.
+Identify relevant scientific questions and gaps in the literature.
+Review existing studies on Ordinal Patterns or Permutation Entropy.
+
+## Research on the Use of CWRU Bearing Data Center Data
+
+The Case Western Reserve University (CWRU) Bearing Data Center provides a well-known dataset extensively used in research for bearing fault diagnosis and machine learning applications. 
+https://engineering.case.edu/bearingdatacenter/welcome
+
+```{r}
+# Define the base path of the project using rprojroot
+base_path <- find_root(has_file("README.md"))
+
+# Build the relative path to the Excel file
+file_path <- file.path(base_path, "Data", "csv", "Normal_baseline_data.csv")
+plot_path <- file.path(base_path, "Plots")
+
+if(!dir.exists(plot_path)) {
+  dir.create(plot_path)
+}
+
+#Initialize lists to store time series data and results
+DE_Time <- list()
+FE_Time <- list()
+BA_Time <- list()
+results <- list()
+
+read_data_file <- function(file_path){
+  # Check if the file exists
+  if (!file.exists(file_path)) {
+    stop("The file does not exist: ", file_path)
+  }
+  
+  # Read the CSV file
+  data_normal <- read_csv(file_path, show_col_types = FALSE)
+  
+  # Select specific columns for analysis
+  selected_columns <- data_normal %>% 
+    select(Fault_diameter, Motor_load, RPM, DE_time, FE_time, BA_time)
+  
+  # Example: Print the first few rows of the selected columns
+  #print(head(selected_columns))
+  return (selected_columns)
+  
+}
+```
+
+## Read data and prepare relevant time series 
+This will appear the time series plots for separate time series 
+
+```{r time series, `echo = FALSE`}
+df <- read_data_file(file_path)
+
+df_keys <- list("DE_time", "FE_time", "BA_time")
+plot_colors <- list("green", "orange", "purple")
+#df_keys <- list("DE_time")
+
+head(df)
+```
+# Computing variances
+
+We will compute the asymptotic variances from each time series.
+```{r AsymptoticVariances, echo=FALSE}
+
+D <- 4 # Embedding dimension
+MD <- 0 # motor load
+
+de_time_data <- df[df$Motor_load == MD, ]$DE_time
+fe_time_data <- df[df$Motor_load == MD, ]$FE_time
+ba_time_data <- df[df$Motor_load == MD, ]$BA_time
+
+# Matrix that stores the variances
+Variances <- matrix(nrow=2, ncol=1)
+
+if(sum(!is.na(ba_time_data)) > 0) {
+  Variances <- matrix(nrow=3, ncol=1)
+}
+
+chunk_limit = length(de_time_data) * 0.1 # 10% from the data length
+
+Variances[1,1] <- sigma2q(de_time_data[0:chunk_limit], emb = D, ent = "S")
+Variances[2,1] <- sigma2q(fe_time_data[0:chunk_limit], emb = D, ent = "S")
+
+if(sum(!is.na(ba_time_data)) > 0) {
+  Variances[3,1] <- sigma2q(ba_time_data[0:chunk_limit], emb = D, ent = "S")
+}
+
+Variances[Variances<0] <- 0
+rownames(Variances) <- c("DE time", "FE time")
+
+if(sum(!is.na(ba_time_data)) > 0) {
+  rownames(Variances) <- c("DE time", "FE time", "BA time")
+}
+
+knitr::kable(Variances, digits = 4, format.args = list(scientific = TRUE),
+             col.names = c("Shannon"),
+             escape = TRUE,
+             caption = "Asymptotic variances")
+```
+
+
+Compute and display two/three entropies with their confidence intervals in the $H\times C$ plane.
+
+```{r PointsWithConfidenceIntervals, out.width="100%", echo=TRUE, message=FALSE}
+data("LinfLsup")
+
+x1sub <- de_time_data
+x2sub <- fe_time_data
+x3sub <- ba_time_data
+
+if(sum(!is.na(x3sub)) > 0) {
+  ShannonEntropies <- c(
+  HShannon(OPprob(x1sub, emb=D)),
+  HShannon(OPprob(x2sub, emb=D)),
+  HShannon(OPprob(x3sub, emb=D))
+)
+}else{
+  ShannonEntropies <- c(
+  HShannon(OPprob(x1sub, emb=D)),
+  HShannon(OPprob(x2sub, emb=D))) 
+}
+
+
+if(sum(!is.na(x3sub)) > 0) {
+  StatisticalComplexities <- c(
+    StatComplexity(OPprob(x1sub, emb=D)),
+    StatComplexity(OPprob(x2sub, emb=D)),
+    StatComplexity(OPprob(x3sub, emb=D))
+  )
+}else{
+  StatisticalComplexities <- c(
+    StatComplexity(OPprob(x1sub, emb=D)),
+    StatComplexity(OPprob(x2sub, emb=D))
+  )  
+}
+ShannonEntropies
+StatisticalComplexities
+
+
+```
+
+
+
+
+```{r}
+alpha <- 0.05
+StandardDeviations <- sqrt(Variances[,1])
+SemiLength <- StandardDeviations/sqrt(length(x1sub)-D)*qnorm(1-alpha/2) 
+  # The three time series have the same length, but they could be different
+
+HCPoints <- data.frame(H=ShannonEntropies,
+                       C=StatisticalComplexities,
+                       STD=StandardDeviations,
+                       SemiLength=SemiLength,
+                       Series=as.factor(c("DE time", "FE time")))
+
+directory_path_complexity_plane = file.path(plot_path, "fault_analysis")
+
+if(!dir.exists(directory_path_complexity_plane)) {
+        dir.create(directory_path_complexity_plane)
+}
+
+pdf_file_name <- file.path(directory_path_complexity_plane, paste(sprintf("confidence_interval_%s_%s", D, 0), ".pdf"))
+
+ggplot(subset(LinfLsup, Side=="Lower" & Dimension==as.character(D)), 
+       aes(x=H, y=C)) +
+  geom_line() +
+  geom_line(data=subset(LinfLsup, Side=="Upper" & Dimension==as.character(D)), 
+            aes(x=H, y=C)) +
+  xlab(expression(italic(H))) +
+  ylab(expression(italic(C))) +
+  geom_point(data=HCPoints, aes(x=H, y=C, col=Series)) +
+  geom_errorbarh(data=HCPoints, aes(xmin=H-SemiLength, xmax=H+SemiLength, group=Series, col=Series)) +
+  coord_cartesian(xlim=c(0.65, 1), ylim=c(0, 0.4))
+
+ggsave(pdf_file_name, width=16, height = 10, units = "in", dpi = 300)
+```
