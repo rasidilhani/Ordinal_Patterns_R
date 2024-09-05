@@ -150,36 +150,6 @@ for(ML in 0:3){
     
     write.csv(HCPoints, file.path(base_path, "Data", "csv", sprintf("HCPoints_%s_ML_%s_D_%s.csv", dataset_type, ML, D)))
     
-    xlim_threshold = 0.05
-    xlim_min_point = min(HCPoints$H)
-    xlim_max_point = max(HCPoints$H)
-    
-    pdf_file_name <- file.path(directory_path_fault_analysis, paste(sprintf("confidence_interval_%s_Embed_dim_%s_Motor_load_%s", dataset_type, D, ML), ".pdf"))
-    
-    xlim_min_point = xlim_min_point - xlim_threshold
-    xlim_max_point = xlim_max_point + xlim_threshold
-    
-    
-    ggplot(subset(LinfLsup, Side=="Lower" & Dimension==as.character(D)), 
-           aes(x=H, y=C)) +
-      geom_line() +
-      geom_line(data=subset(LinfLsup, Side=="Upper" & Dimension==as.character(D)), 
-                aes(x=H, y=C)) +
-      xlab(expression(italic(H))) +
-      ylab(expression(italic(C))) +
-      geom_point(data=HCPoints, aes(x=H, y=C, col=Series)) +
-      geom_errorbarh(data=HCPoints, aes(xmin=H-SemiLength, xmax=H+SemiLength, group=Series, col=Series)) +
-      if(is.null(df2)) {
-        geom_point(data=HCPoints2, aes(x=H, y=C, col=Series)) +
-          geom_errorbarh(data=HCPoints2, aes(xmin=H-SemiLength2, xmax=H+SemiLength2, group=Series, col=Series))
-      } +
-      ggtitle(plot_title) +
-      coord_cartesian(xlim=c(xlim_min_point, xlim_max_point), ylim=c(0, 0.4))
-    
-    ggsave(pdf_file_name, width=16, height = 10, units = "in", dpi = 300)
-  }
-}
-
 ######## End saving H, C data into csv files ###########
 
 
