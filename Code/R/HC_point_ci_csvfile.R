@@ -12,19 +12,24 @@ data("LinfLsup")
 
 # Define the base path of the project using rprojroot
 base_path <- find_root(has_file("README.md"))
+plot_path <- file.path(base_path, "Plots")
+data_path <- file.path(base_path, "Data", "csv")
+
+# create Plots path if not exists
+if(!dir.exists(plot_path)) {
+  dir.create(plot_path)
+}
+
+# create Data/csv if not exists. Please copy all the csv files here in this directory
+if(!dir.exists(data_path)) {
+  dir.create(data_path, recursive = TRUE)
+}
 
 # Build the relative path to the Excel file
 file_path_normal <- file.path(base_path, "Data", "csv", "Normal_baseline_data.csv")
 file_path_12k_DE <- file.path(base_path, "Data", "csv", "12k_drive_end_bearing_fault_data.csv")
 file_path_12k_FE <- file.path(base_path, "Data", "csv", "12kFan_end_bearing_fault_data.csv")
 file_path_48k_DE <- file.path(base_path, "Data", "csv", "48k_drive_end_bearing_fault_data.csv")
-
-
-plot_path <- file.path(base_path, "Plots")
-
-if(!dir.exists(plot_path)) {
-  dir.create(plot_path)
-}
 
 directory_path_fault_analysis = file.path(plot_path, "fault_analysis")
 
@@ -72,13 +77,16 @@ df2 = NULL
 
 
 ML = 0
-D = 3
+D = 6
 
 ######## Save H, C pints to csv file #########
-dataset_type = "12k_DE"
+dataset_type = "Normal"
+#dataset_type = "12k_DE"
+#dataset_type = "12k_FE"
+#dataset_type = "48k_DE"
 
-for(ML in 0:3){
-  for(D in 3:6){
+#for(ML in 0:3){
+#  for(D in 3:6){
     plot_title = sprintf("Confidence intervel - Motor load: %s, Embed dim: %s", ML, D)
     
     de_time_data <- df[df$Motor_load == ML, ]$DE_time
@@ -150,7 +158,7 @@ for(ML in 0:3){
     
     write.csv(HCPoints, file.path(base_path, "Data", "csv", sprintf("HCPoints_%s_ML_%s_D_%s.csv", dataset_type, ML, D)))
     
-  }
-}
+  #}
+#}
 
 ######## End saving H, C data into csv files ###########

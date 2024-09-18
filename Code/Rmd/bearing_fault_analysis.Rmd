@@ -3,7 +3,6 @@ title: "bearing_fault_analysis"
 date: "2024-08-24"
 output: html_document
 ---
-
 ```{r setup, include=FALSE}
 # install required packages if not installed
 if(!requireNamespace("rprojroot", quietly = TRUE)){
@@ -25,10 +24,7 @@ if(!requireNamespace("dplyr", quietly = TRUE)){
 if(!requireNamespace("ggthemes", quietly = TRUE)){
   install.packages("ggthemes")
 }
-```
 
-
-```{r setup}
 # Required libraries
 library(rprojroot)
 library(readr)
@@ -39,6 +35,7 @@ library(ggthemes)
   theme_set(theme_clean()+theme(legend.position = "top"))
 library(StatOrdPattHxC)
 ```
+
 
 
 # Step 1: Data Collection 
@@ -116,7 +113,7 @@ read_data_file <- function(file_path){
 ## Read data and prepare relevant time series 
 This will appear the time series plots for separate time series 
 
-```{r time series, `echo = FALSE`}
+```{r time series, echo = FALSE}
 df <- read_data_file(file_path)
 
 df_keys <- list("DE_time", "FE_time", "BA_time")

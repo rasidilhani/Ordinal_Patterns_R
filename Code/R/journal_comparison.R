@@ -4,7 +4,7 @@ library(tidyverse)
 library(dplyr)
 library(readxl)
 
-Journal_comparison_data <- read_excel("RA work/Data/Journal_comparison_data.xlsx")
+Journal_comparison_data <- read_excel("https:/vuw-my.sharepoint.com/my/Journal_comparison_data.xlsx")
 View(Journal_comparison_data)
 
 View(Journal_comparison_data)
