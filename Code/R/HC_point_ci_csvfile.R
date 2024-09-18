@@ -25,11 +25,14 @@ if(!dir.exists(data_path)) {
   dir.create(data_path, recursive = TRUE)
 }
 
+#### uncomment following lines to change the data file #######
+dataset_type = "Normal_baseline"
+#dataset_type = "12k_drive_end_bearing_fault"
+#dataset_type = "12kFan_end_bearing_fault"
+#dataset_type = "48k_drive_end_bearing_fault"
+
 # Build the relative path to the Excel file
-file_path_normal <- file.path(base_path, "Data", "csv", "Normal_baseline_data.csv")
-file_path_12k_DE <- file.path(base_path, "Data", "csv", "12k_drive_end_bearing_fault_data.csv")
-file_path_12k_FE <- file.path(base_path, "Data", "csv", "12kFan_end_bearing_fault_data.csv")
-file_path_48k_DE <- file.path(base_path, "Data", "csv", "48k_drive_end_bearing_fault_data.csv")
+file_path <- file.path(base_path, "Data", "csv", sprintf("%s_data.csv", dataset_type))
 
 directory_path_fault_analysis = file.path(plot_path, "fault_analysis")
 
@@ -37,10 +40,6 @@ if(!dir.exists(directory_path_fault_analysis)) {
   dir.create(directory_path_fault_analysis)
 }
 
-file_path <- file_path_normal
-#file_path <- file_path_12k_DE
-#file_path <- file_path_12k_FE
-#file_path <- file_path_48k_DE
 
 read_data_file <- function(file_path){
   # Check if the file exists
@@ -62,9 +61,6 @@ read_data_file <- function(file_path){
 }
 
 df <- read_data_file(file_path)
-#df_12k_de <- read_data_file(file_path_12k_DE)
-#df_12k_fe <- read_file(file_path_12k_FE)
-#df_48k_de <- read_file(file_path_48k_DE)
 
 df_keys <- list("DE_time", "FE_time", "BA_time")
 plot_colors <- list("green", "orange", "purple")
@@ -79,14 +75,8 @@ df2 = NULL
 ML = 0
 D = 6
 
-######## Save H, C pints to csv file #########
-dataset_type = "Normal"
-#dataset_type = "12k_DE"
-#dataset_type = "12k_FE"
-#dataset_type = "48k_DE"
-
-#for(ML in 0:3){
-#  for(D in 3:6){
+for(ML in 0:3){
+  for(D in 3:6){
     plot_title = sprintf("Confidence intervel - Motor load: %s, Embed dim: %s", ML, D)
     
     de_time_data <- df[df$Motor_load == ML, ]$DE_time
@@ -158,7 +148,7 @@ dataset_type = "Normal"
     
     write.csv(HCPoints, file.path(base_path, "Data", "csv", sprintf("HCPoints_%s_ML_%s_D_%s.csv", dataset_type, ML, D)))
     
-  #}
-#}
+  }
+}
 
 ######## End saving H, C data into csv files ###########
