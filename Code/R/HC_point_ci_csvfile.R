@@ -26,8 +26,8 @@ if(!dir.exists(data_path)) {
 }
 
 #### uncomment following lines to change the data file #######
-dataset_type = "Normal_baseline"
-#dataset_type = "12k_drive_end_bearing_fault"
+#dataset_type = "Normal_baseline"
+dataset_type = "12k_drive_end_bearing_fault"
 #dataset_type = "12kFan_end_bearing_fault"
 #dataset_type = "48k_drive_end_bearing_fault"
 
@@ -66,17 +66,23 @@ df_keys <- list("DE_time", "FE_time", "BA_time")
 plot_colors <- list("green", "orange", "purple")
 #df_keys <- list("DE_time")
 
+# remove na values
+df = df[rowSums(is.na(df)) == 0, ] 
+
 head(df)
+
+
+#sum(!is.na(df$BA_time))
 
 # define dataframe to be compared with
 df2 = NULL
 
 
-ML = 0
-D = 6
+#ML = 0
+#D = 4
 
 for(ML in 0:3){
-  for(D in 3:6){
+  for(D in 3:4){
     plot_title = sprintf("Confidence intervel - Motor load: %s, Embed dim: %s", ML, D)
     
     de_time_data <- df[df$Motor_load == ML, ]$DE_time
