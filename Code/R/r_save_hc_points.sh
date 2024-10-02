@@ -4,8 +4,8 @@
 #SBATCH -o save_hc_points.out
 #SBATCH -e save_hc_points.err
 #
-#SBATCH --cpus-per-task=4 #Note: you are always allocated an even number of cpus
-#SBATCH --mem=16G
+#SBATCH --cpus-per-task=2 #Note: you are always allocated an even number of cpus
+#SBATCH --mem=1G
 #SBATCH --time=10:00
 
 module purge
