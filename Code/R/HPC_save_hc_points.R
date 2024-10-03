@@ -67,13 +67,13 @@ plot_colors <- list("green", "orange", "purple")
 #df_keys <- list("DE_time")
 
 # check for NA values for different Fields
-sum(is.na(df$DE_time))
-sum(is.na(df$FE_time))
-sum(is.na(df$BA_time))
+#sum(is.na(df$DE_time))
+#sum(is.na(df$FE_time))
+#sum(is.na(df$BA_time))
 
 # remove na values
 #df = df[rowSums(is.na(df)) == 0, ] 
 
-head(df)
+#head(df)
 
 print("done!!")
