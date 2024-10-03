@@ -25,4 +25,4 @@ if(!dir.exists(data_path)) {
   dir.create(data_path, recursive = TRUE)
 }
 
-print("done")
+print("done!")
