@@ -41,19 +41,26 @@ if(!dir.exists(directory_path_fault_analysis)) {
 }
 
 
-# Check if the file exists
-if (!file.exists(file_path)) {
-  stop("The file does not exist: ", file_path)
+read_data_file <- function(file_path){
+  # Check if the file exists
+  if (!file.exists(file_path)) {
+    stop("The file does not exist: ", file_path)
+  }
+  
+  # Read the CSV file
+  data_normal <- read_csv(file_path, show_col_types = FALSE)
+  
+  # Select specific columns for analysis
+  selected_columns <- data_normal %>% 
+    select(Fault_diameter, Motor_load, RPM, DE_time, FE_time, BA_time)
+  
+  # Example: Print the first few rows of the selected columns
+  #print(head(selected_columns))
+  return (selected_columns)
+  
 }
 
-# Read the CSV file
-data_normal <- read_csv(file_path, show_col_types = FALSE)
-
-# Select specific columns for analysis
-df <- data_normal %>% 
-  select(Fault_diameter, Motor_load, RPM, DE_time, FE_time, BA_time)
-
-#df <- read_data_file(file_path)
+df <- read_data_file(file_path)
 
 df_keys <- list("DE_time", "FE_time", "BA_time")
 plot_colors <- list("green", "orange", "purple")
@@ -67,6 +74,6 @@ plot_colors <- list("green", "orange", "purple")
 # remove na values
 #df = df[rowSums(is.na(df)) == 0, ] 
 
-#head(df)
+head(df)
 
-print("done!!")
+#print("done!!")
