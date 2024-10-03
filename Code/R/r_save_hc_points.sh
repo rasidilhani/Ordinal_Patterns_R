@@ -6,7 +6,6 @@
 #
 #SBATCH --cpus-per-task=4 #Note: you are always allocated an even number of cpus
 #SBATCH --mem=16G
-#SBATCH --time=10:00
 
 module purge
 module load GCC/11.2.0 OpenMPI/4.1.1
