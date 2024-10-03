@@ -26,7 +26,7 @@ if(!dir.exists(data_path)) {
 }
 
 #### uncomment following lines to change the data file #######
-dataset_type = "Normal_baseline"
+dataset_type <- "Normal_baseline"
 #dataset_type = "12k_drive_end_bearing_fault"
 #dataset_type = "12kFan_end_bearing_fault"
 #dataset_type = "48k_drive_end_bearing_fault"
