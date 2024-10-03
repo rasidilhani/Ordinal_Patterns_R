@@ -75,8 +75,12 @@ plot_colors <- list("green", "orange", "purple")
 #df = df[rowSums(is.na(df)) == 0, ] 
 
 head(df)
-for(ML in 0:3){
-  for(D in 5:6){
+
+ML = 0
+D = 6
+
+#for(ML in 0:3){
+#  for(D in 5:6){
     plot_title = sprintf("Confidence intervel - Motor load: %s, Embed dim: %s", ML, D)
     
     de_time_data <- df[df$Motor_load == ML, ]$DE_time
@@ -148,6 +152,6 @@ for(ML in 0:3){
     
     write.csv(HCPoints, file.path(base_path, "Data", "csv", sprintf("HCPoints_%s_ML_%s_D_%s.csv", dataset_type, ML, D)))
     
-  }
-}
+#  }
+#}
 #print("done!!")
