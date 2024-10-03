@@ -10,6 +10,6 @@
 
 module purge
 module load GCC/11.2.0 OpenMPI/4.1.1
-module load R/4.4.0   
+module load R/4.2.0   
 
 Rscript HPC_save_hc_points.R
