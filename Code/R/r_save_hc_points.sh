@@ -4,9 +4,13 @@
 #SBATCH -o save_hc_points.out
 #SBATCH -e save_hc_points.err
 #
+#SBATCH --partition=parallel
 #SBATCH --cpus-per-task=8 #Note: you are always allocated an even number of cpus
 #SBATCH --mem=16G
-#SBATCH --time=99:00
+#SBATCH --time=10-00:00:0
+
+#SBATCH --mail-type=BEGIN,END,FAIL
+#SBATCH --mail-user=rasidilhani@gmail.com
 
 module purge
 module load GCC/11.2.0 OpenMPI/4.1.1
