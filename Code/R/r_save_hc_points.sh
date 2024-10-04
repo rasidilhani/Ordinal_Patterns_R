@@ -5,8 +5,8 @@
 #SBATCH -e save_hc_points.err
 #
 #SBATCH --partition=parallel
-#SBATCH --cpus-per-task=64 #Note: you are always allocated an even number of cpus
-#SBATCH --mem=128G
+#SBATCH --cpus-per-task=32 #Note: you are always allocated an even number of cpus
+#SBATCH --mem=64G
 #SBATCH --time=10-00:00:0
 
 #SBATCH --mail-type=BEGIN,END,FAIL
