@@ -72,7 +72,7 @@ plot_colors <- list("green", "orange", "purple")
 #sum(is.na(df$BA_time))
 
 # remove na values
-#df = df[rowSums(is.na(df)) == 0, ] 
+df = df[rowSums(is.na(df)) == 0, ] 
 
 head(df)
 
