@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-#SBATCH --job-name=save_hc_points_12k_drive
-#SBATCH -o save_hc_points_12k_drive.out
-#SBATCH -e save_hc_points_12k_drive.err
+#SBATCH --job-name=save_hc_points_12k_fan
+#SBATCH -o save_hc_points_12k_fan.out
+#SBATCH -e save_hc_points_12k_fan.err
 #
 #SBATCH --partition=parallel
-#SBATCH --cpus-per-task=32 #Note: you are always allocated an even number of cpus
-#SBATCH --mem=64G
+#SBATCH --cpus-per-task=16 #Note: you are always allocated an even number of cpus
+#SBATCH --mem=32G
 #SBATCH --time=10-00:00:0
 
 #SBATCH --mail-type=BEGIN,END,FAIL
