@@ -82,7 +82,7 @@ head(df)
 for(ML in 0:3){
   for(D in 3:6){
     #plot_title = sprintf("Confidence intervel - Motor load: %s, Embed dim: %s", ML, D)
-    #if(ML == 0 & D == 5) next
+    if(ML == 0 & D < 6) next
     print(sprintf("Run ML - %s, D - %s", ML, D))
     
     de_time_data <- df[df$Motor_load == ML, ]$DE_time
