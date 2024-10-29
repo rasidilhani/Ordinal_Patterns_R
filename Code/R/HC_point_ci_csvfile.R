@@ -85,7 +85,9 @@ df2 = NULL
 
 for(ML in 0:3){
   for(D in 5:6){
-    plot_title = sprintf("Confidence intervel - Motor load: %s, Embed dim: %s", ML, D)
+    
+    if(ML > 0 && D < 6)
+      next
     
     de_time_data <- df[df$Motor_load == ML, ]$DE_time
     fe_time_data <- df[df$Motor_load == ML, ]$FE_time
