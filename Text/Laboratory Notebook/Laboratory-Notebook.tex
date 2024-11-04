@@ -211,6 +211,12 @@ efficient and reliable operation of rotating machinery.
 
 \section{Ordinal Patterns}\label{sec2}
 
+The convergence behavior of the asymptotic variance for some types of
+dynamics and the permutation entropy to the limit distribution results
+lead to tests for comparing the underlying dynamics of two time
+series\citep{REY2024115481}. We apply these tests results to
+discriminate uniform white noise of bearing fault detection.
+
 \section{Literature Review}\label{sec3}
 
 \citet{WOS:000312724900101} introduce an enhanced approach to detect
@@ -288,22 +294,22 @@ Moreover, a low-dimensional compressed measurement strategy boosts fault
 detection efficiency, and a Bayesian inference technique guided by a
 smoothness index enables precise identification of various bearing
 faults by analyzing anti-symmetric real Laplace wavelet parameters
-\citep[\citet{WOS:000348309400067}, \citet{WOS:000354607100016},
-\citet{WOS:000350998800016}]{WOS:000380543400119}. Recent scholarly
-investigations have concentrated on advanced methodologies for bearing
-fault diagnosis using vibration signals. Statistical locally linear
-embedding has been suggested as a potent technique for dimensionality
-reduction and feature extraction, surpassing conventional methods like
-PCA and LDA \citep{WOS:000361788200068}. The combination of wavelet
-packet decomposition with multi-scale permutation entropy exhibits
-potential in accurately detecting bearing faults utilizing hidden Markov
-models \citep{WOS:000362513400031}. Results demonstrate that this
-approach significantly improves fault detection accuracy compared to
-traditional methods, achieving higher precision in identifying fault
-types and their severity. Integrating wavelet packet decomposition with
-multi-scale permutation entropy enhances the reliability of fault
-diagnosis systems, making it a valuable technique for predictive
-maintenance in industrial applications.
+\citep[@WOS:000348309400067, @WOS:000354607100016, @WOS:000350998800016]{WOS:000380543400119}.
+Recent scholarly investigations have concentrated on advanced
+methodologies for bearing fault diagnosis using vibration signals.
+Statistical locally linear embedding has been suggested as a potent
+technique for dimensionality reduction and feature extraction,
+surpassing conventional methods like PCA and LDA
+\citep{WOS:000361788200068}. The combination of wavelet packet
+decomposition with multi-scale permutation entropy exhibits potential in
+accurately detecting bearing faults utilizing hidden Markov models
+\citep{WOS:000362513400031}. Results demonstrate that this approach
+significantly improves fault detection accuracy compared to traditional
+methods, achieving higher precision in identifying fault types and their
+severity. Integrating wavelet packet decomposition with multi-scale
+permutation entropy enhances the reliability of fault diagnosis systems,
+making it a valuable technique for predictive maintenance in industrial
+applications.
 
 The authors of \citep{WOS:000365686400021} introduce a new feature
 extraction technique called Window Marginal Spectrum Clustering (WMSC)
@@ -349,21 +355,21 @@ identifying diverse bearing faults \citep{WOS:000392016300001}.
 Signal analysis of vibrations is a significantly efficient approach for
 diagnosing mechanical faults. However, the identification of defects in
 their early stages poses a challenge due to the presence of noise from
-components \citep[\citet{WOS:000367992900001}]{WOS:000369301600001}.
-This study introduces a fresh methodology that merges time domain
-analysis with adaptive fuzzy C-means clustering. It utilizes nine
-standard time domain parameters to construct characteristic vectors and
-enhances clustering by optimizing with five specific parameters (such as
-variance, RMS, kurtosis, skewness, and crest factor). The research
-showcases the capability of sensitive fault identification, even for
-minor faults. Additionally, it devises an innovative fault diagnosis
-technique for rolling bearings by integrating Multifractal Detrended
-Fluctuation Analysis (MFDFA) and Alpha Stable Distribution (ASD)
-features. This method incorporates Kernel Principal Component Analysis
-(KPCA) for reducing dimensionality and fusing features. Moreover, it
-applies the Least Squares Support Vector Machine (LSSVM) with Particle
-Swarm Optimization (PSO) for classification, revealing higher accuracy
-and efficacy based on bench test data when compared to approaches using
+components \citep[@WOS:000367992900001]{WOS:000369301600001}. This study
+introduces a fresh methodology that merges time domain analysis with
+adaptive fuzzy C-means clustering. It utilizes nine standard time domain
+parameters to construct characteristic vectors and enhances clustering
+by optimizing with five specific parameters (such as variance, RMS,
+kurtosis, skewness, and crest factor). The research showcases the
+capability of sensitive fault identification, even for minor faults.
+Additionally, it devises an innovative fault diagnosis technique for
+rolling bearings by integrating Multifractal Detrended Fluctuation
+Analysis (MFDFA) and Alpha Stable Distribution (ASD) features. This
+method incorporates Kernel Principal Component Analysis (KPCA) for
+reducing dimensionality and fusing features. Moreover, it applies the
+Least Squares Support Vector Machine (LSSVM) with Particle Swarm
+Optimization (PSO) for classification, revealing higher accuracy and
+efficacy based on bench test data when compared to approaches using
 single features.
 
 The paper by \citep{WOS:000366765500038} introduces an innovative
@@ -465,18 +471,17 @@ fault diagnosis in bearings using Empirical Wavelet Transform (EWT) in
 conjunction with energy entropy. By analyzing vibration signals with
 detailed frequency decomposition and measuring the distribution of
 signal energy, this method improves the identification accuracy of early
-faults. Another study
-\citep[\citet{WOS:000449334500118}]{WOS:000450745100001} ~introduces a
-technique for detecting faults in rolling element bearings that involves
-segmenting vibration signals and applying wavelet analysis and deep
-neural networks. This method improves fault detection by segmenting the
-signal into meaningful parts for better accuracy, utilizing wavelet
-transforms for extracting features, and employing deep neural networks
-for clustering and categorizing, resulting in more precise
-identification of bearing faults.
+faults. Another study \citep[@WOS:000449334500118]{WOS:000450745100001}
+introduces a technique for detecting faults in rolling element bearings
+that involves segmenting vibration signals and applying wavelet analysis
+and deep neural networks. This method improves fault detection by
+segmenting the signal into meaningful parts for better accuracy,
+utilizing wavelet transforms for extracting features, and employing deep
+neural networks for clustering and categorizing, resulting in more
+precise identification of bearing faults.
 
-The present study \citep{WOS:000440977000032} ~introduces a technique
-for extracting bearing fault features using autoregressive coefficients,
+The present study \citep{WOS:000440977000032} introduces a technique for
+extracting bearing fault features using autoregressive coefficients,
 Linear Discriminant Analysis (LDA), and Support Vector Machines (SVM) in
 varying operational conditions. These methods are combined to improve
 fault detection by accurately identifying and categorizing fault
@@ -487,13 +492,13 @@ Functional Neural Fuzzy Network \citep{WOS:000434717400001}. This
 integration utilizes MEMD to extract features effectively and the neural
 fuzzy network for precise fault classification, resulting in enhanced
 diagnostic precision and reliability. Another study
-\citep{WOS:000426284100001} ~presents a fault diagnosis method for
+\citep{WOS:000426284100001} presents a fault diagnosis method for
 rolling bearings that utilizes Modified Local Fisher Discriminant
 Analysis (LFDA) and Empirical Mode Decomposition (EMD) along with
 sensitive feature selection . The objective is to enhance fault
 detection by extracting and examining critical features from vibration
 signals with improved accuracy and discrimination.
-~\citep{WOS:000539546400083} This article details an initial fault
+\citep{WOS:000539546400083} This article details an initial fault
 diagnosis technique for rolling bearings that merges Empirical Wavelet
 Transform (EWT) with Spectral Kurtosis. The focus is on detecting
 initial faults through refined frequency analysis with EWT and
