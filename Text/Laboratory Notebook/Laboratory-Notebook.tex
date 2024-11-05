@@ -96,9 +96,7 @@ Detection and Classification in Rotating Machinery}
 %%                 \dgr{MSc, PhD}}\email{iauthor@gmail.com}
 %%=============================================================%%
 
-\author*[1]{\fnm{Rasika} \sur{Dilhani} \dgr{MSc}}\email{\href{mailto:rasika.dilhani@vuw.ac.nz}{\nolinkurl{rasika.dilhani@vuw.ac.nz}}}
-
-\author[1,2]{\fnm{Keila} \sur{Author} }
+\author*[1]{\fnm{Rasika} \sur{Dilhani} \dgr{PhD}}\email{\href{mailto:rasidilhani@gmail.com}{\nolinkurl{rasidilhani@gmail.com}}}
 
 \author[1]{\fnm{Alejandro} \sur{Author} }
 
@@ -108,47 +106,22 @@ Detection and Classification in Rotating Machinery}
 Statistics}, \orgname{Victoria University of
 Wellington}, \orgaddress{\city{Wellington}, \country{New
 Zealand}, \postcode{6012}, \state{}, \street{}}}
-  \affil*[2]{\orgname{Other Organisation}}
 
-\abstract{\textbf{Purpose}: The abstract serves both as a general
-introduction to the topic and as a brief, non-technical summary of the
-main results and their implications. The abstract must not include
-subheadings (unless expressly permitted in the journal's Instructions to
-Authors), equations or citations. As a guide the abstract should not
-exceed 200 words. Most journals do not set a hard limit however authors
-are advised to check the author instructions for the journal they are
-submitting to.
+\abstract{The purpose of this research is to identify perturbation
+machines from the time series data. Chaos are hard to detect from time
+series. Bandt and Pompe proposed looking at time series from the
+perspective of ordinal patterns to develop fast and automated methods
+for extracting qualitative information from nonlinear time series. They
+developed the idea of permutation entropy to measure the complexity of a
+system underlying a time series, taking into account the ordinal
+patterns that represent the variations in a time series. Only one aspect
+of the ordinal structure of a time series is revealed by the permutation
+entropy. Here we show how to use the real-valued data set to extract all
+ordinal information.}
 
-\textbf{Methods:} The abstract serves both as a general introduction to
-the topic and as a brief, non-technical summary of the main results and
-their implications. The abstract must not include subheadings (unless
-expressly permitted in the journal's Instructions to Authors), equations
-or citations. As a guide the abstract should not exceed 200 words. Most
-journals do not set a hard limit however authors are advised to check
-the author instructions for the journal they are submitting to.
-
-\textbf{Results:} The abstract serves both as a general introduction to
-the topic and as a brief, non-technical summary of the main results and
-their implications. The abstract must not include subheadings (unless
-expressly permitted in the journal's Instructions to Authors), equations
-or citations. As a guide the abstract should not exceed 200 words. Most
-journals do not set a hard limit however authors are advised to check
-the author instructions for the journal they are submitting to.
-
-\textbf{Conclusion:} The abstract serves both as a general introduction
-to the topic and as a brief, non-technical summary of the main results
-and their implications. The abstract must not include subheadings
-(unless expressly permitted in the journal's Instructions to Authors),
-equations or citations. As a guide the abstract should not exceed 200
-words. Most journals do not set a hard limit however authors are advised
-to check the author instructions for the journal they are submitting
-to.\}}
-
-\keywords{key, dictionary, word}
+\keywords{ordinal patterns, permutation entropy, bearing fault data}
 
 
-\pacs[JEL Classification]{D8, H51}
-\pacs[MSC Classification]{35A01, 65L10}
 
 \maketitle
 
@@ -194,51 +167,47 @@ developing faults. Furthermore, unlike some traditional methods limited
 to linear systems, ordinal pattern analysis can effectively detect
 faults in complex, non-linear systems, broadening its applicability.
 
-This study will also compare the performance of ordinal pattern analysis
-with traditional fault detection techniques, evaluating metrics such as
-accuracy, sensitivity, and computational efficiency. While traditional
-methods often rely on specialized sensors and data acquisition systems,
-ordinal pattern analysis can potentially achieve comparable results
-using simpler time series data, highlighting its potential for wider
-adoption. Additionally, we will investigate the sensitivity of ordinal
-pattern analysis to subtle changes in system dynamics, particularly
-within complex systems, where its strengths may be most pronounced.
+Traditional methods often rely on specialized sensors and data
+acquisition systems, ordinal pattern analysis can potentially achieve
+comparable results using simpler time series data, highlighting its
+potential for wider adoption. We will investigate the sensitivity of
+ordinal pattern analysis to subtle changes in system dynamics,
+particularly within complex systems, where its strengths may be most
+pronounced.
 
 We aim to establish ordinal pattern analysis as a viable and
 advantageous tool for bearing fault diagnosis, contributing to the
 advancement of predictive maintenance technologies and promoting more
 efficient and reliable operation of rotating machinery.
 
-\section{Ordinal Patterns}\label{sec2}
+\section{Literature Review}\label{sec2}
 
-\section{Literature Review}\label{sec3}
+In the study conducted by researchers \citet{WOS:000312724900101}, an
+enhanced approach is introduced to detect bearing faults through the
+utilization of high-frequency resonance, resulting in improved precision
+and dependability in diagnosing faults within mechanical systems. The
+investigation illustrates that this refined methodology adeptly
+recognizes initial bearing abnormalities, representing a significant
+progression compared to conventional diagnostic techniques. The article
+by \citet{WOS:000301688000008} presents a new technique for fault
+identification which employs an adaptive rank-order morphological filter
+to categorize patterns in one-dimensional signals. This strategy
+enhances the precision and resilience of fault diagnosis by proficiently
+sifting through and pinpointing signal irregularities. Furthermore,
+\citet{WOS:000303039300034} propose an approach for early fault
+detection in machinery by scrutinizing truncated vibration signals using
+Shannon wavelet spectrum analysis. This method heightens the detection
+of emerging faults, thereby enhancing the prognostic maintenance of
+equipment.
 
-\citet{WOS:000312724900101} introduce an enhanced approach to detect
-bearing faults through the utilization of high-frequency resonance,
-resulting in enhanced precision and dependability in diagnosing faults
-within mechanical systems. The investigation illustrates that this
-refined methodology adeptly recognizes initial bearing abnormalities,
-representing a noteworthy progression compared to conventional
-diagnostic techniques. The article by \citep{WOS:000301688000008}
-presents a fresh technique for fault identification which employs an
-adaptive rank-order morphological filter to categorize patterns in
-one-dimensional signals. This strategy amplifies the precision and
-resilience of fault diagnosis by proficiently sifting through and
-pinpointing signal irregularities. Furthermore, the scholars in the
-publication from \citep{WOS:000303039300034} propose an approach for
-early fault detection in machinery by scrutinizing truncated vibration
-signals using Shannon wavelet spectrum analysis. This method heightens
-the detection of emerging faults, thereby enhancing the prognostic
-maintenance of equipment.
-
-\citet{WOS:000345844100102} discuss a prototype FPGA implementation that
-uses machine learning to convert analog signals into concise feature
-representations. It employs an event-based methodology to enhance the
-efficiency and accuracy of signal processing across various
-applications. The \citep{WOS:000396580800080} study discusses the
-utilization of a dedicated hierarchy of neural networks for evaluating
-bearing degradation, thereby enhancing the precision and dependability
-of diagnosing the state and remaining operational life of bearings in
+\citet{WOS:000345844100102} discusses a prototype FPGA implementation
+that uses machine learning to convert analog signals into concise
+feature representations. It employs an event-based methodology to
+enhance the efficiency and accuracy of signal processing across various
+applications. \citet{WOS:000396580800080} discusses the utilization of a
+dedicated hierarchy of neural networks for evaluating bearing
+degradation, thereby enhancing the precision and dependability of
+diagnosing the state and remaining operational life of bearings in
 machinery. By amalgamating multifractal detrended fluctuation analysis
 with the Mahalanobis distance criterion \citep{WOS:000320835800016}, the
 research in the publication enhances the fault diagnosis of rolling
@@ -247,14 +216,14 @@ efficient, validated approaches for early fault detection in industrial
 settings.
 
 An additional intriguing research study detailed in the publication
-\citep{WOS:000360994300029} introduces a diagnostic technique for
+\citet{WOS:000360994300029} introduces a diagnostic technique for
 rolling element bearings grounded in the concept of active perception.
 This method revolves around examining the dynamic interactions between
 the bearing and its surroundings. Noteworthy discoveries include the
 capability of the approach to precisely evaluate the bearing's condition
 by integrating perceptual cues and responses, thereby enhancing fault
-detection and predictive maintenance strategies. The study described in
-\citep{WOS:000343577703075} presents a fault diagnosis approach for
+detection and predictive maintenance strategies.
+\citet{WOS:000343577703075} presents a fault diagnosis approach for
 rolling element bearings that makes use of Empirical Mode Decomposition
 (EMD) in conjunction with Discrete Fourier Domain Analysis (DFDA). This
 technique proficiently isolates and scrutinizes fault-related
@@ -270,75 +239,74 @@ which merges Complete Ensemble Empirical Mode Decomposition with Noise
 (CEEMD) and traditional Empirical Mode Decomposition (EMD) to enhance
 the precision of vibration signal analysis and augment fault detection
 capabilities, has been enhanced in the manuscript
-\citep{WOS:000412752200052}.
+\citet{WOS:000412752200052}.
 
-The authors of the paper \citep{WOS:000335959500009} propose a
+The authors of the paper \citet{WOS:000335959500009} propose a
 methodology for bearing fault detection that utilizes compressive
-measurements of vibration signals to efficiently detect faults, thereby
+measurements of vibration signals to efficiently detect faults,
 enhancing diagnostic accuracy while reducing the data processing load. A
 unique technique for feature extraction, based on the crossover
 characteristics of nonlinear data, is applied to enhance fault diagnosis
 in rotary machinery by effectively identifying critical patterns in
-complex signal data as explored in \citep{WOS:000338603900013}. Research
-studies indicate that Self-Organizing Maps (SOMs) are successful in
-diagnosing motor bearing faults through the classification of complex
-vibration data, while approaches based on fast nonlocal means and
-envelope spectra contribute to improving fault diagnosis accuracy.
-Moreover, a low-dimensional compressed measurement strategy boosts fault
-detection efficiency, and a Bayesian inference technique guided by a
-smoothness index enables precise identification of various bearing
-faults by analyzing anti-symmetric real Laplace wavelet parameters
-\citep[\citet{WOS:000348309400067}, \citet{WOS:000354607100016},
-\citet{WOS:000350998800016}]{WOS:000380543400119}. Recent scholarly
-investigations have concentrated on advanced methodologies for bearing
-fault diagnosis using vibration signals. Statistical locally linear
-embedding has been suggested as a potent technique for dimensionality
-reduction and feature extraction, surpassing conventional methods like
-PCA and LDA \citep{WOS:000361788200068}. The combination of wavelet
-packet decomposition with multi-scale permutation entropy exhibits
-potential in accurately detecting bearing faults utilizing hidden Markov
-models \citep{WOS:000362513400031}. Results demonstrate that this
-approach significantly improves fault detection accuracy compared to
-traditional methods, achieving higher precision in identifying fault
-types and their severity. Integrating wavelet packet decomposition with
-multi-scale permutation entropy enhances the reliability of fault
-diagnosis systems, making it a valuable technique for predictive
-maintenance in industrial applications.
+complex signal data \citep{WOS:000338603900013}. Self-Organizing Maps
+(SOMs) are successful in diagnosing motor bearing faults through the
+classification of complex vibration data, while approaches based on fast
+nonlocal means and envelope spectra contribute to improving fault
+diagnosis accuracy. Moreover, a low-dimensional compressed measurement
+strategy boosts fault detection efficiency, and a Bayesian inference
+technique guided by a smoothness index enables precise identification of
+various bearing faults by analyzing anti-symmetric real Laplace wavelet
+parameters
+\citep{WOS:000380543400119, WOS:000348309400067, WOS:000354607100016, WOS:000350998800016}.
+A novel machine fault diagnosis method using the Statistical Local
+Linear Embedding Algorithm (S-LLE), an LLE extension leveraging fault
+class labels to enhance feature extraction, dimensionality reduction,
+and pattern recognition by mapping high-dimensional vibration signal
+vectors---processed through time-domain, frequency-domain, and empirical
+mode decomposition (EMD)---into a low-dimensional space, which
+outperforms PCA, LDA, and LLE for swift fault classification, as
+validated by rolling bearing error signals, thereby achieving superior
+error classification performance over conventional methods
+\citep{WOS:000361788200068}. The combination of wavelet packet
+decomposition with multi-scale permutation entropy exhibits potential in
+accurately detecting bearing faults, utilizing hidden Markov models
+\citep{WOS:000362513400031}. Results demonstrate that this approach
+significantly improves fault detection accuracy compared to traditional
+methods, achieving higher precision in identifying fault types and their
+severity. Integrating wavelet packet decomposition with multi-scale
+permutation entropy enhances the reliability of fault diagnosis systems,
+making it a valuable technique for predictive maintenance in industrial
+applications.
 
-The authors of \citep{WOS:000365686400021} introduce a new feature
-extraction technique called Window Marginal Spectrum Clustering (WMSC)
-for diagnosing faults in roller element bearings (REBs). This method
-utilizes the Hilbert-Huang Transform (HHT) and Support Vector Machines
-(SVM) to improve classification accuracy and robustness against Gaussian
-white noise. Experimental results with datasets from the Bearing Data
-Center of Case Western Reserve University (CWRU) demonstrate that WMSC
-outperforms conventional methods. Additionally,
-\citep{WOS:000366534900022} presents ``The Diagnostic Line,'' a novel
-criterion for monitoring the condition of rotating machinery. This
-approach aims to enhance the accuracy and reliability of machinery
-health diagnosis. A comparative analysis, using data from Case Western
-Reserve University, was conducted to evaluate various diagnostic
-techniques and establish a standard reference for bearing fault
-diagnosis \citep{WOS:000357230900007}.
-
-The current study is built upon this investigation, incorporating the
-same dataset for further examination employing a novel time series
-model. Wavelet analysis, renowned for its multiresolution capabilities
-and superior time-frequency domain attributes, is augmented by the
-wavelet total variation (WATV) technique, which merges wavelet-domain
-sparsity with total variation regularization; this manuscript presents
-an enhanced wavelet total variation (IWATV) denoising approach utilizing
-local variance analysis on wavelet coefficients to estimate noise
-variance, illustrating enhanced noise reduction and fault diagnosis
-effectiveness compared to conventional methodologies through numerical
-simulations and real-world failure data. Furthermore, an innovative
-two-step strategy leveraging permutation entropy for fault detection,
-along with wavelet packet transform, envelope analysis, and neuro-fuzzy
-classification for fault isolation, has been devised, demonstrating
-improved diagnostic proficiency in contrast to existing techniques
-\citep{WOS:000385104500001},\citep{RAJABI:2022117754}. These
-progressions contribute to more precise and effective bearing fault
-diagnosis in industrial rotating machinery. An adapted kernel marginal
+\citet{WOS:000365686400021} introduce a new feature extraction technique
+called Window Marginal Spectrum Clustering (WMSC) for diagnosing faults
+in roller element bearings (REBs). This method utilizes the
+Hilbert-Huang Transform (HHT) and Support Vector Machines (SVM) to
+improve classification accuracy and robustness against Gaussian white
+noise. Experimental results with datasets from the Bearing Data Center
+of Case Western Reserve University (CWRU) demonstrate that WMSC
+outperforms conventional methods. \citet{WOS:000366534900022} presents
+``The Diagnostic Line,'' a novel criterion for monitoring the condition
+of rotating machinery. This approach aims to enhance the accuracy and
+reliability of machinery health diagnosis. A comparative analysis, using
+data from Case Western Reserve University, was conducted to evaluate
+various diagnostic techniques and establish a standard reference for
+bearing fault diagnosis \citep{WOS:000357230900007}.
+\citet{WOS:000385104500001} proposes an improved Wavelet Total Variation
+Denoising (W-TVD) technique for mechanical fault diagnosis, effectively
+filtering noise and enhancing fault detection accuracy, with findings
+showing that this approach significantly outperforms traditional
+denoising methods in diagnostic performance. The research on fault
+diagnosis in industrial rotating equipment using permutation entropy,
+signal processing techniques, and a multi-output neuro-fuzzy classifier
+demonstrates effective identification of fault types and severity
+levels. The results show that combining permutation entropy for feature
+extraction with signal processing improves the clarity and distinction
+of fault signatures, while the neuro-fuzzy classifier achieves high
+accuracy in multi-class fault identification. The study concludes that
+this integrated approach enhances diagnostic reliability and
+performance, making it a robust solution for real-time fault detection
+in industrial machinery \citep{Rajabi2022}. An adapted kernel marginal
 Fisher analysis (MKMFA) technique for feature extraction and
 dimensionality reduction to enhance bearing fault diagnosis accuracy is
 elaborated in a study; by extracting critical low-dimensional features
@@ -349,133 +317,112 @@ identifying diverse bearing faults \citep{WOS:000392016300001}.
 Signal analysis of vibrations is a significantly efficient approach for
 diagnosing mechanical faults. However, the identification of defects in
 their early stages poses a challenge due to the presence of noise from
-components \citep[\citet{WOS:000367992900001}]{WOS:000369301600001}.
-This study introduces a fresh methodology that merges time domain
-analysis with adaptive fuzzy C-means clustering. It utilizes nine
-standard time domain parameters to construct characteristic vectors and
-enhances clustering by optimizing with five specific parameters (such as
-variance, RMS, kurtosis, skewness, and crest factor). The research
-showcases the capability of sensitive fault identification, even for
-minor faults. Additionally, it devises an innovative fault diagnosis
-technique for rolling bearings by integrating Multifractal Detrended
-Fluctuation Analysis (MFDFA) and Alpha Stable Distribution (ASD)
-features. This method incorporates Kernel Principal Component Analysis
-(KPCA) for reducing dimensionality and fusing features. Moreover, it
-applies the Least Squares Support Vector Machine (LSSVM) with Particle
-Swarm Optimization (PSO) for classification, revealing higher accuracy
-and efficacy based on bench test data when compared to approaches using
-single features.
-
-The paper by \citep{WOS:000366765500038} introduces an innovative
-technique for assessing machinery damage, utilizing manifold learning
-principles to compute subspace distances. This method enhances the
-accuracy and responsiveness of damage evaluation by applying advanced
-dimensionality reduction techniques. The research by
-\citep{WOS:000379556300014} presents the utilization of Multivariate
+components \citep{WOS:000369301600001, WOS:000367992900001}. These
+studies introduce a fresh methodology that merges time domain analysis
+with adaptive fuzzy C-means clustering. \citet{WOS:000366765500038}
+introduces an innovative technique for assessing machinery damage,
+utilizing manifold learning principles to compute subspace distances.
+\citet{WOS:000379556300014} presents the utilization of Multivariate
 Empirical Mode Decomposition (MEMD) in diagnosing rolling bearings'
 faults. It demonstrates the effectiveness of this method in improving
 fault detection by thoroughly analyzing complex, multidimensional signal
-data. The manuscript proposes a methodology for diagnosing faults in
-rolling element bearings by integrating Multifractal Theory and Gray
-Relation Theory. This integration is designed to improve the precision
-and reliability of fault detection and analysis, ultimately enhancing
-diagnostic results\citep{WOS:000391229300006}. The study introduces a
-new approach for examining vibration signals in rolling bearings, which
-combines dual-entropy, Holder coefficient, and Gray Relation Theory.
-This integration aims to improve the efficiency of fault detection and
-analysis by leveraging these methods to achieve higher levels of
-precision and reliability in diagnostics\citep{WOS:000426819400027}.
+data. \citet{WOS:000391229300006} proposes a methodology for diagnosing
+faults in rolling element bearings by integrating Multifractal Theory
+and Gray Relation Theory. This integration is designed to improve the
+precision and reliability of fault detection and analysis, ultimately
+enhancing diagnostic results. A new approach for examining vibration
+signals in rolling bearings, which combines dual-entropy, Holder
+coefficient, and Gray Relation Theory is studied by
+\citet{WOS:000426819400027}. This integration aims to improve the
+efficiency of fault detection and analysis by leveraging these methods
+to achieve higher levels of precision and reliability in diagnostics.
 
-The paper of \citep{WOS:000398818700108} discusses the Shock Pulse Index
-(SPI) and its application in diagnosing faults in rolling element
-bearings, highlighting SPI's effectiveness in detecting and analyzing
-bearing condition and performance issues; the results demonstrate that
-SPI provides accurate fault detection and is a valuable tool for
-monitoring and diagnosing bearing health. The paper explores fault
-diagnosis for rolling bearings under variable conditions using visual
-cognition techniques, focusing on how visual analysis can enhance fault
-detection and diagnosis accuracy; results indicate that visual cognition
+\citet{WOS:000398818700108} discusses the Shock Pulse Index (SPI) and
+its application in diagnosing faults in rolling element bearings,
+highlighting SPI's effectiveness in detecting and analyzing bearing
+condition and performance issues. The results demonstrate that SPI
+provides accurate fault detection and is a valuable tool for monitoring
+and diagnosing bearing health. Fault diagnosis for rolling bearings
+under variable conditions using visual cognition techniques is discusses
+by \citet{WOS:000404415000016}. Results indicate that visual cognition
 methods significantly improve the ability to identify and assess bearing
-faults in changing operational environments\citep{WOS:000404415000016}.
-The paper \citep{WOS:000401109400020} introduces sparse discriminant
-manifold projections for bearing fault diagnosis, leveraging advanced
+faults in changing operational environments. The paper by
+\citet{WOS:000401109400020} introduces sparse discriminant manifold
+projections for bearing fault diagnosis, leveraging advanced
 dimensionality reduction techniques to enhance fault detection and
-classification accuracy; results show that this method effectively
+classification accuracy. Results show that this method effectively
 identifies bearing faults by capturing essential discriminative features
-while reducing noise and irrelevant data. The paper
-\citep{WOS:000419006900041} presents a fault detection method for
-rolling bearings' vibration signals using the Symplectic Entropy method,
-which analyzes the complexity and patterns of vibration data to improve
-fault identification accuracy; results demonstrate that this approach
+while reducing noise and irrelevant data. \citet{WOS:000419006900041}
+presents a fault detection method for rolling bearings' vibration
+signals using the Symplectic Entropy method, which analyzes the
+complexity and patterns of vibration data to improve fault
+identification accuracy. Results demonstrate that this approach
 effectively detects faults by providing a robust measure of signal
-irregularities and anomalies.
-
-A method for extracting incipient fault features in rolling bearings
-using an autocorrelation function impulse harmonic-to-noise ratio index,
-combined with Singular Value Decomposition (SVD) and the Teager Energy
-Operator; results show that this approach effectively identifies
-early-stage faults by enhancing the detection of subtle signal anomalies
-amidst noise \citep{WOS:000416794600016}. The authors of
-\citep{WOS:000484465800028} presents a bearing fault diagnosis method
-that combines autoencoders with Particle Swarm Optimization (PSO) and
-Support Vector Machines (SVM); this approach leverages autoencoders for
-feature extraction and dimensionality reduction, while PSO optimizes the
-SVM parameters, resulting in improved diagnostic accuracy and robustness
-in identifying bearing faults. The paper introduces an optimized
-resolution coefficient algorithm for the Gray Relation Classifier,
-aiming to enhance classification accuracy by improving the algorithm's
-ability to distinguish between different classes through refined
-resolution coefficients, leading to more precise fault diagnosis and
-analysis \citep{WOS:000477760600037}. The authors of
-\citep{WOS:000477760600061} proposes a signal subtle feature extraction
+irregularities and anomalies. A method for extracting incipient fault
+features in rolling bearings using an autocorrelation function impulse
+harmonic-to-noise ratio index, combined with Singular Value
+Decomposition (SVD) and the Teager Energy Operator; results show that
+this approach effectively identifies early-stage faults by enhancing the
+detection of subtle signal anomalies amidst noise
+\citep{WOS:000416794600016}. \citet{WOS:000484465800028} present a
+bearing fault diagnosis method that combines autoencoders with Particle
+Swarm Optimization (PSO) and Support Vector Machines (SVM); this
+approach leverages autoencoders for feature extraction and
+dimensionality reduction, while PSO optimizes the SVM parameters,
+resulting in improved diagnostic accuracy and robustness in identifying
+bearing faults. An optimized resolution coefficient algorithm for the
+Gray Relation Classifier, aiming to enhance classification accuracy by
+improving the algorithm's ability to distinguish between different
+classes through refined resolution coefficients, leading to more precise
+fault diagnosis and analysis \citep{WOS:000477760600037}.
+\citet{WOS:000477760600061} proposes a signal subtle feature extraction
 algorithm using an improved fractal box-counting dimension method, which
 enhances the detection of fine-grained features in signals by refining
 the fractal dimension calculation, resulting in better identification
 and analysis of subtle signal patterns.
 
-A novel rolling bearing fault detection method based on Empirical
-Wavelet Transform (EWT), which effectively decomposes vibration signals
-into components that highlight fault-related features, improving
+A novel rolling bearing fault detection method based on the Empirical
+Wavelet Transform (EWT) effectively decomposes vibration signals into
+components that emphasize fault-related features, thereby improving
 detection accuracy and robustness in identifying bearing faults
-\citep{WOS:000467079500501}. A bearing fault detection method in the
-article \citep{WOS:000459864800144} that combines Empirical Mode
-Decomposition (EMD) with Random Forest, which effectively analyzes
-vibration signals under varying operational conditions by decomposing
-them into intrinsic mode functions and classifying fault patterns,
-resulting in enhanced detection accuracy and reliability. The paper
-\citep{WOS:000458657500187} critically examines the significance of
-feature extraction and selection in diagnosing bearing defects,
-emphasizing that effective feature extraction and selection are crucial
-for improving diagnostic accuracy and reliability by identifying the
-most relevant characteristics from vibration signals.
+\citep{WOS:000467079500501}. A bearing fault detection method has been
+introduced by \citet{WOS:000459864800144} that combines Empirical Mode
+Decomposition (EMD) with Random Forest effectively analyzes vibration
+signals under varying operational conditions by decomposing them into
+intrinsic mode functions and classifying fault patterns, resulting in
+enhanced detection accuracy and reliability. \citet{WOS:000458657500187}
+critically examines the significance of feature extraction and selection
+in diagnosing bearing defects, emphasizing that effective feature
+extraction and selection are crucial for improving diagnostic accuracy
+and reliability by identifying the most relevant characteristics from
+vibration signals.
 
-The study investigates an online health status estimation technique for
-rolling bearings based on vibration signals, with a focus on real-time
-monitoring and analysis for evaluating bearing condition. It is shown in
-the research that this method effectively assesses health status through
-continuous evaluation of vibration data to identify and predict
-potential faults \citep{WOS:000452922000015}. An automatic
-classification approach for bearing faults is presented in the paper,
-utilizing deep learning methods that employ neural networks to examine
-and categorize fault patterns present in vibration signals
-\citep{WOS:000453413600001}. This leads to enhanced accuracy and
-efficiency in the detection and diagnosis of bearing faults. The
-research paper \citep{WOS:000452819600235} introduces a method for early
-fault diagnosis in bearings using Empirical Wavelet Transform (EWT) in
-conjunction with energy entropy. By analyzing vibration signals with
-detailed frequency decomposition and measuring the distribution of
+An online health status estimation technique for rolling bearings based
+on vibration signals, with a focus on real-time monitoring and analysis
+for evaluating bearing condition. It is shown in the research that this
+method effectively assesses health status through continuous evaluation
+of vibration data to identify and predict potential faults
+\citep{WOS:000452922000015}. An automatic classification approach for
+bearing faults is presented by \citet{WOS:000453413600001}, utilizing
+deep learning methods that employ neural networks to examine and
+categorize fault patterns present in vibration signals. This leads to
+enhanced accuracy and efficiency in the detection and diagnosis of
+bearing faults. \citet{WOS:000452819600235} introduces a method for
+early fault diagnosis in bearings using Empirical Wavelet Transform
+(EWT) in conjunction with energy entropy. By analyzing vibration signals
+with detailed frequency decomposition and measuring the distribution of
 signal energy, this method improves the identification accuracy of early
-faults. Another study
-\citep[\citet{WOS:000449334500118}]{WOS:000450745100001} ~introduces a
-technique for detecting faults in rolling element bearings that involves
-segmenting vibration signals and applying wavelet analysis and deep
-neural networks. This method improves fault detection by segmenting the
-signal into meaningful parts for better accuracy, utilizing wavelet
-transforms for extracting features, and employing deep neural networks
-for clustering and categorizing, resulting in more precise
-identification of bearing faults.
+faults. Another study \citet{WOS:000450745100001} and
+\citet{WOS:000449334500118} introduces a technique for detecting faults
+in rolling element bearings that involves segmenting vibration signals
+and applying wavelet analysis and deep neural networks. This method
+improves fault detection by segmenting the signal into meaningful parts
+for better accuracy, utilizing wavelet transforms for extracting
+features, and employing deep neural networks for clustering and
+categorizing, resulting in more precise identification of bearing
+faults.
 
-The present study \citep{WOS:000440977000032} ~introduces a technique
+The present study of \citet{WOS:000440977000032} introduces a technique
 for extracting bearing fault features using autoregressive coefficients,
 Linear Discriminant Analysis (LDA), and Support Vector Machines (SVM) in
 varying operational conditions. These methods are combined to improve
@@ -486,20 +433,19 @@ Noise-Assisted Multivariate Empirical Mode Decomposition (MEMD) with a
 Functional Neural Fuzzy Network \citep{WOS:000434717400001}. This
 integration utilizes MEMD to extract features effectively and the neural
 fuzzy network for precise fault classification, resulting in enhanced
-diagnostic precision and reliability. Another study
-\citep{WOS:000426284100001} ~presents a fault diagnosis method for
-rolling bearings that utilizes Modified Local Fisher Discriminant
-Analysis (LFDA) and Empirical Mode Decomposition (EMD) along with
-sensitive feature selection . The objective is to enhance fault
-detection by extracting and examining critical features from vibration
-signals with improved accuracy and discrimination.
-~\citep{WOS:000539546400083} This article details an initial fault
+diagnostic precision and reliability. \citet{WOS:000426284100001}
+presents a fault diagnosis method for rolling bearings that utilizes
+Modified Local Fisher Discriminant Analysis (LFDA) and Empirical Mode
+Decomposition (EMD) along with sensitive feature selection. The
+objective is to enhance fault detection by extracting and examining
+critical features from vibration signals with improved accuracy and
+discrimination. \citet{WOS:000539546400083} details an initial fault
 diagnosis technique for rolling bearings that merges Empirical Wavelet
 Transform (EWT) with Spectral Kurtosis. The focus is on detecting
 initial faults through refined frequency analysis with EWT and
 highlighting abnormal signal features using Spectral Kurtosis, leading
 to improved early fault detection and diagnostic accuracy. Another study
-\citep{HAKIM:2023101945} introduces an enhanced similarity-based
+of \citet{hakim2023systematic} introduces an enhanced similarity-based
 modeling approach for classifying failures in rotating machines. By
 utilizing advanced similarity measures to better match failure patterns
 and improve diagnostic precision, the accuracy and effectiveness of
@@ -507,565 +453,481 @@ fault classification are significantly enhanced. Results indicate that
 this approach surpasses traditional classification techniques, achieving
 higher accuracy and reliability in failure detection. A comprehensive
 review is provided on fault diagnosis methods for rolling bearings that
-employ deep learning and transfer learning. The review offers a detailed
-classification, overview, and application of these techniques, while
-also addressing current challenges, weaknesses, and offering suggestions
-for future research. It is emphasized that deep learning and transfer
-learning methods have substantially improved fault diagnosis accuracy
-and robustness. However, challenges such as the necessity for more
-diverse datasets and the difficulty of model generalization across
-different operational conditions persist. Addressing these challenges is
-crucial to further enhancing the effectiveness and applicability of
-these advanced diagnostic methods.
+employ deep learning and transfer learning.
 
-\section{Results}\label{sec4}
+\citet{WOS:000345844100102} discusses a prototype FPGA implementation
+that uses machine learning to convert analog signals into concise
+feature representations. It employs an event-based methodology to
+enhance the efficiency and accuracy of signal processing across various
+applications. \citet{WOS:000396580800080} explores a dedicated hierarchy
+of neural networks to assess bearing degradation, aiming to improve the
+accuracy and reliability of diagnosing machinery bearing conditions and
+estimating their remaining operational life. By amalgamating
+multifractal detrended fluctuation analysis with the Mahalanobis
+distance criterion, the research in the publication enhances the fault
+diagnosis of rolling bearings, leading to improved diagnostic accuracy
+and offers efficient, validated approaches for early fault detection in
+industrial settings \citep{WOS:000320835800016}.
 
-Sample body text. Sample body text. Sample body text. Sample body text.
-Sample body text. Sample body text. Sample body text. Sample body text.
+An additional intriguing research study detailed in
+\citet{WOS:000360994300029} introduces a diagnostic technique for
+rolling element bearings grounded in the concept of active perception.
+This method revolves around examining the dynamic interactions between
+the bearing and its surroundings. Noteworthy discoveries include the
+capability of the approach to precisely evaluate the bearing's condition
+by integrating perceptual cues and responses, thereby enhancing fault
+detection and predictive maintenance strategies. The study described in
+\citet{WOS:000343577703075} presents a fault diagnosis approach for
+rolling element bearings that makes use of Empirical Mode Decomposition
+(EMD) in conjunction with Discrete Fourier Domain Analysis (DFDA). This
+technique proficiently isolates and scrutinizes fault-related
+characteristics in vibration signals, resulting in enhanced accuracy and
+dependability in the diagnosis of bearing conditions. The utilization of
+a signal-based triangular structuring element for mathematical
+morphological analysis, along with the application of this method to
+boost fault diagnosis in rolling element bearings through the effective
+processing and interpretation of vibration signal features, was
+deliberated in the publication \citet{WOS:000334316700001}. Furthermore,
+a hybrid CEEMD-EMD strategy for fault detection in rolling bearings,
+which merges Complete Ensemble Empirical Mode Decomposition with Noise
+(CEEMD) and traditional Empirical Mode Decomposition (EMD) to enhance
+the precision of vibration signal analysis and augment fault detection
+capabilities, has been enhanced in the manuscript
+\citet{WOS:000412752200052}.
 
-\section{This is an example for first level head---section
-head}\label{sec5}
+\citet{WOS:000335959500009} propose a methodology for bearing fault
+detection that utilizes comprehensive measurements of vibration signals
+to efficiently detect faults, thereby enhancing diagnostic accuracy
+while reducing the data processing load. A unique feature extraction
+technique based on the crossover properties of nonlinear data is applied
+to improve fault diagnosis in rotating machinery by effectively
+identifying critical patterns in complex signal data
+\citep{WOS:000338603900013}. Research studies show that self-organizing
+maps (SOMs) are successful in diagnosing engine bearing faults by
+classifying complex vibration data, while approaches based on fast
+non-local averages and envelope spectra help improve fault diagnosis
+accuracy. In addition, a low-dimensional compressed measurement strategy
+increases the error detection efficiency, and a Bayesian inference
+technique based on a smoothness index enables the precise identification
+of various bearing errors through the analysis of anti symmetric real
+Laplace wavelet parameters
+\citep{WOS:000380543400119, WOS:000348309400067, WOS:000354607100016, WOS:000350998800016}.
+Recent scholarly investigations have concentrated on advanced
+methodologies for bearing fault diagnosis using vibration signals.
+Statistical locally linear embedding has been suggested as a potent
+technique for dimensional reduction and feature extraction, surpassing
+conventional methods like PCA and LDA \citep{WOS:000361788200068}. The
+combination of wavelet packet decomposition with multi-scale permutation
+entropy exhibits potential in accurately detecting bearing faults
+utilizing hidden Markov models \citep{WOS:000362513400031}. Results
+demonstrate that this approach significantly improves fault detection
+accuracy compared to traditional methods, achieving higher precision in
+identifying fault types and their severity. Integrating wavelet packet
+decomposition with multi-scale permutation entropy enhances the
+reliability of fault diagnosis systems, making it a valuable technique
+for predictive maintenance in industrial applications.
 
-\subsection{This is an example for second level head---subsection
-head}\label{subsec2}
+\citet{WOS:000365686400021} introduces a new feature extraction
+technique called Window Marginal Spectrum Clustering (WMSC) for
+diagnosing faults in roller element bearings (REBs). This method
+utilizes the Hilbert-Huang Transform (HHT) and Support Vector Machines
+(SVM) to improve classification accuracy and robustness against Gaussian
+white noise. Experimental results with data sets from the Bearing Data
+Center of Case Western Reserve University (CWRU) demonstrate that WMSC
+outperforms conventional methods. Additionally,
+\citet{WOS:000366534900022} presents ``The Diagnostic Line,'' a novel
+criterion for monitoring the condition of rotating machinery. This
+approach aims to enhance the accuracy and reliability of machinery
+health diagnosis. Another comparative analysis, using data from Case
+Western Reserve University, was conducted to evaluate various diagnostic
+techniques and establish a standard reference for bearing fault
+diagnosis \citep{WOS:000357230900007}. The current study is built upon
+this investigation, incorporating the same data set for further
+examination employing a novel time series model.
 
-\subsubsection{This is an example for third level head---subsubsection
-head}\label{subsubsec2}
+Furthermore, an innovative two-stage strategy is developed that utilizes
+permutation entropy for fault detection along with wavelet packet
+transform, envelope analysis and neuro-fuzzy classification for fault
+isolation, demonstrating improved diagnostic performance compared to
+existing techniques \citep{WOS:000385104500001, Rajabi2022}. These
+advances contribute to more precise and effective bearing fault
+diagnosis in rotating industrial machines. A study elaborates an adapted
+kernel marginal Fisher analysis (MKMFA) technique for feature extraction
+and dimensionality reduction to improve the accuracy of bearing fault
+diagnosis. By extracting critical low-dimensional features and using a
+K-nearest neighbor classifier, it exhibits superior performance compared
+to alternative approaches when used to identify various bearing defects
+\citep{WOS:000392016300001}.
 
-Sample body text. Sample body text. Sample body text. Sample body text.
-Sample body text. Sample body text. Sample body text.
+Vibration signal analysis is an extremely efficient approach to
+diagnosing mechanical faults. However, identifying early-stage defects
+is challenging due to component noise
+\citep{WOS:000369301600001, WOS:000367992900001}. This study presents a
+new methodology that combines time domain analysis with adaptive fuzzy
+C-means clustering. It uses nine standard parameters in the time domain
+to construct characteristic vectors and improves clustering by
+optimizing with five specific parameters (such as variance, RMS,
+kurtosis, skewness and crest factor). Research shows the ability to
+detect errors sensitively, even for minor errors. In addition, an
+innovative fault diagnosis technique for rolling bearings is developed
+by integrating the Multifractal Detrended Fluctuation Analysis (MFDFA)
+and Alpha Stable Distribution (ASD) functions.
 
-\section{Equations}\label{sec6}
+The article by \citet{WOS:000366765500038} presents an innovative
+technique for assessing machine damage that uses a variety of learning
+principles to calculate subspace distances. This method improves the
+accuracy and responsiveness of damage assessment by applying advanced
+dimensionality reduction techniques. \citet{WOS:000379556300014}
+presents the use of Multivariate Empirical Mode Decomposition (MEMD) in
+the diagnosis of rolling bearing defects. It demonstrates the
+effectiveness of this method in improving fault detection through
+in-depth analysis of complex, multi-dimensional signal data. The
+manuscript \citet{WOS:000391229300006} proposes a methodology for
+diagnosing defects in rolling bearings by integrating multifractal
+theory and Gray relations theory. This integration is intended to
+improve the precision and reliability of fault detection and analysis
+and ultimately improve diagnostic results. The study presents a new
+approach to investigate vibration signals in rolling bearings that
+combines dual entropy, Holder coefficient and Gray relations theory
+\citep{WOS:000426819400027}. This integration aims to improve the
+efficiency of fault detection and analysis by leveraging these methods
+to achieve higher levels of precision and reliability in diagnosis.
 
-Equations in \LaTeX~can either be inline or on-a-line by itself
-(``display equations''). For inline equations use the \texttt{\$...\$}
-commands. E.g.: The equation \(H\psi = E \psi\) is written via the
-command \texttt{\$H\ \textbackslash{}psi\ =\ E\ \textbackslash{}psi\$}.
+\citet{WOS:000398818700108} discusses the Shock Pulse Index (SPI) and
+its application in diagnosing failures in rolling bearings and
+highlights the effectiveness of SPI in detecting and analyzing bearing
+health and performance problems. The results show that SPI enables
+accurate fault detection and is a valuable tool for monitoring and
+diagnosing bearing condition. The present study discusses the diagnosis
+of rolling bearing faults under variable conditions using visual
+detection techniques. The objective is to demonstrate how visual
+analysis can enhance the accuracy of fault detection and diagnosis. The
+findings indicate that visual detection methods markedly enhance the
+capacity to identify and assess bearing defects in dynamic operational
+environments \citep{WOS:000404415000016}. \citet{WOS:000401109400020}
+introduces sparse discriminant manifold projections for bearing fault
+diagnosis and leverages advanced dimensionality reduction techniques to
+improve fault detection and classification accuracy. The results show
+that this method effectively identifies bearing defects by capturing key
+distinguishing features while reducing noise and irrelevant data. In a
+further study, \citet{WOS:000419006900041} presents a fault detection
+method for rolling bearing vibration signals based on the symplectic
+entropy method. This method analyses the complexity and patterns of
+vibration data in order to improve the accuracy of fault detection. The
+results demonstrate that this approach is an effective means of
+detecting errors, providing a robust measure of signal irregularities
+and anomalies.
 
-For display equations (with auto generated equation numbers) one can use
-the equation or align environments:
+A method for extracting incipient fault features in rolling bearings
+using an autocorrelation function impulse harmonic noise ratio index
+combined with Singular Value Decomposition (SVD) and the Teager Energy
+Operator. The results show that this approach effectively identifies
+early-stage errors by improving the detection of subtle signal anomalies
+amid noise \citep{WOS:000416794600016}. \citet{WOS:000484465800028}
+presents a method for bearing fault diagnosis that combines automatic
+encoders with particle swarm optimization (PSO) and support vector
+machines (SVM). This approach uses autoencoders for feature extraction
+and dimensionality reduction, while PSO optimizes the SVM parameters,
+resulting in improved diagnostic accuracy and robustness in bearing
+fault identification. The paper presents an optimized resolution
+coefficient algorithm for the Gray relation classifier, which aims to
+improve classification accuracy by improving the algorithm's ability to
+distinguish between different classes through refined resolution
+coefficients, resulting in more precise fault diagnosis and -analysis
+leads \citep{WOS:000477760600037}. \citet{WOS:000477760600061} proposes
+an algorithm for extracting subtle signal features using an improved
+fractal box counting dimension method, which improves the detection of
+fine-grained features in signals by refining the fractal dimension
+calculation, resulting in better identification and analysis of subtle
+signal patterns.
 
+A novel rolling bearing defect detection method based on empirical
+wavelet transform (EWT), which effectively decomposes vibration signals
+into components that highlight defect-related features, thereby
+improving detection accuracy and robustness in bearing defect
+identification \citep{WOS:000467079500501}. A bearing fault detection
+method from \citet{WOS:000459864800144} that combines Empirical Mode
+Decomposition (EMD) with Random Forest, which effectively analyzes
+vibration signals under different operating conditions by decomposing
+them into intrinsic mode functions and classifying fault patterns,
+resulting in improved detection accuracy leads and reliability.
+\citet{WOS:000458657500187} critically examines the importance of
+feature extraction and selection in the diagnosis of bearing defects and
+emphasizes that effective feature extraction and selection is crucial
+for improving diagnostic accuracy and reliability by identifying the
+most relevant features from vibration signals. Another research study
+employs an online approach to estimate rolling bearing health status
+based on vibration signals, with an emphasis on real-time monitoring and
+analysis to assess bearing health. The study demonstrates that this
+approach effectively estimates health status by continuously evaluating
+vibration data to detect and predict potential errors
+\citep{WOS:000452922000015}. An automatic bearing defect classification
+method using deep learning techniques that leverages neural networks to
+analyze and classify defect patterns from vibration signals, resulting
+in improved accuracy and efficiency in bearing defect detection and
+diagnosis \citep[000453413600001]{WOS}. An early fault diagnosis method
+for bearings using empirical wavelet transform (EWT) combined with
+energy entropy that improves incipient fault detection through analysis
+of vibration signals with refined frequency decomposition and
+measurement of signal energy distribution, resulting in improved early
+fault detection accuracy leads \citep[:000452819600235]{WOS}.
+\citet{WOS:000450745100001}; \citet{WOS:000449334500118} present a
+rolling bearing defect detection method using vibration signal
+segmentation combined with wavelet analysis and deep neural networks;
+this approach improves fault detection by dividing the signal into
+meaningful segments for greater accuracy and using wavelet transforms
+for feature extraction and deep neural networks for clustering and
+classification, resulting in more precise identification and
+categorization of bearing faults. \citet{WOS:000440977000032} presents a
+method for extracting bearing fault features using autoregressive
+coefficients, linear discriminant analysis (LDA) and support vector
+machines (SVM) under variable operating conditions and combines these
+techniques to improve fault detection by accurately extracting and
+classifying fault features changing operating environments. A novel
+rolling bearing fault diagnosis method that combines noise-assisted
+multivariate empirical mode decomposition (MEMD) with a functional fuzzy
+neural network, leveraging noise-assisted MEMD for effective feature
+extraction and the fuzzy neural network for precise fault
+classification, resulting in improved diagnostic accuracy and Robustness
+\citep{WOS:000434717400001}. \citet{WOS:000426284100001} introduces a
+method for diagnosing rolling bearing defects that uses modified Fisher
+local discriminant analysis (LFDA) and empirical mode decomposition
+(EMD) in combination with sensitive feature selection and aims to
+improve defect detection through the extraction and analysis of critical
+features from vibration signals with improved quality to improve
+accuracy and discrimination. \citet{WOS:000539546400083} presents an
+early diagnosis method for rolling bearings that integrates empirical
+wavelet transform (EWT) with spectral kurtosis. The focus is on
+detecting incipient faults by using EWT for refined frequency analysis
+and spectral kurtosis to highlight abnormal signal features, leading to
+improved early fault detection and diagnostic accuracy.
+\citet{WOS:000426986200020} proposes an improved similarity-based
+modeling approach to classifying rotating machinery failures that
+increases the accuracy and effectiveness of fault classification by
+leveraging advanced similarity metrics to better match fault patterns
+and improve diagnostic accuracy. The results show that this method
+significantly outperforms traditional classification techniques and
+achieves higher accuracy and reliability in error detection.
+\citet{hakim2023systematic} provides a comprehensive overview of rolling
+bearing failure diagnosis methods that utilize deep learning and
+transfer learning and provides a detailed taxonomy, overview and
+application of these techniques. It also addresses outstanding
+challenges and weaknesses and provides recommendations for future
+research. The review highlights that deep learning and transfer learning
+approaches have shown significant improvements in fault diagnosis
+accuracy and robustness, but also points to ongoing issues such as the
+need for larger and more diverse data sets and the challenge of model
+generalization across different operating conditions. The review
+suggests that addressing these challenges can further improve the
+effectiveness and applicability of these advanced diagnostic methods.
+
+\subsection{Permutation Entropy}\label{permutation-entropy}
+
+Permutation entropy is an important feature widely used by researchers
+to quantify the complexity and randomness of time series data. It can
+also be described as a measure of a signal's proximity to white noise.
+This concept was introduced by Christoph Bandt and Bernd Pompe in 2002
+\citep{PhysRevLett.88.174102}. The primary goal of developing this
+method is to create a more robust and invariant approach to analyzing
+complex signals across various fields, including finance, social
+systems, climate, physics, physiology, and neuroscience. The complexity
+measure is computed from the probabilities of ordinal patterns and has
+been proposed for applications such as the analysis of bearing fault
+recordings at different machine speeds. The convergence behavior of the
+asymptotic variance for the permutation entropy to the limit
+distribution has been studied by \citep{REY2024115481}. These results
+lead to tests for comparing the underlying dynamics of two time series.
+We apply this tests to discriminate uniform white noise for the bearing
+fault data. One of the greatest appeals of this approach is the ability
+to display the point with coordinates entropy and statistical complexity
+in a closed manifold. The point position reveals structural information
+about the underlying dynamics that produced the time series data as we
+introduced.
+
+For the sake of notational simplicity, we consider the real-valued time
+series of length \(N=n+D-1; D\ge2\) is an integer called the embedding
+dimension. Denote this time series as \textbf{\{\(x\)\}}
+\(= (x_1, x_2, ..., x_{n+D-1})\). For \(t=1, 2, …,n,\) let
+\(s_t = (x_t,x_{t+1},…,x_{t+D-1})\) be an overlapping window of \(D\)
+consecutive values in \(x\). Assume these values are different. Then,
+map each subsequence \(s_t\) into a symbol \(\pi_t\) univocally
+determined by the indexes that sort \((x_t, x_{t+1}, ..., x_{t+D-1})\);
+this is the ordinal pattern of \(s_t\). This operation, called
+``Bandt--Pompe Symbolization'\,' or ``Ordinal Pattern
+Transformation'\,', converts the time series \textbf{\(x\)} into the
+sequence of symbols \(\pi=(\pi_1, \pi_2, ..., \pi_n)\). Each symbol
+\(\pi_j\) can take one of \(D!\) values:
+\(\pi_j \in \Pi=\{\pi^{(1)}, \pi^{(2)}, ..., \pi^{(D!)}\}\). The
+probability that the pattern \(\pi^{(i)}\) appears in the sequence
+\textbf{\(\pi\)} is denoted by \(q_i,\) for \(i=1,2, ..., D!\).
+
+The sequence of patterns is invariant to monotonically increasing
+functions of \textbf{\(x\)} and it is less sensitive to outliers than
+descriptors that use the original values \citep{chagas2022white}. These
+two features make the ordinal patterns efficient for signal analysis and
+interpretation \citep{amigo2023ordinal}. The ordinal patterns are based
+on computing the histogram of proportion of symbols in \textbf{\(\pi\)}.
+
+Let \(p=(p_1 ,p_2 ,... p_k)\) be a probability vector of size \(k\), the
+Shannon entropy based on the \(p\) vector is defined as follows:
 \begin{equation}
-\|\tilde{X}(k)\|^2 \leq\frac{\sum\limits_{i=1}^{p}\left\|\tilde{Y}_i(k)\right\|^2+\sum\limits_{j=1}^{q}\left\|\tilde{Z}_j(k)\right\|^2 }{p+q}.\label{eq1}
+S^{(s)}[p]=-\sum_{i=1}^{k}{p_i \log p_i}
 \end{equation}
 
-where, \begin{align}
-D_\mu &=  \partial_\mu - ig \frac{\lambda^a}{2} A^a_\mu \nonumber \\
-F^a_{\mu\nu} &= \partial_\mu A^a_\nu - \partial_\nu A^a_\mu + g f^{abc} A^b_\mu A^a_\nu \label{eq2}
-\end{align}
+\subsection{Ordinal Patterns}\label{ordinal-patterns}
 
-Notice the use of \texttt{\textbackslash{}nonumber} in the align
-environment at the end of each line, except the last, so as not to
-produce equation numbers on lines where no equation numbers are
-required. The \texttt{\textbackslash{}label\{\}} command should only be
-used at the last line of an align environment where
-\texttt{\textbackslash{}nonumber} is not used.
+In this section, we provide a brief overview of the methodology based on
+ordinal patterns proposed by Bandt and Pompe
+\citep{PhysRevLett.88.174102}. A real-valued time series, represented by
+the vector \(x = (x_1, x_2, ..., x_{n+D-1})\), where \(n\) and
+\(D\ge 2\) are positive integers is employed to elucidate the concept.
+Let us consider the case where \(s_t=(x_t, x_{t+1}, ..., x_{t+D-1})\)
+represent an overlapping window of \(m\) consecutive different values in
+\(x\). We consider \(\Pi=\{\pi^{(1)}, \pi^{(2)}, ..., \pi^{(D!)}\}\)
+which represents the set of labeled permutations, or symbols, of the
+elements \(0,1,...,m-1\), corresponding to the possible ordinal patterns
+defined as follows. Given \(t \in \{1,2,...,n\},\) the subsequence
+\(s_t\) is said to be of type \(\pi^{(i)}\) where
+\(\pi^{(i)}=(i_1, i_2, ..., i_D),\) if
+\(x_{t+i_1}\le x_{t+i_2} \le ...\le x_{t+i_D}.\) In the case of tied
+data, the order is determined by the sequential appearance of the
+repeated values. For example, for\(D=3,\) the subsequence
+\(s_t=(4,2,4)\) is type \((1,0,2)\). Thus, from the time series \(x,\)
+we obtain a sequence of symbols, or ordinal patterns,
+\(\pi=(\pi_1, \pi_2, ..., \pi_n),\) where \(\pi_j \in \Pi\) for
+\(j=1,2,...,n.\)
 
-\begin{equation}
-Y_\infty = \left( \frac{m}{\textrm{GeV}} \right)^{-3}
-    \left[ 1 + \frac{3 \ln(m/\textrm{GeV})}{15}
-    + \frac{\ln(c_2/5)}{15} \right]
-\end{equation}
+The underlying dynamics of the time series determine the ordinal pattern
+probability vector, represented as \(V = (q_1,q_2, ..., q_{D!}).\) In
+this instance, for \(i=1,...,D\), \(q_i\) indicates the relative
+frequency of \(\pi_i\) in the series of ordinal patterns.
 
-The class file also supports the use of
-\texttt{\textbackslash{}mathbb\{\}},
-\texttt{\textbackslash{}mathscr\{\}} and
-\texttt{\textbackslash{}mathcal\{\}} commands. As such
-\texttt{\textbackslash{}mathbb\{R\}},
-\texttt{\textbackslash{}mathscr\{R\}} and
-\texttt{\textbackslash{}mathcal\{R\}} produces \(\mathbb{R}\),
-\(\mathscr{R}\) and \(\mathcal{R}\) respectively (refer
-Subsubsection~\ref{subsubsec2}).
-
-\section{Tables}\label{sec7}
-
-Tables can be inserted via the normal \texttt{knitr::kable()} function
-or other table-generating packages.
-
-\begin{table}
-
-\caption{\label{tab:tab1}Caption text}
-\centering
-\begin{tabular}[t]{r|r}
-\hline
-temperature & pressure\\
-\hline
-0 & 0.0002\\
-\hline
-20 & 0.0012\\
-\hline
-40 & 0.0060\\
-\hline
-60 & 0.0300\\
-\hline
-80 & 0.0900\\
-\hline
-100 & 0.2700\\
-\hline
-\end{tabular}
-\end{table}
-
-Tables can also be inserted via the normal table and tabular
-environment. To put footnotes inside tables you should use
-\texttt{\textbackslash{}footnotetext{[}{]}\{...\}} tag. The footnote
-appears just below the table itself (refer
-Tables\textasciitilde{}\ref{tab1} and \ref{tab2}). For the corresponding
-footnotemark use \texttt{\textbackslash{}footnotemark{[}...{]}}
-
-\begin{table}[h]
-\caption{Caption text}\label{tab1}%
-\begin{tabular}{@{}llll@{}}
-\toprule
-Column 1 & Column 2  & Column 3 & Column 4\\
-\midrule
-row 1    & data 1   & data 2  & data 3  \\
-row 2    & data 4   & data 5\footnotemark[1]  & data 6  \\
-row 3    & data 7   & data 8  & data 9\footnotemark[2]  \\
-\botrule
-\end{tabular}
-\footnotetext{Source: This is an example of table footnote. This is an example of table footnote.}
-\footnotetext[1]{Example for a first table footnote. This is an example of table footnote.}
-\footnotetext[2]{Example for a second table footnote. This is an example of table footnote.}
-\end{table}
-
-\noindent The input format for the above table is as follows:
-
-\begin{verbatim}
-\begin{table}[<placement-specifier>]
-\caption{<table-caption>}\label{<table-label>}%
-\begin{tabular}{@{}llll@{}}
-\toprule
-Column 1 & Column 2 & Column 3 & Column 4\\
-\midrule
-row 1 & data 1 & data 2  & data 3 \\
-row 2 & data 4 & data 5\footnotemark[1] & data 6 \\
-row 3 & data 7 & data 8  & data 9\footnotemark[2]\\
-\botrule
-\end{tabular}
-\footnotetext{Source: This is an example of table footnote.
-This is an example of table footnote.}
-\footnotetext[1]{Example for a first table footnote.
-This is an example of table footnote.}
-\footnotetext[2]{Example for a second table footnote.
-This is an example of table footnote.}
-\end{table}
-\end{verbatim}
-
-\begin{table}[h]
-\caption{Example of a lengthy table which is set to full textwidth}\label{tab2}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcccccc}
-\toprule%
-& \multicolumn{3}{@{}c@{}}{Element 1\footnotemark[1]} & \multicolumn{3}{@{}c@{}}{Element 2\footnotemark[2]} \\\cmidrule{2-4}\cmidrule{5-7}%
-Project & Energy & $\sigma_{calc}$ & $\sigma_{expt}$ & Energy & $\sigma_{calc}$ & $\sigma_{expt}$ \\
-\midrule
-Element 3  & 990 A & 1168 & $1547\pm12$ & 780 A & 1166 & $1239\pm100$\\
-Element 4  & 500 A & 961  & $922\pm10$  & 900 A & 1268 & $1092\pm40$\\
-\botrule
-\end{tabular*}
-\footnotetext{Note: This is an example of table footnote. This is an example of table footnote this is an example of table footnote this is an example of~table footnote this is an example of table footnote.}
-\footnotetext[1]{Example for a first table footnote.}
-\footnotetext[2]{Example for a second table footnote.}
-\end{table}
-
-\vfill\eject
-
-In case of double column layout, tables which do not fit in single
-column width should be set to full text width. For this, you need to use
-\texttt{\textbackslash{}begin\{table*\}} \texttt{...}
-\texttt{\textbackslash{}end\{table*\}} instead of
-\texttt{\textbackslash{}begin\{table\}} \texttt{...}
-\texttt{\textbackslash{}end\{table\}} environment. Lengthy tables which
-do not fit in textwidth should be set as rotated table. For this, you
-need to use \texttt{\textbackslash{}begin\{sidewaystable\}} \texttt{...}
-\texttt{\textbackslash{}end\{sidewaystable\}} instead of
-\texttt{\textbackslash{}begin\{table*\}} \texttt{...}
-\texttt{\textbackslash{}end\{table*\}} environment. This environment
-puts tables rotated to single column width. For tables rotated to double
-column width, use \texttt{\textbackslash{}begin\{sidewaystable*\}}
-\texttt{...} \texttt{\textbackslash{}end\{sidewaystable*\}}.
-
-\begin{sidewaystable}
-\caption{Tables which are too long to fit, should be written using the "sidewaystable" environment as shown here}\label{tab3}
-\begin{tabular*}{\textheight}{@{\extracolsep\fill}lcccccc}
-\toprule%
-& \multicolumn{3}{@{}c@{}}{Element 1\footnotemark[1]}& \multicolumn{3}{@{}c@{}}{Element\footnotemark[2]} \\\cmidrule{2-4}\cmidrule{5-7}%
-Projectile & Energy & $\sigma_{calc}$ & $\sigma_{expt}$ & Energy & $\sigma_{calc}$ & $\sigma_{expt}$ \\
-\midrule
-Element 3 & 990 A & 1168 & $1547\pm12$ & 780 A & 1166 & $1239\pm100$ \\
-Element 4 & 500 A & 961  & $922\pm10$  & 900 A & 1268 & $1092\pm40$ \\
-Element 5 & 990 A & 1168 & $1547\pm12$ & 780 A & 1166 & $1239\pm100$ \\
-Element 6 & 500 A & 961  & $922\pm10$  & 900 A & 1268 & $1092\pm40$ \\
-\botrule
-\end{tabular*}
-\footnotetext{Note: This is an example of table footnote this is an example of table footnote this is an example of table footnote this is an example of~table footnote this is an example of table footnote.}
-\footnotetext[1]{This is an example of table footnote.}
-\end{sidewaystable}
-
-\section{Figures}\label{sec6}
-
-As per the \LaTeX~standards you need to use eps images for
-\LaTeX~compilation and \texttt{pdf/jpg/png} images for \texttt{PDFLaTeX}
-compilation. Use the \texttt{dev} knitr option to use the approrpate
-format. This is one of the major difference between \LaTeX~and
-\texttt{PDFLaTeX}. Each image should be from a single input .eps/vector
-image file. Avoid using subfigures. The command for inserting images for
-\LaTeX~and \texttt{PDFLaTeX} can be generalized. The package used to
-insert images in \texttt{LaTeX/PDFLaTeX} is the graphicx package.
-Figures can be inserted via the normal figure environment as shown in
-the below example:
+The calculation operates by neighboring values within a pre-defined
+embedding dimension \(D\) by position value, assigning them to a
+corresponding ordinal pattern. The number of possible patterns depends
+on the embedding dimension \(D\), with \(|\pi_D|=D!\), where \(\pi_D\),
+as the labeling set, contains all these possible ordinal patterns. The
+indices starting from 1 to \(D\). The possible ordinal patterns result
+from the defined embedding dimension, example, for \(D=3\) are
+\(|\pi_3|=3!=6, \{123, 132, 213, 231, 312, 321\}.\) Hence the possible
+patterns are those shown in \ref fig1.
 
 \begin{figure}
-\includegraphics{Laboratory-Notebook_files/figure-latex/fig1-1} \caption{This is an example of a caption}\label{fig:fig1}
+\includegraphics{./fig_1} \caption{The number of possible patterns for the embedding dimension 3}\label{fig:unnamed-chunk-1}
 \end{figure}
 
-\section{Algorithms, Program codes and Listings}\label{sec7}
+\section{Methodology}\label{Methodology}
 
-Packages \texttt{algorithm}, \texttt{algorithmicx} and
-\texttt{algpseudocode} are used for setting algorithms in \LaTeX~using
-the format:
-
-\begin{verbatim}
-\begin{algorithm}
-\caption{<alg-caption>}\label{<alg-label>}
-\begin{algorithmic}[1]
-. . .
-\end{algorithmic}
-\end{algorithm}
-\end{verbatim}
-
-You may refer above listed package documentations for more details
-before setting \texttt{algorithm} environment. For program codes, the
-``program'' package is required and the command to be used is
-\texttt{\textbackslash{}begin\{program\}} \texttt{...}
-\texttt{\textbackslash{}end\{program\}}. A fast exponentiation
-procedure:
-
-Similarly, for \texttt{listings}, use the \texttt{listings} package.
-\texttt{\textbackslash{}begin\{lstlisting\}} \texttt{...}
-\texttt{\textbackslash{}end\{lstlisting\}} is used to set environments
-similar to \texttt{verbatim} environment. Refer to the
-\texttt{lstlisting} package documentation for more details.
-
-A fast exponentiation procedure:
-
-\lstset{texcl=true,basicstyle=\small\sf,commentstyle=\small\rm,mathescape=true,escapeinside={(*}{*)}}
-\begin{lstlisting}
-begin
-  for $i:=1$ to $10$ step $1$ do
-      expt($2,i$);  
-      newline() od                (*\textrm{Comments will be set flush to the right margin}*)
-where
-proc expt($x,n$) $\equiv$
-  $z:=1$;
-  do if $n=0$ then exit fi;
-     do if odd($n$) then exit fi;                 
-        comment: (*\textrm{This is a comment statement;}*)
-        $n:=n/2$; $x:=x*x$ od;
-     { $n>0$ };
-     $n:=n-1$; $z:=z*x$ od;
-  print($z$). 
-end
-\end{lstlisting}
-
-\begin{algorithm}
-\caption{Calculate $y = x^n$}\label{algo1}
-\begin{algorithmic}[1]
-\Require $n \geq 0 \vee x \neq 0$
-\Ensure $y = x^n$ 
-\State $y \Leftarrow 1$
-\If{$n < 0$}\label{algln2}
-        \State $X \Leftarrow 1 / x$
-        \State $N \Leftarrow -n$
-\Else
-        \State $X \Leftarrow x$
-        \State $N \Leftarrow n$
-\EndIf
-\While{$N \neq 0$}
-        \If{$N$ is even}
-            \State $X \Leftarrow X \times X$
-            \State $N \Leftarrow N / 2$
-        \Else[$N$ is odd]
-            \State $y \Leftarrow y \times X$
-            \State $N \Leftarrow N - 1$
-        \EndIf
-\EndWhile
-\end{algorithmic}
-\end{algorithm}
-
-\begin{minipage}{\hsize}
-
-\lstset{frame=single,framexleftmargin=-1pt,framexrightmargin=-17pt,framesep=12pt,linewidth=0.98\textwidth,language=pascal}
-
-\begin{lstlisting}
-for i:=maxint to 0 do begin \{ do nothing \} end; Write(`Case
-insensitive'); Write(`Pascal keywords.');
-
-\end{lstlisting}
-
-\end{minipage}
-
-\section{Cross referencing}\label{sec8}
-
-Figures and tables are labeled with a prefix (fig or tab, respectively)
-plus the chunk label. Other environments such as equation and align can
-be labelled via the \texttt{\textbackslash{}label\{\#label\}} command
-inside or just below the \texttt{\textbackslash{}caption\{\}} command.
-You can then use the label for cross-reference. As an example, consider
-the chunk label declared for Figure~\ref{fig:fig1} which is fig1. To
-cross-reference it, use the command
-\texttt{Figure\ \textbackslash{}ref\{fig:fig1\}}, for which it comes up
-as ``Figure~\ref{fig:fig1}''.
-
-To reference line numbers in an algorithm, consider the label declared
-for the line number 2 of Algorithm~\ref{algo1} is
-\texttt{\textbackslash{}label\{algln2\}}. To cross-reference it, use the
-command \texttt{\textbackslash{}ref\{algln2\}} for which it comes up as
-line~\ref{algln2} of Algorithm~\ref{algo1}.
-
-\subsection{Details on reference citations}\label{subsec7}
-
-For citations of references, use~\citet{bib1} or \citep{bib2}.
-
-\section{Examples for theorem like environments}\label{sec10}
-
-The documentclass for springer \texttt{sn-jnl.cls} contains 3 styling
-that you can use to set new default for theorems and proofs type
-
-\begin{description}
-\item[\texttt{thmstyleone}]
-Numbered, theorem head in bold font and theorem text in italic style
-\item[\texttt{thmstyletwo}]
-Numbered, theorem head in roman font and theorem text in italic style
-\item[\texttt{thmstylethree}]
-Numbered, theorem head in bold font and theorem text in roman style
-\end{description}
-
-For mathematics journals, theorem styles can be included as shown in the
-following examples.
-
-\begin{theorem}
-Example theorem text. Example theorem text. Example theorem text.
-Example theorem text. Example theorem text. Example theorem text.
-Example theorem text. Example theorem text. Example theorem text.
-Example theorem text. Example theorem text.
-
-\end{theorem}
-
-To add labels and subheadings, use LaTeX notation
-
-\begin{theorem}[Theorem subhead]\label{thm1}
-Example theorem text. Example theorem text. Example theorem text.
-Example theorem text. Example theorem text. Example theorem text.
-Example theorem text. Example theorem text. Example theorem text.
-Example theorem text. Example theorem text.
-
-\end{theorem}
-
-Other environments are proposition, example, remark, definition, proof
-and quote
-
-Sample body text. Sample body text. Sample body text. Sample body text.
-Sample body text. Sample body text. Sample body text. Sample body text.
-
-\begin{proposition}
-Example proposition text. Example proposition text. Example proposition
-text. Example proposition text. Example proposition text. Example
-proposition text. Example proposition text. Example proposition text.
-Example proposition text. Example proposition text.
-
-\end{proposition}
-
-Sample body text. Sample body text. Sample body text. Sample body text.
-Sample body text. Sample body text. Sample body text. Sample body text.
-
-\begin{example}
-Phasellus adipiscing semper elit. Proin fermentum massa ac quam. Sed
-diam turpis, molestie vitae, placerat a, molestie nec, leo. Maecenas
-lacinia. Nam ipsum ligula, eleifend at, accumsan nec, suscipit a, ipsum.
-Morbi blandit ligula feugiat magna. Nunc eleifend consequat lorem.
-
-\end{example}
-
-Sample body text. Sample body text. Sample body text. Sample body text.
-Sample body text. Sample body text. Sample body text. Sample body text.
-
-\begin{remark}
-Phasellus adipiscing semper elit. Proin fermentum massa ac quam. Sed
-diam turpis, molestie vitae, placerat a, molestie nec, leo. Maecenas
-lacinia. Nam ipsum ligula, eleifend at, accumsan nec, suscipit a, ipsum.
-Morbi blandit ligula feugiat magna. Nunc eleifend consequat lorem.
-
-\end{remark}
-
-Sample body text. Sample body text. Sample body text. Sample body text.
-Sample body text. Sample body text. Sample body text. Sample body text.
-
-\begin{definition}[Definition sub head]
-Example definition text. Example definition text. Example definition
-text. Example definition text. Example definition text. Example
-definition text. Example definition text. Example definition text.
-
-\end{definition}
-
-Additionally a predefined ``proof'' environment is available. This
-prints a ``Proof'' head in italic font style and the ``body text'' in
-roman font style with an open square at the end of each proof
-environment.
-
-\begin{proof}
-Example for proof text. Example for proof text. Example for proof text.
-Example for proof text. Example for proof text. Example for proof text.
-Example for proof text. Example for proof text. Example for proof text.
-Example for proof text.
-
-\end{proof}
-
-Sample body text. Sample body text. Sample body text. Sample body text.
-Sample body text. Sample body text. Sample body text. Sample body text.
-
-\section{Methods}\label{sec11}
-
-Topical subheadings are allowed. Authors must ensure that their Methods
-section includes adequate experimental and characterization data
-necessary for others in the field to reproduce their work. Authors are
-encouraged to include RIIDs where appropriate.
-
-\textbf{Ethical approval declarations} (only required where applicable)
-Any article reporting experiment/s carried out on
-(i)\textasciitilde live vertebrate (or higher invertebrates),
-(ii)\textasciitilde humans or (iii)\textasciitilde human samples must
-include an unambiguous statement within the methods section that meets
-the following requirements:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  Approval: a statement which confirms that all experimental protocols
-  were approved by a named institutional and/or licensing committee.
-  Please identify the approving body in the methods section
-\item
-  Accordance: a statement explicitly saying that the methods were
-  carried out in accordance with the relevant guidelines and regulations
-\item
-  Informed consent (for experiments involving humans or human tissue
-  samples): include a statement confirming that informed consent was
-  obtained from all participants and/or their legal guardian/s
-\end{enumerate}
-
-If your manuscript includes potentially identifying patient/participant
-information, or if it describes human transplantation research, or if it
-reports results of a clinical trial then additional information will be
-required. Please visit
-(\url{https://www.nature.com/nature-research/editorial-policies}) for
-Nature Portfolio journals,
-(\url{https://www.springer.com/gp/authors-editors/journal-author/journal-author-helpdesk/publishing-ethics/14214})
-for Springer Nature journals, or
-(\url{https://www.biomedcentral.com/getpublished/editorial-policies/\#ethics+and+consent})
-for BMC.
-
-\section{Discussion}\label{sec12}
-
-Discussions should be brief and focused. In some disciplines use of
-Discussion or `Conclusion' is interchangeable. It is not mandatory to
-use both. Some journals prefer a section `Results and Discussion'
-followed by a section `Conclusion'. Please refer to Journal-level
-guidance for any specific requirements.
-
-\section{Conclusion}\label{sec13}
-
-Conclusions may be used to restate your hypothesis or research question,
-restate your major findings, explain the relevance and the added value
-of your work, highlight any limitations of your study, describe future
-directions for research and recommendations.
-
-In some disciplines use of Discussion or `Conclusion' is
-interchangeable. It is not mandatory to use both. Please refer to
-Journal-level guidance for any specific requirements.
-
-\backmatter
-
-\bmhead{Supplementary information}
-
-If your article has accompanying supplementary file/s please state so
-here.
-
-Authors reporting data from electrophoretic gels and blots should supply
-the full unprocessed scans for key as part of their Supplementary
-information. This may be requested by the editorial team/s if it is
-missing.
-
-Please refer to Journal-level guidance for any specific requirements.
-
-\bmhead{Acknowledgments}
-
-Acknowledgments are not compulsory. Where included they should be brief.
-Grant or contribution numbers may be acknowledged.
-
-Please refer to Journal-level guidance for any specific requirements.
-
-\section*{Declarations}\label{declarations}
-\addcontentsline{toc}{section}{Declarations}
-
-Some journals require declarations to be submitted in a standardised
-format. Please check the Instructions for Authors of the journal to
-which you are submitting to see if you need to complete this section. If
-yes, your manuscript must contain the following sections under the
-heading `Declarations':
+The data are considered from the Bearing data centre and seeded fault
+test data at the Case Western Reserve University, School of Engineering.
+The data set consists of ball bearing test data for normal bearings,
+single-point drive end, and fan end defects. A total of 12,000 and
+48,000 data points were considered per second for the drive-end bearing
+tests. Fan end bearing was also obtained at a rate of 12,000 data points
+per second. Each file includes motor rotational speed, drive end
+vibration data, and fan data. For all files, the following item in the
+variable name indicates:
 
 \begin{itemize}
-\tightlist
-\item
-  Funding
-\item
-  Conflict of interest/Competing interests (check journal-specific
-  guidelines for which heading to use)
-\item
-  Ethics approval
-\item
-  Consent to participate
-\item
-  Consent for publication
-\item
-  Availability of data and materials
-\item
-  Code availability
-\item
-  Authors' contributions
+  \item DE - drive end accelerometer data
+  \item FE - fan end accelerometer data
+  \item BA - base accelerometer data
+  \item time - time series data
+  \item RPM - rpm during testing 
 \end{itemize}
 
-\noindent If any of the sections are not relevant to your manuscript,
-please include the heading and write `Not applicable' for that section.
+Further, for the easiness of use data were separated by the name Normal
+Baseline Data, 12k Drive End Bearing Fault Data, 48k Drive End Bearing
+Fault Data, and Fan-End Bearing Fault Data. Normal baseline data has
+four motor loads 0, 1, 2, and 3. Approximate motor speed was given in
+rpm. (1797, 1772, 1750, 1730). 12k Drive End, 48k Drive End and 12k Fan
+End bearing data follow the same motor loads and speeds. The research is
+conducted to identify the fault machines from the separate time series
+data.
 
-\begin{flushleft}
-Editorial Policies for:
+Bearings are critical components in rotating machinery, yet their
+demanding operating conditions involving high loads and impacts often
+lead to various faults. These faults can result in significant downtime,
+costly maintenance, and even complete machine failure. Therefore, early
+and accurate detection and classification of bearing faults are
+essential for ensuring operational reliability and minimizing
+maintenance expenses. Traditional fault detection methods primarily rely
+on analyzing physical parameters and trends using vibration analysis,
+thermal monitoring, and current signature analysis techniques. While
+these methods have proven effective, they can be susceptible to noise
+and often require substantial computational resources. Ordinal pattern
+analysis has emerged as a promising alternative, offering a robust and
+computationally efficient approach for analyzing time series data. At
+its core, ordinal pattern analysis involves transforming continuous time
+series data into a sequence of ordinal patterns that represent the order
+relationships among data points within a given time window. This
+approach effectively captures the fundamental dynamics of the signal in
+a manner that is inherently robust to noise and distortions. By
+analyzing these patterns, it becomes possible to identify subtle changes
+in system behavior that may indicate the presence of a fault. This study
+investigates the application of ordinal pattern analysis for early
+detection and classification of bearing faults, focusing on common fault
+types such as ball, outer race, and inner race defects. Using a publicly
+available dataset from the Case Western Reserve University Bearing Data
+Center, we will demonstrate the effectiveness of ordinal patterns in
+distinguishing between healthy and faulty bearing conditions. The data
+set consist of ball bearing test data for normal bearings, single-point
+drive end and fan end defects. A total of 12,000 and 48,000 data points
+were considered per second for the drive end bearing tests. Fan end
+bearing was also obtained at a rate of 12,000 data points per second.
+Each file includes motor rotational speed, drive end vibration data, and
+fan data. Further, for the easiness of use data were separated by the
+name Normal Baseline Data, 12k Drive End Bearing Fault Data, 48k Drive
+End Bearing Fault Data, Fan-End Bearing Fault Data. Normal baseline data
+has four motor loads 0, 1, 2, and 3. Approximate motor speed was given
+in rpm. (1797, 1772, 1750, 1730). 12k Drive End, 48k Drive End and 12k
+Fan End bearing data follows the same motor loads and speeds. The
+research is conducted to identify the fault machines. Each data file
+consists of two time series and we examined two time series data using
+ordinal patterns. We introduce distance as a measure of similarity
+between segments based on the ordinal structure. With specific embedding
+dimensions, it can be employed to distinguish fault machines. We show an
+application of Permutation entropy on rolling bearing fault diagnosis.
+The results of this experiment shows that dimension 3 and 4 results
+separate fault machines. Some machines recognize with white noise which
+is close to the lower and upper boundary. The complexity plane is used
+to analyse the results and it has confirmed that dimension 4 is assured
+the best results.
 
-\noindent Springer journals and proceedings:
-\url{https://www.springer.com/gp/editorial-policies}
+Examples of time series data are shown as follows.
 
-\noindent Nature Portfolio journals:
-\url{https://www.nature.com/nature-research/editorial-policies}
+\begin{figure}
+\includegraphics{./normalbaselinetimeSeriesDE} \caption{The number of possible patterns for the embedding dimension 3}\label{fig:unnamed-chunk-2}
+\end{figure}
 
-\noindent \textit{Scientific Reports}:
-\url{https://www.nature.com/srep/journal-policies/editorial-policies}
+\begin{figure}
+\includegraphics{./fanend12kDE} \caption{The number of possible patterns for the embedding dimension 3}\label{fig:unnamed-chunk-3}
+\end{figure}
 
-\noindent BMC journals:
-\url{https://www.biomedcentral.com/getpublished/editorial-policies}
+Figure 2 shows the DE, FE and BA time series for engine loads 0, 1, 2
+and 3. Looking at these time series it is not possible to identify the
+faulty machines. However, the Figure 3 and 4 shows the normal baseline
+DE time series for a motor load of 0 and the accelerometer time series
+data at the 12,000 fan end for a motor load of 0. The graph is clear and
+it is noticeable that fault time series data consists of time series.
+However, it is difficult to separate the exact machine type and other
+characteristics of the data. The main idea of this research work is to
+identify fault machines from the various time series data given above.
+First, time series data was analyzed and then the StatOrdPatt package
+introduced by \citet{REY2024115481} was used to analyze the data. Next,
+the probability distribution of the ordinal pattern was considered and
+the entropy permutation entropy was calculated accordingly. Based on the
+entropy of each time series data, the entropy complexity level was
+considered to separate the faulty machines.
 
-\end{flushleft}
+\section{Results}\label{Results}
 
-\begin{appendices}
-
-\section{Section title of first appendix}\label{secA1}
-
-An appendix contains supplementary information that is not an essential
-part of the text itself but which may be helpful in providing a more
-comprehensive understanding of the research problem or it is information
-that is too cumbersome to be included in the body of the paper.
-
-For submissions to Nature Portfolio Journals please use the heading
-``Extended Data''.
-
-\end{appendices}
+The permutation entropy guarantees to separate fault machines. With this
+experimental result, we can see that dimensions 3 and 4 result in
+separate fault machines. We see that the machines form clusters, but
+also that they have individual signatures. The below table shows the
+Shannon entropy and the complexity results for embedding dimensions 3
+and 4.
 
 \bibliography{BearingFaultDiagnosis.bib}
 

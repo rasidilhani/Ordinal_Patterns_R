@@ -1,5 +1,9 @@
 # Large data files are ignored
 Data/csv/
+Data/12k
+Data/12kFan
+Data/48k
+Data/Normal
 Plots/
 Plots2/
 Text/Laboratory Notebook/Laboratory-Notebook_files/

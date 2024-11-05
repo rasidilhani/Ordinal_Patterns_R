@@ -80,14 +80,17 @@ sum(is.na(df$DE_time))
 # define dataframe to be compared with
 df2 = NULL
 
+# save df for analysis
+#write.csv(df, file_path <- file.path(base_path, "Data", "csv", "Normal_baseline_DE_time.csv"))
 
 ML = 0
 D = 6
+RPM = 1796
 
 #for(ML in 0:3){
 #  for(D in 5:6){
     
-    de_time_data <- df[df$Motor_load == ML, ]$DE_time
+    de_time_data <- df[df$Motor_load == ML & df$RPM == RPM, ]$DE_time
     
     # Matrix that stores the variances
     Variances <- matrix(nrow=2, ncol=1)
@@ -122,7 +125,7 @@ D = 6
                            SemiLength=SemiLength,
                            Series=as.factor(features_c))
     
-    write.csv(HCPoints, file.path(base_path, "Data", "csv", sprintf("HCPoints_%s_ML_%s_D_%s.csv", dataset_type, ML, D)))
+    write.csv(HCPoints, file.path(base_path, "Data", "csv", sprintf("HCPoints_%s_ML_%s_D_%s_RPM_%s.csv", dataset_type, ML, D, RPM)))
     
 #  }
 #}
