@@ -644,3 +644,5 @@ Code/R/SerieProblematica.csv
 *.log
 Text/Laboratory Notebook/Laboratory-Notebook.tex
 Text/Laboratory Notebook/Laboratory-Notebook_files/figure-latex/fig1-1.pdf
+*.log
+Text/Laboratory Notebook/Laboratory-Notebook.tex
