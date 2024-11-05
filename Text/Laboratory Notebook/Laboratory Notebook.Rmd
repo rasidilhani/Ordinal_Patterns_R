@@ -83,7 +83,7 @@ abstract: |
   The purpose of this research is to identify perturbation machines from the time series data. Chaos are hard to detect from time series. Bandt and Pompe proposed looking at time series from the perspective of ordinal patterns to develop fast and automated methods for extracting qualitative information from nonlinear time series. They developed the idea of permutation entropy to measure the complexity of a system underlying a time series, taking into account the ordinal patterns that represent the variations in a time series. Only one aspect of the ordinal structure of a time series is revealed by the permutation entropy. Here we show how to use the real-valued data set to extract all ordinal information.
 
 
-bibliography: BearingFaultDiagnosis.bib
+bibliography: ['BearingFaultDiagnosis.bib']
 link-citations: True
 
 header-includes: |
