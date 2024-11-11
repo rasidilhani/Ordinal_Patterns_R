@@ -127,7 +127,7 @@ Our research explores the advantages of ordinal pattern analysis in detecting ch
 
 While traditional methods often rely on specialized sensors and data acquisition systems, ordinal pattern analysis has the potential to achieve comparable results using simpler time series data, underscoring its potential for broader adoption. We investigate the sensitivity of ordinal pattern analysis to subtle changes in system dynamics, particularly in complex systems, where its strengths may be most pronounced.
 
-Our goal is to establish ordinal pattern analysis as a viable and advantageous tool for bearing fault diagnosis, contributing to advancements in predictive maintenance technologies and promoting more efficient and reliable operation of rotating machinery.
+Permutation entropy offers a reliable measure of complexity that is less susceptible to noise and does not require linear or Gaussian data properties by taking into account the relative ordering of values within a time series rather than their numerical magnitude. Our goal is to use this idea to make ordinal pattern analysis a practical and beneficial tool for diagnosing bearing faults, advancing predictive maintenance technologies, and encouraging more dependable and efficient operation of rotating machinery.
 
 # Literature Review {#sec2}
 
