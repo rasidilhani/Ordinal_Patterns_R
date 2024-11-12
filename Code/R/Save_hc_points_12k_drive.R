@@ -17,6 +17,12 @@ if(!dir.exists(data_path)) {
   dir.create(data_path, recursive = TRUE)
 }
 
+csv_save_path = file.path(data_path, "HC_Points")
+
+if(!dir.exists(csv_save_path)) {
+  dir.create(csv_save_path, recursive = TRUE)
+}
+
 dataset_type = "12k_drive_end_bearing_fault"
 
 # Build the relative path to the Excel file
@@ -127,7 +133,7 @@ for(ML in 0:3){
                            SemiLength=SemiLength,
                            Series=as.factor(features_c))
     
-    write.csv(HCPoints, file.path(base_path, "Data", "csv", "HC_Points", sprintf("HCPoints_%s_ML_%s_D_%s.csv", dataset_type, ML, D)))
+    write.csv(HCPoints, file.path(csv_save_path, sprintf("HCPoints_%s_ML_%s_D_%s.csv", dataset_type, ML, D)))
     
   }
 }
