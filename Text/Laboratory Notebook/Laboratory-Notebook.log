@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.6)  12 NOV 2024 09:42
+=======
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.29)  6 NOV 2024 09:13
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **Laboratory-Notebook.tex
 (./Laboratory-Notebook.tex
+<<<<<<< HEAD
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
 (./sn-jnl.cls
@@ -11,6 +16,16 @@ Document Class: sn-jnl 2019/11/18 v0.1: An authoring template for Springer Journ
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2024/06/29 v1.4n Standard LaTeX document class
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fleqn.clo
+=======
+LaTeX2e <2024-06-01> patch level 2
+L3 programming layer <2024-10-09>
+(./sn-jnl.cls
+Document Class: sn-jnl 2019/11/18 v0.1: An authoring template for Springer Jour
+nal articles
+(/usr/local/texlive/2024/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2024/02/08 v1.4n Standard LaTeX document class
+(/usr/local/texlive/2024/texmf-dist/tex/latex/base/fleqn.clo
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 File: fleqn.clo 2016/12/29 v1.2b Standard LaTeX option (flush left equations)
 \mathindent=\skip49
 Applying: [2015/01/01] Make \[ robust on input line 50.
@@ -19,8 +34,13 @@ Already applied: [0000/00/00] Make \[ robust on input line 62.
 Applying: [2015/01/01] Make \] robust on input line 74.
 LaTeX Info: Redefining \] on input line 75.
 Already applied: [0000/00/00] Make \] robust on input line 83.
+<<<<<<< HEAD
 ) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2024/06/29 v1.4n Standard LaTeX file (size option)
+=======
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2024/02/08 v1.4n Standard LaTeX file (size option)
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 )
 \c@part=\count196
 \c@section=\count197
@@ -45,14 +65,14 @@ LaTeX Info: Redefining \cal on input line 151.
 LaTeX Info: Redefining \mit on input line 152.
 LaTeX Info: Redefining \textsubscript on input line 210.
 \columnhsize=\skip52
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
+(/usr/local/texlive/2024/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
 ))
 \Gm@cnth=\count270
@@ -79,7 +99,7 @@ Package: iftex 2022/02/03 v1.0f TeX engine tests
 \PacsTmpCnt=\count280
 \FMremarkdim=\dimen150
 \fmremarkbox=\box53
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/sttools/cuted.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/sttools/cuted.sty
 Package: cuted 2021/10/04 v2.0 Mixing onecolumn and twocolumn modes
 \At@ViperColsBreak=\toks19
 \preCutedStrip=\toks20
@@ -120,24 +140,30 @@ Package: cuted 2021/10/04 v2.0 Mixing onecolumn and twocolumn modes
 \temptbox=\box66
 \tempdime=\dimen168
 \tabhtdime=\dimen169
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/rotating.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/graphics/rotating.sty
 Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+<<<<<<< HEAD
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+=======
+(/usr/local/texlive/2024/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/05/23 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+(/usr/local/texlive/2024/texmf-dist/tex/latex/graphics/trig.sty
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 106.
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
+(/usr/local/texlive/2024/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen170
 \Gin@req@width=\dimen171
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 )
 \c@r@tfl@t=\count282
@@ -145,43 +171,57 @@ Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 \rotFPbot=\skip56
 \rot@float@box=\box67
 \rot@mess@toks=\toks22
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttable/threeparttable.sty
+)
+(/usr/local/texlive/2024/texmf-dist/tex/latex/threeparttable/threeparttable.sty
 Package: threeparttable 2003/06/13  v 3.0
 \@tempboxb=\box68
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/appendix/appendix.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/appendix/appendix.sty
 Package: appendix 2020/02/08 v1.2c extra appendix facilities
+<<<<<<< HEAD
 \c@@pps=\count283
 \c@@ppsavesec=\count284
 \c@@ppsaveapp=\count285
 ) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2024-10-30 v7.01k Hypertext links for LaTeX
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+=======
+\c@@pps=\count281
+\c@@ppsavesec=\count282
+\c@@ppsaveapp=\count283
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2024-10-30 v7.01k Hypertext links for LaTeX
+(/usr/local/texlive/2024/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+(/usr/local/texlive/2024/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
-Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+(/usr/local/texlive/2024/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-)) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
+)) (/usr/local/texlive/2024/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+)
+(/usr/local/texlive/2024/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
+ty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
+<<<<<<< HEAD
 \c@section@level=\count286
 ) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
@@ -193,14 +233,33 @@ Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 \Hy@linkcounter=\count288
 \Hy@pagecounter=\count289
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
+=======
+\c@section@level=\count284
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count285
+) (/usr/local/texlive/2024/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\@linkdim=\dimen172
+\Hy@linkcounter=\count286
+\Hy@pagecounter=\count287
+(/usr/local/texlive/2024/texmf-dist/tex/latex/hyperref/pd1enc.def
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 File: pd1enc.def 2024-10-30 v7.01k Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
+<<<<<<< HEAD
 \Hy@SavedSpaceFactor=\count290
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+=======
+\Hy@SavedSpaceFactor=\count288
+(/usr/local/texlive/2024/texmf-dist/tex/latex/hyperref/puenc.def
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 File: puenc.def 2024-10-30 v7.01k Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
@@ -212,17 +271,23 @@ Package hyperref Info: Plain pages OFF on input line 4172.
 Package hyperref Info: Backreferencing OFF on input line 4177.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4424.
+<<<<<<< HEAD
 \c@Hy@tempcnt=\count291
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
+=======
+\c@Hy@tempcnt=\count289
+(/usr/local/texlive/2024/texmf-dist/tex/latex/url/url.sty
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4763.
 \XeTeXLinkMargin=\dimen173
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/local/texlive/2024/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
-Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+(/usr/local/texlive/2024/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
 ))
 \Fld@menulength=\count292
 \Field@Width=\dimen174
@@ -234,7 +299,7 @@ Package hyperref Info: backreferencing OFF on input line 6057.
 Package hyperref Info: Link coloring OFF on input line 6062.
 Package hyperref Info: Link coloring with OCG OFF on input line 6067.
 Package hyperref Info: PDF/A mode OFF on input line 6072.
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
@@ -243,6 +308,7 @@ package with kernel methods
 \c@Hfootnote=\count295
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
+<<<<<<< HEAD
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2024-10-30 v7.01k Hyperref driver for pdfTeX
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
@@ -252,11 +318,26 @@ with kernel methods
 \Fld@listcount=\count296
 \c@bookmark@seq@number=\count297
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+=======
+(/usr/local/texlive/2024/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2024-10-30 v7.01k Hyperref driver for pdfTeX
+(/usr/local/texlive/2024/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
+kage
+with kernel methods
+)
+\Fld@listcount=\count294
+\c@bookmark@seq@number=\count295
+
+(/usr/local/texlive/2024/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+
+(/usr/local/texlive/2024/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+85.
 )
 \Hy@SectionHShift=\skip57
 )
@@ -264,8 +345,9 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 1483.
 Package hyperref Info: Option `breaklinks' set `true' on input line 1483.
 Package hyperref Info: Option `plainpages' set `false' on input line 1483.
 Package hyperref Info: Option `bookmarksopen' set `true' on input line 1483.
-Package hyperref Info: Option `bookmarksnumbered' set `false' on input line 1483.
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+Package hyperref Info: Option `bookmarksnumbered' set `false' on input line 148
+3.
+(/usr/local/texlive/2024/texmf-dist/tex/latex/wrapfig/wrapfig.sty
 \wrapoverhang=\dimen176
 \WF@size=\dimen177
 \c@WF@wrappedlines=\count298
@@ -277,32 +359,42 @@ Package: wrapfig 2003/01/31  v 3.6
 \@authorfigbox=\box70
 \@authorfigboxdim=\skip58
 \biofigadjskip=\skip59
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip60
 \bibsep=\skip61
 LaTeX Info: Redefining \cite on input line 694.
+<<<<<<< HEAD
 \c@NAT@ctr=\count300
 )) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
+=======
+\c@NAT@ctr=\count298
+)) (/usr/local/texlive/2024/texmf-dist/tex/latex/multirow/multirow.sty
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@colwidth=\skip62
 \multirow@cntb=\count301
 \multirow@dima=\skip63
 \bigstrutjot=\dimen178
+<<<<<<< HEAD
 ) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2024/10/30 v2.17s AMS math features
+=======
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2024/05/23 v2.17q AMS math features
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 \@mathmargin=\skip64
 For additional information on amsmath, use the `?' option.
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks24
 \ex@=\dimen179
-)) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
+)) (/usr/local/texlive/2024/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen180
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
 \inf@bad=\count302
@@ -350,18 +442,24 @@ LaTeX Info: Redefining \Relbar on input line 989.
 \multlinegap=\skip65
 \multlinetaggap=\skip66
 \mathdisplay@stack=\toks28
+<<<<<<< HEAD
 LaTeX Info: Redefining \[ on input line 2972.
 LaTeX Info: Redefining \] on input line 2973.
 ) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
+=======
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/amssymb.sty
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amscls/amsthm.sty
+)) (/usr/local/texlive/2024/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2020/05/29 v2.20.6
 \thm@style=\toks29
 \thm@bodyfont=\toks30
@@ -372,9 +470,10 @@ Package: amsthm 2020/05/29 v2.20.6
 \thm@postskip=\skip68
 \thm@headsep=\skip69
 \dth@everypar=\toks34
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/jknapltx/mathrsfs.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/jknapltx/mathrsfs.sty
 Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
 \symrsfs=\mathgroup6
+<<<<<<< HEAD
 ) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -382,6 +481,15 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 274.
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+=======
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+(/usr/local/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+(/usr/local/texlive/2024/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
 Package xcolor Info: Model `RGB' extended on input line 1365.
@@ -391,15 +499,19 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+<<<<<<< HEAD
 ) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/textcomp.sty
+=======
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/base/textcomp.sty
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/ncctools/manyfoot.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/ncctools/manyfoot.sty
 Package: manyfoot 2019/08/03 v1.11 Many Footnote Levels Package (NCC)
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/ncctools/nccfoots.sty
+(/usr/local/texlive/2024/texmf-dist/tex/latex/ncctools/nccfoots.sty
 Package: nccfoots 2005/02/03 v1.2 NCC Footnotes Package (NCC)
 )
 \MFL@columnwidth=\dimen188
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen189
 \lightrulewidth=\dimen190
@@ -418,9 +530,10 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count316
 \@lastruleclass=\count317
 \@thisrulewidth=\dimen257
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/algorithms/algorithm.sty
-Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/float/float.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+(/usr/local/texlive/2024/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count318
 \float@exts=\toks35
@@ -429,8 +542,13 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@floatcapt=\box74
 )
 \@float@every@algorithm=\toks37
+<<<<<<< HEAD
 \c@algorithm=\count319
 ) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+=======
+\c@algorithm=\count317
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
 \c@ALG@line=\count320
@@ -443,11 +561,16 @@ Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
 \c@ALG@storecount=\count325
 \c@ALG@tmpcounter=\count326
 \ALG@tmplength=\skip72
-) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
 Package: algpseudocode 
 Document Style - pseudocode environments for use with the `algorithmicx' style
+<<<<<<< HEAD
 ) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/listings/listings.sty
 \lst@mode=\count327
+=======
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count325
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 \lst@gtempboxa=\box75
 \lst@token=\toks38
 \lst@length=\count328
@@ -459,6 +582,7 @@ Document Style - pseudocode environments for use with the `algorithmicx' style
 \lst@newlines=\count331
 \lst@lineno=\count332
 \lst@maxwidth=\dimen261
+<<<<<<< HEAD
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/listings/lstpatch.sty
 File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
 ) (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/listings/lstmisc.sty
@@ -475,6 +599,24 @@ Package: listings 2024/09/23 1.10c (Carsten Heinz)
 \c@remark=\count337
 \c@definition=\count338
 (c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+=======
+(/usr/local/texlive/2024/texmf-dist/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
+\c@lstnumber=\count331
+\lst@skipnumbers=\count332
+\lst@framebox=\box76
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2024/09/23 1.10c listings configuration
+))
+Package: listings 2024/09/23 1.10c (Carsten Heinz)
+\c@theorem=\count333
+\c@example=\count334
+\c@remark=\count335
+\c@definition=\count336
+(/usr/local/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count339
 \l__pdf_internal_box=\box77
@@ -536,19 +678,39 @@ LaTeX Font Info:    ... okay on input line 81.
 * \@reversemargintrue
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count339
+\scratchdimen=\dimen262
+\scratchbox=\box78
+\nofMPsegments=\count340
+\nofMParguments=\count341
+\everyMPshowfont=\toks39
+\MPscratchCnt=\count342
+\MPscratchDim=\dimen263
+\MPnumerator=\count343
+\makeMPintoPDFobject=\count344
+\everyMPtoPDFconversion=\toks40
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+(/usr/local/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
 ))
 Package hyperref Info: Link coloring ON on input line 81.
 (./Laboratory-Notebook.out) (./Laboratory-Notebook.out)
 \@outlinefile=\write3
 \openout3 = `Laboratory-Notebook.out'.
 
+<<<<<<< HEAD
 \c@lstlisting=\count341
+=======
+\c@lstlisting=\count345
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 LaTeX Font Info:    Calculating math sizes for size <12.045> on input line 127.
+
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <8.43146> not available
 (Font)              size <8> substituted on input line 127.
@@ -561,16 +723,19 @@ LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <8.43146> not available
 LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <8.43146> not available
 (Font)              size <8> substituted on input line 127.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 127.
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+LaTeX Font Info:    Trying to load font information for U+msa on input line 127
+.
+(/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 127.
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
+LaTeX Font Info:    Trying to load font information for U+msb on input line 127
+.
+(/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 127.
-(c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/jknapltx/ursfs.fd
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 12
+7.
+(/usr/local/texlive/2024/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
 
@@ -581,7 +746,8 @@ LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <8.43146> not available
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <8.43146> not available
 (Font)              size <8> substituted on input line 127.
 
-LaTeX Font Info:    Calculating math sizes for size <11.04124> on input line 127.
+LaTeX Font Info:    Calculating math sizes for size <11.04124> on input line 12
+7.
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <5.52061> not available
 (Font)              size <6> substituted on input line 127.
@@ -598,7 +764,8 @@ LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <5.52061> not available
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <5.52061> not available
 (Font)              size <6> substituted on input line 127.
 
-LaTeX Font Info:    Calculating math sizes for size <10.03749> on input line 127.
+LaTeX Font Info:    Calculating math sizes for size <10.03749> on input line 12
+7.
 
 
 
@@ -606,7 +773,11 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [1
 
+<<<<<<< HEAD
 {c:/Users/UserA1/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+=======
+{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -618,6 +789,14 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [3]
 
+<<<<<<< HEAD
+=======
+Package natbib Warning: Citation `Rajabi2022' on page 4 undefined on input line
+ 309.
+
+
+
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -628,6 +807,14 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [5]
 
+<<<<<<< HEAD
+=======
+Package natbib Warning: Citation `hakim2023systematic' on page 6 undefined on i
+nput line 448.
+
+
+
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -637,6 +824,14 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [7]
+<<<<<<< HEAD
+=======
+
+Package natbib Warning: Citation `Rajabi2022' on page 8 undefined on input line
+ 552.
+
+
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -648,16 +843,74 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [9]
 
+<<<<<<< HEAD
+=======
+Package natbib Warning: Citation `WOS' on page 10 undefined on input line 668.
+
+
+Package natbib Warning: Citation `WOS' on page 10 undefined on input line 673.
+
+
+Package natbib Warning: Citation `hakim2023systematic' on page 10 undefined on 
+input line 711.
+
+
+
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [10]
 
+<<<<<<< HEAD
+=======
+Package natbib Warning: Citation `PhysRevLett.88.174102' on page 11 undefined o
+n input line 730.
+
+
+Package natbib Warning: Citation `REY2024115481' on page 11 undefined on input 
+line 738.
+
+
+
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [11]
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 7
+49.
+(/usr/local/texlive/2024/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/bx/n' in size <10.03749> not available
+(Font)              Font shape `OMS/cmsy/b/n' tried instead on input line 749.
 
+LaTeX Warning: Command \textellipsis invalid in math mode on input line 750.
+
+
+LaTeX Warning: Command \textellipsis invalid in math mode on input line 751.
+
+
+Package natbib Warning: Citation `chagas2022white' on page 12 undefined on inpu
+t line 766.
+
+
+Package natbib Warning: Citation `amigo2023ordinal' on page 12 undefined on inp
+ut line 768.
+
+
+Package natbib Warning: Citation `PhysRevLett.88.174102' on page 12 undefined o
+n input line 781.
+
+
+
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[12]
+
+<<<<<<< HEAD
 LaTeX Warning: Command \textellipsis invalid in math mode on input line 813.
 
 
@@ -675,11 +928,27 @@ File: ./fig_1.png Graphic file (type png)
 Package pdftex.def Info: ./fig_1.png  used on input line 878.
 (pdftex.def)             Requested size: 204.76448pt x 27.70341pt.
 
+=======
+LaTeX Warning: Reference `f' on page 13 undefined on input line 813.
+
+<./fig_1.png, id=347, 204.765pt x 27.7035pt>
+File: ./fig_1.png Graphic file (type png)
+<use ./fig_1.png>
+Package pdftex.def Info: ./fig_1.png  used on input line 816.
+(pdftex.def)             Requested size: 853.50851pt x 115.4826pt.
+
+Overfull \hbox (481.50851pt too wide) in paragraph at lines 816--816
+[][]
+ []
+
+
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [13
+<<<<<<< HEAD
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
@@ -695,11 +964,118 @@ File: ./fanend12kDE.pdf Graphic file (type pdf)
 <use ./fanend12kDE.pdf>
 Package pdftex.def Info: ./fanend12kDE.pdf  used on input line 935.
 (pdftex.def)             Requested size: 186.0pt x 240.70055pt.
+=======
+pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.836   \item R
+               PM - rpm during testing{/usr/local/texlive/2024/texmf-dist/fonts
+/enc/dvips/cm-super/cm-super-ts1.enc} <./fig_1.png>]
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[14]
+<./normalbaselinetimeSeriesDE.pdf, id=363, 614.295pt x 794.97pt>
+File: ./normalbaselinetimeSeriesDE.pdf Graphic file (type pdf)
+<use ./normalbaselinetimeSeriesDE.pdf>
+Package pdftex.def Info: ./normalbaselinetimeSeriesDE.pdf  used on input line 9
+00.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
+
+Overfull \hbox (242.29349pt too wide) in paragraph at lines 900--900
+[][]
+ []
+
+
+LaTeX Warning: Float too large for page by 267.62384pt on input line 901.
+
+<./fanend12kDE.pdf, id=364, 614.295pt x 794.97pt>
+File: ./fanend12kDE.pdf Graphic file (type pdf)
+<use ./fanend12kDE.pdf>
+Package pdftex.def Info: ./fanend12kDE.pdf  used on input line 904.
+(pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
+
+Overfull \hbox (242.29349pt too wide) in paragraph at lines 904--904
+[][]
+ []
+
+
+LaTeX Warning: Float too large for page by 267.62384pt on input line 905.
+
+
+Package natbib Warning: Citation `REY2024115481' on page 15 undefined on input 
+line 917.
+
+(./Laboratory-Notebook.bbl
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[15]
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[16
+pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.38 
+      <./normalbaselinetimeSeriesDE.pdf>]
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[17
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.38 
+      <./fanend12kDE.pdf>]
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[18]
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[19]
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[20]
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[21]
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[22]
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[23])
+
+Package natbib Warning: There were undefined citations.
+
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
+<<<<<<< HEAD
 [14]
 
 
@@ -767,15 +1143,28 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
+=======
+[24] (./Laboratory-Notebook.aux)
+ ***********
+LaTeX2e <2024-06-01> patch level 2
+L3 programming layer <2024-10-09>
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
  ***********
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.47939pt have occurred.
 
+<<<<<<< HEAD
+=======
+
+LaTeX Warning: There were undefined references.
+
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 Package rerunfilecheck Info: File `Laboratory-Notebook.out' has not changed.
 (rerunfilecheck)             Checksum: 3BA6E6042A5F159AEEEF5F089FC67C93;699.
  ) 
 Here is how much of TeX's memory you used:
+<<<<<<< HEAD
  14319 strings out of 475322
  222877 string characters out of 5768502
  626935 words of memory out of 5000000
@@ -789,5 +1178,38 @@ PDF statistics:
  601 PDF objects out of 1000 (max. 8388607)
  533 compressed objects within 6 object streams
  92 named destinations out of 1000 (max. 500000)
+=======
+ 14618 strings out of 473577
+ 223575 string characters out of 5728189
+ 634169 words of memory out of 5000000
+ 37199 multiletter control sequences out of 15000+600000
+ 571672 words of font info for 92 fonts, out of 8000000 for 9000
+ 1151 hyphenation exceptions out of 8191
+ 90i,8n,93p,556b,667s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
+b></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></
+usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></us
+r/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr
+/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/
+local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/lo
+cal/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/loca
+l/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/
+texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/te
+xlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texl
+ive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive
+/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/20
+24/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2024/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2024/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2024/texmf-
+dist/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on Laboratory-Notebook.pdf (24 pages, 456865 bytes).
+PDF statistics:
+ 577 PDF objects out of 1000 (max. 8388607)
+ 503 compressed objects within 6 object streams
+ 87 named destinations out of 1000 (max. 500000)
+>>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
  64 words of extra memory for PDF output out of 10000 (max. 10000000)
 
