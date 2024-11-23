@@ -107,17 +107,24 @@ Statistics}, \orgname{Victoria University of
 Wellington}, \orgaddress{\city{Wellington}, \country{New
 Zealand}, \postcode{6012}, \state{}, \street{}}}
 
-\abstract{This research aims to identify perturbations in machines using
-time series data, where detecting chaotic patterns is notably
-challenging. Bandt and Pompe proposed looking at time series from the
-perspective of ordinal patterns to develop fast and automated methods
-for extracting qualitative information from nonlinear time series. They
-developed the idea of permutation entropy to measure the complexity of a
-system underlying a time series, taking into account the ordinal
-patterns that represent the variations in a time series. Only one aspect
-of the ordinal structure of a time series is revealed by the permutation
-entropy. Here we show how to use the real-valued data set to extract all
-ordinal information.}
+\abstract{This research focuses on identifying perturbations in machines
+using time series data, a process where detecting chaotic patterns poses
+significant challenges. Bandt and Pompe introduced a novel approach to
+analyze time series through ordinal patterns, which facilitates the
+extraction of qualitative information from nonlinear data efficiently
+and automatically. Their concept of permutation entropy provides a
+measure of the complexity inherent in a system, leveraging the ordinal
+patterns that capture variations within a time series.However,
+permutation entropy addresses only one aspect of a time series' ordinal
+structure, which limits its scope. A critical challenge in pattern
+classification systems lies in effective feature selection. This study
+investigates methods to provide classification systems with the most
+defining features for ordinal multi-class classification. By integrating
+cluster and variability analyses, an innovative and efficient feature
+selection scheme is proposed. Additionally, the research demonstrates
+how to process real-valued datasets to extract all relevant ordinal
+information, advancing the ability to analyze and classify complex time
+series data comprehensively.}
 
 \keywords{ordinal patterns, permutation entropy, bearing fault data}
 
@@ -175,14 +182,17 @@ ordinal pattern analysis to subtle changes in system dynamics,
 particularly in complex systems, where its strengths may be most
 pronounced.
 
-Our goal is to establish ordinal pattern analysis as a viable and
-advantageous tool for bearing fault diagnosis, contributing to
-advancements in predictive maintenance technologies and promoting more
-efficient and reliable operation of rotating machinery.
+Permutation entropy offers a reliable measure of complexity that is less
+susceptible to noise and does not require linear or Gaussian data
+properties by taking into account the relative ordering of values within
+a time series rather than their numerical magnitude. Our goal is to use
+this idea to make ordinal pattern analysis a practical and beneficial
+tool for diagnosing bearing faults, advancing predictive maintenance
+technologies, and encouraging more dependable and efficient operation of
+rotating machinery.
 
 \section{Literature Review}\label{sec2}
 
-<<<<<<< HEAD
 In the study conducted by \citet{WOS:000312724900101}, an enhanced
 approach is introduced to detect bearing faults using high-frequency
 resonance, which improves the precision and reliability of fault
@@ -203,29 +213,6 @@ maintenance of equipment.
 \citet{WOS:000345844100102} discuss a prototype FPGA implementation that
 uses machine learning to convert analog signals into concise feature
 representations. This prototype employs an event-based methodology to
-=======
-In the study conducted by researchers \citet{WOS:000312724900101}, an
-enhanced approach is introduced to detect bearing faults through the
-utilization of high-frequency resonance, resulting in improved precision
-and dependability in diagnosing faults within mechanical systems. The
-investigation illustrates that this refined methodology adeptly
-recognizes initial bearing abnormalities, representing a significant
-progression compared to conventional diagnostic techniques. The article
-by \citet{WOS:000301688000008} presents a new technique for fault
-identification which employs an adaptive rank-order morphological filter
-to categorize patterns in one-dimensional signals. This strategy
-enhances the precision and resilience of fault diagnosis by proficiently
-sifting through and pinpointing signal irregularities. Furthermore,
-\citet{WOS:000303039300034} propose an approach for early fault
-detection in machinery by scrutinizing truncated vibration signals using
-Shannon wavelet spectrum analysis. This method heightens the detection
-of emerging faults, thereby enhancing the prognostic maintenance of
-equipment.
-
-\citet{WOS:000345844100102} discusses a prototype FPGA implementation
-that uses machine learning to convert analog signals into concise
-feature representations. It employs an event-based methodology to
->>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 enhance the efficiency and accuracy of signal processing across various
 applications. \citet{WOS:000396580800080} explore the use of a dedicated
 hierarchy of neural networks for evaluating bearing degradation, thereby
@@ -263,7 +250,6 @@ developed in the manuscript by \citet{WOS:000412752200052} to enhance
 the precision of vibration signal analysis and augment fault detection
 capabilities.
 
-<<<<<<< HEAD
 In their paper, \citet{WOS:000335959500009} put forth a methodology for
 bearing fault detection that employs compressive measurements of
 vibration signals to efficiently detect faults, thereby enhancing
@@ -304,43 +290,6 @@ of fault types and their severity. The integration of wavelet packet
 decomposition with multiscale permutation entropy serves to enhance the
 reliability of fault diagnosis systems, thereby rendering it a valuable
 technique for the purposes of predictive maintenance in industrial
-=======
-The authors of the paper \citet{WOS:000335959500009} propose a
-methodology for bearing fault detection that utilizes compressive
-measurements of vibration signals to efficiently detect faults,
-enhancing diagnostic accuracy while reducing the data processing load. A
-unique technique for feature extraction, based on the crossover
-characteristics of nonlinear data, is applied to enhance fault diagnosis
-in rotary machinery by effectively identifying critical patterns in
-complex signal data \citep{WOS:000338603900013}. Self-Organizing Maps
-(SOMs) are successful in diagnosing motor bearing faults through the
-classification of complex vibration data, while approaches based on fast
-nonlocal means and envelope spectra contribute to improving fault
-diagnosis accuracy. Moreover, a low-dimensional compressed measurement
-strategy boosts fault detection efficiency, and a Bayesian inference
-technique guided by a smoothness index enables precise identification of
-various bearing faults by analyzing anti-symmetric real Laplace wavelet
-parameters
-\citep{WOS:000380543400119, WOS:000348309400067, WOS:000354607100016, WOS:000350998800016}.
-A novel machine fault diagnosis method using the Statistical Local
-Linear Embedding Algorithm (S-LLE), an LLE extension leveraging fault
-class labels to enhance feature extraction, dimensionality reduction,
-and pattern recognition by mapping high-dimensional vibration signal
-vectors---processed through time-domain, frequency-domain, and empirical
-mode decomposition (EMD)---into a low-dimensional space, which
-outperforms PCA, LDA, and LLE for swift fault classification, as
-validated by rolling bearing error signals, thereby achieving superior
-error classification performance over conventional methods
-\citep{WOS:000361788200068}. The combination of wavelet packet
-decomposition with multi-scale permutation entropy exhibits potential in
-accurately detecting bearing faults, utilizing hidden Markov models
-\citep{WOS:000362513400031}. Results demonstrate that this approach
-significantly improves fault detection accuracy compared to traditional
-methods, achieving higher precision in identifying fault types and their
-severity. Integrating wavelet packet decomposition with multi-scale
-permutation entropy enhances the reliability of fault diagnosis systems,
-making it a valuable technique for predictive maintenance in industrial
->>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 applications.
 
 \citet{WOS:000365686400021} introduced a new feature extraction
@@ -377,7 +326,6 @@ extracting critical low-dimensional features and using a K-nearest
 neighbor classifier, this approach demonstrates superior performance
 compared to alternative methods in identifying diverse bearing faults.
 
-<<<<<<< HEAD
 Signal analysis of vibrations is an effective approach for diagnosing
 mechanical faults. However, identifying defects in their early stages is
 challenging due to noise from other components
@@ -401,30 +349,6 @@ vibration signals in rolling bearings, which combines dual-entropy,
 Holder coefficient, and Gray Relation Theory. This integration aims to
 boost the precision and reliability of diagnostics, achieving higher
 levels of fault detection efficiency.
-=======
-Signal analysis of vibrations is a significantly efficient approach for
-diagnosing mechanical faults. However, the identification of defects in
-their early stages poses a challenge due to the presence of noise from
-components \citep{WOS:000369301600001, WOS:000367992900001}. These
-studies introduce a fresh methodology that merges time domain analysis
-with adaptive fuzzy C-means clustering. \citet{WOS:000366765500038}
-introduces an innovative technique for assessing machinery damage,
-utilizing manifold learning principles to compute subspace distances.
-\citet{WOS:000379556300014} presents the utilization of Multivariate
-Empirical Mode Decomposition (MEMD) in diagnosing rolling bearings'
-faults. It demonstrates the effectiveness of this method in improving
-fault detection by thoroughly analyzing complex, multidimensional signal
-data. \citet{WOS:000391229300006} proposes a methodology for diagnosing
-faults in rolling element bearings by integrating Multifractal Theory
-and Gray Relation Theory. This integration is designed to improve the
-precision and reliability of fault detection and analysis, ultimately
-enhancing diagnostic results. A new approach for examining vibration
-signals in rolling bearings, which combines dual-entropy, Holder
-coefficient, and Gray Relation Theory is studied by
-\citet{WOS:000426819400027}. This integration aims to improve the
-efficiency of fault detection and analysis by leveraging these methods
-to achieve higher levels of precision and reliability in diagnostics.
->>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 
 \citet{WOS:000398818700108} discusses the Shock Pulse Index (SPI) and
 its application in diagnosing faults in rolling element bearings,
@@ -499,7 +423,6 @@ diagnostic accuracy and reliability by identifying the most relevant
 characteristics in vibration signals.
 
 An online health status estimation technique for rolling bearings based
-<<<<<<< HEAD
 on vibration signals focuses on real-time monitoring and analysis to
 evaluate bearing condition. Research shows that this method effectively
 assesses health status through continuous vibration data analysis to
@@ -519,24 +442,6 @@ method improves the accuracy of early fault identification.
 
 Another study by \citet{WOS:000450745100001}, along with
 \citet{WOS:000449334500118}, introduces a technique for detecting faults
-=======
-on vibration signals, with a focus on real-time monitoring and analysis
-for evaluating bearing condition. It is shown in the research that this
-method effectively assesses health status through continuous evaluation
-of vibration data to identify and predict potential faults
-\citep{WOS:000452922000015}. An automatic classification approach for
-bearing faults is presented by \citet{WOS:000453413600001}, utilizing
-deep learning methods that employ neural networks to examine and
-categorize fault patterns present in vibration signals. This leads to
-enhanced accuracy and efficiency in the detection and diagnosis of
-bearing faults. \citet{WOS:000452819600235} introduces a method for
-early fault diagnosis in bearings using Empirical Wavelet Transform
-(EWT) in conjunction with energy entropy. By analyzing vibration signals
-with detailed frequency decomposition and measuring the distribution of
-signal energy, this method improves the identification accuracy of early
-faults. Another study \citet{WOS:000450745100001} and
-\citet{WOS:000449334500118} introduces a technique for detecting faults
->>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 in rolling element bearings that involves segmenting vibration signals
 and applying wavelet analysis with deep neural networks. This method
 improves fault detection by segmenting signals into meaningful parts for
@@ -544,7 +449,6 @@ enhanced accuracy, using wavelet transforms for feature extraction, and
 employing deep neural networks for clustering and categorization,
 resulting in more precise identification of bearing faults.
 
-<<<<<<< HEAD
 The study by \citet{WOS:000440977000032} introduces a technique for
 extracting bearing fault features using autoregressive coefficients,
 Linear Discriminant Analysis (LDA), and Support Vector Machines (SVM)
@@ -573,32 +477,6 @@ signal features using Spectral Kurtosis, leading to improved early fault
 detection and diagnostic accuracy.
 
 \citet{hakim2023systematic} introduce an enhanced similarity-based
-=======
-The present study of \citet{WOS:000440977000032} introduces a technique
-for extracting bearing fault features using autoregressive coefficients,
-Linear Discriminant Analysis (LDA), and Support Vector Machines (SVM) in
-varying operational conditions. These methods are combined to improve
-fault detection by accurately identifying and categorizing fault
-features even amidst changing operational settings. A unique diagnostic
-approach for rolling element bearings is proposed, which integrates
-Noise-Assisted Multivariate Empirical Mode Decomposition (MEMD) with a
-Functional Neural Fuzzy Network \citep{WOS:000434717400001}. This
-integration utilizes MEMD to extract features effectively and the neural
-fuzzy network for precise fault classification, resulting in enhanced
-diagnostic precision and reliability. \citet{WOS:000426284100001}
-presents a fault diagnosis method for rolling bearings that utilizes
-Modified Local Fisher Discriminant Analysis (LFDA) and Empirical Mode
-Decomposition (EMD) along with sensitive feature selection. The
-objective is to enhance fault detection by extracting and examining
-critical features from vibration signals with improved accuracy and
-discrimination. \citet{WOS:000539546400083} details an initial fault
-diagnosis technique for rolling bearings that merges Empirical Wavelet
-Transform (EWT) with Spectral Kurtosis. The focus is on detecting
-initial faults through refined frequency analysis with EWT and
-highlighting abnormal signal features using Spectral Kurtosis, leading
-to improved early fault detection and diagnostic accuracy. Another study
-of \citet{hakim2023systematic} introduces an enhanced similarity-based
->>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 modeling approach for classifying failures in rotating machines. By
 applying advanced similarity measures to better match failure patterns,
 this method significantly improves diagnostic precision. Results
@@ -1008,11 +886,7 @@ contains all possible ordinal patterns. For example, if \(D=3\) then
 \(\{123, 132, 213, 231, 312, 321\}\) as illustrated in @ref(fig:fig\_1).
 
 \begin{figure}
-<<<<<<< HEAD
 \includegraphics{./fig_1} \caption{The number of possible patterns for the embedding dimension 3}\label{fig:fig_1}
-=======
-\includegraphics[width=11.81in,]{./fig_1} \caption{The number of possible patterns for the embedding dimension 3}\label{fig:unnamed-chunk-1}
->>>>>>> fbcf525c5ded840d987846476241d9360b1302a6
 \end{figure}
 
 \section{Methodology}\label{Methodology}

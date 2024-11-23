@@ -58,7 +58,7 @@ sum(is.na(df$FE_time))
 #sum(is.na(df$BA_time))
 
 # remove na values
-df = df[rowSums(is.na(df)) == 0, ] 
+#df = df[rowSums(is.na(df)) == 0, ] 
 
 head(df)
 
