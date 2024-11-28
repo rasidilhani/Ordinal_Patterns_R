@@ -115,3 +115,24 @@ for(ML in 0:3){
   }
 }
 #print("done!!")
+
+# calculate semilength
+ML = 3
+D = 6
+
+#for(ML in 0:3){
+#  for(D in 3:6){
+    
+    de_time_data <- df[df$Motor_load == ML, ]$DE_time
+    fe_time_data <- df[df$Motor_load == ML, ]$FE_time
+    
+    x1sub <- de_time_data
+    
+    alpha <- 0.05
+    StandardDeviations <- 0.200883324
+    SemiLength <- StandardDeviations/sqrt(length(x1sub)-D)*qnorm(1-alpha/2) 
+    
+    print(sprintf("ML: %s, D: %s, %s", ML, D, SemiLength))
+    
+#  }
+#}
