@@ -647,3 +647,6 @@ Text/Laboratory Notebook/Laboratory-Notebook_files/figure-latex/fig1-1.pdf
 *.log
 Text/Laboratory Notebook/Laboratory-Notebook.tex
 Code/.DS_Store
+.DS_Store
+Text/Publications/Conferences/2024/a0header.ps
+Text/Publications/Conferences/2024/NZSAConference.pdf
