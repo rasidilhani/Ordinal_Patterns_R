@@ -5,10 +5,12 @@ data <- read_csv("~/Library/CloudStorage/OneDrive-VictoriaUniversityofWellington
 Drive_S_DE_5 <-aggregate(data,
                    DE_time~ Motor_load,
                    FUN = sigma2q, emb=5) 
+save(file="../Results/Drive_S_DE_5.RData", Drive_S_DE_5)
 
 Drive_S_DE_6 <-aggregate(data,
                    DE_time~ Motor_load,
                    FUN = sigma2q, emb=6) 
+save(file="../Results/Drive_S_DE_6.RData", Drive_S_DE_6)
 
 Drive_S_BA_5 <-aggregate(data,
                    BA_time~ Motor_load,
