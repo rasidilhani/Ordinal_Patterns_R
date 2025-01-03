@@ -6,6 +6,7 @@
 #'
 #' @param part a partition of a time series
 #'
+#' @keywords internal
 
 ind_pos <- function(part){
   v <- sort(unique(part))

@@ -6,6 +6,8 @@
 #' @param ent type of entropy: S (Shannon, default), T (Tsallis, beta is required), R (Rényi, beta is required), or F (Fisher)
 #' @param beta parameter for the Tsallis and Rényi entropy (default 0.9)
 #'
+#' @importFrom stats pnorm
+#'
 #' @export
 #'
 

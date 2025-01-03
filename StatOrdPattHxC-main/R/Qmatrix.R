@@ -13,17 +13,17 @@
 #' @param lag the lag
 #' @returns an \eqn{m!\times m!} matrix of probabilities
 #'
-#' @export
-#' 
+#' @keywords internal
+#'
 
 Qmatrix <- function(TS, emb, lag){
-  
+
   k <- factorial(emb)
-  
+
   OP <- OPseq(TS, emb, lag)
-  
+
   Qfreq <- matrix(0, nrow = k, ncol = k)
-  
+
   for(i in 1:k){
     for(j in 1:k){
       s <- which(OP == i)
@@ -31,7 +31,7 @@ Qmatrix <- function(TS, emb, lag){
       Qfreq[i,j] <- length(r)
     }
   }
-  
+
   return(Qfreq / (length(OP) - 1))
 }
 

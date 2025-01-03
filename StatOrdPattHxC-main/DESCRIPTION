@@ -1,6 +1,6 @@
 Package: StatOrdPattHxC
 Title: Computes Statistical Properties of Features from Ordinal Patterns
-Version: 0.9
+Version: 0.1
 Authors@R: 
     c(person(given="Andrea", middle="", family="Rey", "andrea.rey@unahur.edu.ar", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9185-1382")),
@@ -10,28 +10,30 @@ Authors@R:
            comment = c(ORCID = "0000-0002-4534-1402")),
       person(given="Magdalena", middle="", family="Lucini", "lucini@exa.unne.edu.ar", role = c("aut"),
            comment = c(ORCID = "0000-0001-6615-7711")))
-Author: Andrea Rey [aut, cre],
-  Alejandro Frery [aut],
-  Juliana Gambini [aut],
-  Magdalena Lucini [aut]
-Maintainer: Andrea Rey <andrea.rey@unahur.edu.ar>
-Description: This package computes ordinal patterns from a time series, their Shannon, Tsallis, and Rényi entropies, their Fisher information measure, the asymptotic variance of these quantities, and applies a test statistic that assesses if two time series were produced by similar dynamics.
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
 Encoding: UTF-8
-Imports:
-  prodlim,
-  dplyr,
-  tibble,
-  utils
-Suggests:
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+LinkingTo: 
+    Rcpp
+Imports: 
+    dplyr,
+    Rcpp,
+    reshape2,
+    tibble,
+    utils,
+    stats,
+    prodlim
+Config/Needs/website: rmarkdown
+Suggests: 
     ggplot2,
     ggthemes,
     knitr,
     rmarkdown,
-    reshape2
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 LazyData: true
 VignetteBuilder: knitr
-License: MIT + file LICENSE

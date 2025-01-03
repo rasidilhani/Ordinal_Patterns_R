@@ -2,7 +2,8 @@
 #' a given embedding dimension, and
 #' a given entropy ent = S (Shannon), T (Tsallis, beta is required),
 #' R (Rényi, beta is required), or F (Fisher information measure)
-
+#'
+#' @name entropicTest
 #' @param TSx a time series
 #' @param TSy another time series
 #' @param emb the embedding dimension

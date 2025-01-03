@@ -5,10 +5,11 @@
 #' @param emb embedding dimension \eqn{m}
 #' @returns a sequence of \eqn{n} patterns
 #'
+#' @name OPprob
+#'
 #' @import tibble
 #' @import dplyr
 #' @import prodlim
-#' @importFrom stats pnorm
 #'
 #' @export
 #'

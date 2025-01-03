@@ -3,6 +3,7 @@
 #'
 #' @param v a vector \eqn{0, 1, \dots , m-1}
 #'
+#' @keywords internal
 
 perm <- function(v) {
   n <- length(v)
