@@ -1,20 +1,36 @@
 \chapter{Introduction}\label{C:intro}
 
-This proposal introduces the use of permutation entropy within the ordinal patterns complexity plane for time series analysis. The concept of order patterns from the time series is introduced by Bandt and Pompe \cite{PhysRevLett.88.174102}. 
+This proposal introduces the use of permutation entropy
+%%% ACF Only PE?
+within the ordinal patterns complexity plane for time series analysis. 
+%%% ACF Rewrite
+The concept of order patterns from time series is introduced by Bandt and Pompe \cite{PhysRevLett.88.174102}. 
 
 Time series analysis is widely applied across various fields, including engineering, economics, physical sciences, and more. A time series is defined as a collection of observations ${x_t}$, each representing a realized value of a particular random variable $X_t$, where time can be either discrete or continuous.
 
 Examples of time series applications include finance (e.g., analyzing exchange rate movements or commodity prices), biology (e.g., modeling the growth and decline of bacterial populations), medicine (e.g., tracking the spread of diseases like COVID-19 or influenza), and geoscience (e.g., predicting wet or dry days based on past weather conditions).
 
-The primary goal of time series analysis is to understand the nature of the phenomenon represented by the observed sequence. Time domain and frequency domain methods are the two primary approaches used in time series analysis. The time domain approach relies on concepts such as auto-correlation and linear regressions, where a time series' present value is analyzed in relation to its own past values or the past values of other series. This method represents time series directly as a function of time. On the other hand, the frequency domain approach represents time series through spectral expansions, such as wavelets or Fourier modes. However, these methods often require assumptions such as large sample sizes or normally distributed observations that are rarely met in real-world empirical data. For many statistical techniques to be valid, these assumptions must hold, but in practice, they are frequently violated.
+The primary goal of time series analysis is to understand the nature of the phenomenon represented by the observed sequence. Time domain and frequency domain methods are the two primary approaches used in time series analysis. The time domain approach relies on concepts such as auto-correlation and regressions, where a time series' present value is analyzed in relation to its own past values or the past values of other series. This method represents time series directly as a function of time. On the other hand, the frequency domain approach represents time series through spectral expansions, such as wavelets or Fourier modes. 
+However, these methods 
+%%% ACF Spectral, temporal or both? Citation
+often require assumptions such as large sample sizes or normally distributed observations that are rarely met in real-world empirical data. For many statistical techniques to be valid, these assumptions must hold, but in practice, they are frequently violated.
 
 As a result, alternative methods, often referred to as non-parametric techniques, must be considered. These methods rely on the rank $R_t$ of the observations $x_t$ rather than their actual values, making them robust and applicable to a wide range of data sets. Since non-parametric tests do not assume a normal distribution, they are highly reliable. For example, the Kruskal-Wallis $H$ test and the Wilcoxon test are effective tools for comparing two or more population probability distributions from independent random samples. However, these techniques are not always suitable for time series data, which often require specialized methods tailored to their unique characteristics.
 
-However, traditional methods often encounter difficulties when dealing with nonlinear or nonstationary data, which are prevalent in real-world scenarios such as machine diagnostics. To overcome these challenges, ordinal pattern methods offer a robust alternative. Instead of analyzing the absolute values of a time series, ordinal patterns focus on the order relationships between consecutive data points. This approach effectively captures the underlying dynamics of complex systems and provides several advantages. 
+However, traditional methods often encounter difficulties when dealing with nonlinear or nonstationary data, which are prevalent in real-world scenarios such as machine diagnostics. 
+%%% ACF The problems of traditional approaches should be discussed before non-parametric techniques
+To overcome these challenges, ordinal pattern methods offer a robust alternative. Instead of analyzing the absolute values of a time series, ordinal patterns focus on the order relationships between consecutive data points. This approach effectively captures the underlying dynamics of complex systems and provides several advantages. 
 
-In the context of machine diagnostics, ordinal pattern methods enable efficient detection of anomalies or changes in operational conditions, facilitating more accurate identification of malfunctioning machines. This makes ordinal patterns a valuable and practical addition to the toolkit for time series analysis, particularly when traditional methods fall short.
+In the context of machine diagnostics, ordinal pattern methods enable efficient detection of anomalies or changes in operational conditions, facilitating more accurate identification of malfunctioning machines. 
+%%% ACF Give a broader context and application. Machine diagnosis is just your starting point
+This makes ordinal patterns a valuable and practical addition to the toolkit for time series analysis, particularly when traditional methods fall short.
 
-We propose using ordinal patterns derived from non-parametric time series data instead of relying on their actual values. This approach involves comparing the values of the series at $n$ equally spaced time points $t, t+\tau, ..., t+(n-1)\tau$ to determine the corresponding order patterns. Here $\tau$, serves as a scale parameter, allowing us to analyze the series at different scales.
+%%% ACF Rewrite this as an introduction to ordinal pattern analysis
+We propose using ordinal patterns derived from non-parametric time series data instead of relying on their actual values. 
+%%% ACF Rephrase
+This approach involves comparing the values of the series at $n$ equally spaced time points $t, t+\tau, ..., t+(n-1)\tau$ 
+%%% ACF Use \dots
+to determine the corresponding order patterns. Here $\tau$, serves as a scale parameter, allowing us to analyze the series at different time scales.
  
 To illustrate this concept, consider a set of observations $\{x_t\}^T_{t=1}$. Instead of focusing on the magnitude of the values, we utilize only the order relationships, such as $x_t< x_s$ or $x_t >x_s$ assuming that $x_t \in \mathbb{R}$. For simplicity, cases where  $x_t =x_s,$ for $t\neq s$ are treated separately or excluded.   
 
@@ -30,6 +46,7 @@ Expanding this analysis to a larger group allows us to observe even more diverse
 	\includegraphics[width=0.6\textwidth]{foodpreference}
 	\caption{Food preference for two people}
 \end{figure}
+%%% ACF Remove lines that carry no meaning
 
 The concept of ordinal patterns in time series can be effectively demonstrated through a real-world example. Traditionally, numerous algorithms, techniques, and heuristics have been utilized to estimate complexity measures from real-world data. However, these methods often prove effective only for low-dimensional dynamical systems and struggle to perform well when noise is introduced into the data.
 
