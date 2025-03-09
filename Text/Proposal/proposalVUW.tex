@@ -1,4 +1,5 @@
 \documentclass[12pt, oneside, a4paper]{book}
+
 \usepackage[pdftex]{graphicx}
 \usepackage{tikz-cd}
 \usepackage{bm}
@@ -38,10 +39,35 @@
 \supervisor{Alejandro C.\ Frery}
 	
 \subject{Data Science}
-\abstract{This proposal provides a brief introduction to ordinal patterns and a literature review related to the Bandt \& Pompe research article. After reviewing the literature on ordinal patterns and permutation entropy, we can conclude that ordinal patterns play an important role in conducting research. Bandt \& Pompe proposed analyzing time series from the perspective of ordinal patterns to develop fast and automated methods for extracting qualitative information from nonlinear time series. They introduced the concept of permutation entropy to measure the complexity of a system underlying a time series while taking into account the ordering patterns that represent variations in the data. In this report I show how to use data to extract all ordinal patterns. First, I use the sample dataset to calculate their ordinal patterns with embedding dimension 3; I use letters to convert time series data into patterns. Secondly, I get the histogram on the data. And third, calculate the permutation entropy and statistical complexity. Next, determine the confidence interval of H without and with time dependence and finally the confidence interval of C.
+\abstract{This proposal provides a brief introduction to ordinal patterns and a literature review related to the Bandt \& Pompe research article. 
+After reviewing the literature on ordinal patterns and permutation entropy, 
+%%% ACF Didn't you consider the Complexity?
+we can conclude that ordinal patterns play an important role in conducting research. 
+Bandt \& Pompe proposed analyzing time series from the perspective of ordinal patterns to develop fast and automated methods for extracting qualitative information from nonlinear time series. 
+They introduced the concept of permutation entropy to measure the complexity 
+%%% ACF The sentence above may confuse the reader: does the PE measure the complexity?
+of a system underlying a time series while taking into account the ordering patterns that represent variations in the data. 
+In this report I show how to use data to extract all ordinal patterns. 
+%%% ACF You show more than the mere extraction
+First, I use the sample dataset to calculate their ordinal patterns with embedding dimension 3; 
+%%% ACF The reader doesn't know what the embedding dimension is
+I use letters to convert time series data into patterns.
+Secondly, I get the histogram on the data. 
+%%% ACF No, you don't; you compute the histogram of symbols
+And third, calculate the permutation entropy and statistical complexity. 
+Next, determine the confidence interval of H 
+%%% ACF Always use mathematical notation. What is H? What is this time dependence?
+without and with time dependence and finally the confidence interval of C.
 		
-Bandt and Pompe's ordinal pattern methodology has been widely used to investigate the latent dynamics of time series through their entropy, also known as permutation entropy. Nevertheless, there are no theoretical findings regarding the distribution of the permutation entropy, which needs to take the correlation effect between patterns into account. Considering that our approximation ignores the series dependence between symbols and that the asymptotic distribution of the permutation entropy is Normal %\cite{Rey2023}, \cite{Rey2023a}%. 
-We compare this result with the Multinomial sample entropy with embedding dimension 3, which assumes independence, and find that the expression of the asymptotic variance becomes more complex as the embedding dimension increases. After that, a hypothesis test is developed and used to differentiate between the bearing fault diagnoses for four distinct rotating machines.}	
+Bandt and Pompe's ordinal pattern methodology has been widely used to investigate the latent dynamics of time series through their entropy, also known as permutation entropy. 
+Nevertheless, there are no theoretical findings regarding the distribution of the permutation entropy, which needs to take the correlation effect between patterns into account. 
+Considering that our approximation ignores the series dependence between symbols and that the asymptotic distribution of the permutation entropy is Normal %\cite{Rey2023}, \cite{Rey2023a}%. 
+%%% ACF The sentence above is incomplete. What is "your" approximation?
+%%% ACF In the sentence below, what is the "multinomial sample entropy"?
+We compare this result with the Multinomial sample entropy with embedding dimension 3, which assumes independence, and find that the expression of the asymptotic variance becomes more complex as the embedding dimension increases. 
+After that, a hypothesis test is developed and used to differentiate between the bearing fault diagnoses for four distinct rotating machines.}	
+%%% ACF Do you differentiate "bearing fault diagnoses"?
+
 % Books don't normally have abstracts, and this is a bit of a hack
 	
 % Uncomment the appropriate degree
