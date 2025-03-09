@@ -138,46 +138,7 @@ We construct the histogram of proportions $h=(h_1,h_2,h_3,h_4,h_5,h_6)$, where e
 \end{figure}
 
 
-\section*{Complexity Analysis in Time Series: Advantages and Limitations}
 
-While this method effectively captures the ordinal relationships among data points, it has some drawbacks. Notably, it disregards the amplitude information of the time series. Additionally, in high-dimensional chaotic systems, classifying data using the complexity-entropy plane can be challenging or even misleading, as both high-dimensional deterministic time series and stochastic surrogate data may occupy similar regions in the plane.
-
-Despite this limitation, integrating statistical complexity measures such as those derived from the complexity-entropy plane provides a powerful framework to complement ordinal pattern analysis. These measures quantify deviations from uniformity in the distribution of ordinal patterns, enabling a deeper characterization of the underlying dynamics. By combining permutation entropy with statistical complexity, researchers can more effectively distinguish between stochastic signals and deterministic chaos, offering a nuanced perspective on the structure and randomness of time series data.
-
-\section*{The Bandt and Pompe Method: A Robust Approach}
-
-The concept of ordinal patterns in time series can be effectively demonstrated through real world examples. Traditionally, numerous algorithms, techniques, and heuristics have been employed to estimate complexity measures from real world data. However, these methods often perform well only for low dimensional dynamical systems and struggle when noise is introduced.
-
-The Bandt and Pompe method overcomes this limitation by providing a robust approach that remains reliable even in noisy environments. In time series analysis, key complexity measures such as entropy, fractal dimension, and Lyapunov exponents play a crucial role in comparing neighboring values and uncovering the underlying structure and dynamics of the data.
-
-The advantages of Bandt \& Pompe methods:
-\begin{itemize}
-	\item Simplicity
-	\item Extremely fast calculation
-	\item Robutness
-	\item Invariance to nonlinear monotonous transformations
-\end{itemize}	
-
-This method exhibits low sensitivity to noise and naturally accounts for the causal order of elements in a time series. As a result, it can be applied to various real-world problems, particularly in differentiating between chaotic and stochastic signals.
-
-Despite its limitations, researchers have developed extensions to the original method to address its shortcomings and enhance its applicability to a broader range of complex systems.
-
-\section*{Statistical Complexity measures}
-
-After Bandt and Pompe introduced a successful method for analyzing time series, Rosso \cite{Rosso2007} expanded on this approach by incorporating statistical complexity derived from the same histogram of causal patterns. This method, which utilizes the complexity-entropy plane, has been successfully applied to various dynamic regimes including, system parameter change \cite{Cao2004,Bandt2005,Kowalski2007,Zunino2010a,Rosso2010a,Kowalski2011b,Zunino2012a, DeMicco2012a}, optical chaos \cite{Soriano2011a,Zunino2011a,Toomey2014,Yang2015e,Liu2016f}, hydrology \cite{Lange2013,Serinaldi2014,Stosic2016}, geophysics \cite{Consolini2014,Saco2010,Sippel2016}, engineering \cite{Yan2012,Aquino2015,Aquino2017,Redelico2017a}, biometrics \cite{Rosso2016}, characterization of pseudo-random number generators \cite{DeMicco2008,DeMicco2009}, biomedical signal analysis \cite{Zanin2012,Li2007,Li2008b,Parlitz2012,Morabito2012,Li2014b,Montani2014,Montani2014a,Liang2015b,Montani2015a,Montani2015}, econophysics \cite{Zanin2012,Zunino2010,Zunino2009, Bariviera2015a,Bariviera2015,Bariviera2016,Zunino2016a}.
-
-
-
- 
-
-However, despite the widespread use of ordinal patterns to study the latent dynamics of time series through permutation entropy, there are no established theoretical results concerning the distribution of permutation entropy that account for the correlation effects between patterns. Nonetheless, Rey et al. \cite{Rey2023a} demonstrated that the asymptotic distribution of permutation entropy is normal. They compared their findings with those of multinomial sample entropy, which assumes independence between patterns. Notably, the expression for the asymptotic variance becomes increasingly complex as the embedding dimension increases. 
-
-This proposal has three objectives in order to continue this research work.
-\begin{itemize}
-	\item Define a data base of time series for clustering, i.e., finding similar time series. 
-	\item Extract all the features we know from their Bandt \& Pompe symbolization (Shannon, Tsallis and Renyi entropies, Fisher information measure, complexities, and the available confidence intervals)
-	\item Use those features for time series clustering 
-\end{itemize} 
 
 
 
