@@ -1,6 +1,170 @@
 \chapter{The Research Project}\label{C:aim}
 
-In this chapter, we will explain the main ideas and the objectives of this research project.
-\section{Complexity Plane}
+In this chapter, we outline the main ideas and objectives of this research project. Section One discusses complexity analysis in time series, highlighting its advantages and limitations. Section Two examines the limitations of the Bandt and Pompe method. Section Three provides background knowledge on the statistical complexity plane. Section Four explores the entropy-complexity plane for a broad class of time series. Section five provides the asymptotic distribution of the entropy. Finally, the chapter concludes with the objectives of the research project and a case study related to our work.
 
+\section*{Complexity Analysis in Time Series: Advantages and Limitations}
+
+While this method effectively captures ordinal relationships between data points, it has notable drawbacks. First, it ignores amplitude information in the time series. Second, classifying data via the complexity-entropy plane becomes challenging (or even misleading) in high-dimensional chaotic systems, as both deterministic chaotic time series and stochastic surrogate data may occupy overlapping regions within the plane.
+
+Despite these limitations, integrating statistical complexity measures—such as those derived from the complexity-entropy plane—offers a robust framework to enhance ordinal pattern analysis. These measures quantify deviations from uniform ordinal pattern distributions, enabling a more nuanced characterization of dynamical processes. By combining permutation entropy with statistical complexity, researchers gain a refined tool to differentiate stochastic signals from deterministic chaos, thereby revealing intricate structural patterns and degrees of randomness in time series data.
+
+\section*{The Bandt and Pompe Method: A Robust Approach}
+
+The concept of ordinal patterns in time series can be effectively demonstrated through real world examples. Traditionally, numerous algorithms, techniques, and heuristics have been employed to estimate complexity measures from real world data. However, these methods often perform well only for low dimensional dynamical systems and struggle when noise is introduced.
+
+The Bandt and Pompe method overcomes this limitation by providing a robust approach that remains reliable even in noisy environments. In time series analysis, key complexity measures such as entropy, fractal dimension, and Lyapunov exponents play a crucial role in comparing neighboring values and uncovering the underlying structure and dynamics of the data.
+
+The advantages of Bandt \& Pompe methods:
+\begin{itemize}
+	\item Simplicity
+	\item Extremely fast calculation
+	\item Robutness
+	\item Invariance to nonlinear monotonous transformations
+\end{itemize}	
+
+This method exhibits low sensitivity to noise and naturally accounts for the causal order of elements in a time series. As a result, it can be applied to various real-world problems, particularly in differentiating between chaotic and stochastic signals.
+
+Despite its limitations, researchers have developed extensions to the original method to address its shortcomings and enhance its applicability to a broader range of complex systems.
+
+\section*{Statistical Complexity measures}
+
+After Bandt and Pompe introduced a successful method for analyzing time series, Rosso \cite{Rosso2007} expanded on this approach by incorporating statistical complexity derived from the same histogram of causal patterns. This method, which utilizes the complexity-entropy plane, has been successfully applied to various dynamic regimes including, system parameter change \cite{Cao2004,Bandt2005,Kowalski2007,Zunino2010a,Rosso2010a,Kowalski2011b,Zunino2012a, DeMicco2012a}, optical chaos \cite{Soriano2011a,Zunino2011a,Toomey2014,Yang2015e,Liu2016f}, hydrology \cite{Lange2013,Serinaldi2014,Stosic2016}, geophysics \cite{Consolini2014,Saco2010,Sippel2016}, engineering \cite{Yan2012,Aquino2015,Aquino2017,Redelico2017a}, biometrics \cite{Rosso2016}, characterization of pseudo-random number generators \cite{DeMicco2008,DeMicco2009}, biomedical signal analysis \cite{Zanin2012,Li2007,Li2008b,Parlitz2012,Morabito2012,Li2014b,Montani2014,Montani2014a,Liang2015b,Montani2015a,Montani2015}, econophysics \cite{Zanin2012,Zunino2010,Zunino2009, Bariviera2015a,Bariviera2015,Bariviera2016,Zunino2016a}.
+
+After computing all symbols as described in Chapter 1, the histogram proportions are used to estimate the probability distribution of ordinal patterns. From this distribution, two key descriptors are calculated to characterize the time series:
+\begin{enumerate}
+\item Entropy (a measure of system disorder)
+
+\item Statistical complexity
+\end{enumerate}
+The most common metric for the first descriptor is the normalized Shannon entropy, defined as:
+
+\begin{equation}
+	H(\mathbf{p})=-\dfrac{1}{k}\sum^{k}_{j=1}p_j \ln{p_j}
+\end{equation}
+
+Here, $D!$ represents the total number of possible permutation patterns, and terms in the summation where $p_j$ are excluded by convention. This entropy is bounded within the unit interval.
+
+\begin{itemize}
+\item It reaches its minimum value $(H=0)$ when a single pattern dominates  for some $p_j=1$ for some $j$ 
+\item It achieves its maximum $(H=1)$ under uniform probability $p_j=1/D!$ for all $j$ for all. 
+\end{itemize}
+
+This normalized entropy is often termed permutation entropy in time series analysis. 
+
+While normalized Shannon entropy is a powerful tool for quantifying disorder, it fails to fully characterize complex dynamics. To address this limitation, López-Ruiz et al (\cite{lopez1995statistical}) introduced the disequilibrium $Q$ concept, which quantifies the deviation of a probability distribution $\mathbf{p}$ from a uniform (non-informative) equilibrium state. Specifically, disequilibrium measures the Euclidean distance between $\mathbf{p}$ and the uniform distribution, providing a complementary metric to Shannon entropy for assessing structural complexity in systems.
+
+The Jensen-Shannon distance ($D$) between histogram of proportion $\mathbf{p}$ and the uniform probability function $\mathbf{u}=u_1,u_2,\dots, u_k$, where $k=D!$ corresponds to the number of possible permutation patterns—provides a robust metric for quantifying deviations from uniformity. This distance measure, derived from the symmetric Jensen-Shannon divergence, is particularly suited for analyzing ordinal pattern distributions due to its ability to capture both structural differences and statistical equilibrium in time series data.
+Here is the formula for $D$:
+\begin{equation}
+	D(\mathbf{p,u})=\sum^k_{l=1} p_l\log\dfrac{p_l}{u_l}+u_l\log\dfrac{u_l}{p_l}
+\end{equation}
+
+Lamberti et al. \cite{lamberti2004intensive} proposed Jensen-Shannon distance as a symmetric metric rooted in the Jensen-Shannon divergence. As the reference model, most works consider the uniform distribution $\mathbf{u}=(1/k,1/k, \dots, 1/k)$. The normalized disequilibrium is defined as follows
+
+\begin{equation}
+	Q=\dfrac{D}{max{(D)}}
+\end{equation}
+
+where $max(D)$ is defined as follows
+\begin{equation}
+	max(D)=-2 \left[\dfrac{k+1}{k}\log(k+1)-2\log(2k)+\log k\right]
+\end{equation}
+
+After this concept, Lamberti et al. \cite{lamberti2004intensive} proposed \textbf{Statistical Complexity Measure} which is defined as 
+\begin{equation}
+	C=HQ
+\end{equation}
+where both $H$ and $Q$ are normalized quantities, therefore $C$ is also normalized. 
+  
+\section{The Entropy Complexity Plane}
+The complexity-entropy plane is a two-dimensional representation where time series are mapped based on their permutation entropy and statistical complexity. These metrics are derived from ordinal pattern distributions obtained through time-delay embedding—a technique involving:
+\begin{itemize}
+	\item Embedding dimension $D:$ Determines the number of permutation patterns $D!$ used to construct histograms.
+	\item Time delay $(\tau):$ Often optimized for specific applications (e.g., mutual information minimization)  
+\end{itemize} 
+
+\subsection{Key Dynamics in the plane}
+\begin{enumerate}
+	\item Highly Ordered Systems
+	
+	Example: Strictly monotonic time series.
+	\begin{itemize}
+		\item Produces a single ordinal pattern $(H=0)$.
+		
+		\item Maximal disequilibrium (distance from uniform distribution).
+		
+		\item Maps to $(0,0),$ indicating minimal complexity.
+	\end{itemize}
+	
+	\item Perfectly Random Systems
+	
+	Example: White noise
+	\begin{itemize}
+		\item Uniform ordinal pattern distribution $(H=1)$.
+		\item Disequilibrium vanishes (distance $=0)$.
+		\item Maps to $(1,0),$ reflecting maximal entropy without structural complexity.
+	\end{itemize}
+\end{enumerate}
+The two extreme values are proved by Anteneodo \& Plastino \cite{anteneodo1996some}.Expressions for the boundaries, derived using geometrical arguments within space configurations, were proposed by Martin et al. \cite{Martin2006}. These formulations provide a structured approach to understanding and analyzing the spatial behavior of specific systems or models. The lower boundary is characterized by a smooth curve, whereas the upper boundary consists of $D!-1$ distinct segments. As the embedding dimension $D$ approaches infinity, the upper boundary gradually converges into a smooth curve. 
+
+\section {Asymptotic Distribution of the Shannon Entropy}
+
+The normalized Shannon entropy, often employed in applications like permutation entropy, can be rigorously connected to its asymptotic distribution through the lens of statistical estimation theory. When estimating entropy from finite data, the plug-in estimator (computed directly from observed frequencies) converges to a normal distribution as the sample size $N\longrightarrow \infty$ even for dependent processes such as Markov chains. This asymptotic normality, demonstrated by Martin et al \cite{PhysRevE.103.022215}. and Chagas et al \cite{Chagas2022}., ensures that the estimator’s fluctuations around the true entropy value are Gaussian-distributed, with variance and bias determined by the underlying system’s dynamics. For normalized entropy $H \in [1]$, this asymptotic behavior persists, enabling statistical inference such as confidence intervals or hypothesis tests to validate entropy-based hypotheses (e.g., distinguishing chaos from noise). Crucially, the convergence rate and limiting distribution depend on the system’s correlation structure—deviating from the multinomial case—but remain tractable via spectral analysis of the transition matrix or ordinal pattern distributions \cite{PhysRevE.103.022215,Chagas2022}. This connection underscores the reliability of normalized entropy measures in large-data regimes while highlighting the need to account for dependence structures in finite-sample applications.
+
+However, despite the widespread use of ordinal patterns to study the latent dynamics of time series through permutation entropy, there are no established theoretical results concerning the distribution of permutation entropy that account for the correlation effects between patterns. Nonetheless, Rey et al. \cite{Rey2023a} demonstrated that the asymptotic distribution of permutation entropy is normal. They compared their findings with those of multinomial sample entropy, which assumes independence between patterns. Notably, the expression for the asymptotic variance becomes increasingly complex as the embedding dimension increases. 
+
+Imagine a sequence of $n$ independent trials, each resulting in precisely one outcome from a set of $k$ distinct possibilities labeled $\pi^1,\pi^2, \dots, \pi^k$ and so on. These outcomes are mutually exclusive, meaning only one can occur per trial, with respective probabilities $\bm{p}={\left\{p_1,p_2,\dots,p_k\right\}}$, such that $p_l \geq 0$ and $\sum^{k}_{l=1} {p_l =1}.$ The random vector $\bm{N}=(N_1,N_2,\dots, N_k)$ counts the number of occurrences of the events $\pi^1,\pi^2, \dots, \pi^k$ in the $n$ trials, with $N_l \geq0$ and $\sum^{k}_{l=1} {N_l =n}.$ A $\bm{n}$ is a sample from $\bm{N}$ and it has a $k-$variate vector of integer values $\bm{n}=(n_1,n_2,\dots,n_k).$ Then the joint distribution of $\bm{N}$ is 
+
+\begin{equation}
+	Pr(\bm{N=n})=Pr(N_1=n_1,N_2=n_2, \dots,N_k=n_k)=n!\prod_{l=1}^{k}\frac{{p_l}^{n_l}}{n_l !}
+\end{equation}   
+
+This situation is denoted as $\bm{N}\sim \text{Mult}(n,\bm{p}).$ \cite{Rey2023}
+   
+      
+In practical applications, the true probability distribution $\bm{p}$ governing a multinomial system is typically unknown. Instead, estimators $\widehat{p}_l,$ are derived empirically by calculating the observed frequency of each event $\pi^l$ within the set of $k$ possible outcomes $\bm{\pi}=\pi^1,\pi^2, \dots, \pi^k$  across $n$ independent trials. These frequencies approximate the underlying probabilities, enabling inference about the system’s behavior. This maximum likelihood estimator (MLE) aligns with the empirical estimator derived from first-moment matching of the distribution. Due to its consistency, asymptotic normality, and computational tractability under regularity conditions, it remains the predominant choice in applied statistical modeling.
+
+Shannon entropy quantifies the level of disorder within a system. When the system's behavior is entirely predictable, the Shannon entropy reaches its minimum, indicating complete knowledge of future observations. Conversely, when the system follows a uniform distribution where all possible outcomes have equal probability—the entropy is maximized, reflecting minimal knowledge about the system's behavior. Chagas et al. \cite{Chagas2022} have analyzed the asymptotic distribution of Shannon entropy in their study. 
+
+Shannon entropy $H$, in the distribution of $H(\bm{p})$ indexed by $\widehat{\bm{p}},$ the maximum likelihood estimator of $\bm{p}$. The distribution of $H(\widehat{\bm{p}})$ are defined as follows. 
+
+\begin{equation}
+	H_s(\widehat{\bm{p}})=-\sum_{l=1}^{k}\widehat{p_l} \log\widehat{p_l}
+\end{equation} 
+
+Moreover, other types of descriptors, such as Rényi entropy\cite{renyi1961measures}, Tsallis entropy\cite{tsallis1988possible}, and Fisher information \cite{frieden2004science}, have been proposed to extract additional information that is not captured by Shannon entropy.
+From these entropy measures, Fisher information has garnered more attention due to its unique properties. Fisher information is defined as the average logarithmic derivative of a continuous probability density function.
+
+For discrete probability distributions, Fisher information can be approximated by calculating the differences between probabilities of consecutive distribution elements. A key distinction between Shannon entropy and Fisher information lies in their focus: Shannon entropy quantifies the overall unpredictability of a system, while Fisher information measures the rate of change between consecutive observations, making it more sensitive to small changes and perturbations.
+
+The following equations define Tsallis entropy $	(H_{T}^{q}(\widehat{\bm{p}}))$, Rényi entropy $(H_{R}^{q}(\widehat{\bm{p}}))$, and Fisher information measures $(H_{F}(\widehat{\bm{p}}))$ \cite{sanchez2009discrete} :
+
+\begin{equation}
+	H_{T}^{q}(\widehat{\bm{p}})=\sum_{l=1}^{k}\dfrac{\widehat{p_l}-\widehat{p_l}^q}{q-1},
+\end{equation}
+where the index $q\in \mathbb{R}\backslash \{1\}$
+
+\begin{equation}
+	H_{R}^{q}(\widehat{\bm{p}})=\dfrac{1}{1-q} \log \sum_{l=1}^{k}{\widehat{p_l}}^q,
+\end{equation}
+where the index $q\in \mathbb{R}^{+}\backslash \{1\}$
+
+\begin{equation}
+	H_F(\widehat{\bm{p}})=F_0\sum_{l=1}^{k-1}(\sqrt{\widehat{p_l}+1}-\sqrt{\widehat{p_l}})^2
+\end{equation}
+where the re-normalization coefficient is $F_0=4$ \cite{sanchez2009discrete}
+
+The main results of the asymptotic distribution of the Shannon, Tsallis, Rényi entropy, and Fisher information are defined as follows \cite{Rey2023}. 
+
+For any $k-$dimensional multivariate normal distribution $\bm{Z}\sim \normalsize N(\bm{\mu},\sum),$ with $\mu \in \mathbb{R}^k$ and covariance matrix $\sum=(\sigma_{lj})$, holds that the distribution of $W=\bm{a}^T\bm{Z},$ with $\bm{a} \in \mathbb{R}^k,$ is $N(\bm{a}^T\bm{\mu},\sum_{l=1}^{k}a_l^2 \sigma_{ll}+2\sum_{j=1}^{k-1}\sum_{l=j+1}^{k} a_la_j\sigma_{lj})$. 
+
+\begin{equation}
+	H_s(\widehat{\bm{p}})=-\sum_{l=1}^{k}\widehat{p_l}\log\widehat{p_l}
+\end{equation}
+
+\begin{equation}
+	\widehat{\sigma}^2=\dfrac{1}{n}\sum_{l=1}^{k}p_l(1-p_l)(\log p_l+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{l=j+1}^{k}p_lp_j(\log p_l+1)(\log p_j+1)
+\end{equation}
+	   
+ 
 
