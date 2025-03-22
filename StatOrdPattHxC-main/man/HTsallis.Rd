@@ -16,7 +16,7 @@ a value in \eqn{[0,1]}
 }
 \description{
 Given a probability function \eqn{\bm p=(p_1,p_2,\dots,p_k)}, its
-Tsallis entropy with index \eqn{\beta \in \mathbbm{R}\setminus\{1\}}$ is
+Tsallis entropy with index \eqn{\beta \in \mathbb{R}\setminus\{1\}}$ is
 \deqn{
 S^{(T_{\beta})}[\bm p] = \sum_{i=1}^k \frac{p_i - p_i^\beta}{\beta-1}.}
 }

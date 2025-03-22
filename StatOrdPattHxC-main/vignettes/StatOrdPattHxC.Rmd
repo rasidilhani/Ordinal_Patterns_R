@@ -92,7 +92,7 @@ ggplot(OPprobabilities, aes(x=index, y=value)) +
   theme(legend.position = "none")
 ```
 
-# Computing entropies
+# Entropies and their statistical properties
 
 This package currently has three entropies and the Fisher information measure. The input for computing all flavours of entropies, as well as the Fisher information measure, is a histogram. We will use the histograms computed in the previous step.
 
@@ -110,11 +110,11 @@ HRenyi(OPprobs.x1, beta=1.8)
 HFisher(OPprobs.x1)
 ```
 
-# Computing variances
+## Computing entropies variances
 
 We will compute the asymptotic variances of the first $1000$ observations from each time series.
 
-```{r AsymptoticVariances, echo=FALSE}
+```{r AsymptoticVariances, echo=TRUE}
 # Matrix that stores the variances
 Variances <- matrix(nrow=3, ncol=4)
 
@@ -143,7 +143,7 @@ knitr::kable(Variances, digits = 4, format.args = list(scientific = TRUE),
              caption = "Asymptotic variances")
 ```
 
-# Applying tests
+## Applying tests on the entropies
 
 Applying the test for same permutation entropy is straightforward:
 
@@ -153,7 +153,7 @@ entropicTest(wn, x1, emb=4, ent="S") # Time series with different structure
 entropicTest(x1, x2, emb=4, ent="S") # Time series with same structure
 ```
 
-# Visualisation
+## Visualisation of confidence intervals for entropies
 
 The package provides the lower and upper bounds of points in the Entropy-Complexity plane for embedding dimensions between $3$ and $6$.
 
@@ -200,7 +200,7 @@ StatisticalComplexities <- c(
   StatComplexity(OPprob(x2sub, emb=D))
   )
 
-alpha <- 0.05 
+alpha <- 0.05
 StandardDeviations <- sqrt(Variances[,1])
 SemiLength <- StandardDeviations/sqrt(length(wnsub)-D)*qnorm(1-alpha/2) 
   # The three time series have the same length, but they could be different
@@ -222,6 +222,57 @@ ggplot(subset(LinfLsup, Side=="Lower" & Dimension==as.character(D)),
   geom_errorbarh(data=HCPoints, aes(xmin=H-SemiLength, xmax=H+SemiLength, group=Series, col=Series)) +
   coord_cartesian(xlim=c(0.925, 1), ylim=c(0, 0.13)) +
   theme_tufte()
+```
+
+# Statistical Complexity
+
+We have an approximate expression for the Statistical Complexity's distribution under the 
+Multinomial model, i.e., for independent patterns.
+This approximation is built upon the asymptotic distribution of the Shannon Entropy 
+under the Multinomial law, and may be used with care for ordinal patterns stemming
+from the Bandt & Pompe symbolisation.
+The preprint with details is available [here](https://dx.doi.org/10.2139/ssrn.5073738).
+
+This approximate distribution is normal with mean $\mu_C$ and variance $\sigma^2_C$.
+The functions \verb|meanC| and \verb|varC| compute these quantities using a probability
+function and the number of trials as inputs.
+
+We will use in the following example the Ordinal Patterns probabilities computed
+on the two moving averages (\verb|x1| and \verb|x2|) and a white noise (\verb|wn|)
+previously defined.
+These series have $5000$ observations.
+We already have the histograms from their ordinal patterns of dimension $4$.
+
+We show now an experiment in which we simulated $R$ time series occurrences following a Multinomial model.
+
+```{r ComplexityExampleMultinomialModel}
+
+set.seed(1234567890, kind="Mersenne-Twister")
+p <- 1:20
+p <- p/sum(p)
+
+R <- 300
+size <- 10000
+
+AsymptoticParameters <- data.frame(
+  AsymptoticMean = meanC(p, size),
+  AsymptoticStd = sqrt(varC(p, size))
+)
+
+Observations <- rmultinom(R, size = size, prob=p)
+Proportions <- apply(X=Observations, MARGIN=2, FUN = function(x) x/sum(x))
+
+Complexities <- apply(X=Proportions, MARGIN=2, FUN=StatComplexity)
+
+ggplot(data.frame(Complexities), aes(x=Complexities)) +
+  geom_histogram(aes(y=after_stat(density)),
+                 fill="white", col="black",
+                 bins=nclass.FD(as.vector(Complexities))) +
+  stat_function(fun=dnorm,
+    args=list(mean=AsymptoticParameters$AsymptoticMean, sd=AsymptoticParameters$AsymptoticStd)) +
+  ylab("Histogram and Asymptotic distribution") +
+  theme_tufte()
+
 ```
 
 # Future improvements

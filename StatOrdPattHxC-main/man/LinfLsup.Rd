@@ -18,6 +18,8 @@ A data frame with 184936 rows and 4 variables:
 }
 \source{
 \url{https://dx.doi.org/10.1016/j.physa.2005.11.053}
+
+Check this package's vignette for an example.
 LinfLsup
 }
 \usage{

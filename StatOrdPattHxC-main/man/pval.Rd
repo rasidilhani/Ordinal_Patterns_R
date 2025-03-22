@@ -4,7 +4,7 @@
 \alias{pval}
 \title{Function that computes the p-value of the hypothesis test for two time series}
 \usage{
-pval(TSx, TSy, emb, ent, beta)
+pval(TSx, TSy, emb, ent = "S", beta = 0.9)
 }
 \arguments{
 \item{TSx}{a time series}
@@ -13,9 +13,9 @@ pval(TSx, TSy, emb, ent, beta)
 
 \item{emb}{embedding dimension}
 
-\item{ent}{type of entropy: S (Shannon), T (Tsallis, beta is required), R (Rényi, beta is required), or F (Fisher)}
+\item{ent}{type of entropy: S (Shannon, default), T (Tsallis, beta is required), R (Rényi, beta is required), or F (Fisher)}
 
-\item{beta}{parameter for the Tsallis and Rényi entropy}
+\item{beta}{parameter for the Tsallis and Rényi entropy (default 0.9)}
 }
 \description{
 Function that computes the p-value of the hypothesis test for two time series

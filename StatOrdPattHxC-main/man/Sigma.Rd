@@ -19,3 +19,4 @@ A covariance matrix
 Function that computes the covariance matrix of ordinal patterns
 from a time series, given embedding dimension
 }
+\keyword{internal}

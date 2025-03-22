@@ -4,16 +4,16 @@
 \alias{sigma2q}
 \title{Function that computes the asymptotic variance of ordinal patterns' entropies}
 \usage{
-sigma2q(TS, emb, ent, beta)
+sigma2q(TS, emb, ent = "S", beta = 1.5)
 }
 \arguments{
 \item{TS}{time series}
 
 \item{emb}{embedding dimension}
 
-\item{ent}{type of entropy: S (Shannon), T (Tsallis, \eqn{beta} is required), R (Rényi, \eqn{beta} is required), or F (Fisher)}
+\item{ent}{type of entropy: S (Shannon, default), T (Tsallis, \eqn{\beta} is required), R (Rényi, \eqn{\beta} is required), or F (Fisher)}
 
-\item{beta}{the parameter for the Tsallis and Rényi entropies}
+\item{beta}{the parameter for the Tsallis and Rényi entropies (default 1.5)}
 }
 \value{
 The asymptotic variance

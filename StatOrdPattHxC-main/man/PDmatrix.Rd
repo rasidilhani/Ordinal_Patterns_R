@@ -20,3 +20,4 @@ Computes the matrix of partial derivatives
 a given vector of probabilities without zero entries, and
 a given entropy
 }
+\keyword{internal}

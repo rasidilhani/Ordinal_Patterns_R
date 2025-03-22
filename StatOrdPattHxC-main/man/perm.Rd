@@ -14,3 +14,4 @@ perm(v)
 Function that finds all possible ordinal patterns of the
 elements \eqn{0, 1, ... , m-1}
 }
+\keyword{internal}

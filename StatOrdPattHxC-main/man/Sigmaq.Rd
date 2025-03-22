@@ -3,9 +3,6 @@
 \name{Sigmaq}
 \alias{Sigmaq}
 \title{Function that computes the covariance matrix for a time series}
-\usage{
-Sigmaq(TS, emb, ent, beta)
-}
 \arguments{
 \item{TS}{time series}
 
@@ -18,3 +15,4 @@ Sigmaq(TS, emb, ent, beta)
 \description{
 Function that computes the covariance matrix for a time series
 }
+\keyword{internal}

@@ -25,3 +25,4 @@ pattern transition matrix of order \eqn{\ell} is
 \deqn{q_{ij}^{(\ell)} = \Pr\big(\pi_t=\pi^{(i)} \wedge \pi_{t+\ell}=\pi^{(j)}) = q_i \Pr(\pi_{t+\ell} = \pi^{(j)} \mid \pi_t=\pi^{(i)}\big),}
 for \eqn{i,j=1,2,\dots ,m!}.
 }
+\keyword{internal}

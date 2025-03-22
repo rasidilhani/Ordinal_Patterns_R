@@ -12,3 +12,4 @@ pi_i(pat)
 \description{
 Function that assigns the label i to an
 }
+\keyword{internal}

@@ -7,7 +7,7 @@ a given embedding dimension, and
 a given entropy ent = S (Shannon), T (Tsallis, beta is required),
 R (Rényi, beta is required), or F (Fisher information measure)}
 \usage{
-entropicTest(TSx, TSy, emb, ent, beta, pvalue = 0.05)
+entropicTest(TSx, TSy, emb, ent = "S", beta, pvalue = 0.05)
 }
 \arguments{
 \item{TSx}{a time series}
@@ -16,7 +16,7 @@ entropicTest(TSx, TSy, emb, ent, beta, pvalue = 0.05)
 
 \item{emb}{the embedding dimension}
 
-\item{ent}{the type of entropy: S (Shannon), T (Tsallis, \eqn{\beta} is required), R (Rényi, \eqn{\beta} is required), or F (Fisher)}
+\item{ent}{the type of entropy: S (Shannon, default), T (Tsallis, \eqn{\beta} is required), R (Rényi, \eqn{\beta} is required), or F (Fisher)}
 
 \item{beta}{the beta parameter, only required for Tsallis and Rényi entropies}
 

@@ -166,5 +166,22 @@ For any $k-$dimensional multivariate normal distribution $\bm{Z}\sim \normalsize
 	\widehat{\sigma}^2=\dfrac{1}{n}\sum_{l=1}^{k}p_l(1-p_l)(\log p_l+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{l=j+1}^{k}p_lp_j(\log p_l+1)(\log p_j+1)
 \end{equation}
 	   
- 
+\section{Asymptotic Distribution of the Complexity} 
+
+Statistical complexity is defined as the product of two normalized quantities:
+\begin{itemize}
+	\item The Shannon entropy
+	\item The Jensen-Shannon distance between the observed probability distribution and the uniform distribution 
+\end{itemize}
+
+This section examines three key aspects:
+\begin{enumerate}
+	\item \textbf{Significance of Asymptotic Complexity Distributions}: Why understanding large-sample behavior matters for statistical inference
+	\item \textbf{Multinomial Model Framework}: Derivation of the asymptotic distribution for statistical complexity under multinomial assumptions
+	\item \textbf{Practical Formula}: A working equation for calculating the asymptotic distribution of complexity
+\end{enumerate}
+
+The discussion concludes with a real-world case study demonstrating how these asymptotic distributions can be applied to analyze entropy and complexity patterns. Crucially, these asymptotic results remain valuable approximations even when the strict assumptions of the multinomial model are not fully satisfied.  
+
+Transforming observations into symbols 
 

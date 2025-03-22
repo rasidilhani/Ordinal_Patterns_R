@@ -12,3 +12,4 @@ ind_pos(part)
 \description{
 Internal function. Candidate for C++ implementation.
 }
+\keyword{internal}
