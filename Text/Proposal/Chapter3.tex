@@ -166,7 +166,7 @@ For any $k-$dimensional multivariate normal distribution $\bm{Z}\sim \normalsize
 	\widehat{\sigma}^2=\dfrac{1}{n}\sum_{l=1}^{k}p_l(1-p_l)(\log p_l+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{l=j+1}^{k}p_lp_j(\log p_l+1)(\log p_j+1)
 \end{equation}
 	   
-\section{Asymptotic Distribution of the Complexity} 
+\section{Case Study of Asymptotic Distribution of the Complexity} 
 
 Statistical complexity is defined as the product of two normalized quantities:
 \begin{itemize}
@@ -174,14 +174,15 @@ Statistical complexity is defined as the product of two normalized quantities:
 	\item The Jensen-Shannon distance between the observed probability distribution and the uniform distribution 
 \end{itemize}
 
-This section examines three key aspects:
+In this section we discuss three key aspects with real world scenario:
 \begin{enumerate}
 	\item \textbf{Significance of Asymptotic Complexity Distributions}: Why understanding large-sample behavior matters for statistical inference
 	\item \textbf{Multinomial Model Framework}: Derivation of the asymptotic distribution for statistical complexity under multinomial assumptions
 	\item \textbf{Practical Formula}: A working equation for calculating the asymptotic distribution of complexity
 \end{enumerate}
 
-The discussion concludes with a real-world case study demonstrating how these asymptotic distributions can be applied to analyze entropy and complexity patterns. Crucially, these asymptotic results remain valuable approximations even when the strict assumptions of the multinomial model are not fully satisfied.  
+As a case study for our work, we consider data from the Bearing Data Center and the seeded fault test data from Case Western Reserve University, School of Engineering. The dataset includes ball bearing test data for normal bearings as well as single-point defects on the fan end and drive end. Data were collected at a rate of 48,000 (48k drive-end) data points per second during bearing tests. Each file contains motor rotational speed (0, 1, 2, and 3), drive-end vibration data, and fan-end vibration data. The approximate motor speeds in RPM during testing: 1797, 1772, 1750, and 1730. For our case study, we consider two time series (Normal Baseline and 48k Drive-End) with a motor load of 0 and an RPM of 1797. 
 
-Transforming observations into symbols 
+The goal of this study is to locate malfunctioning machinery. We use ordinal patterns to analyze the two time series. Based on the ordinal structure of the segments, we introduce distance as a metric of similarity. This metric can be used to identify malfunctioning machines with certain embedding dimension ranging from 3 to 6. The permutation entropy with asymptotic condition were computed taking into account the ordinal patter probability distribution. The results are analyzed using the complexity plane. 
+
 
