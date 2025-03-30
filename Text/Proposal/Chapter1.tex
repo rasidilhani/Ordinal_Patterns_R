@@ -43,13 +43,14 @@ consisting of finitely many symbols and then compute the entropy from this seque
 The corresponding symbol sequence naturally emerges from the time series without requiring any model assumptions. We compute
 $\bm{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$ symbols from sub-sequences of embedding dimension $D$. 
 There are $D!$ possible symbols: $\pi_j \in \bm{{\pi}}=({\pi}^1, {\pi}^2,\dots, {\pi}^{D!})$. 
-The histogram of proportions $h=(h_1,h_2,\dots, h_{D!})$ in which the bin $h_l$ 
+The histogram of proportions $h=(h_1,h_2,\dots, h_{D!})$ in which the bin $h_\ell$ 
 %%% ACF Whenever possible, use \ell instead of the letter ell in mathematical mode
-is the proportion of symbols of type $\pi^l$ of the total number of symbols. 
+is the proportion of symbols of type $\pi^\ell$ of the total number of symbols. 
 For convenience, we will model those symbols as a $k$ dimensional random vector where $k=D!$.
 
-Consider a series of $n$ independent trials in which only one of $k$ mutually exclusive events ${\pi}^1, {\pi}^2,\dots, {\pi}^k$ is observed with probability $p_1, p_2, \dots, p_k,$ respectively, where $p_l \geq 0$ and $\sum_{\ell=1}^{k} p_l=1.$ Suppose that $N=(N_1, N_2, \dots, N_k)$ is the vector of random variables that, with $\sum_{\ell=1}^{k} N_l=n$, counts how many times the events ${\pi}^1, {\pi}^2,\dots, {\pi}^k$ occur in the $n$ trials. Then, the joint probability distribution of $N$ is
-
+Consider a series of $n$ independent trials in which only one of $k$ mutually exclusive events ${\pi}^1, {\pi}^2,\dots, {\pi}^k$ is observed with probability $p_1, p_2, \dots, p_k,$ respectively, where $p_\ell \geq 0$ and $\sum_{\ell=1}^{k} p_\ell=1$. 
+Suppose that $N=(N_1, N_2, \dots, N_k)$ is the vector of random variables that, with $\sum_{\ell=1}^{k} N_\ell=n$, counts how many times the events ${\pi}^1, {\pi}^2,\dots, {\pi}^k$ occur in the $n$ trials. Then, the joint probability distribution of $N$ is
+%%% ACF NEVER leave a blank line between the paragraph and the equation that follows
 \begin{equation}
 	\Pr\big(N=(n_1,n_2,\dots, n_k)\big) = n! \prod_{\ell=1}^{k} \frac{p_\ell^{n_\ell}}{n_\ell !}, %%% ACF Propagate the changes
 \end{equation}    
@@ -66,7 +67,7 @@ To illustrate this concept, imagine tracking the mean monthly humidity in Wellin
 
 %Expanding this analysis to a larger group allows us to observe even more diverse and complex patterns. Each individual's preference forms a unique data point, and collectively, they create a rich tapestry of variation. This exploration provides valuable insights into how food choices differ across individuals and groups, making the study both meaningful and captivating.
 
-\begin{table}[h]
+\begin{table}[hbt]
 	\centering
 	\begin{tabular}{lc}
 		\toprule
@@ -98,13 +99,31 @@ Mean monthly humidity in Wellington is shown in Figure~\ref{fig:humidity}
 	\label{fig:humidity}
 \end{figure}
 
-We can convert this actual data into ordinal patterns. To do this, for each month, we determine the order of the humidity values rather than their actual magnitudes. Each three-time-point sequence (which can be adjusted based on preference) is converted into an ordinal pattern. 
-The embedding dimension can vary from $3$ to $6$ or more.
+We can convert this actual data into ordinal patterns. 
+To do this, for each month, we determine the order of the humidity values rather than their actual magnitudes. 
+Each three-time-point sequence (which can be adjusted based on preference) is converted into an ordinal pattern.
+This ``embedding dimension'' usually varies between $3$ and $6$, but any dimension is possible.
+The conversion can be made in any way that uniquely maps the sorting properties of the subsequence into a symbol.
+%%% ACF Summarise and present in your own words from Section 3
+%@Article\{AsymptoticDistributionofEntropiesandFisherInformationMeasureofOrdinalPatternswithApplicationsa,
+%author    = \{Rey, A. A. and Frery, A. C. and Gambini, J. and Lucini, M.\},
+%journal   = \{Chaos, Solitons \textbackslash{}\& Fractals\},
+%title     = \{Asymptotic distribution of entropies and \{F\}isher information measure of ordinal patterns with applications\},
+%year      = \{2024\},
+%issn      = \{0960-0779\},
+%month     = nov,
+%pages     = \{115481\},
+%volume    = \{188\},
+%doi       = \{10.1016/j.chaos.2024.115481\},
+%groups    = \{Journal Article\},
+%publisher = \{Elsevier BV\},
+%\}
+
 
 %%% ACF Use only the lines provided by the booktabs package
 %%% ACF The table is confusing: "# of patterns" should be just $t$, Ordinal Patters should be Ordinal pattern, and you should assign a type to each, i.e., \pi^1, \pi^2 etc
 
-\begin{table}[h]
+\begin{table}[H]
 	\centering
 	\begin{tabular}{lcr}
 		\toprule
@@ -134,7 +153,7 @@ The probability distribution of the mean humidity is calculated based on ordinal
 \end{equation}
 where $\hat{\bm{p}}=(\hat{p_1}, \dots ,\hat{p_6})$
 
-\begin{table}[h]
+\begin{table}[hbt]
 	\centering
 	\begin{tabular}{lc}
 		\toprule
@@ -152,7 +171,7 @@ where $\hat{\bm{p}}=(\hat{p_1}, \dots ,\hat{p_6})$
 	\label{tab:probability_function}
 \end{table}
 
-We construct the histogram of proportions $h=(h_1,h_2,h_3,h_4,h_5,h_6)$, where each bin $h_l$ represents the proportion of symbols of type $\pi^l$ out of the total six symbols. The histogram graph is shown Figure~\ref{fig:histogram}.
+We construct the histogram of proportions $h=(h_1,h_2,h_3,h_4,h_5,h_6)$, where each bin $h_\ell$ represents the proportion of symbols of type $\pi^\ell$ out of the total six symbols. The histogram graph is shown Figure~\ref{fig:histogram}.
 
 \begin{figure}[hbt]
 	\centering
