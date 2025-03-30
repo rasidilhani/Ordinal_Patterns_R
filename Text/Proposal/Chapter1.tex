@@ -49,7 +49,7 @@ is the proportion of symbols of type $\pi^l$ of the total number of symbols.
 For convenience, we will model those symbols as a $k$ dimensional random vector where $k=D!$.
 
 Consider a series of $n$ independent trials in which only one of $k$ mutually exclusive events ${\pi}^1, {\pi}^2,\dots, {\pi}^k$ is observed with probability $p_1, p_2, \dots, p_k,$ respectively, where $p_l \geq 0$ and $\sum_{\ell=1}^{k} p_l=1.$ Suppose that $N=(N_1, N_2, \dots, N_k)$ is the vector of random variables that, with $\sum_{\ell=1}^{k} N_l=n$, counts how many times the events ${\pi}^1, {\pi}^2,\dots, {\pi}^k$ occur in the $n$ trials. Then, the joint probability distribution of $N$ is
-%%% ACF Check what I changed
+
 \begin{equation}
 	\Pr\big(N=(n_1,n_2,\dots, n_k)\big) = n! \prod_{\ell=1}^{k} \frac{p_\ell^{n_\ell}}{n_\ell !}, %%% ACF Propagate the changes
 \end{equation}    
@@ -59,7 +59,6 @@ where $n_\ell \geq 0$ and $\sum_{\ell=1}^{k} n_\ell=n$ .
 \section*{Problem Statement}
 %To illustrate this concept, we consider food preferences among individuals as an example of time series data. Meal choices vary widely among people, reflecting their unique tastes and priorities. For instance, when selecting main meals such as beef, pork, chicken, fish, and vegetables, each person has distinct preferences. By analyzing these choices, we can uncover intriguing patterns that highlight the diversity in individual selections.
 
-%%% ACF Be consistent: either "we" or "you"
 
 To illustrate this concept, imagine tracking the mean monthly humidity in Wellington. You want to analyze how humidity changes throughout the year. By examining this data, you can uncover interesting patterns that highlight the variations in humidity across different months. 
 
