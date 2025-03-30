@@ -1,6 +1,19 @@
 \chapter{Introduction}\label{C:intro}
 
-Time series contain valuable insights about the underlying system that generates the data. Their analysis is typically conducted using two primary approaches: time-domain and transformed-domain methods. In the context of time-domain analysis, Bandt and Pompe \cite{PhysRevLett.88.174102} introduced a novel methodology that is non-parametric and rooted in information theory descriptors. The concept of ordinal patterns in time series was introduced by Bandt and Pompe \cite{PhysRevLett.88.174102}. This method transforms the time series into ordinal patterns, from which a histogram is constructed. The resulting distribution is less sensitive to outliers compared to the original data, and the histogram is independent of any specific model. As a result, this approach is versatile and applicable to a wide range of scenarios.  This study explores features derived from Bandt and Pompe symbolization, specifically Shannon entropy, and represents them graphically as a point in the entropy-complexity plane under the Multinomial distribution, which is represented as a point in the $\mathbb{R}^2$ manifold. Furthermore, this proposal separately examines the permutation entropy and ordinal patterns in time series analysis, including the calculation of pattern histograms, entropy, complexity, and confidence intervals for entropy and complexity to enhance the understanding of their statistical properties. 
+Time series contain valuable insights about the underlying system that generates the data. 
+Their analysis is typically conducted using two primary approaches: time-domain and transformed-domain methods. 
+In the context of time-domain analysis, Bandt and Pompe \cite{PhysRevLett.88.174102} introduced a novel methodology that is non-parametric and rooted in information theory descriptors: Ordinal Patterns symbolisation. 
+
+Bandt and Pompe \cite{PhysRevLett.88.174102} proposed transforming small subsets of the time series observations into symbols that encode the sorting properties of the values in these subsets.
+Then, they computed a histogram of those symbols.
+The resulting distribution is less sensitive to outliers compared to the original data, and the histogram is independent of any specific model.
+The proposal proceeds by computing descriptors from this histogram, and extracting information about the system from these descriptors.
+As a result, this approach is versatile and applicable to a wide range of scenarios.  
+
+This study explores features derived from Bandt and Pompe symbolization, specifically Shannon entropy, and represents them graphically as a point in the entropy-complexity plane under the Multinomial distribution, which is represented as a point in the $\mathbb{R}^2$ manifold. 
+%%% ACF Is the Shannon Entropy a point in the HxC plane?
+%%% ACF Is that true under the Multinomial distribution?
+Furthermore, this proposal separately examines the permutation entropy and ordinal patterns in time series analysis, including the calculation of pattern histograms, entropy, complexity, and confidence intervals for entropy and complexity to enhance the understanding of their statistical properties. 
 The confidence intervals for entropy and complexity under the Multinomal distribution and features for time series clustering will be discussed further. 
 Future work will extend to other measures, such as Rényi entropy, Fisher information, and the confidence intervals for their entropy and complexity under the Multinomal distribution. Features for time series clustering with ordinal patterns for time series analysis will be further studied.
 
@@ -176,9 +189,11 @@ We construct the histogram of proportions $h=(h_1,h_2,h_3,h_4,h_5,h_6)$, where e
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.6\textwidth]{frequency histogram}
-	\caption{Histogram}
+	\caption{Histogram of proportions of the observed patterns according to Table~\ref{tab:probability_function}.}
 	\label{fig:histogram}
 \end{figure}
+%%% ACF Always add information as in the following line
+%%% The above plot was produced by lines 41-57 of file 'Code/R/humidity_example.R'
 
 This example explains how time series data can be converted into ordinal patterns and how the probability distribution function can be calculated from these patterns. Chapter Two will review the literature on ordinal pattern analysis, while Chapter Three will expand on this concept by exploring the characterization of time series. It will also cover the computation of two key descriptors entropy and complexity from the resulting histograms. Additionally, Chapter Three will outline the main ideas and objectives of this research project.      
 

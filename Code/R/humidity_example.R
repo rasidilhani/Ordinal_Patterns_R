@@ -40,8 +40,18 @@ ggplot(data=humidity_frame, aes(x=Month, y=Mean_of_Relative_Humidity, group=1)) 
 # Plot ordinal pattern distribution
 ggplot(data=ordinal_patterns_table, aes(x=ordinal_patterns, y=Freq)) +
   geom_bar(stat="identity", fill="orange", alpha=0.8) +
-  labs(title="Histogram of Proportions",
-       x=expression(paste("Ordinal Patterns of type", pi,)),
+  labs(x="Ordinal Pattern Type",
        y="Frequency") +
-  theme_minimal()
- 
+  scale_x_discrete(
+    breaks=1:6,
+    labels=c(expression(pi^1), 
+             expression(pi^2), 
+             expression(pi^3), 
+             expression(pi^4), 
+             expression(pi^5), 
+             expression(pi^6))
+  ) +
+  theme_minimal() +
+  theme(text = element_text(family = "serif", size=16))
+
+ggsave(file="../../Text/Proposal/frequency histogram.pdf", width = 16, height=10, units = "cm") 
