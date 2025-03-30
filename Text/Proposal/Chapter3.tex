@@ -62,12 +62,11 @@ Here is the formula for $Q'$:
 Lamberti et al. \cite{lamberti2004intensive} proposed Jensen-Shannon distance as a symmetric metric rooted in the Jensen-Shannon divergence. As the reference model, most works consider the uniform distribution $\mathbf{u}=(1/k,1/k, \dots, 1/k)$. The normalized disequilibrium is defined as follows
 
 \begin{equation}
-	Q=\dfrac{Q'}{max{(Q')}}
+	Q=\dfrac{Q'}{\max{(Q')}},
 \end{equation}
-
-where $max(Q')$ is defined as follows
+where $\max(Q')$ is defined as follows
 \begin{equation}
-	max(Q')=-2 \left[\dfrac{k+1}{k}\log(k+1)-2\log(2k)+\log k\right]
+	\max(Q')=-2 \left[\dfrac{k+1}{k}\log(k+1)-2\log(2k)+\log k\right].
 \end{equation}
 
 After this concept, Lamberti et al. \cite{lamberti2004intensive} proposed \textbf{Statistical Complexity Measure} which is defined as 
@@ -79,9 +78,10 @@ where both $H$ and $Q$ are normalized quantities, therefore $C$ is also normaliz
 \section{The Entropy Complexity Plane}
 The complexity-entropy plane is a two-dimensional representation where time series are mapped based on their permutation entropy and statistical complexity. These metrics are derived from ordinal pattern distributions obtained through time-delay embedding—a technique involving:
 \begin{itemize}
-	\item Embedding dimension $D:$ Determines the number of permutation patterns $D!$ used to construct histograms.
-	\item Time delay $(\tau):$ Often optimized for specific applications (e.g., mutual information minimization)  
+	\item Embedding dimension $D$: Determines the number of permutation patterns $D!$ used to construct histograms.
+	\item Time delay $(\tau)$: Often optimized for specific applications (e.g., mutual information minimization)  
 \end{itemize} 
+%%% ACF Remember that you are responsible for everything you write. What is Mutual Information?
 
 \subsection{Key Dynamics in the plane}
 \begin{enumerate}
@@ -108,16 +108,23 @@ The complexity-entropy plane is a two-dimensional representation where time seri
 The two extreme values are proved by Anteneodo \& Plastino \cite{anteneodo1996some}.Expressions for the boundaries, derived using geometrical arguments within space configurations, were proposed by Martin et al. \cite{Martin2006}. These formulations provide a structured approach to understanding and analyzing the spatial behavior of specific systems or models. The lower boundary is characterized by a smooth curve, whereas the upper boundary consists of $D!-1$ distinct segments. As the embedding dimension $D$ approaches infinity, the upper boundary gradually converges into a smooth curve. 
 Example for the entropy complexity plane is shown in Figure \ref{fig:complexity}
 
-\begin{figure}[hbt]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{complexity plane}
 	\caption{Entropy Complexity Plane for Embedding dimension 3}
 	\label{fig:complexity}
 \end{figure}
 
-\section {Asymptotic Distribution of the Shannon Entropy under the Mulinomal Distribution}
+\section {Asymptotic Distribution of the Shannon Entropy under the Multinomial Distribution}
 
-The Multinomial distribution describes how observations fall into categories when an adequate model is available. It is similar to the multivariate normal distribution, which is one of the continuous Multivariate distributions. Furthermore, it has received considerable attention from researchers, both in theoretical studies and in applications related to discrete multivariate distributions. The normalized Shannon entropy, often employed in applications like permutation entropy, can be rigorously connected to its asymptotic distribution through the lens of statistical estimation theory. When estimating entropy from finite data, the plug-in estimator (computed directly from observed frequencies) converges to a normal distribution as the sample size $N\longrightarrow \infty$ even for dependent processes such as Markov chains. This asymptotic normality, demonstrated by Martin et al \cite{PhysRevE.103.022215}. and Chagas et al \cite{Chagas2022}., ensures that the estimator’s fluctuations around the true entropy value are Gaussian-distributed, with variance and bias determined by the underlying system’s dynamics. For normalized entropy $H \in [1]$, this asymptotic behavior persists, enabling statistical inference such as confidence intervals or hypothesis tests to validate entropy-based hypotheses (e.g., distinguishing chaos from noise). Crucially, the convergence rate and limiting distribution depend on the system’s correlation structure deviating from the Multinomial case but remain tractable via spectral analysis of the transition matrix or ordinal pattern distributions \cite{PhysRevE.103.022215,Chagas2022}. This connection underscores the reliability of normalized entropy measures in large data regimes while highlighting the need to account for dependence structures in finite sample applications.
+The Multinomial distribution describes how observations fall into categories when an adequate model is available. It is similar to the multivariate normal distribution, which is one of the continuous Multivariate distributions. Furthermore, it has received considerable attention from researchers, both in theoretical studies and in applications related to discrete multivariate distributions. 
+The normalized Shannon entropy, often employed in applications like permutation entropy, can be rigorously connected to its asymptotic distribution through the lens of statistical estimation theory. When estimating entropy from finite data, the plug-in estimator (computed directly from observed frequencies) converges to a normal distribution as the sample size $N\longrightarrow \infty$ even for dependent processes such as Markov chains. 
+This asymptotic normality, demonstrated by Martin et al~\cite{PhysRevE.103.022215} 
+%%% ACF Check the correct author/reference above
+and Chagas et al~\cite{Chagas2022}, ensures that the estimator’s fluctuations around the true entropy value are Gaussian-distributed, with variance and bias determined by the underlying system’s dynamics. 
+For normalized entropy $H \in [1]$, this asymptotic behavior persists, enabling statistical inference such as confidence intervals or hypothesis tests to validate entropy-based hypotheses (e.g., distinguishing chaos from noise). 
+%%% ACF That's very strange!
+Crucially, the convergence rate and limiting distribution depend on the system’s correlation structure deviating from the Multinomial case but remain tractable via spectral analysis of the transition matrix or ordinal pattern distributions \cite{PhysRevE.103.022215,Chagas2022}. This connection underscores the reliability of normalized entropy measures in large data regimes while highlighting the need to account for dependence structures in finite sample applications.
 
 However, despite the widespread use of ordinal patterns to study the latent dynamics of time series through permutation entropy, there are no established theoretical results concerning the distribution of permutation entropy that account for the correlation effects between patterns. Nonetheless, Rey et al. \cite{Rey2023a} demonstrated that the asymptotic distribution of permutation entropy is normal. They compared their findings with those of Multinomial sample entropy, which assumes independence between patterns. Notably, the expression for the asymptotic variance becomes increasingly complex as the embedding dimension increases. 
 
