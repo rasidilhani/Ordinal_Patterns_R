@@ -8,11 +8,10 @@ ggplot(data = combined, aes(x = H, y = C, color = Boundaries)) +
             aes(x = H, y = C, color = "Lower Boundary"), linetype = "dashed") +
   geom_line(data = subset(LinfLsup, Side == "Upper" & Dimension == as.character(D)), 
             aes(x = H, y = C, color = "Upper Boundary"), linetype = "dashed") +
-  labs(title = "Entropy Complexity Plane for Embedding Dimension 3",
-       x = expression(italic(H)),
+  labs(x = expression(italic(H)),
        y = expression(italic(C))) +
   theme_minimal() +
-  theme(
+  theme( text = element_text(family = "serif", size=16), 
     panel.grid.major = element_blank(), 
     panel.grid.minor = element_blank(), 
     axis.line = element_line(color = "black"), 

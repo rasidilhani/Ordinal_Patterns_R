@@ -10,12 +10,12 @@ The resulting distribution is less sensitive to outliers compared to the origina
 The proposal proceeds by computing descriptors from this histogram, and extracting information about the system from these descriptors.
 As a result, this approach is versatile and applicable to a wide range of scenarios.  
 
-This study explores features derived from Bandt and Pompe symbolization, specifically Shannon entropy, and represents them graphically as a point in the entropy-complexity plane under the Multinomial distribution, which is represented as a point in the $\mathbb{R}^2$ manifold. 
+This study explores features derived from Bandt and Pompe symbolization, specifically Shannon entropy, complexity, and represents them graphically as a point in the entropy-complexity plane, which is represented as a point in the $\mathbb{R}^2$ manifold. 
 %%% ACF Is the Shannon Entropy a point in the HxC plane?
 %%% ACF Is that true under the Multinomial distribution?
 Furthermore, this proposal separately examines the permutation entropy and ordinal patterns in time series analysis, including the calculation of pattern histograms, entropy, complexity, and confidence intervals for entropy and complexity to enhance the understanding of their statistical properties. 
-The confidence intervals for entropy and complexity under the Multinomal distribution and features for time series clustering will be discussed further. 
-Future work will extend to other measures, such as Rényi entropy, Fisher information, and the confidence intervals for their entropy and complexity under the Multinomal distribution. Features for time series clustering with ordinal patterns for time series analysis will be further studied.
+The confidence intervals for entropy and complexity under the Multinomial distribution and features for time series clustering will be discussed further. 
+Future work will extend to other measures, such as Rényi entropy, Fisher information, and the confidence intervals for their entropy and complexity under the Multinomial distribution. Features for time series clustering with ordinal patterns for time series analysis will be further studied.
 
 Time series analysis is widely applied across various fields, including engineering, economics, physical sciences, and more. A time series is defined as a collection of observations ${x_t}$, each representing a realized value of a particular random variable $X_t$, where time can be either discrete or continuous.
 
@@ -26,7 +26,7 @@ The primary goal of time series analysis is to understand the nature of the phen
  
 However, these methods often require assumptions such as large sample sizes or normally distributed observations that are rarely met in real-world empirical data. For many statistical techniques to be valid, these assumptions must hold, but in practice, they are frequently violated.
 
-For example, traditional approaches to time series analysis, such as time domain and frequency domain methods, rely on assumptions that are not always valid in real-world data. The time domain approach, which uses techniques like auto-correlation and regression, assumes stationarity and often struggles with nonlinear or nonstationary data. Similarly, the frequency domain approach, which represents time series through spectral expansions such as wavelets or Fourier modes, may require assumptions about periodicity and may not effectively capture short-term fluctuations.
+For example, traditional approaches to time series analysis, such as time domain and frequency domain methods, rely on assumptions that are not always valid in real-world data. The time domain approach, which uses techniques like auto-correlation and regression, assumes stationary and often struggles with nonlinear or non-stationary data. Similarly, the frequency domain approach, which represents time series through spectral expansions such as wavelets or Fourier modes, may require assumptions about periodicity and may not effectively capture short-term fluctuations.
 
 Many statistical methods in these approaches depend on specific conditions, such as large sample sizes or normally distributed observations. However, these assumptions are often unrealistic, leading to inaccurate or biased results. When such conditions are not met, alternative methods must be considered.
 
@@ -116,7 +116,10 @@ We can convert this actual data into ordinal patterns.
 To do this, for each month, we determine the order of the humidity values rather than their actual magnitudes. 
 Each three-time-point sequence (which can be adjusted based on preference) is converted into an ordinal pattern.
 This ``embedding dimension'' usually varies between $3$ and $6$, but any dimension is possible.
-The conversion can be made in any way that uniquely maps the sorting properties of the subsequence into a symbol.
+The conversion can be made in any way that uniquely maps the sorting properties of the sub sequence into a symbol.
+For example, consider the time series presented in Table \ref{tab:humidity}. We can transform this series into ordinal patterns as follows. Assume we use patterns of length $D=3$ with a time lag $\tau=1$. 
+The first overlapping window $(77.3,81,82.4)$ corresponds to the pattern  $(1,2,3)$, where type is considering with the order of the real time series data. Here $77.3$ is the smallest value and is assigned rank $1$; $81$ is the next highest and is assigned rank $2$; and $82.4$ is the largest, assigned rank $3$. As another example, consider the overlapping window $(83.1, 78.8, 79.6)$.  In this case, $78.8$ is the smallest value and is assigned rank $1$; $79.6$ is the next highest, assigned rank $2$; and $83.1$ is the largest, assigned rank $3$. Therefore, the pattern for this window is $(3,1,2)$.
+Table \ref{tab:op} has shown this scenario. 
 %%% ACF Summarise and present in your own words from Section 3
 %@Article\{AsymptoticDistributionofEntropiesandFisherInformationMeasureofOrdinalPatternswithApplicationsa,
 %author    = \{Rey, A. A. and Frery, A. C. and Gambini, J. and Lucini, M.\},

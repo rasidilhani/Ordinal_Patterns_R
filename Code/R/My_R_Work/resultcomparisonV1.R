@@ -31,14 +31,14 @@ ggplot(data = combined, aes(x = H, y = C, color = Dataset)) +
   scale_color_manual(values = c("FullResults" = "blue", "Batch48k" = "red", "BatchNormal" = "green")) +
   scale_size_manual(values = c("FullResults" = 2, "Batch48k" = 1, "BatchNormal" = 1)) +
   coord_cartesian(xlim = c(0.55, 0.845), ylim = c(0.125, 0.3275)) +
-  labs(title = "Confidence interval for entropy",
-       x = expression(italic(H)),
+  labs(x = expression(italic(H)),
        y = expression(italic(C))) +
   theme_minimal() +
   theme(
     panel.grid.major = element_blank(), 
     panel.grid.minor = element_blank(), 
     axis.line = element_line(color = "black"), 
-    axis.ticks = element_line(color = "black"))
+    axis.ticks = element_line(color = "black"), text = element_text(family = "serif", size=16))
+  
 
 

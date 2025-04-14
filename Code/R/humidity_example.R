@@ -29,13 +29,14 @@ print(paste("Statistical Complexity:", C_Complexity))
 
 # Line Graph for Original Humidity Data 
 ggplot(data=humidity_frame, aes(x=Month, y=Mean_of_Relative_Humidity, group=1)) +
-  geom_line(color="blue", size=1) +
-  geom_point(color="red", size=3) +
-  labs(title="Mean Monthly Humidity in Wellington",
-       x="Month",
+  geom_line(color="blue", size=1, alpha=0.8) +
+  geom_point(color="red", size=3, alpha=0.8) +
+  labs(x="Month",
        y="Mean Relative Humidity") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust=1), panel.grid = element_blank(), axis.line = element_line(color = "black"))  # Rotate x-axis labels
+  theme(axis.text.x = element_text(angle = 45, hjust=1),text = element_text(family = "serif", size=16), panel.grid = element_blank(), axis.line = element_line(color = "black"))  # Rotate x-axis labels
+
+ggsave(file="../../Text/Proposal/humidity graph.pdf", width = 16, height=10, units = "cm") 
 
 # Plot ordinal pattern distribution
 ggplot(data=ordinal_patterns_table, aes(x=ordinal_patterns, y=Freq)) +
@@ -52,6 +53,6 @@ ggplot(data=ordinal_patterns_table, aes(x=ordinal_patterns, y=Freq)) +
              expression(pi^6))
   ) +
   theme_minimal() +
-  theme(text = element_text(family = "serif", size=16))
+  theme(text = element_text(family = "serif", size=16), panel.grid = element_blank(), axis.line = element_line(color = "black"))
 
 ggsave(file="../../Text/Proposal/frequency histogram.pdf", width = 16, height=10, units = "cm") 
