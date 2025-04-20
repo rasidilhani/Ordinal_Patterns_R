@@ -13,7 +13,24 @@ Section~\ref{Sec:EntropyComplexity} explores the entropy-complexity plane for a 
 %%% ACF Do you analyse complexity only?
 \section{Entropy and Complexity Analysis in Time Series: Advantages and Limitations}\label{Sec:AdvantagesLimitations}
 
-Entropy and complexity analysis in time series provides powerful tools for measuring the unpredictability and structural richness of dynamical systems. These methods help describe the behavior of a system using mathematical models. Entropy measures, such as Shannon entropy or permutation entropy, quantify the degree of randomness or disorder in the data, while complexity measures assess the balance between order and chaos. Together, they are particularly valuable for detecting nonlinear patterns and distinguishing between deterministic and stochastic behavior. However, their effectiveness depends heavily on parameter choices, such as embedding dimension and time delay. They can be sensitive to noise and data length. Additionally, complexity measures may be computationally intensive (It requires a lot of processing power or time to run) and do not always yield intuitive interpretations such as the results of entropy or complexity are not always easy to understand or explain in simple terms, especially in high-dimensional or multi-scale systems. Despite these limitations, entropy and complexity remain essential in modern time series analysis for uncovering hidden dynamics beyond the reach of traditional linear methods. They also offer a robust framework for enhancing ordinal pattern analysis.
+Entropy and complexity analysis in time series provides powerful tools for measuring the unpredictability and structural richness of dynamical systems. 
+These methods help describe the behavior of a system using mathematical models. 
+%%% ACF What's the difference between SE and PE?
+Entropy measures, 
+such as Shannon entropy or permutation entropy, 
+quantify the degree of randomness or disorder in the data, while complexity measures assess the balance between order and chaos. 
+%%% ACF What is a nonlinear pattern?
+Together, they are particularly valuable for detecting nonlinear patterns and distinguishing between deterministic and stochastic behavior 
+However, their effectiveness depends heavily on parameter choices, such as embedding dimension and time delay. 
+%%% ACF Several problems with the following sentence. (1) at some point, we will say that OPs are little sensitve to outliers, (2) we don't know what "data length" means
+They can be sensitive to noise and data length. 
+%%% ACF Rethink the following assertion. I tend to disagree. Computing these quantities is not computationally intensive; but computing their statistical properties taking into account the serial correlation is
+%%% ACF What is a high dimensional system?
+%%% ACF What is a multi-scale system?
+Additionally, complexity measures may be computationally intensive (it requires a lot of processing power or time to run) and do not always yield intuitive interpretations such as the results of entropy or complexity are not always easy to understand or explain in simple terms, especially in high-dimensional or multi-scale systems.
+% ACF What is a "linear method"?
+Despite these limitations, entropy and complexity remain essential in modern time series analysis for uncovering hidden dynamics beyond the reach of traditional linear methods. 
+They also offer a robust framework for enhancing ordinal pattern analysis.
 
 %While this method effectively captures ordinal relationships between data points, it has notable drawbacks. 
 %First, it ignores amplitude information in the time series. 
@@ -44,13 +61,15 @@ However, these methods often perform well only for low dimensional dynamical sys
 
 %%% ACF What is the Lyapunov exponent? It is one of the complexity parameters. It measures how small changes grow over time. 
 The Bandt and Pompe method overcomes this limitation by providing a robust approach that remains reliable even in noisy environments. 
-In time series analysis, key complexity measures such as entropy, fractal dimension, and Lyapunov exponents play a crucial role in comparing neighboring values and uncovering the underlying structure and dynamics of the data.
+In time series analysis, key complexity measures such as entropy, fractal dimension, 
+%%% ACF If you mention it, you must  be able to define it
+and Lyapunov exponents play a crucial role in comparing neighboring values and uncovering the underlying structure and dynamics of the data.
 
 The advantages of Bandt \& Pompe methods:
 \begin{itemize}
 	\item Simplicity
 	\item Extremely fast calculation
-	\item Robutness
+	\item Robustness
 	\item Invariance to nonlinear monotonous transformations
 \end{itemize}	
 
@@ -94,10 +113,12 @@ While normalized Shannon entropy is a powerful tool for quantifying disorder, it
 %%% ACF Here you say that the disequilibrium is the Euclidean distance, but then you say that it is the Jensen-Shannon
 López-Ruiz and the team employed the Euclidean distance between $\mathbf{p}$ and the uniform distribution, providing a complementary metric to Shannon entropy for assessing structural complexity in systems.
 
-The Jensen-Shannon distance between histogram of proportion $\mathbf{p}$ and the uniform probability function $\mathbf{u}=u_1,u_2,\dots, u_k$, where $k=D!$ corresponds to the number of possible permutation patterns provides a robust metric for quantifying deviations from uniformity. This distance measure, derived from the symmetric Jensen-Shannon divergence, is particularly suited for analyzing ordinal pattern distributions due to its ability to capture both structural differences and statistical equilibrium in time series data.
-Here is the formula for $Q'$:
+%%% ACF Present the statistical complexity in a logical manner
+The Jensen-Shannon distance between histogram of proportion $\mathbf{p}$ and the uniform probability function $\mathbf{u}=(u_1,u_2,\dots, u_k)$, where $k=D!$ corresponds to the number of possible permutation patterns provides a robust metric for quantifying deviations from uniformity. This distance measure, derived from the symmetric Jensen-Shannon divergence, is particularly suited for analyzing ordinal pattern distributions due to its ability to capture both structural differences and statistical equilibrium in time series data.
+%%% ACF We don't write like this: Here is the formula for $Q'$:
+It is defined as:
 \begin{equation}
-	Q'(\mathbf{p,u})=\sum^k_{\ell=1} p_\ell\log\dfrac{p_\ell}{u_\ell}+u_\ell\log\dfrac{u_\ell}{p_\ell}
+	Q'(\mathbf{p,u})=\sum^k_{\ell=1} p_\ell\log\dfrac{p_\ell}{u_\ell}+u_\ell\log\dfrac{u_\ell}{p_\ell}.
 \end{equation}
 
 Lamberti et al. \cite{lamberti2004intensive} proposed Jensen-Shannon distance as a symmetric metric rooted in the Jensen-Shannon divergence. As the reference model, most works consider the uniform distribution $\mathbf{u}=(1/k,1/k, \dots, 1/k)$. The normalized disequilibrium is defined as follows
@@ -114,6 +135,8 @@ After this concept, Lamberti et al. \cite{lamberti2004intensive} proposed \textb
 	C=HQ
 \end{equation}
 where both $H$ and $Q$ are normalized quantities, therefore $C$ is also normalized. 
+%%% ACF Present the statistical complexity in a logical manner
+
 
 \section{The Entropy Complexity Plane} \label{Sec:EntropyComplexity}
 The entropy-complexity plane is a two-dimensional representation where time series are mapped based on their permutation entropy and statistical complexity. These metrics are derived from ordinal pattern distributions obtained through time-delay embedding, a technique involving:
@@ -145,8 +168,12 @@ The entropy-complexity plane is a two-dimensional representation where time seri
 		\item Maps to $(1,0),$ reflecting maximal entropy without structural complexity.
 	\end{itemize}
 \end{enumerate}
-The two extreme values are proved by Anteneodo \& Plastino \cite{anteneodo1996some}.Expressions for the boundaries, derived using geometrical arguments within space configurations, were proposed by Martin et al. \cite{Martin2006}. These formulations provide a structured approach to understanding and analyzing the spatial behavior of specific systems or models. The lower boundary is characterized by a smooth curve, whereas the upper boundary consists of $D!-1$ distinct segments. As the embedding dimension $D$ approaches infinity, the upper boundary gradually converges into a smooth curve. 
+The two extreme values are proved by Anteneodo \& Plastino \cite{anteneodo1996some}.
+Expressions for the boundaries, derived using geometrical arguments within space configurations, were proposed by Martin et al. \cite{Martin2006}. 
+These formulations provide a structured approach to understanding and analyzing the spatial behavior of specific systems or models. The lower boundary is characterized by a smooth curve, whereas the upper boundary consists of $D!-1$ distinct segments. As the embedding dimension $D$ approaches infinity, the upper boundary gradually converges into a smooth curve. 
 Example for the entropy complexity plane is shown in Figure \ref{fig:complexity}
+
+%%% ACF Illustrate the boundaries for D=3,4,5,6
 
 \begin{figure}[H]
 	\centering
