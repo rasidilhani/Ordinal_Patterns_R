@@ -2,7 +2,7 @@
 
 Time series contain valuable insights about the underlying system that generates the data. 
 Their analysis is typically conducted using two primary approaches: time-domain and transformed-domain methods. 
-In the context of time-domain analysis, Bandt and Pompe \cite{PhysRevLett.88.174102} introduced a novel methodology that is non-parametric and rooted in information theory descriptors: Ordinal Patterns symbolisation. 
+In the context of time-domain analysis, Bandt and Pompe \cite{PhysRevLett.88.174102} introduced a novel methodology that is non-parametric and rooted in information theory descriptors: Ordinal Patterns symbolization. 
 
 Bandt and Pompe \cite{PhysRevLett.88.174102} proposed transforming small subsets of the time series observations into symbols that encode the sorting properties of the values in these subsets.
 Then, they computed a histogram of those symbols.
@@ -10,12 +10,11 @@ The resulting distribution is less sensitive to outliers compared to the origina
 The proposal proceeds by computing descriptors from this histogram, and extracting information about the system from these descriptors.
 As a result, this approach is versatile and applicable to a wide range of scenarios.  
 
-This study explores features derived from Bandt and Pompe symbolization, specifically Shannon entropy, complexity, and represents them graphically as a point in the entropy-complexity plane, which is represented as a point in the $\mathbb{R}^2$ manifold. 
+This study explores features derived from Bandt and Pompe symbolization, specifically Shannon entropy, complexity, and represents them graphically in the entropy-complexity plane, which is represented as a point in the $\mathbb{R}^2$ manifold. 
 %%% ACF Is the Shannon Entropy a point in the HxC plane?
 %%% ACF Is that true under the Multinomial distribution?
-Furthermore, this proposal separately examines the permutation entropy and ordinal patterns in time series analysis, including the calculation of pattern histograms, entropy, complexity, and confidence intervals for entropy and complexity to enhance the understanding of their statistical properties. 
-The confidence intervals for entropy and complexity under the Multinomial distribution and features for time series clustering will be discussed further. 
-Future work will extend to other measures, such as Rényi entropy, Fisher information, and the confidence intervals for their entropy and complexity under the Multinomial distribution. Features for time series clustering with ordinal patterns for time series analysis will be further studied.
+This proposal focuses on the independent analysis of permutation entropy and ordinal patterns in time series analysis. It involves calculating pattern histograms, entropy, complexity, and confidence intervals to better understand the statistical properties of these tools. 
+Additionally, the role of confidence intervals in entropy and complexity, along with their applications in time-series clustering, will be explored. Future work will expand to include alternative measures, such as Rényi entropy, Tsallis entropy and Fisher information, with a focus on deriving confidence intervals for their entropy and complexity under the Multinomial model. 
 
 Time series analysis is widely applied across various fields, including engineering, economics, physical sciences, and more. A time series is defined as a collection of observations ${x_t}$, each representing a realized value of a particular random variable $X_t$, where time can be either discrete or continuous.
 
@@ -23,7 +22,7 @@ Examples of time series applications include finance (e.g., analyzing exchange r
 
 The primary goal of time series analysis is to understand the nature of the phenomenon represented by the observed sequence. Time domain and frequency domain methods are the two primary approaches used in time series analysis. The temporal approach relies on concepts such as auto-correlation and regressions, where a time series' present value is analyzed in relation to its own past values or the past values of other series. This method represents time series directly as a function of time. On the other hand, the spectral approach represents time series through spectral expansions, such as wavelets or Fourier modes~\cite{treitel1995spectral}.
 
- 
+
 However, these methods often require assumptions such as large sample sizes or normally distributed observations that are rarely met in real-world empirical data. For many statistical techniques to be valid, these assumptions must hold, but in practice, they are frequently violated.
 
 For example, traditional approaches to time series analysis, such as time domain and frequency domain methods, rely on assumptions that are not always valid in real-world data. The time domain approach, which uses techniques like auto-correlation and regression, assumes stationary and often struggles with nonlinear or non-stationary data. Similarly, the frequency domain approach, which represents time series through spectral expansions such as wavelets or Fourier modes, may require assumptions about periodicity and may not effectively capture short-term fluctuations.
@@ -38,7 +37,7 @@ To address these challenges, ordinal pattern methods provide a robust alternativ
 This approach effectively captures the underlying dynamics of complex systems and offers several advantages.
 
 The ordinal pattern-based method has become a widely used tool for characterizing complex time series. Since its introduction nearly twenty-three years ago by Bandt and Pompe in their foundational paper \cite{PhysRevLett.88.174102}, it has been successfully applied across various scientific fields, including biomedical signal processing, optical chaos, hydrology, geophysics, econophysics, engineering, and biometrics. It has also been used in the characterization of pseudo-random number generators.
-   
+
 The Bandt and Pompe method successfully analyzes time series by transforming them into ordinal patterns, constructing a histogram, and computing Shannon entropy, making it robust against outliers and independent of predefined models.
 
 Later, Rosso~\cite{Rosso2007} introduced an additional dimension to this analysis Statistical Complexity derived from the same histogram of causal patterns.
@@ -47,11 +46,12 @@ Later, Rosso~\cite{Rosso2007} introduced an additional dimension to this analysi
 
 Ordinal patterns are a non-parametric representation of real-valued time series and ordinal patterns are transformations that encode the sorting characteristics of values in $\mathbb{R}^D$ into $D!$ symbols, where $D$ represents for the ''Embedding Dimension'' and usually ranges between three to six. 
 One of the possible encoding is the set of indexes that sort the $D$ values in non-decreasing order.
- 
+
 
 To illustrate this idea, let $\bm{x}=\{x_1,x_2, \dots, x_{(n+D-1)}\}$ 
 be a real valued time series of length $n+D-1$ without ties. 
-As stated by Bandt \& Pompe, if the $\bm{x}$ takes infinitely many values, it is common to replace them with a symbol sequence $\bm{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$.
+%%% ACF Did B&P say that the replacement/tranformation/symbolisation is used when the time series is infinite?
+If the $\bm{x}$ takes infinitely many values, it is common to replace them with a symbol sequence $\bm{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$
 consisting of finitely many symbols and then compute the entropy from this sequence. 
 The corresponding symbol sequence naturally emerges from the time series without requiring any model assumptions. We compute
 $\bm{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$ symbols from sub-sequences of embedding dimension $D$. 
@@ -61,13 +61,15 @@ The histogram of proportions $h=(h_1,h_2,\dots, h_{D!})$ in which the bin $h_\el
 is the proportion of symbols of type $\pi^\ell$ of the total number of symbols. 
 For convenience, we will model those symbols as a $k$ dimensional random vector where $k=D!$.
 
-Consider a series of $n$ independent trials in which only one of $k$ mutually exclusive events ${\pi}^1, {\pi}^2,\dots, {\pi}^k$ is observed with probability $p_1, p_2, \dots, p_k,$ respectively, where $p_\ell \geq 0$ and $\sum_{\ell=1}^{k} p_\ell=1$. 
-Suppose that $N=(N_1, N_2, \dots, N_k)$ is the vector of random variables that, with $\sum_{\ell=1}^{k} N_\ell=n$, counts how many times the events ${\pi}^1, {\pi}^2,\dots, {\pi}^k$ occur in the $n$ trials. Then, the joint probability distribution of $N$ is
+%%% ACF Do you need this here?
+%%% ACF Be careful: the multinomial model requires independent trials. When you tranform a time series into symblos, there is no independence
+%%Consider a series of $n$ independent trials in which only one of $k$ mutually exclusive events ${\pi}^1, {\pi}^2,\dots, {\pi}^k$ is observed with probability $p_1, p_2, \dots, p_k,$ respectively, where $p_\ell \geq 0$ and $\sum_{\ell=1}^{k} p_\ell=1$. 
+%%Suppose that $N=(N_1, N_2, \dots, N_k)$ is the vector of random variables that, with $\sum_{\ell=1}^{k} N_\ell=n$, counts how many times the events ${\pi}^1, {\pi}^2,\dots, {\pi}^k$ occur in the $n$ trials. Then, the joint probability distribution of $N$ is
 %%% ACF NEVER leave a blank line between the paragraph and the equation that follows
-\begin{equation}
-	\Pr\big(N=(n_1,n_2,\dots, n_k)\big) = n! \prod_{\ell=1}^{k} \frac{p_\ell^{n_\ell}}{n_\ell !}, %%% ACF Propagate the changes
-\end{equation}    
-where $n_\ell \geq 0$ and $\sum_{\ell=1}^{k} n_\ell=n$ .
+%%\begin{equation}
+%	\Pr\big(N=(n_1,n_2,\dots, n_k)\big) = n! \prod_{\ell=1}^{k} \frac{p_\ell^{n_\ell}}{n_\ell !}, %%% ACF Propagate the changes
+%%\end{equation}    
+%where $n_\ell \geq 0$ and $\sum_{\ell=1}^{k} n_\ell=n$ .
 
 
 \section*{Problem Statement}
@@ -84,10 +86,10 @@ To illustrate this concept, imagine tracking the mean monthly humidity in Wellin
 	\centering
 	\begin{tabular}{lc}
 		\toprule
-		 Month & Mean of relative humidity \\
+		Month & Mean of relative humidity \\
 		\midrule
 		January & 77.3 \\ 
-		February & 81 \\
+		February & 81.0 \\
 		March & 82.4 \\
 		April & 81.7 \\
 		May & 83.6 \\ 
@@ -143,31 +145,31 @@ Table \ref{tab:op} has shown this scenario.
 	\centering
 	\begin{tabular}{lcr}
 		\toprule
-		 $t$ & Mean Humidity sequence & Ordinal Pattern \\
+		$t$ & Mean Humidity sequence & Ordinal Pattern \\
 		\midrule
-	1 & (77.3,81,82.4) & (123) $=\pi^1$\\ 
-	2 & (81,82.4,81.7) & (132) $=\pi^2$\\
-	3 & (82.4,81.7,83.6) & (213) $=\pi^3$\\
-	4 & (81.7,83.6,85.6) & (123) $=\pi^1$ \\
-	5 & (83.6,85.6,84.4) & (132) $=\pi^2$\\ 
-	6 & (85.6,84.4,83.1) & (321) $=\pi^6$\\
-	7 & (84.4,83.1,78.8) & (321) $=\pi^6$\\
-	8 & (83.1,78.8,79.6) & (312) $=\pi^5$\\ 
-	9 & (78.8,79.6,78.2) & (231) $=\pi^4$\\
-	10 & (79.6,78.2,78.8) & (312) $=\pi^5$\\
+		1 & (77.3,81,82.4) & (123) $=\pi^1$\\ 
+		2 & (81,82.4,81.7) & (132) $=\pi^2$\\
+		3 & (82.4,81.7,83.6) & (213) $=\pi^3$\\
+		4 & (81.7,83.6,85.6) & (123) $=\pi^1$ \\
+		5 & (83.6,85.6,84.4) & (132) $=\pi^2$\\ 
+		6 & (85.6,84.4,83.1) & (321) $=\pi^6$\\
+		7 & (84.4,83.1,78.8) & (321) $=\pi^6$\\
+		8 & (83.1,78.8,79.6) & (312) $=\pi^5$\\ 
+		9 & (78.8,79.6,78.2) & (231) $=\pi^4$\\
+		10 & (79.6,78.2,78.8) & (312) $=\pi^5$\\
 		\bottomrule
 	\end{tabular}
 	\caption{Ordinal Patterns}
 	\label{tab:op}
 \end{table}
 
-As shown in Table~\ref{tab:op}, we have six mutually exclusive events,   
-$({\pi}^1, {\pi}^2,\dots, {\pi}^{6})= {(123),(132),(213),(231),(312),(321)}$ respectively. 
+As shown in Table~\ref{tab:op}, we have six mutually exclusive events which we denote as   
+$\{{\pi}^1, {\pi}^2,\dots, {\pi}^{6}\}= \{(123),(132),(213),(231),(312),(321)\}$. 
 The probability distribution of the mean humidity is calculated based on ordinal patterns as given below.
 \begin{equation}
-	\hat{p_i}=\frac{\#\{\pi_j \in \bm{\pi}: \pi_j=\pi^{i}\}}{n}; 1\le i \le 6
+	\hat{p_i}=\frac{\#\{\pi_j \in \bm{\pi}: \pi_j=\pi^{i}\}}{n}; 1\le i \le 6,
 \end{equation}
-where $\hat{\bm{p}}=(\hat{p_1}, \dots ,\hat{p_6})$
+where $\hat{\bm{p}}=(\hat{p_1}, \dots ,\hat{p_6})$.
 
 \begin{table}[hbt]
 	\centering
