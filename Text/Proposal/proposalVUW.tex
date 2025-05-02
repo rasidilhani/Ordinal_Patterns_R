@@ -43,34 +43,8 @@
 \supervisor{Alejandro C.\ Frery}
 	
 \subject{Data Science}
-\abstract{This proposal provides a brief introduction to ordinal patterns and a literature review related to the Bandt \& Pompe research article. 
-After reviewing the literature on ordinal patterns and permutation entropy, 
-%%% ACF Didn't you consider the Complexity?
-we can conclude that ordinal patterns play an important role in conducting research. 
-Bandt \& Pompe proposed analyzing time series from the perspective of ordinal patterns to develop fast and automated methods for extracting qualitative information from nonlinear time series. 
-They introduced the concept of permutation entropy to measure the complexity 
-%%% ACF The sentence above may confuse the reader: does the PE measure the complexity?
-of a system underlying a time series while taking into account the ordering patterns that represent variations in the data. 
-In this report I show how to use data to extract all ordinal patterns. 
-%%% ACF You show more than the mere extraction
-First, I use the sample dataset to calculate their ordinal patterns with embedding dimension 3; 
-%%% ACF The reader doesn't know what the embedding dimension is
-I use letters to convert time series data into patterns.
-Secondly, I get the histogram on the data. 
-%%% ACF No, you don't; you compute the histogram of symbols
-And third, calculate the permutation entropy and statistical complexity. 
-Next, determine the confidence interval of H 
-%%% ACF Always use mathematical notation. What is H? What is this time dependence?
-without and with time dependence and finally the confidence interval of C.
-		
-Bandt and Pompe's ordinal pattern methodology has been widely used to investigate the latent dynamics of time series through their entropy, also known as permutation entropy. 
-Nevertheless, there are no theoretical findings regarding the distribution of the permutation entropy, which needs to take the correlation effect between patterns into account. 
-Considering that our approximation ignores the series dependence between symbols and that the asymptotic distribution of the permutation entropy is Normal %\cite{Rey2023}, \cite{Rey2023a}%. 
-%%% ACF The sentence above is incomplete. What is "your" approximation?
-%%% ACF In the sentence below, what is the "multinomial sample entropy"?
-We compare this result with the Multinomial sample entropy with embedding dimension 3, which assumes independence, and find that the expression of the asymptotic variance becomes more complex as the embedding dimension increases. 
-After that, a hypothesis test is developed and used to differentiate between the bearing fault diagnoses for four distinct rotating machines.}	
-%%% ACF Do you differentiate "bearing fault diagnoses"?
+\abstract{Time series analysis plays a vital role in understanding the underlying dynamics of complex systems across various domains such as engineering, economics, and the physical sciences. Traditional approaches, namely time-domain and frequency-domain methods often rely on strong assumptions such as stationarity, large sample sizes, or normality, which are frequently violated in real-world data. As a robust alternative, Bandt and Pompe~\cite{PhysRevLett.88.174102} introduced a non-parametric method based on ordinal pattern symbolization and information theoretic descriptors. This approach transforms local segments of the time series into rank-based symbols, constructs a histogram of ordinal patterns, and computes permutation entropy, offering resistance to noise and model independence. Building on this, Lamberti et al~\cite{lamberti2004intensive}. introduced statistical complexity, allowing the joint representation of entropy and complexity in the entropy-complexity plane. This proposal investigates the use of permutation entropy and statistical complexity for time series analysis, focusing on pattern histogram construction, descriptor estimation, and confidence interval evaluation. The goal is to assess the statistical properties and practical utility of these measures for analyzing nonlinear, noisy, and nonstationary time series data.} 
+
 
 % Books don't normally have abstracts, and this is a bit of a hack
 	

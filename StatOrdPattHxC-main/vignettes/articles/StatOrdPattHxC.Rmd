@@ -1,0 +1,14 @@
+---
+title: "HxC Feature Statistics from Ordinal Patterns"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(StatOrdPattHxC)
+```
