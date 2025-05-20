@@ -17,7 +17,9 @@ Section~\ref{Sec:EntropyComplexity} explores the entropy-complexity plane for a 
 Entropy and complexity analysis in time series provides powerful tools for measuring the unpredictability and structural richness of dynamical systems, which means the systems that evolve in time. 
 These methods help describe the behavior of a system using mathematical models. 
 %%% ACF What's the difference between SE and PE?
-Entropy measures, such as Shannon entropy (which quantifies the uncertainty in a probability distribution) and permutation entropy (which measures the complexity of the order structure in time series using ordinal patterns), are used to quantify the degree of randomness or disorder in data, while complexity measures assess the balance between order and chaos. 
+Entropy measures, such as Shannon entropy (which quantifies the uncertainty in a probability distribution) and permutation entropy (which measures the complexity of the order structure in time series using ordinal patterns), are used to quantify the degree of randomness or disorder in data. 
+The major difference between Shannon entropy and permutation entropy is that permutation entropy is the Shannon entropy computed from the ordinal patterns (permutations) extracted from a time series.
+The complexity measures assess the balance between order and chaos.  
 %%% ACF What is a nonlinear pattern?
 Entropy and complexity measures are powerful tools for identifying nonlinear patterns in time series data, and together, they are particularly valuable for distinguishing between deterministic and stochastic behavior by revealing hidden structures and irregular dynamics that traditional linear methods often overlook.
 %However, their effectiveness depends heavily on parameter choices, such as embedding dimension and time delay. 
@@ -80,7 +82,7 @@ Despite its limitations, researchers have developed extensions to the original m
 
 Bandt and Pompe introduced a highly effective method for analyzing time series within this framework. They calculated Shannon entropy based on the histogram of causal patterns and successfully identified chaotic components in sequences of words, among other applications.
 
-Later, Rosso et al.~\cite{Rosso2007} expanded this analysis by introducing an additional dimension: the statistical complexity derived from the same histogram of causal patterns. The authors have contributed to a wide range of applications. This approach, which utilizes the entropy-complexity plane, has been successfully applied to the visualization and characterization of different dynamical regimes as system parameters change  \cite{Bandt2005,Cao2004,DeMicco2012a,Kowalski2007,Kowalski2011b,Rosso2010a,Zunino2010a,Zunino2012a}, as well as to optical chaos \cite{Liu2016f,Soriano2011a,Toomey2014,Yang2015e,Zunino2011a}, hydrology \cite{Lange2013,Serinaldi2014,Stosic2016}, geophysics \cite{Consolini2014,Saco2010,Sippel2016}, engineering \cite{Aquino2017,Aquino2015,Redelico2017a,Yan2012}, biometrics \cite{Rosso2016}, characterization of pseudo-random number generators \cite{DeMicco2008,DeMicco2009}, biomedical signal analysis \cite{Li2014b,Li2008b,Li2007,Liang2015b,Montani2015a,Montani2014,Montani2014a,Montani2015,Morabito2012,Parlitz2012,Zanin2012},and econophysics \cite{Bariviera2015a,Bariviera2015,Bariviera2016,Zanin2012,Zunino2016a,Zunino2009,Zunino2010}, to name a few.
+Later, Rosso et al.~\cite{Rosso2007} expanded this analysis by introducing an additional dimension: the statistical complexity derived from the same histogram of causal patterns. The authors have contributed to a wide range of applications. This approach, which utilizes the entropy-complexity plane, has been successfully applied to the visualization and characterization of different dynamical regimes as system parameters change  \cite{Bandt2005,Cao2004,DeMicco2012a,Kowalski2007,Kowalski2011b,Rosso2010a,Zunino2010a,Zunino2012a}, as well as to optical chaos \cite{Liu2016f,Soriano2011a,Toomey2014,Yang2015e,Zunino2011a}, hydrology \cite{Lange2013,Serinaldi2014,Stosic2016}, geophysics \cite{Consolini2014,Saco2010,Sippel2016}, engineering \cite{Aquino2017,Aquino2015,Redelico2017a,Yan2012}, biometrics \cite{Rosso2016}, characterization of pseudo-random number generators \cite{DeMicco2008,DeMicco2009}, biomedical signal analysis \cite{Li2014b,Li2008b,Li2007,Liang2015b,Montani2015a,Montani2014,Montani2014a,Montani2015,Morabito2012,Parlitz2012,Perinelli2025,Perinelli2019,Zanin2012},and econophysics \cite{Bariviera2015a,Bariviera2015,Bariviera2016,Zanin2012,Zunino2016a,Zunino2009,Zunino2010}, to name a few.
 
 %%% ACF What is system parameter change? It means altering one of the constants in the dynamical system and this can cause the system's behavior to shift drastically.
 %system parameter change
@@ -99,14 +101,14 @@ From this distribution, two key descriptors are calculated to characterize the t
 \end{enumerate}
 The most common metric for the first descriptor is the normalized Shannon entropy, defined as:
 \begin{equation}
-	H(\mathbf{p})=-\dfrac{1}{\log k}\sum^{k}_{j=1}p_j \ln{p_j}.
+	H(\mathbf{p})=-\dfrac{1}{\log k}\sum^{k}_{\ell=1}p_{\ell} \ln{p_{\ell}}.
 \end{equation}
 Here, $k=D!$ represents the total number of possible permutation patterns.
 %%% ACF Something is missing here
 This entropy is bounded within the unit interval:
 \begin{itemize}
-	\item It reaches its minimum value $(H=0)$ when a single pattern dominates  for some $p_j=1$ for some $j$ 
-	\item It achieves its maximum $(H=1)$ under uniform probability $p_j=1/k$ for all $j$. 
+	\item It reaches its minimum value $(H=0)$ when a single pattern dominates  for some $p_{\ell}=1$ for some $\ell$ 
+	\item It achieves its maximum $(H=1)$ under uniform probability $p_{\ell}=1/k$ for all $\ell$. 
 \end{itemize}
 This normalized entropy is often termed permutation entropy in time series analysis. 
 
@@ -133,16 +135,17 @@ where $\max(Q')$ is defined as follows
 
 With this, Lamberti et al. \cite{lamberti2004intensive} proposed complexity as a measure of the statistical complexity of the underlying dynamics, which is defined as 
 \begin{equation}
-	C=HQ
+	C=HQ,
 \end{equation}
 where both $H$ and $Q$ are normalized quantities, therefore $C$ is also normalized. 
 
 \section{The Entropy Complexity Plane} \label{Sec:EntropyComplexity}
-The entropy-complexity plane is a two-dimensional representation where time series are mapped based on their entropy and statistical complexity. These metrics are derived from ordinal pattern distributions obtained through embedding dimension $D$ that are mapped on histograms of $D!$ bins, a technique involving:
-\begin{itemize}
-	\item Embedding dimension $D$: Determines the number of permutation patterns $D!$ used to construct histograms.
-	\item Time delay $(\tau)$: Often optimized for specific applications 
-\end{itemize} 
+The entropy-complexity plane is a two-dimensional representation where time series are mapped based on their entropy and statistical complexity. These metrics are derived from ordinal pattern distributions obtained through embedding dimension $D$ that are mapped on histograms of $D!$ bins. 
+%, a technique involving:
+%\begin{itemize}
+%	\item Embedding dimension $D$: Determines the number of permutation patterns $D!$ used to construct histograms.
+%	\item Time delay $(\tau)$: Often optimized for specific applications 
+%\end{itemize} 
 
 
 \subsection{Key Dynamics in the plane}
@@ -199,7 +202,7 @@ Crucially, the convergence rate and limiting distribution depend on the system�
 
 Imagine a sequence of $n$ independent trials, each resulting in precisely one outcome from a set of $k$ distinct possibilities labeled $\pi^1,\pi^2, \dots, \pi^k$ and so on. These outcomes are mutually exclusive, meaning only one can occur per trial, with respective probabilities $\bm{p}={\left\{p_1,p_2,\dots,p_k\right\}}$, such that $p_\ell \geq 0$ and $\sum^{k}_{\ell=1} {p_\ell =1}.$ The random vector $\bm{N}=(N_1,N_2,\dots, N_k)$ counts the number of occurrences of the events $\pi^1,\pi^2, \dots, \pi^k$ in the $n$ trials, with $N_\ell \geq0$ and $\sum^{k}_{\ell=1} {N_\ell =n}.$ A $\bm{n}$ is a sample from $\bm{N}$ and it has a $k-$variate vector of integer values $\bm{n}=(n_1,n_2,\dots,n_k).$ Then the joint distribution of $\bm{N}$ is 
 \begin{equation}
-	Pr(\bm{N=n})=Pr(N_1=n_1,N_2=n_2, \dots,N_k=n_k)=n!\prod_{\ell=1}^{k}\frac{{p_\ell}^{n_\ell}}{n_\ell !}
+	Pr(\bm{N=n})=Pr(N_1=n_1,N_2=n_2, \dots,N_k=n_k)=n!\prod_{\ell=1}^{k}\frac{{p_\ell}^{n_\ell}}{n_\ell !}.
 \end{equation}   
 
 This situation is denoted as $\bm{N}\sim \text{Mult}(n,\bm{p}).$ \cite{Rey2023}
@@ -229,19 +232,25 @@ where the index $q\in \mathbb{R}\backslash \{1\}$
 \end{equation}
 where the index $q\in \mathbb{R}^{+}\backslash \{1\}$
 \begin{equation}
-	H_F(\widehat{\bm{p}})=F_0\sum_{\ell=1}^{k-1}(\sqrt{\widehat{p_\ell}_{+1}}-\sqrt{\widehat{p_\ell}})^2
+	H_F(\widehat{\bm{p}})=F_0\sum_{\ell=1}^{k-1}(\sqrt{\widehat{p_\ell}_{+1}}-\sqrt{\widehat{p_\ell}})^2 ,
 \end{equation}
 where the re-normalization coefficient is $F_0=4$ \cite{sanchez2009discrete}
 
-The main results of the asymptotic distribution of the Shannon, Tsallis, Rényi entropy, and Fisher information are defined as follows \cite{Rey2023}. 
+Rey et al.~\cite{Rey2023} investigated the asymptotic distribution of several entropy measures, including Shannon, Tsallis, Rényi entropy, and Fisher information, and provided the following formulation:
 
-For any $k-$dimensional multivariate normal distribution $\bm{Z}\sim N(\bm{\mu},\sum),$ with $\mu \in \mathbb{R}^k$ and covariance matrix $\sum=(\sigma_{{\ell}{j}})$, holds that the distribution of $W=\bm{a}^T\bm{Z},$ with $\bm{a} \in \mathbb{R}^k,$ is $N(\bm{a}^T\bm{\mu},\sum_{\ell=1}^{k}a_\ell^2 \sigma_{{\ell}{\ell}}+2\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k} a_\ell a_j\sigma_{{\ell}{j}})$. 
+Let  $\bm{Z}\sim N(\bm{\mu},\sum),$ be a $k-$dimensional multivariate normal distribution with mean vector $\mu \in \mathbb{R}^k$ and covariance matrix $\sum=(\sigma_{{\ell}{j}})$. Then, for any $\bm{a} \in \mathbb{R}^k,$ the linear combination $W=\bm{a}^T\bm{Z},$ is normally distributed as:
 \begin{equation}
-	H_s(\widehat{\bm{p}})=-\sum_{\ell=1}^{k}\widehat{p_\ell}\log\widehat{p_\ell}
+	W\sim N(\bm{a}^T\bm{\mu},\sum_{\ell=1}^{k}a_\ell^2 \sigma_{{\ell}{\ell}}+2\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k} a_\ell a_j\sigma_{{\ell}{j}}).
 \end{equation}
+The estimated Shannon entropy is defined as:
 \begin{equation}
-	\widehat{\sigma}^2=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1)
+	H_s(\widehat{\bm{p}})=-\sum_{\ell=1}^{k}\widehat{p_\ell}\log\widehat{p_\ell}.
 \end{equation}
+The asymptotic variance $\widehat{\sigma}^2$ of the entropy estimator is given by:
+\begin{equation}
+	\widehat{\sigma}^2=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
+\end{equation}
+These formulas serve as the basis for the subsequent case study in our research.
 
 \section{Case Study of Asymptotic Distribution of the Complexity} 
 
