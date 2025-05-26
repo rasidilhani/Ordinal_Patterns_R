@@ -1,10 +1,20 @@
 \chapter{Literature Review}\label{C:lit}
 
-The analysis of complex time series has long relied on both time-domain and frequency-domain techniques. However, traditional methods often fall short in capturing nonlinear dynamics or are limited by strict assumptions such as stationarity and Gaussianity. The ordinal symbolic approach introduced by Bandt and Pompe in 2002 marked a significant theoretical advance by enabling robust, model-free characterization of time series. Their approach, rooted in information theory, involves converting segments of time series data into symbolic patterns based on the ordinal (rank) relationships among data points. The entropy calculated from the distribution of these patterns, now widely known as permutation entropy, has since become a central tool in nonlinear data analysis. This literature review discusses the theoretical foundations and diverse applications of the Bandt-Pompe methodology, as well as recent developments and challenges outlined in contemporary works, including the review by Amigó et al.~\cite{amigo2023ordinal} and Leyva et al.~\cite{Leyva2022}.
+The analysis of complex time series has long relied on both time-domain and frequency-domain techniques. 
+However, traditional methods often fall short in capturing nonlinear dynamics or are limited by strict assumptions such as stationarity and Gaussianity. 
+The ordinal symbolic approach introduced by Bandt and Pompe in 2002 marked a significant theoretical advance by enabling robust, model-free characterization of time series. 
+Their approach, rooted in information theory, involves converting segments of time series data into symbols based on the ordinal (rank) relationships among the data points.
+These symbols are called ``ordinal patterns.''
+%%% ACF We need the histogram here
+%%% ACF 
+The scaled Shannon entropy calculated from the distribution of these patterns, now widely known as permutation entropy, has become a central tool in nonlinear data analysis. 
+%%% 
+%%% ACF We need the statistical complexity here
+This literature review discusses the theoretical foundations and applications of the Bandt-Pompe methodology, as well as recent developments and challenges outlined in contemporary works, including the reviews by Amigó et al.~\cite{amigo2023ordinal} and Leyva et al.~\cite{Leyva2022}.
 
 %Waschke et al.~\cite{Waschke2025} investigated how the hippocampus encodes sensory information during memory formation by analyzing time series data from single-neuron recordings in 34 human patients undergoing neurosurgical procedures. Using permutation entropy, a measure of temporal complexity, they quantified trial-to-trial variability in neuronal spiking activity during a visual memory task. Their analysis revealed that hippocampal neurons dynamically track the richness of visual input, with greater spiking variability corresponding to more complex or information-rich stimuli. Key features of the study include the use of intracranial single-neuron recordings in humans, the application of entropy-based metrics to capture neural variability, and the discovery that this variability not only reflects stimulus content but also predicts subsequent memory performance, highlighting the role of variability as a functional marker of memory encoding. 
 
-%Another study by Alessio Perinelli and Leonardo Ricci \cite{Perinelli2025} aimed to develop a statistically grounded method to evaluate the temporal stationarity of resting-state EEG data using permutation entropy (PE). Researchers analyzed EEG recordings from the LEMON dataset, involving young and elderly adults, during alternating eyes-open (EO) and eyes-closed (EC) conditions. EEG signals were source-reconstructed into 30 brain regions, segmented, and assessed for entropy-based stability using a chi-square test on PE values. Key findings revealed greater nonstationarity in elderly participants and in EC conditions, with unstable segments showing higher PE, indicating increased signal complexity. This method provides a reliable framework for identifying unstable EEG periods and has potential applications in clinical diagnostics and real-time neural monitoring.
+%Another study by Alessio Perinelli and Leonardo Ricci~\cite{Perinelli2025} aimed to develop a statistically grounded method to evaluate the temporal stationarity of resting-state EEG data using permutation entropy (PE). Researchers analyzed EEG recordings from the LEMON dataset, involving young and elderly adults, during alternating eyes-open (EO) and eyes-closed (EC) conditions. EEG signals were source-reconstructed into 30 brain regions, segmented, and assessed for entropy-based stability using a chi-square test on PE values. Key findings revealed greater nonstationarity in elderly participants and in EC conditions, with unstable segments showing higher PE, indicating increased signal complexity. This method provides a reliable framework for identifying unstable EEG periods and has potential applications in clinical diagnostics and real-time neural monitoring.
 
 %Li et al.~\cite{Li2025} discussed the Multiscale Grayscale Dispersion Entropy (MGDE) model, an advanced entropy-based metric designed to assess the complexity of time series data across multiple temporal scales. Building upon the foundation of Grayscale Dispersion Entropy (GDE), MGDE incorporates a multiscale framework that enables a more comprehensive analysis of dynamic behaviors in time series. The methodology involves applying a coarse-graining process to the original time series data, followed by the computation of GDE at each scale, effectively capturing the signal's complexity at various temporal resolutions. Key findings from the study demonstrate that MGDE effectively distinguishes between different types of signals, including white Gaussian noise, $1/f$ noise, and chaotic signals, highlighting its robustness and sensitivity to underlying dynamics. The research also emphasizes MGDE's computational efficiency and its potential applicability in real-time signal processing. Looking ahead, MGDE holds significant promise for diverse applications in fields such as biomedical engineering, finance, and environmental science, where understanding the multiscale complexity of time series data is essential.
 
@@ -23,19 +33,31 @@ The analysis of complex time series has long relied on both time-domain and freq
 %Fan and Ding~\cite{Fan2025} presents a novel class of three-dimensional discrete memristive chaotic maps (3DDMCM) derived from a discrete cosine memristor model. These maps exhibit unique dynamic behaviors, including the generation of multi-type hidden attractors such as multi-wave, multi-cavity, multi-firework, and multi-diamond patterns, even in the absence of equilibrium points. By adjusting control parameters $\mu$ and $b$, the system can produce various chaotic attractors, demonstrating phenomena akin to multi-scroll patterns. Dynamic analyses reveal that the system possesses two positive Lyapunov exponents, high complexity, offset boosting, and diverse geometric control behaviors. A pseudo-random number generator (PRNG) based on this system was constructed, showcasing desirable statistical properties suitable for secure communication applications. Furthermore, the feasibility of implementing the 3DDMCM was confirmed through deployment on a DSP development board, underscoring its potential for practical engineering applications
 
 \section{Theoretical Foundations of the Bandt-Pompe Methodology}
-Bandt and Pompe (2002) \cite{PhysRevLett.88.174102} introduced a novel approach to time series analysis by focusing on the ordinal relationships between data points rather than their actual values. This method involves mapping a time series into a sequence of ordinal patterns, which are permutations representing the relative ordering of values within embedding vectors. The frequency distribution of these patterns forms the basis for calculating Shannon entropy, a measure of complexity that is invariant under monotonic transformations and robust to observational noise. This approach requires minimal assumptions about the data and is computationally efficient, making it suitable for analyzing a wide range of systems \cite{Zanin2012}.
 
-Shannon entropy is employed to quantify the unpredictability or complexity of the symbolic sequence. The resulting permutation entropy has several attractive properties: it is computationally efficient, non-parametric, and effective for short and noisy time series \cite{PhysRevLett.88.174102, Zanin2012}. Further theoretical development by Rosso et al.~\cite{Rosso2007} extended the theoretical basis by introducing statistical complexity, which reflects both randomness and structure in a system. Plotting entropy against complexity yields the entropy-complexity plane, a diagnostic tool for classifying different dynamical regimes.
+Bandt and Pompe~\cite{PhysRevLett.88.174102} introduced in 2002 a novel approach to time series analysis by focusing on the ordinal relationships between data points rather than their actual values. 
+This method involves mapping a time series into a sequence of symbols representing the relative ordering of values within embedding vectors. 
+The authors computed the scaled Shannon entropy (the permutation entropy) of the frequency distribution of these patterns, and used it as a measure of the signal complexity.
+Since the symbols are invariant under monotonic transformations and robust to observational noise, so is any feature derived from them.
+This approach requires minimal assumptions about the data, it is computationally efficient, and effective for short time series, making it suitable for a wide range of applications~\cite{Zanin2012}.
+
+%The Shannon entropy is employed to quantify the unpredictability or complexity of the symbolic sequence. 
+%The resulting permutation entropy has several attractive properties: it is computationally efficient, non-parametric, ~\cite{ Zanin2012}. 
+%%% ACF A statistical measure of complexity discussed how C must behave, and the authors proposed a (not so good) way of computing it
+%%% ACF {EEG} analysis using wavelet-based information tools proposes the Jensen-Shannon distance, that leads to the statistical complexity as we use it.
+A further theoretical development by Rosso et al.~\cite{Rosso2007} extended method by introducing the statistical complexity, which measures both the system's randomness and structure. 
+Plotting the permutation entropy against the statistical complexity yields the entropy-complexity plane, a diagnostic tool for classifying different dynamical regimes.
 
 \section{Applications and Advances}
-The Bandt-Pompe framework has since found broad applications across domains, as reviewed by Amigó et al.(2023) in their survey “Ordinal Methods: Concepts, Applications, New Developments and its Challenges”\cite{amigo2023ordinal}. This section is divided into four subsections to analyze the applications of the Bandt and Pompe framework across various domains:
+
+The Bandt-Pompe framework has since found broad applications across domains, as reviewed by Amigó et al.~\cite{amigo2023ordinal}. 
+This section is divided into three subsections that analyze the applications of the Bandt and Pompe framework across various domains.
 
 \subsection{Biomedical Signal Processing}
 In biomedical signal processing, it has been used to analyze EEG, ECG, and fMRI data, detecting anomalies such as epileptic seizures or sleep stage transitions. 
 \begin{itemize}
-	\item \textbf{EEG Analysis:} A study by Keller et al.~(2014)\cite{Keller2014} demonstrated the application of ordinal pattern based entropy measures, such as empirical permutation entropy (ePE), empirical conditional entropy (eCE), and robust empirical permutation entropy (rePE) to effectively analyze and classify EEG time series data, demonstrating their utility in detecting brain state transitions, segmenting non-stationary signals, and identifying change-points without relying on prior expert knowledge.
+	\item \textbf{EEG Analysis:} A study by Keller et al.~\cite{Keller2014} demonstrated the application of ordinal pattern based entropy measures, such as empirical permutation entropy (ePE), empirical conditional entropy (eCE), and robust empirical permutation entropy (rePE) to effectively analyze and classify EEG time series data, demonstrating their utility in detecting brain state transitions, segmenting non-stationary signals, and identifying change-points without relying on prior expert knowledge.
 	
-	\item \textbf{ECG Analysis:} Mansourian et al. (2024)\cite{Mansourian2024} applied adaptive improved permutation entropy to extract fetal QRS complexes from single-channel abdominal ECG, enhancing the accuracy of fetal heart rate monitoring.
+	\item \textbf{ECG Analysis:} Mansourian et al.~\cite{Mansourian2024} applied adaptive improved permutation entropy to extract fetal QRS complexes from single-channel abdominal ECG, enhancing the accuracy of fetal heart rate monitoring.
 \end{itemize}
 
 \subsection{Geophysics and Hydrology}
@@ -56,12 +78,12 @@ Permutation entropy has found applications in econophysics for market behavior a
 	\item \textbf{Engineering:}
 \end{itemize}
 
-\subsection{Methodological Extensions}
+\section{Methodological Extensions}
 Recent developments have extended the methodology through multiscale approaches, cross-entropy comparisons for multivariate signals, and weighted ordinal patterns.
 
- 
-
 Furthermore, the use of alternative entropy measures such as Tsallis and Renyi entropy has been explored to better capture non-extensive and multifractal behavior in complex systems.
+
+\textcolor{red}{Statistical properties!}
 
 \section{Challenges and Future Directions}
 Despite its success, several challenges remain in the application and development of the Bandt-Pompe approach. One major issue is the choice of embedding parameters (dimension and delay), which significantly affect the pattern distribution. Additionally, estimating entropy and complexity reliably in short time series remains difficult, prompting the need for improved statistical inference methods such as bootstrapping and confidence interval estimation.
