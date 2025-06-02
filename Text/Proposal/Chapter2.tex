@@ -4,12 +4,15 @@ The analysis of complex time series has long relied on both time-domain and freq
 However, traditional methods often fall short in capturing nonlinear dynamics or are limited by strict assumptions such as stationarity and Gaussianity. 
 The ordinal symbolic approach introduced by Bandt and Pompe in 2002 marked a significant theoretical advance by enabling robust, model-free characterization of time series. 
 Their approach, rooted in information theory, involves converting segments of time series data into symbols based on the ordinal (rank) relationships among the data points.
-These symbols are called ``ordinal patterns.''
+These symbols are called "ordinal patterns." After computing all the symbols, their relative frequencies are used to estimate the probability distribution of ordinal patterns. From this distribution, two key descriptors entropy and complexity are calculated to characterize the time series.
 %%% ACF We need the histogram here
 %%% ACF 
-The scaled Shannon entropy calculated from the distribution of these patterns, now widely known as permutation entropy, has become a central tool in nonlinear data analysis. 
+The scaled Shannon entropy calculated from the distribution of these patterns, now widely known as permutation entropy, has become a central tool in nonlinear data analysis.
+To complement entropy which quantifies randomness, theoretical statistical complexity was introduced  by López-Ruiz et al.~\cite{lopez1995statistical} to capture the structure of a system. By plotting permutation entropy against statistical complexity, Rosso et al.~\cite{Rosso2007} use the entropy-complexity plane as a powerful diagnostic tool to distinguish between different dynamical regimes, such as chaos, noise, and periodicity.
+
 %%% 
 %%% ACF We need the statistical complexity here
+
 This literature review discusses the theoretical foundations and applications of the Bandt-Pompe methodology, as well as recent developments and challenges outlined in contemporary works, including the reviews by Amigó et al.~\cite{amigo2023ordinal} and Leyva et al.~\cite{Leyva2022}.
 
 %Waschke et al.~\cite{Waschke2025} investigated how the hippocampus encodes sensory information during memory formation by analyzing time series data from single-neuron recordings in 34 human patients undergoing neurosurgical procedures. Using permutation entropy, a measure of temporal complexity, they quantified trial-to-trial variability in neuronal spiking activity during a visual memory task. Their analysis revealed that hippocampal neurons dynamically track the richness of visual input, with greater spiking variability corresponding to more complex or information-rich stimuli. Key features of the study include the use of intracranial single-neuron recordings in humans, the application of entropy-based metrics to capture neural variability, and the discovery that this variability not only reflects stimulus content but also predicts subsequent memory performance, highlighting the role of variability as a functional marker of memory encoding. 
@@ -44,7 +47,7 @@ This approach requires minimal assumptions about the data, it is computationally
 %The resulting permutation entropy has several attractive properties: it is computationally efficient, non-parametric, ~\cite{ Zanin2012}. 
 %%% ACF A statistical measure of complexity discussed how C must behave, and the authors proposed a (not so good) way of computing it
 %%% ACF {EEG} analysis using wavelet-based information tools proposes the Jensen-Shannon distance, that leads to the statistical complexity as we use it.
-A further theoretical development by Rosso et al.~\cite{Rosso2007} extended method by introducing the statistical complexity, which measures both the system's randomness and structure. 
+A further theoretical development by López-Ruiz et al.~\cite{lopez1995statistical} extended method by introducing the statistical complexity, which measures both the system's randomness and structure. Later, Rosso et al.~\cite{Rosso2007} extended and applied statistical complexity in the entropy-complexity plane framework,
 Plotting the permutation entropy against the statistical complexity yields the entropy-complexity plane, a diagnostic tool for classifying different dynamical regimes.
 
 \section{Applications and Advances}
@@ -52,9 +55,9 @@ Plotting the permutation entropy against the statistical complexity yields the e
 The Bandt-Pompe framework has since found broad applications across domains, as reviewed by Amigó et al.~\cite{amigo2023ordinal}. 
 This section is divided into three subsections that analyze the applications of the Bandt and Pompe framework across various domains.
 
-On XX.YY.ZZ we collected WHERE all the references that cited the seminal work by Bandt and Pompe.
-On that date, they were UUUU.
-We marked them into 
+On 21 February 2025, we collected all Scopus-indexed references that cited the seminal work by Bandt and Pompe.
+On that date, they were 3986.
+We marked them into categories based on application fields, such as biomedical signal processing, geophysics and hydrology, econophysics, optical systems and engineering.
 
 \subsection{Biomedical Signal Processing}
 In biomedical signal processing, it has been used to analyze EEG, ECG, and fMRI data, detecting anomalies such as epileptic seizures or sleep stage transitions. 
@@ -86,6 +89,14 @@ Permutation entropy has found applications in econophysics for market behavior a
 Recent developments have extended the methodology through multiscale approaches, cross-entropy comparisons for multivariate signals, and weighted ordinal patterns.
 
 Furthermore, the use of alternative entropy measures such as Tsallis and Renyi entropy has been explored to better capture non-extensive and multifractal behavior in complex systems.
+
+Recent developments have extended the methodology through multiscale approaches, cross-entropy comparisons for multivariate signals, and weighted ordinal patterns. These innovations aim to enhance the sensitivity of ordinal analysis across multiple temporal resolutions, account for signal interdependencies, and assign importance to certain ordinal patterns based on domain-specific knowledge.
+
+Furthermore, the use of alternative entropy measures such as Tsallis and Rényi entropy has been explored to better capture non-extensive and multifractal behavior in complex systems, especially where the assumptions of Shannon entropy may not hold.
+
+In addition to methodological enhancements, attention has also been given to the statistical properties of entropy and complexity estimates. One key focus is the estimation of confidence intervals for descriptors such as permutation entropy and statistical complexity. These intervals provide a quantifiable measure of uncertainty, which is crucial for distinguishing significant patterns from noise, validating comparisons between different systems, and assessing the stability of observed dynamics.
+
+Incorporating statistical inference technique, such as asymptotic variance estimation, improves the robustness and interpretability of the results. These tools enable researchers to make reliable conclusions even in cases of short time series, thereby reinforcing the utility of ordinal methods in practical applications.
 
 \textcolor{red}{Statistical properties!}
 
