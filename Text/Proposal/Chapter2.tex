@@ -35,22 +35,32 @@ This literature review discusses the theoretical foundations and applications of
 
 %Fan and Ding~\cite{Fan2025} presents a novel class of three-dimensional discrete memristive chaotic maps (3DDMCM) derived from a discrete cosine memristor model. These maps exhibit unique dynamic behaviors, including the generation of multi-type hidden attractors such as multi-wave, multi-cavity, multi-firework, and multi-diamond patterns, even in the absence of equilibrium points. By adjusting control parameters $\mu$ and $b$, the system can produce various chaotic attractors, demonstrating phenomena akin to multi-scroll patterns. Dynamic analyses reveal that the system possesses two positive Lyapunov exponents, high complexity, offset boosting, and diverse geometric control behaviors. A pseudo-random number generator (PRNG) based on this system was constructed, showcasing desirable statistical properties suitable for secure communication applications. Furthermore, the feasibility of implementing the 3DDMCM was confirmed through deployment on a DSP development board, underscoring its potential for practical engineering applications
 
-\section{Theoretical Foundations of the Bandt-Pompe Methodology}
+\section{The Onset of the Entropy-Complexity Plane}
+
+%%% ACF Anticipate briefly what this is about 
 
 Bandt and Pompe~\cite{PhysRevLett.88.174102} introduced in 2002 a novel approach to time series analysis by focusing on the ordinal relationships between data points rather than their actual values. 
 This method involves mapping a time series into a sequence of symbols representing the relative ordering of values within embedding vectors. 
 The authors computed the scaled Shannon entropy (the permutation entropy) of the frequency distribution of these patterns, and used it as a measure of the signal complexity.
-Since the symbols are invariant under monotonic transformations and robust to observational noise, so is any feature derived from them.
+Since the symbols are invariant under monotonic increasing transformations and robust to observational noise and errors, 
+%%% ACF Think about "noise" and "error"; see if you find better words for them
+so is any feature derived from them.
 This approach requires minimal assumptions about the data, it is computationally efficient, and effective for short time series, making it suitable for a wide range of applications~\cite{Zanin2012}.
 
 %The Shannon entropy is employed to quantify the unpredictability or complexity of the symbolic sequence. 
 %The resulting permutation entropy has several attractive properties: it is computationally efficient, non-parametric, ~\cite{ Zanin2012}. 
 %%% ACF A statistical measure of complexity discussed how C must behave, and the authors proposed a (not so good) way of computing it
 %%% ACF {EEG} analysis using wavelet-based information tools proposes the Jensen-Shannon distance, that leads to the statistical complexity as we use it.
-A further theoretical development by López-Ruiz et al.~\cite{lopez1995statistical} extended method by introducing the statistical complexity, which measures both the system's randomness and structure. Later, Rosso et al.~\cite{Rosso2007} extended and applied statistical complexity in the entropy-complexity plane framework,
+A further theoretical development by López-Ruiz et al.~\cite{lopez1995statistical} extended method by introducing the statistical complexity, which measures both the system's randomness and structure. 
+%%% ACF They couldn't have extended a method that was proposed ahead in time
+%%% ACF Revise the following sentence
+%%% ACF There is a previous article
+Later, Rosso et al.~\cite{Rosso2007} extended and applied statistical complexity in the entropy-complexity plane framework,
 Plotting the permutation entropy against the statistical complexity yields the entropy-complexity plane, a diagnostic tool for classifying different dynamical regimes.
 
 \section{Applications and Advances}
+
+%%% ACF Are you going to talk about BP, or about HxC?
 
 The Bandt-Pompe framework has since found broad applications across domains, as reviewed by Amigó et al.~\cite{amigo2023ordinal}. 
 This section is divided into three subsections that analyze the applications of the Bandt and Pompe framework across various domains.
