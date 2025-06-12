@@ -2,61 +2,93 @@
 
 The analysis of complex time series has long relied on both time-domain and frequency-domain techniques. 
 However, traditional methods often fall short in capturing nonlinear dynamics or are limited by strict assumptions such as stationarity and Gaussianity. 
+
 The ordinal symbolic approach introduced by Bandt and Pompe in 2002 marked a significant theoretical advance by enabling robust, model-free characterization of time series. 
 Their approach, rooted in information theory, involves converting segments of time series data into symbols based on the ordinal (rank) relationships among the data points.
-These symbols are called "ordinal patterns." After computing all the symbols, their relative frequencies are used to estimate the probability distribution of ordinal patterns. From this distribution, two key descriptors entropy and complexity are calculated to characterize the time series.
-%%% ACF We need the histogram here
-%%% ACF 
-The scaled Shannon entropy calculated from the distribution of these patterns, now widely known as permutation entropy, has become a central tool in nonlinear data analysis.
-To complement entropy which quantifies randomness, theoretical statistical complexity was introduced  by López-Ruiz et al.~\cite{lopez1995statistical} to capture the structure of a system. By plotting permutation entropy against statistical complexity, Rosso et al.~\cite{Rosso2007} use the entropy-complexity plane as a powerful diagnostic tool to distinguish between different dynamical regimes, such as chaos, noise, and periodicity.
+These symbols are called "ordinal patterns." After computing all the symbols, their relative frequencies are used to estimate the probability distribution of ordinal patterns.
+
+From this distribution estimate, two key descriptors entropy and complexity are calculated to characterize the time series: the scaled Shannon entropy, now widely known as permutation entropy, and the statistical complexity.
+
+López-Ruiz et al.~\cite{lopez1995statistical} to capture the structure of a system. By plotting permutation entropy against statistical complexity, Rosso et al.~\cite{Rosso2007} use the entropy-complexity plane as a powerful diagnostic tool to distinguish between different dynamical regimes, such as chaos, noise, and periodicity.
 
 %%% 
 %%% ACF We need the statistical complexity here
+This chapter is divided into three main sections. The first section discusses the emergence of the entropy-complexity plane. This topic is presented as a central theme because it reflects the foundation of our main research focus and illustrates how it has evolved over time into the current approach to time series analysis based on the concept of ordinal patterns.
+The second section analyzes the bibliometrix results derived from references that cite the Bandt and Pompe methodology. The third section presents a literature review based on the insights gained through the bibliometrix analysis. Bibliometrix is primarily used to quantify scientific production and assess its quality and impact. It is a widely adopted quantitative approach in systematic literature reviews, useful for mapping the intellectual structure, identifying research trends, and highlighting key contributions within a specific field. Additionally, it helps visualize and analyze the intellectual, conceptual, and social structures of research. The main objective of bibliometrix analysis is to describe how specific disciplines or scientific domains are organized and how they evolve over time.
 
-This literature review discusses the theoretical foundations and applications of the Bandt-Pompe methodology, as well as recent developments and challenges outlined in contemporary works, including the reviews by Amigó et al.~\cite{amigo2023ordinal} and Leyva et al.~\cite{Leyva2022}.
+Following this analysis, we focus our literature review on the most relevant aspects identified in relation to our research topic. By examining citation patterns and bibliographic data from the Scopus database, this review identifies the theoretical foundations and practical applications of the Bandt–Pompe methodology. The decision to use bibliometrix analysis was motivated by its ability to provide an objective assessment of influential publications, collaboration networks, and emerging research themes, thereby enhancing both the transparency and reproducibility of the review process.
+%Recent developments and challenges in this area are also highlighted, including insights from comprehensive reviews by Amigó et al.\cite{amigo2023ordinal} and Leyva et al.\cite{Leyva2022}.
 
-%Waschke et al.~\cite{Waschke2025} investigated how the hippocampus encodes sensory information during memory formation by analyzing time series data from single-neuron recordings in 34 human patients undergoing neurosurgical procedures. Using permutation entropy, a measure of temporal complexity, they quantified trial-to-trial variability in neuronal spiking activity during a visual memory task. Their analysis revealed that hippocampal neurons dynamically track the richness of visual input, with greater spiking variability corresponding to more complex or information-rich stimuli. Key features of the study include the use of intracranial single-neuron recordings in humans, the application of entropy-based metrics to capture neural variability, and the discovery that this variability not only reflects stimulus content but also predicts subsequent memory performance, highlighting the role of variability as a functional marker of memory encoding. 
-
-%Another study by Alessio Perinelli and Leonardo Ricci~\cite{Perinelli2025} aimed to develop a statistically grounded method to evaluate the temporal stationarity of resting-state EEG data using permutation entropy (PE). Researchers analyzed EEG recordings from the LEMON dataset, involving young and elderly adults, during alternating eyes-open (EO) and eyes-closed (EC) conditions. EEG signals were source-reconstructed into 30 brain regions, segmented, and assessed for entropy-based stability using a chi-square test on PE values. Key findings revealed greater nonstationarity in elderly participants and in EC conditions, with unstable segments showing higher PE, indicating increased signal complexity. This method provides a reliable framework for identifying unstable EEG periods and has potential applications in clinical diagnostics and real-time neural monitoring.
-
-%Li et al.~\cite{Li2025} discussed the Multiscale Grayscale Dispersion Entropy (MGDE) model, an advanced entropy-based metric designed to assess the complexity of time series data across multiple temporal scales. Building upon the foundation of Grayscale Dispersion Entropy (GDE), MGDE incorporates a multiscale framework that enables a more comprehensive analysis of dynamic behaviors in time series. The methodology involves applying a coarse-graining process to the original time series data, followed by the computation of GDE at each scale, effectively capturing the signal's complexity at various temporal resolutions. Key findings from the study demonstrate that MGDE effectively distinguishes between different types of signals, including white Gaussian noise, $1/f$ noise, and chaotic signals, highlighting its robustness and sensitivity to underlying dynamics. The research also emphasizes MGDE's computational efficiency and its potential applicability in real-time signal processing. Looking ahead, MGDE holds significant promise for diverse applications in fields such as biomedical engineering, finance, and environmental science, where understanding the multiscale complexity of time series data is essential.
-
-%The article titled "Detection of Ship Echo Signals in Reverberation Background Based on Sample Entropy and Multiscale Sample Entropy" by Li et al.~\cite{Li2025a}, addresses the challenge of detecting ship echo signals amidst reverberation in underwater environments. Traditional frequency-based detection methods often struggle under conditions of low signal-to-reverberation ratios (SRR) and minimal Doppler shifts. To overcome these limitations, the authors introduce entropy-based approaches, specifically, Sample Entropy (SampEn) and Multiscale Sample Entropy (MSE), to analyze the complexity differences between target echoes and reverberation noise. Through simulations under various SRR and Doppler shift scenarios, the study demonstrates that while frequency-based methods falter in challenging conditions, SampEn and MSE effectively detect target echoes. Notably, MSE maintains detection capabilities even when the Doppler shift is negligible and the SRR drops to 0 dB. These findings highlight the robustness of entropy-based methods in complex underwater acoustic environments, suggesting their potential for enhancing real-time sonar systems and underwater surveillance applications.
-
-%Mao et al.~\cite{Mao2025} introduces an innovative approach for detecting short-wave defects in railway tracks by analyzing axle box acceleration signals. The authors propose a new metric called Dispersion Transition Entropy (DTE), which quantifies the dynamic complexity of time series data by examining transitions between dispersion patterns. To enhance the sensitivity of this measure, they integrate the Jensen–Fisher Divergence (JFD), a statistical tool adept at highlighting local differences in probability distributions. By computing the JFD between dispersion-transition distributions of consecutive sliding windows, the method effectively identifies anomalies such as rail corrugation and impact defects. Experimental results demonstrate that this combined approach outperforms traditional methods in distinguishing chaotic signals from stochastic noise, offering a robust solution for real-time rail defect detection and contributing to improved railway maintenance and safety.
-
-%An innovative entropy-based metric designed to quantify synchrony in complex time series data was proposed by Lin A. and Lin G.~\cite{Lin2025}. The method extends traditional diversity entropy by incorporating a multiscale framework, enabling the analysis of signal complexity across various temporal resolutions. By evaluating the diversity of patterns within time series at multiple scales, the approach captures both local and global synchrony features, making it particularly effective for detecting subtle synchronization phenomena in nonlinear and nonstationary signals. The study demonstrates the utility of this metric through applications to both synthetic and real-world datasets, highlighting its robustness and sensitivity in identifying synchrony patterns that may be overlooked by conventional methods. The findings suggest that multiscale modified diversity entropy offers a valuable tool for researchers and practitioners in fields such as neuroscience, physiology, and engineering, where understanding the synchrony of complex systems is crucial.
-
-%A novel approach based on Fuzzy Diversity Entropy (FDE) to enhance the accuracy and sensitivity of fault detection in rotating machinery was introduced by Jiao et al.~\cite{Jiao2025}. This method builds on traditional Diversity Entropy (DE) by addressing its limitations in detecting subtle signal variations caused by rigid classification boundaries. By integrating fuzzy set theory, FDE replaces fixed probability assignments with fuzzy membership degrees, enabling a more nuanced quantification of signal complexity and better preservation of diversity information. This enhancement allows FDE to effectively distinguish between similar cosine similarity values that DE might treat as equivalent, thus increasing sensitivity to minor signal changes. The effectiveness of FDE was validated using both simulated and experimental vibration signals from rotating machinery. Comparative analyses show that FDE outperforms conventional DE, Fuzzy Entropy (FE), and Permutation Entropy (PE) in terms of complexity quantification, parameter sensitivity, and computational efficiency. These results suggest that FDE is a robust and efficient tool for intelligent fault diagnosis, with strong potential for real-time monitoring and predictive maintenance of rotating machinery systems.
-
-%A novel signal processing framework to enhance the sensitivity and accuracy of quartz-enhanced photoacoustic spectroscopy (QEPAS) systems for gas detection was proposed by Zhang et al.~\cite{Zhang2025}. The method combines Improved Complete Ensemble Empirical Mode Decomposition with Adaptive Noise (ICEEMDAN), Permutation Entropy (PE), and Wavelet Threshold Denoising (WTD) to efficiently extract and denoise key components from complex acoustic signals. By decomposing the signal into intrinsic mode functions (IMFs) with ICEEMDAN, selecting relevant components using PE, and applying WTD to reduce residual noise, the approach significantly boosts the signal-to-noise ratio. Experimental validation shows that this integrated technique outperforms conventional denoising methods, resulting in more accurate gas concentration measurements. The work highlights the potential of advanced entropy-based and multi-stage denoising strategies in improving the performance and reliability of QEPAS systems for applications such as environmental monitoring, industrial safety, and medical diagnostics.
-
-%Wang et al.~\cite{Wang2025} introduces a novel entropy-based approach aimed at enhancing the accuracy of fault detection in rolling bearings. This method, termed Distance Similarity Entropy (DSE), integrates distance metrics with entropy calculations to effectively capture subtle nonlinear characteristics in vibration signals. By quantifying the similarity between signal segments through distance measures and assessing their complexity via entropy, DSE provides a more sensitive feature extraction technique compared to traditional entropy methods. Experimental validations demonstrate that DSE outperforms existing approaches in identifying bearing faults, especially in scenarios with limited or noisy data, highlighting its potential for practical applications in machinery fault diagnosis.
-
-%Fan and Ding~\cite{Fan2025} presents a novel class of three-dimensional discrete memristive chaotic maps (3DDMCM) derived from a discrete cosine memristor model. These maps exhibit unique dynamic behaviors, including the generation of multi-type hidden attractors such as multi-wave, multi-cavity, multi-firework, and multi-diamond patterns, even in the absence of equilibrium points. By adjusting control parameters $\mu$ and $b$, the system can produce various chaotic attractors, demonstrating phenomena akin to multi-scroll patterns. Dynamic analyses reveal that the system possesses two positive Lyapunov exponents, high complexity, offset boosting, and diverse geometric control behaviors. A pseudo-random number generator (PRNG) based on this system was constructed, showcasing desirable statistical properties suitable for secure communication applications. Furthermore, the feasibility of implementing the 3DDMCM was confirmed through deployment on a DSP development board, underscoring its potential for practical engineering applications
 
 \section{The Onset of the Entropy-Complexity Plane}
 
 %%% ACF Anticipate briefly what this is about 
 
-Bandt and Pompe~\cite{PhysRevLett.88.174102} introduced in 2002 a novel approach to time series analysis by focusing on the ordinal relationships between data points rather than their actual values. 
-This method involves mapping a time series into a sequence of symbols representing the relative ordering of values within embedding vectors. 
-The authors computed the scaled Shannon entropy (the permutation entropy) of the frequency distribution of these patterns, and used it as a measure of the signal complexity.
-Since the symbols are invariant under monotonic increasing transformations and robust to observational noise and errors, 
+%Bandt and Pompe~\cite{PhysRevLett.88.174102} introduced in 2002 a novel approach to time series analysis by focusing on the ordinal relationships between data points rather than their actual values. 
+%This method involves mapping a time series into a sequence of symbols representing the relative ordering of values within embedding vectors. 
+%The authors computed the scaled Shannon entropy (the permutation entropy) of the frequency distribution of these patterns, and used it as a measure of the signal complexity.
+%Since the symbols are invariant under monotonic increasing transformations and robust to observational noise and errors, 
 %%% ACF Think about "noise" and "error"; see if you find better words for them
-so is any feature derived from them.
-This approach requires minimal assumptions about the data, it is computationally efficient, and effective for short time series, making it suitable for a wide range of applications~\cite{Zanin2012}.
+%so is any feature derived from them.
+%This approach requires minimal assumptions about the data, it is computationally efficient, and effective for short time series, making it suitable for a wide range of applications~\cite{Zanin2012}.
 
+
+Bandt and Pompe introduced a method for symbolizing time series in 2002, based on two key parameters: embedding dimension and time delay. In their approach, a time series is converted into a sequence of symbols, which are then used to estimate a probability distribution function, often represented as a histogram. From this probability distribution, they calculate permutation entropy.
+
+However, permutation entropy alone is not sufficient to fully analyze time series data. To address this, Martin et. al.~
+\cite{Martin2003}. introduced the the concept of disequilibrium as an essential ingredient of a family of statistical complexity measure in 2003. They found that the use of Euclidean distances for probability space become quite relevant to this endeavor, building on the concept of complexity previously proposed by López-Ruiz et al.~\cite{lopez1995statistical} in 1995. López-Ruiz defined complexity using Shannon entropy and the Euclidean distance between the observed probability distribution and the uniform distribution.
+
+Recognizing limitations in this approach, Lamberti et al.~\cite{lamberti2004intensive} further examined the properties of complexity and refined the measure by incorporating the Jensen–Shannon divergence instead of the Euclidean distance. Further, Martin et.al.~\cite{Martin2006} discussed bounded values adopted by the generalized statistical complexity measures. Finally, Rosso et.al.~\cite{Rosso2007} then defined complexity separately and combined it with permutation entropy to form the entropy-complexity plane, providing a more robust framework for analyzing time series data.
 %The Shannon entropy is employed to quantify the unpredictability or complexity of the symbolic sequence. 
 %The resulting permutation entropy has several attractive properties: it is computationally efficient, non-parametric, ~\cite{ Zanin2012}. 
 %%% ACF A statistical measure of complexity discussed how C must behave, and the authors proposed a (not so good) way of computing it
 %%% ACF {EEG} analysis using wavelet-based information tools proposes the Jensen-Shannon distance, that leads to the statistical complexity as we use it.
-A further theoretical development by López-Ruiz et al.~\cite{lopez1995statistical} extended method by introducing the statistical complexity, which measures both the system's randomness and structure. 
+%A further theoretical development by López-Ruiz et al.~\cite{lopez1995statistical} extended method by introducing the statistical complexity, which measures both the system's randomness and structure. 
 %%% ACF They couldn't have extended a method that was proposed ahead in time
 %%% ACF Revise the following sentence
 %%% ACF There is a previous article
-Later, Rosso et al.~\cite{Rosso2007} extended and applied statistical complexity in the entropy-complexity plane framework,
-Plotting the permutation entropy against the statistical complexity yields the entropy-complexity plane, a diagnostic tool for classifying different dynamical regimes.
+%Later, Rosso et al.~\cite{Rosso2007} extended and applied statistical complexity in the entropy-complexity plane framework,
+%Plotting the permutation entropy against the statistical complexity yields the entropy-complexity plane, a diagnostic tool for classifying different dynamical regimes.
+
+\section{The Bibliometrix Analysis: data collection, tools and background}
+Bibliometric analysis provides a quantitative approach to reviewing and mapping the intellectual structure of a research field. By systematically analyzing the citation patterns, author collaborations, and keyword co-occurrences within the literature, it allows for the identification of key themes, research trends, and emerging topics. In this study, bibliometric analysis was conducted using the Bibliometrix package in R and its user-friendly web interface Biblioshiny, focusing on literature related to ordinal patterns, permutation entropy, and complexity measures in time series analysis.
+
+Scopus-indexed references that cited the seminal work by Bandt and Pompe were collected on the 9th of June 2025. Based on these reference files, we analyzed a dataset consisting of 4125 reference files spanning the years 1993 to 2025. Keywords used for data extraction included Bandt and Pompe research, ordinal patterns, permutation entropy, and time series clustering. The aim of this bibliometric analysis was to identify and classify the literature according to application domains and theoretical developments related to ordinal patterns in time series analysis. This analysis enables a comprehensive understanding of the research landscape by quantitatively examining citation networks, author collaborations, keyword trends, and thematic evolution. Bibliometric analysis is an important tool in systematic literature reviews to ensure objectivity, reveal key contributions, and provide a structured overview of intellectual development within the field.
+
+\section{Research Question and Motivation}
+This systematic review was initiated to address the research question formulated as part of the doctoral degree requirements. To date, no researchers have directly explored the specific topic addressed in this study, and the systematic review helps verify this research gap.
+
+The primary research question guiding this study is:
+\textbf{How can confidence intervals for generalized entropy measures (Shannon, Tsallis, Rényi, Fisher information measure) and their associated complexity metrics be used to improve the robustness and discriminative power of time series clustering techniques?}.
+
+Systematic reviews aim to collect evidence that meets predefined eligibility criteria to address specific research questions. To minimize bias, they follow clearly defined, systematic procedures that are outlined in advance through a detailed protocol. The descriptive analysis of the dataset revealed a total of 4063 usable documents (out of 4125), covering the time span 1993–2025, sourced from 1317 publication sources. The dataset shows an annual growth rate of 18.15\%, involving 7254 authors, 123 single-authored documents, 27.32\% international co-authorship, with an average of 4.28 co-authors per document. The author keywords totaled 7667, with an average document age of 5.7 years and 22.6 citations per document. However, it was noted that some reference files were excluded due to missing data.
+
+\subsection{Thematic Map Analysis}
+Thematic mapping was conducted to visualize the evolution and relevance of major research themes in the field. Figure \ref{fig:ThematicMap} illustrates the thematic map derived from author keywords.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{ThematicMap}
+	\caption{The Thematic Map generated by Biblioshiny (Bibliometrix).}
+	\label{fig:ThematicMap}
+\end{figure}
+The map is divided into four quadrants based on two dimensions: centrality (relevance) and density (development). The quadrant representing Motor Themes includes topics such as entropy, signal processing, and machine learning, indicating well-developed and highly interconnected areas of research. Basic Themes include permutation entropy and time series analysis, which are foundational topics in the field and closely align with the focus of this thesis. Niche Themes such as chaos theory and chaotic systems represent specialized subfields, while Emerging or Declining Themes like cryptography and image encryption reflect peripheral or potentially declining research interests. This thematic analysis provides a clear framework for situating the present research within the broader academic landscape, emphasizing both its theoretical foundation and its relevance to contemporary research trends.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{FactorialMap}
+	\caption{Factorial map generated by Biblioshiny (Bibliometrix).}
+	\label{fig:factorialMap}
+\end{figure}
+The factorial map in Figure \ref{fig:factorialMap} reveals four major conceptual clusters:
+
+The first cluster (upper right) includes theoretical concepts such as chaos theory, chaotic systems, Lyapunov methods, ordinal pattern, information theory, complex networks, and permutation entropy, forming the theoretical core of the research area.
+
+The second cluster (lower right) includes practical applications such as feature extraction, empirical mode decomposition, variational mode decomposition, fault diagnosis, fault detection, and failure analysis, emphasizing the applied relevance of complexity-based time series analysis.
+
+The third cluster (center) comprises terms related to biomedical signal processing and machine learning, including biomedical signal processing, EEG, support vector machine, classification, and machine learning, indicating the multidisciplinary applications of entropy measures.
+
+A fourth, smaller cluster (left) includes clinical and physiological study keywords such as clinical article, controlled study, adult, male, female, humans, and physiology.
+
+The factorial map thus provides further evidence of the diverse applications and theoretical development surrounding ordinal patterns and complexity measures, supporting the originality and relevance of the present research.
 
 \section{Applications and Advances}
 
@@ -65,9 +97,10 @@ Plotting the permutation entropy against the statistical complexity yields the e
 The Bandt-Pompe framework has since found broad applications across domains, as reviewed by Amigó et al.~\cite{amigo2023ordinal}. 
 This section is divided into three subsections that analyze the applications of the Bandt and Pompe framework across various domains.
 
-On 21 February 2025, we collected all Scopus-indexed references that cited the seminal work by Bandt and Pompe.
-On that date, they were 3986.
-We marked them into categories based on application fields, such as biomedical signal processing, geophysics and hydrology, econophysics, optical systems and engineering.
+On 31 May 2025, we collected all Scopus-indexed references that cited the seminal work by Bandt and Pompe.
+On that date, they were 4124.
+We marked them into categories based on application fields, such as .........
+ %biomedical signal processing, geophysics and hydrology, econophysics, optical systems and engineering.
 
 \subsection{Biomedical Signal Processing}
 In biomedical signal processing, it has been used to analyze EEG, ECG, and fMRI data, detecting anomalies such as epileptic seizures or sleep stage transitions. 
