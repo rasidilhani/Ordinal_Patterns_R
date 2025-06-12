@@ -9,8 +9,6 @@ These symbols are called "ordinal patterns." After computing all the symbols, th
 
 From this distribution estimate, two key descriptors entropy and complexity are calculated to characterize the time series: the scaled Shannon entropy, now widely known as permutation entropy, and the statistical complexity.
 
-López-Ruiz et al.~\cite{lopez1995statistical} to capture the structure of a system. By plotting permutation entropy against statistical complexity, Rosso et al.~\cite{Rosso2007} use the entropy-complexity plane as a powerful diagnostic tool to distinguish between different dynamical regimes, such as chaos, noise, and periodicity.
-
 %%% 
 %%% ACF We need the statistical complexity here
 This chapter is divided into three main sections. The first section discusses the emergence of the entropy-complexity plane. This topic is presented as a central theme because it reflects the foundation of our main research focus and illustrates how it has evolved over time into the current approach to time series analysis based on the concept of ordinal patterns.
@@ -18,9 +16,10 @@ The second section analyzes the bibliometrix results derived from references tha
 
 Following this analysis, we focus our literature review on the most relevant aspects identified in relation to our research topic. By examining citation patterns and bibliographic data from the Scopus database, this review identifies the theoretical foundations and practical applications of the Bandt–Pompe methodology. The decision to use bibliometrix analysis was motivated by its ability to provide an objective assessment of influential publications, collaboration networks, and emerging research themes, thereby enhancing both the transparency and reproducibility of the review process.
 %Recent developments and challenges in this area are also highlighted, including insights from comprehensive reviews by Amigó et al.\cite{amigo2023ordinal} and Leyva et al.\cite{Leyva2022}.
+Section~\ref{Sec:Onset} presents a brief recap of the area, focusing on what we consider the four basilar papers.
+\textcolor{red}{COMPLETE WITH ONE LINE}
 
-
-\section{The Onset of the Entropy-Complexity Plane}
+\section{The Onset of the Entropy-Complexity Plane}\label{Sec:Onset}
 
 %%% ACF Anticipate briefly what this is about 
 
@@ -33,12 +32,15 @@ Following this analysis, we focus our literature review on the most relevant asp
 %This approach requires minimal assumptions about the data, it is computationally efficient, and effective for short time series, making it suitable for a wide range of applications~\cite{Zanin2012}.
 
 
-Bandt and Pompe introduced a method for symbolizing time series in 2002, based on two key parameters: embedding dimension and time delay. In their approach, a time series is converted into a sequence of symbols, which are then used to estimate a probability distribution function, often represented as a histogram. From this probability distribution, they calculate permutation entropy.
+López-Ruiz et al.~\cite{lopez1995statistical} to capture the structure of a system:
+the product between the entropy and a distance between the estimated model and a non-informative model is an interesting way of measuring complexity.
+Lamberti et al.~\cite{lamberti2004intensive}, using that idea, proposed using the Euclidian distance between the measured probability function and the uniform distribution.
+Rosso et al.~\cite{EEGAnalysisUsingWaveletBasedInformationTools} discussed using other distances, proposed the Jensen-Shannon distance, and used it jointly with the scaled Shannon entropy to form a bivariate feature.
+They mapped this feature into the so-called ``Entropy-Complexity Plane,'' devising  a powerful diagnostic tool to distinguish between different dynamical regimes, such as chaos, noise, and periodicity.
+Further, Martin et.al.~\cite{Martin2006} discussed the boundaries of this generalized statistical complexity measure. 
 
-However, permutation entropy alone is not sufficient to fully analyze time series data. To address this, Martin et. al.~
-\cite{Martin2003}. introduced the the concept of disequilibrium as an essential ingredient of a family of statistical complexity measure in 2003. They found that the use of Euclidean distances for probability space become quite relevant to this endeavor, building on the concept of complexity previously proposed by López-Ruiz et al.~\cite{lopez1995statistical} in 1995. López-Ruiz defined complexity using Shannon entropy and the Euclidean distance between the observed probability distribution and the uniform distribution.
+In the following, we report the results of our bibliometric analysis.
 
-Recognizing limitations in this approach, Lamberti et al.~\cite{lamberti2004intensive} further examined the properties of complexity and refined the measure by incorporating the Jensen–Shannon divergence instead of the Euclidean distance. Further, Martin et.al.~\cite{Martin2006} discussed bounded values adopted by the generalized statistical complexity measures. Finally, Rosso et.al.~\cite{Rosso2007} then defined complexity separately and combined it with permutation entropy to form the entropy-complexity plane, providing a more robust framework for analyzing time series data.
 %The Shannon entropy is employed to quantify the unpredictability or complexity of the symbolic sequence. 
 %The resulting permutation entropy has several attractive properties: it is computationally efficient, non-parametric, ~\cite{ Zanin2012}. 
 %%% ACF A statistical measure of complexity discussed how C must behave, and the authors proposed a (not so good) way of computing it
@@ -50,34 +52,59 @@ Recognizing limitations in this approach, Lamberti et al.~\cite{lamberti2004inte
 %Later, Rosso et al.~\cite{Rosso2007} extended and applied statistical complexity in the entropy-complexity plane framework,
 %Plotting the permutation entropy against the statistical complexity yields the entropy-complexity plane, a diagnostic tool for classifying different dynamical regimes.
 
-\section{The Bibliometrix Analysis: data collection, tools and background}
-Bibliometric analysis provides a quantitative approach to reviewing and mapping the intellectual structure of a research field. By systematically analyzing the citation patterns, author collaborations, and keyword co-occurrences within the literature, it allows for the identification of key themes, research trends, and emerging topics. In this study, bibliometric analysis was conducted using the Bibliometrix package in R and its user-friendly web interface Biblioshiny, focusing on literature related to ordinal patterns, permutation entropy, and complexity measures in time series analysis.
+\section{The Bibliometric Analysis: data collection, tools and background}\label{Sec:BiblioIntro}
 
-Scopus-indexed references that cited the seminal work by Bandt and Pompe were collected on the 9th of June 2025. Based on these reference files, we analyzed a dataset consisting of 4125 reference files spanning the years 1993 to 2025. Keywords used for data extraction included Bandt and Pompe research, ordinal patterns, permutation entropy, and time series clustering. The aim of this bibliometric analysis was to identify and classify the literature according to application domains and theoretical developments related to ordinal patterns in time series analysis. This analysis enables a comprehensive understanding of the research landscape by quantitatively examining citation networks, author collaborations, keyword trends, and thematic evolution. Bibliometric analysis is an important tool in systematic literature reviews to ensure objectivity, reveal key contributions, and provide a structured overview of intellectual development within the field.
+Bibliometric analyses provide a quantitative approach to reviewing and mapping the intellectual structure of a research field. 
+By systematically analyzing the citation patterns, author collaborations, and keyword co-occurrences within the literature, it allows for the identification of key themes, research trends, and emerging topics. 
+
+%%% ACF Check for redundancy
+This analysis enables a comprehensive understanding of the research landscape by quantitatively examining citation networks, author collaborations, keyword trends, and thematic evolution. 
+Bibliometric analysis is an important tool in systematic literature reviews to ensure objectivity, reveal key contributions, and provide a structured overview of intellectual development within the field.
+
+We conducted a bibliometric analysis using the Bibliometrix package in R and its user-friendly web interface Biblioshiny, focusing on literature related to ordinal patterns, permutation entropy, and complexity measures in time series analysis.
+%%% ACF Cite it
+The aim of this bibliometric analysis was to identify and classify the literature according to application domains and theoretical developments related to ordinal patterns in time series analysis. 
+
+%%% ACF Make it clear that this is the data extraction phase
+Scopus-indexed references that cited the seminal work by Bandt and Pompe were collected on the 9th of June 2025. 
+Based on these reference files, we analyzed a dataset consisting of 4125 reference files spanning the years 1993 to 2025. %%% ACF If you used papers that cited B&P, how can there be papers from 1993?
+Keywords used for data extraction included Bandt and Pompe research, ordinal patterns, permutation entropy, and time series clustering. 
 
 \section{Research Question and Motivation}
-This systematic review was initiated to address the research question formulated as part of the doctoral degree requirements. To date, no researchers have directly explored the specific topic addressed in this study, and the systematic review helps verify this research gap.
 
 The primary research question guiding this study is:
-\textbf{How can confidence intervals for generalized entropy measures (Shannon, Tsallis, Rényi, Fisher information measure) and their associated complexity metrics be used to improve the robustness and discriminative power of time series clustering techniques?}.
+\begin{quote}
+\textit{How can confidence intervals for generalized entropy measures (Shannon, Tsallis, Rényi, Fisher information measure) and their associated complexity metrics be used to improve the robustness and discriminative power of time series clustering techniques?}
+\end{quote}
 
-Systematic reviews aim to collect evidence that meets predefined eligibility criteria to address specific research questions. To minimize bias, they follow clearly defined, systematic procedures that are outlined in advance through a detailed protocol. The descriptive analysis of the dataset revealed a total of 4063 usable documents (out of 4125), covering the time span 1993–2025, sourced from 1317 publication sources. The dataset shows an annual growth rate of 18.15\%, involving 7254 authors, 123 single-authored documents, 27.32\% international co-authorship, with an average of 4.28 co-authors per document. The author keywords totaled 7667, with an average document age of 5.7 years and 22.6 citations per document. However, it was noted that some reference files were excluded due to missing data.
+%%% ACF REVISE REMOVE REDUNDANT PARTS OR MOVE THEM TO WHERE THEY BELONG
+%%% ACF USE \siunitx
+Systematic reviews aim to collect evidence that meets predefined eligibility criteria to address specific research questions. 
+To minimize bias, they follow clearly defined, systematic procedures that are outlined in advance through a detailed protocol. The descriptive analysis of the dataset revealed a total of 4063 usable documents (out of 4125), covering the time span 1993–2025, sourced from 1317 publication sources. 
+The dataset shows an annual growth rate of \SI{18.15}{\percent}, involving 7254 authors, 123 single-authored documents, 27.32\% international co-authorship, with an average of 4.28 co-authors per document. 
+The author keywords totaled 7667, with an average document age of 5.7 years and 22.6 citations per document. However, it was noted that some reference files were excluded due to missing data.
 
 \subsection{Thematic Map Analysis}
-Thematic mapping was conducted to visualize the evolution and relevance of major research themes in the field. Figure \ref{fig:ThematicMap} illustrates the thematic map derived from author keywords.
+
+Thematic mapping was conducted to visualize the evolution and relevance of major research themes in the field. 
+Figure~\ref{fig:ThematicMap} illustrates the thematic map derived from author keywords.
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{ThematicMap}
-	\caption{The Thematic Map generated by Biblioshiny (Bibliometrix).}
+	\includegraphics[width=\textwidth]{ThematicMap}
+	\caption{The Thematic Map generated by Bibliometrix.}
 	\label{fig:ThematicMap}
 \end{figure}
+
 The map is divided into four quadrants based on two dimensions: centrality (relevance) and density (development). The quadrant representing Motor Themes includes topics such as entropy, signal processing, and machine learning, indicating well-developed and highly interconnected areas of research. Basic Themes include permutation entropy and time series analysis, which are foundational topics in the field and closely align with the focus of this thesis. Niche Themes such as chaos theory and chaotic systems represent specialized subfields, while Emerging or Declining Themes like cryptography and image encryption reflect peripheral or potentially declining research interests. This thematic analysis provides a clear framework for situating the present research within the broader academic landscape, emphasizing both its theoretical foundation and its relevance to contemporary research trends.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\textwidth]{FactorialMap}
-	\caption{Factorial map generated by Biblioshiny (Bibliometrix).}
+	\caption{Factorial map generated by Bibliometrix.}
 	\label{fig:factorialMap}
 \end{figure}
+
 The factorial map in Figure \ref{fig:factorialMap} reveals four major conceptual clusters:
 
 The first cluster (upper right) includes theoretical concepts such as chaos theory, chaotic systems, Lyapunov methods, ordinal pattern, information theory, complex networks, and permutation entropy, forming the theoretical core of the research area.
@@ -89,6 +116,8 @@ The third cluster (center) comprises terms related to biomedical signal processi
 A fourth, smaller cluster (left) includes clinical and physiological study keywords such as clinical article, controlled study, adult, male, female, humans, and physiology.
 
 The factorial map thus provides further evidence of the diverse applications and theoretical development surrounding ordinal patterns and complexity measures, supporting the originality and relevance of the present research.
+
+\textcolor{red}{MAKE YOUR CONCLUSIONS HERE. WHICH TOPICS AND WHY?}
 
 \section{Applications and Advances}
 
