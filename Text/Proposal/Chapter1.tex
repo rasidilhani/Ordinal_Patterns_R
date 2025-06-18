@@ -10,6 +10,8 @@ The resulting distribution is less sensitive to outliers compared to the origina
 The proposal proceeds by computing descriptors from this histogram, and extracting information about the system from these descriptors.
 As a result, this approach is versatile and applicable to a wide range of scenarios.  
 
+%%% ACF What do you mean by "This study"? If it is your thesis, is this what you do?
+%%% ACF This paragraph is very misleading
 This study explores features derived from Bandt and Pompe symbolization, specifically Shannon entropy, complexity, and represents them graphically in the entropy-complexity plane, which is represented as a point in the $\mathbb{R}^2$ manifold. 
 %%% ACF Is the Shannon Entropy a point in the HxC plane?
 %%% ACF Is that true under the Multinomial distribution?
@@ -30,7 +32,11 @@ For example, traditional approaches to time series analysis, such as time domain
 Many statistical methods in these approaches depend on specific conditions, such as large sample sizes or normally distributed observations. However, these assumptions are often unrealistic, leading to inaccurate or biased results. When such conditions are not met, alternative methods must be considered.
 
 As a result, alternative methods, often referred to as non-parametric techniques, must be considered. 
-These methods rely on the rank $R_t$ of the observations $x_t$ rather than their actual values, making them robust and applicable to a wide range of data sets. Since non-parametric tests do not assume a normal distribution, they are highly reliable. For example, the Kruskal-Wallis $H$ test and the Wilcoxon test are effective tools for comparing two or more population probability distributions from independent random samples. However, these techniques are not always suitable for time series data, which often require specialized methods tailored to their unique characteristics.
+These methods rely on the rank $R_t$ of the observations $x_t$ rather than their actual values, making them robust and applicable to a wide range of data sets. 
+Since non-parametric tests do not assume a normal distribution, they are highly reliable. 
+For example, the Kruskal-Wallis $H$ test 
+%%% ACF Do you use the KW test again? You have defined H as the notation for its statistics, while H becomes entropy
+and the Wilcoxon test are effective tools for comparing two or more population probability distributions from independent random samples. However, these techniques are not always suitable for time series data, which often require specialized methods tailored to their unique characteristics.
 
 To address these challenges, ordinal pattern methods provide a robust alternative. Instead of analyzing the absolute values of a time series, these methods focus on the order relationships among consecutive data points.
 
@@ -44,21 +50,17 @@ Later, Rosso~\cite{EEGAnalysisUsingWaveletBasedInformationTools} introduced an a
 
 \section*{Introduction to Ordinal Pattern Analysis}
 
+%%% ACF Is this a good sentence? Read it out loud
 Ordinal patterns are a non-parametric representation of real-valued time series and ordinal patterns are transformations that encode the sorting characteristics of values in $\mathbb{R}^D$ into $D!$ symbols, where $D$ represents for the ''Embedding Dimension'' and usually ranges between three to six. 
 One of the possible encoding is the set of indexes that sort the $D$ values in non-decreasing order.
 
-
-To illustrate this idea, let $\bm{x}=\{x_1,x_2, \dots, x_{(n+D-1)}\}$ 
+To illustrate this idea, let $\bm{x}=\{x_1,x_2, \dots, x_{n+D-1}\}$ 
 be a real valued time series of length $n+D-1$ without ties. 
-%%% ACF Did B&P say that the replacement/tranformation/symbolisation is used when the time series is infinite?
-If the $\bm{x}$ takes infinitely many values, it is common to replace them with a symbol sequence $\bm{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$
-consisting of finitely many symbols and then compute the entropy from this sequence. 
 The corresponding symbol sequence naturally emerges from the time series without requiring any model assumptions. We compute
 $\bm{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$ symbols from sub-sequences of embedding dimension $D$. 
-There are $D!$ possible symbols: $\pi_j \in \bm{{\pi}}=({\pi}^1, {\pi}^2,\dots, {\pi}^{D!})$. 
+There are $D!$ possible symbols: $\pi_j \in \{{\pi}^1, {\pi}^2,\dots, {\pi}^{D!}\}$, for each $1\leq j\leq n$.
 %%% ACF Revise the following sentence; it is unclear
 The histogram of proportions $h=(h_1,h_2,\dots, h_{D!})$ in which the bin $h_\ell$ 
-%%% ACF Whenever possible, use \ell instead of the letter ell in mathematical mode
 is the proportion of symbols of type $\pi^\ell$ of the total number of symbols. 
 For convenience, we will model those symbols as a $k$ dimensional random vector where $k=D!$.
 
@@ -107,7 +109,7 @@ To illustrate this concept, imagine tracking the mean monthly humidity in Wellin
 	\label{tab:humidity}
 \end{table}
 
-Mean monthly humidity in Wellington is shown in Figure~\ref{fig:humidity}.
+The mean monthly humidity in Wellington is shown in Figure~\ref{fig:humidity}.
 
 \begin{figure}[hbt]
 	\centering
@@ -121,7 +123,9 @@ To do this, for each month, we determine the order of the humidity values rather
 Each three-time-point sequence (which can be adjusted based on preference) is converted into an ordinal pattern.
 This ``embedding dimension'' usually varies between $3$ and $6$, but any dimension is possible.
 The conversion can be made in any way that uniquely maps the sorting properties of the sub sequence into a symbol.
-For example, consider the time series presented in Table \ref{tab:humidity}. We can transform this series into ordinal patterns as follows. Assume we use patterns of length $D=3$ with a time lag $\tau=1$. 
+For example, consider the time series presented in Table \ref{tab:humidity}. We can transform this series into ordinal patterns as follows. 
+%%% ACF You haven't defined the time lag. You won't use the time lag is this example. Do you you need it at this point?
+Assume we use patterns of length $D=3$ with a time lag $\tau=1$. 
 The first overlapping window $(77.3,81,82.4)$ corresponds to the pattern  $(1,2,3)$, where type is considering with the order of the real time series data. Here $77.3$ is the smallest value and is assigned rank $1$; $81$ is the next highest and is assigned rank $2$; and $82.4$ is the largest, assigned rank $3$. As another example, consider the overlapping window $(83.1, 78.8, 79.6)$.  In this case, $78.8$ is the smallest value and is assigned rank $1$; $79.6$ is the next highest, assigned rank $2$; and $83.1$ is the largest, assigned rank $3$. Therefore, the pattern for this window is $(3,1,2)$.
 Table \ref{tab:op} has shown this scenario. 
 %%% ACF Summarise and present in your own words from Section 3
@@ -202,7 +206,11 @@ We construct the histogram of proportions $h=(h_1,h_2,h_3,h_4,h_5,h_6)$, where e
 %%% ACF Always add information as in the following line
 %%% The above plot was produced by lines 41-57 of file 'Code/R/humidity_example.R'
 
-This example explains how time series data can be converted into ordinal patterns and how the probability distribution function can be calculated from these patterns. Chapter~\ref{C:lit} will review the literature on ordinal pattern analysis, while Chapter~\ref{C:aim} will expand on this concept by exploring the characterization of time series. It will also cover the computation of two key descriptors entropy and complexity from the resulting histograms. Additionally, Chapter~\ref{C:futw} will outline the main ideas and objectives of this research project.      
+This example explains how time series data can be converted into ordinal patterns and how the probability distribution function can be calculated from these patterns.
+%%% ACF The example should proceed by discussing, defining, and illustrating the permutation entropy and the statistical complexity
+%%% ACF Do not be redundant
+
+Chapter~\ref{C:lit} will review the literature on ordinal pattern analysis, while Chapter~\ref{C:aim} will expand on this concept by exploring the characterization of time series. It will also cover the computation of two key descriptors entropy and complexity from the resulting histograms. Additionally, Chapter~\ref{C:futw} will outline the main ideas and objectives of this research project.      
 
 
 
