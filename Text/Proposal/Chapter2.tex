@@ -9,28 +9,22 @@ These symbols are called "ordinal patterns." After computing all the symbols, th
 
 From this distribution estimate, two key descriptors entropy and complexity are calculated to characterize the time series: the scaled Shannon entropy, now widely known as permutation entropy, and the statistical complexity.
 
-%%% 
-%%% ACF We need the statistical complexity here
-This chapter is divided into three main sections. The first section discusses the emergence of the entropy-complexity plane. This topic is presented as a central theme because it reflects the foundation of our main research focus and illustrates how it has evolved over time into the current approach to time series analysis based on the concept of ordinal patterns.
-The second section analyzes the bibliometrix results derived from references that cite the Bandt and Pompe methodology. The third section presents a literature review based on the insights gained through the bibliometrix analysis. Bibliometrix is primarily used to quantify scientific production and assess its quality and impact. It is a widely adopted quantitative approach in systematic literature reviews, useful for mapping the intellectual structure, identifying research trends, and highlighting key contributions within a specific field. Additionally, it helps visualize and analyze the intellectual, conceptual, and social structures of research. The main objective of bibliometrix analysis is to describe how specific disciplines or scientific domains are organized and how they evolve over time.
+This chapter is divided into three main sections. Section~\ref{Sec:Onset} presents a brief overview of the area, focusing on what we consider the four seminal papers. Section~\ref{Sec:ResearchQuestion} discusses the research question and the motivation for conducting the bibliometric analysis. The final section, Section~\ref{Sec:BiblioIntro}, highlights the importance of bibliometric analysis and presents the results obtained from references that cite the Bandt and Pompe methodology and other related topics based on our research focus.  
+%\textcolor{red}{COMPLETE WITH ONE LINE}
 
-Following this analysis, we focus our literature review on the most relevant aspects identified in relation to our research topic. By examining citation patterns and bibliographic data from the Scopus database, this review identifies the theoretical foundations and practical applications of the Bandt–Pompe methodology. The decision to use bibliometrix analysis was motivated by its ability to provide an objective assessment of influential publications, collaboration networks, and emerging research themes, thereby enhancing both the transparency and reproducibility of the review process.
-%Recent developments and challenges in this area are also highlighted, including insights from comprehensive reviews by Amigó et al.\cite{amigo2023ordinal} and Leyva et al.\cite{Leyva2022}.
-Section~\ref{Sec:Onset} presents a brief recap of the area, focusing on what we consider the four basilar papers.
-\textcolor{red}{COMPLETE WITH ONE LINE}
+
+%The first section discusses the emergence of the entropy-complexity plane. This topic is presented as a central theme because it reflects the foundation of our main research focus and illustrates how it has evolved over time into the current approach to time series analysis based on the concept of ordinal patterns.
+
+%The third section analyses the bibliometrix results derived from references that cite the Bandt and Pompe methodology. Bibliometrix is primarily used to quantify scientific production and assess its quality and impact. It is a widely adopted quantitative approach in systematic literature reviews, useful for mapping the intellectual structure, identifying research trends, and highlighting key contributions within a specific field. Additionally, it helps visualize and analyze the intellectual, conceptual, and social structures of research. The main objective of bibliometrix analysis is to describe how specific disciplines or scientific domains are organized and how they evolve over time.
+
+%Finally, the conclusion is drawn from the results of the literature review, based on the insights gained through the bibliometric analysis.
+
 
 \section{The Onset of the Entropy-Complexity Plane}\label{Sec:Onset}
 
 %%% ACF Anticipate briefly what this is about 
 
-%Bandt and Pompe~\cite{PhysRevLett.88.174102} introduced in 2002 a novel approach to time series analysis by focusing on the ordinal relationships between data points rather than their actual values. 
-%This method involves mapping a time series into a sequence of symbols representing the relative ordering of values within embedding vectors. 
-%The authors computed the scaled Shannon entropy (the permutation entropy) of the frequency distribution of these patterns, and used it as a measure of the signal complexity.
-%Since the symbols are invariant under monotonic increasing transformations and robust to observational noise and errors, 
-%%% ACF Think about "noise" and "error"; see if you find better words for them
-%so is any feature derived from them.
-%This approach requires minimal assumptions about the data, it is computationally efficient, and effective for short time series, making it suitable for a wide range of applications~\cite{Zanin2012}.
-
+This section discusses the emergence of the entropy-complexity plane. This topic is presented as a central theme because it reflects the foundation of our main research focus and illustrates how it has evolved over time into the current approach to time series analysis based on the concept of ordinal patterns. 
 
 López-Ruiz et al.~\cite{lopez1995statistical} to capture the structure of a system:
 the product between the entropy and a distance between the estimated model and a non-informative model is an interesting way of measuring complexity.
@@ -39,49 +33,36 @@ Rosso et al.~\cite{EEGAnalysisUsingWaveletBasedInformationTools} discussed using
 They mapped this feature into the so-called ``Entropy-Complexity Plane,'' devising  a powerful diagnostic tool to distinguish between different dynamical regimes, such as chaos, noise, and periodicity.
 Further, Martin et.al.~\cite{Martin2006} discussed the boundaries of this generalized statistical complexity measure. 
 
-In the following, we report the results of our bibliometric analysis.
+In the following, we present the research question and the motivation for continuing this research. 
 
-%The Shannon entropy is employed to quantify the unpredictability or complexity of the symbolic sequence. 
-%The resulting permutation entropy has several attractive properties: it is computationally efficient, non-parametric, ~\cite{ Zanin2012}. 
-%%% ACF A statistical measure of complexity discussed how C must behave, and the authors proposed a (not so good) way of computing it
-%%% ACF {EEG} analysis using wavelet-based information tools proposes the Jensen-Shannon distance, that leads to the statistical complexity as we use it.
-%A further theoretical development by López-Ruiz et al.~\cite{lopez1995statistical} extended method by introducing the statistical complexity, which measures both the system's randomness and structure. 
-%%% ACF They couldn't have extended a method that was proposed ahead in time
-%%% ACF Revise the following sentence
-%%% ACF There is a previous article
-%Later, Rosso et al.~\cite{Rosso2007} extended and applied statistical complexity in the entropy-complexity plane framework,
-%Plotting the permutation entropy against the statistical complexity yields the entropy-complexity plane, a diagnostic tool for classifying different dynamical regimes.
-
-\section{The Bibliometric Analysis: data collection, tools and background}\label{Sec:BiblioIntro}
-
-Bibliometric analyses provide a quantitative approach to reviewing and mapping the intellectual structure of a research field. 
-By systematically analyzing the citation patterns, author collaborations, and keyword co-occurrences within the literature, it allows for the identification of key themes, research trends, and emerging topics. 
-
-%%% ACF Check for redundancy
-This analysis enables a comprehensive understanding of the research landscape by quantitatively examining citation networks, author collaborations, keyword trends, and thematic evolution. 
-Bibliometric analysis is an important tool in systematic literature reviews to ensure objectivity, reveal key contributions, and provide a structured overview of intellectual development within the field.
-
-We conducted a bibliometric analysis using the Bibliometrix package in R and its user-friendly web interface Biblioshiny, focusing on literature related to ordinal patterns, permutation entropy, and complexity measures in time series analysis.
-%%% ACF Cite it
-The aim of this bibliometric analysis was to identify and classify the literature according to application domains and theoretical developments related to ordinal patterns in time series analysis. 
-
-%%% ACF Make it clear that this is the data extraction phase
-Scopus-indexed references that cited the seminal work by Bandt and Pompe were collected on the 9th of June 2025. 
-Based on these reference files, we analyzed a dataset consisting of 4125 reference files spanning the years 1993 to 2025. %%% ACF If you used papers that cited B&P, how can there be papers from 1993?
-Keywords used for data extraction included Bandt and Pompe research, ordinal patterns, permutation entropy, and time series clustering. 
-
-\section{Research Question and Motivation}
+\section{Research Question and Motivation}\label{Sec:ResearchQuestion}
 
 The primary research question guiding this study is:
 \begin{quote}
-\textit{How can confidence intervals for generalized entropy measures (Shannon, Tsallis, Rényi, Fisher information measure) and their associated complexity metrics be used to improve the robustness and discriminative power of time series clustering techniques?}
+	\textit{How can confidence intervals for generalized entropy measures (Shannon, Tsallis, Rényi, Fisher information measure) and their associated complexity metrics be used to improve the robustness and discriminative power of time series clustering techniques?}
 \end{quote}
 
+We are motivated to conduct a literature review to confirm the relevance of our research areas in relation to the research question. Our aim is to determine whether other researchers are engaging with similar types of questions. Additionally, we seek to verify whether there is a strong focus on practical applications within this topic. 
+
+
+\section{The Bibliometric Analysis: data collection, tools and background}\label{Sec:BiblioIntro}
+
+Bibliometric analyses provide a quantitative approach to reviewing and mapping the intellectual structure of a research field. By systematically analyzing citation patterns, author collaborations, and keyword co-occurrences, they help identify key themes, research trends, and emerging topics. This method ensures objectivity, reveals key contributions, and offers a structured overview of intellectual development, making it a valuable tool for systematic literature reviews.
+
+In this study, we conducted a bibliometric analysis using the Bibliometrix package in R and its user-friendly web interface Biblioshiny~\cite{Aria2017} focusing on literature related to ordinal patterns, permutation entropy, and complexity measures in time series analysis. 
+
+Section~\ref{Subsec:Dataextraction} discusses the data extraction process using the Bibliometrix package in R.
+%%% ACF Cite it
+%The aim of this bibliometric analysis was to identify and classify the literature according to application domains and theoretical developments related to ordinal patterns in time series analysis. 
+
+\subsection{Conceptual Structure: Data extraction and Summary Statistics}\label{Subsec:Dataextraction}
+%%% ACF Make it clear that this is the data extraction phase
+Scopus-indexed references that cited the seminal work by Bandt and Pompe, along with other references relevant to our research topic, were collected on June 9, 2025.
+Based on these reference files, we analyzed a dataset consisting of 4125 reference files spanning the years 1993 to 2025. %%% ACF If you used papers that cited B&P, how can there be papers from 1993?
 %%% ACF REVISE REMOVE REDUNDANT PARTS OR MOVE THEM TO WHERE THEY BELONG
 %%% ACF USE \siunitx
-Systematic reviews aim to collect evidence that meets predefined eligibility criteria to address specific research questions. 
-To minimize bias, they follow clearly defined, systematic procedures that are outlined in advance through a detailed protocol. The descriptive analysis of the dataset revealed a total of 4063 usable documents (out of 4125), covering the time span 1993–2025, sourced from 1317 publication sources. 
-The dataset shows an annual growth rate of \SI{18.15}{\percent}, involving 7254 authors, 123 single-authored documents, 27.32\% international co-authorship, with an average of 4.28 co-authors per document. 
+The descriptive analysis of the dataset revealed a total of 4063 usable documents (out of 4125), covering the time span 1993–2025, sourced from 1317 publication sources. 
+The dataset shows an annual growth rate of \SI{18.15}{\percent}, involving 7254 authors, 123 single-authored documents, \SI{27.32}{\percent} international co-authorship, with an average of 4.28 co-authors per document. 
 The author keywords totaled 7667, with an average document age of 5.7 years and 22.6 citations per document. However, it was noted that some reference files were excluded due to missing data.
 
 \subsection{Thematic Map Analysis}
@@ -97,6 +78,9 @@ Figure~\ref{fig:ThematicMap} illustrates the thematic map derived from author ke
 \end{figure}
 
 The map is divided into four quadrants based on two dimensions: centrality (relevance) and density (development). The quadrant representing Motor Themes includes topics such as entropy, signal processing, and machine learning, indicating well-developed and highly interconnected areas of research. Basic Themes include permutation entropy and time series analysis, which are foundational topics in the field and closely align with the focus of this thesis. Niche Themes such as chaos theory and chaotic systems represent specialized subfields, while Emerging or Declining Themes like cryptography and image encryption reflect peripheral or potentially declining research interests. This thematic analysis provides a clear framework for situating the present research within the broader academic landscape, emphasizing both its theoretical foundation and its relevance to contemporary research trends.
+
+\subsection{Factorial Map Analysis}
+To identify the visual map of the main research topics based on the keywords, we analyze the factorial map.
 
 \begin{figure}[H]
 	\centering
@@ -117,68 +101,14 @@ A fourth, smaller cluster (left) includes clinical and physiological study keywo
 
 The factorial map thus provides further evidence of the diverse applications and theoretical development surrounding ordinal patterns and complexity measures, supporting the originality and relevance of the present research.
 
-\textcolor{red}{MAKE YOUR CONCLUSIONS HERE. WHICH TOPICS AND WHY?}
+%\textcolor{red}{MAKE YOUR CONCLUSIONS HERE. WHICH TOPICS AND WHY?}
+\subsection{Conclusion and Justification of Research Focus}
 
-\section{Applications and Advances}
+Based on the systematic literature review conducted using the Scopus-indexed references, it is evident that the research landscape surrounding ordinal patterns and complexity measures encompasses both theoretical foundations and a wide range of practical applications. Our proposed research strategically positions itself at the intersection of these domains. The primary objective is to explore the feature extraction capabilities of ordinal patterns and apply complexity-based time series clustering for fault detection in rotating machinery, using publicly available ball bearing datasets.
 
-%%% ACF Are you going to talk about BP, or about HxC?
+The bibliometric analysis further highlights the multifaceted nature of this research area. The identified clusters illustrate a strong theoretical backbone, rooted in concepts such as ordinal patterns and permutation entropy, while also revealing a significant focus on real-world applications in fault diagnosis and failure analysis. Moreover, the presence of biomedical signal processing and machine learning within the intellectual structure underscores the versatility and broad applicability of complexity-based approaches across disciplines. However, since biomedical applications fall outside the scope of our research focus, we do not include a literature review on that area.
 
-The Bandt-Pompe framework has since found broad applications across domains, as reviewed by Amigó et al.~\cite{amigo2023ordinal}. 
-This section is divided into three subsections that analyze the applications of the Bandt and Pompe framework across various domains.
-
-On 31 May 2025, we collected all Scopus-indexed references that cited the seminal work by Bandt and Pompe.
-On that date, they were 4124.
-We marked them into categories based on application fields, such as .........
- %biomedical signal processing, geophysics and hydrology, econophysics, optical systems and engineering.
-
-\subsection{Biomedical Signal Processing}
-In biomedical signal processing, it has been used to analyze EEG, ECG, and fMRI data, detecting anomalies such as epileptic seizures or sleep stage transitions. 
-\begin{itemize}
-	\item \textbf{EEG Analysis:} A study by Keller et al.~\cite{Keller2014} demonstrated the application of ordinal pattern based entropy measures, such as empirical permutation entropy (ePE), empirical conditional entropy (eCE), and robust empirical permutation entropy (rePE) to effectively analyze and classify EEG time series data, demonstrating their utility in detecting brain state transitions, segmenting non-stationary signals, and identifying change-points without relying on prior expert knowledge.
-	
-	\item \textbf{ECG Analysis:} Mansourian et al.~\cite{Mansourian2024} applied adaptive improved permutation entropy to extract fetal QRS complexes from single-channel abdominal ECG, enhancing the accuracy of fetal heart rate monitoring.
-\end{itemize}
-
-\subsection{Geophysics and Hydrology}
-In the fields of geophysics and hydrology, PE has been applied to detect climatic variability and hydrological patterns.
-\begin{itemize}
-	\item \textbf{Climate Variability:}
-	
-	\item \textbf{Hydrological Patterns:}
-\end{itemize}
-
-\subsection{Econophysics, Optical Systems, and Engineering}
-Permutation entropy has found applications in econophysics for market behavior analysis, in optical systems for detecting chaos, and in engineering for fault detection and diagnostics.
-\begin{itemize}
-	\item \textbf{Econophysics:}
-	
-	\item \textbf{Optical Systems:}
-	
-	\item \textbf{Engineering:}
-\end{itemize}
-
-\section{Methodological Extensions}
-Recent developments have extended the methodology through multiscale approaches, cross-entropy comparisons for multivariate signals, and weighted ordinal patterns.
-
-Furthermore, the use of alternative entropy measures such as Tsallis and Renyi entropy has been explored to better capture non-extensive and multifractal behavior in complex systems.
-
-Recent developments have extended the methodology through multiscale approaches, cross-entropy comparisons for multivariate signals, and weighted ordinal patterns. These innovations aim to enhance the sensitivity of ordinal analysis across multiple temporal resolutions, account for signal interdependencies, and assign importance to certain ordinal patterns based on domain-specific knowledge.
-
-Furthermore, the use of alternative entropy measures such as Tsallis and Rényi entropy has been explored to better capture non-extensive and multifractal behavior in complex systems, especially where the assumptions of Shannon entropy may not hold.
-
-In addition to methodological enhancements, attention has also been given to the statistical properties of entropy and complexity estimates. One key focus is the estimation of confidence intervals for descriptors such as permutation entropy and statistical complexity. These intervals provide a quantifiable measure of uncertainty, which is crucial for distinguishing significant patterns from noise, validating comparisons between different systems, and assessing the stability of observed dynamics.
-
-Incorporating statistical inference technique, such as asymptotic variance estimation, improves the robustness and interpretability of the results. These tools enable researchers to make reliable conclusions even in cases of short time series, thereby reinforcing the utility of ordinal methods in practical applications.
-
-\textcolor{red}{Statistical properties!}
-
-\section{Challenges and Future Directions}
-Despite its success, several challenges remain in the application and development of the Bandt-Pompe approach. One major issue is the choice of embedding parameters (dimension and delay), which significantly affect the pattern distribution. Additionally, estimating entropy and complexity reliably in short time series remains difficult, prompting the need for improved statistical inference methods such as bootstrapping and confidence interval estimation.
-
-Amigó et al.~\cite{amigo2023ordinal} emphasize the need for more robust inferential frameworks, better handling of multivariate and high-dimensional data, and integrating ordinal methods with machine learning for automated pattern recognition. As ordinal symbolic analysis continues to evolve, it holds promise for deeper insights into both theoretical dynamics and real-world systems.
-
-As a final conclusion related to this literature review, the Bandt-Pompe method has become a foundational tool in time series analysis, offering a robust and intuitive approach to understanding complex dynamics. Through the use of ordinal patterns and entropy-based descriptors, researchers can extract meaningful information from noisy, nonlinear, and non-stationary data. While challenges remain, ongoing theoretical advances and applications across disciplines ensure the continued relevance and growth of this methodology.
-
+Furthermore, clinical and physiological study keywords indicate a notable research focus involving ordinal patterns and permutation entropy. However, as this area falls outside the scope of our research, it has also been excluded from the literature review.
 
 
 
