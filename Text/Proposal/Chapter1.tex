@@ -12,10 +12,10 @@ As a result, this approach is versatile and applicable to a wide range of scenar
 
 %%% ACF What do you mean by "This study"? If it is your thesis, is this what you do?
 %%% ACF This paragraph is very misleading
-This study explores features derived from Bandt and Pompe symbolization, specifically Shannon entropy, complexity, and represents them graphically in the entropy-complexity plane, which is represented as a point in the $\mathbb{R}^2$ manifold. 
+%This study explores features derived from Bandt and Pompe symbolization, specifically Shannon entropy, complexity, and represents them graphically in the entropy-complexity plane, which is represented as a point in the $\mathbb{R}^2$ manifold. 
 %%% ACF Is the Shannon Entropy a point in the HxC plane?
 %%% ACF Is that true under the Multinomial distribution?
-This proposal focuses on the independent analysis of permutation entropy and ordinal patterns in time series analysis. It involves calculating pattern histograms, entropy, complexity, and confidence intervals to better understand the statistical properties of these tools. 
+The proposal focuses on the statistical properties of features from ordinal patterns in time series clustering. It involves calculating pattern histograms, entropy, complexity, and confidence intervals to better understand the statistical properties of these tools. 
 Additionally, the role of confidence intervals in entropy and complexity, along with their applications in time-series clustering, will be explored. Future work will expand to include alternative measures, such as Rényi entropy, Tsallis entropy and Fisher information, with a focus on deriving confidence intervals for their entropy and complexity under the Multinomial model. 
 
 Time series analysis is widely applied across various fields, including engineering, economics, physical sciences, and more. A time series is defined as a collection of observations ${x_t}$, each representing a realized value of a particular random variable $X_t$, where time can be either discrete or continuous.
@@ -31,12 +31,12 @@ For example, traditional approaches to time series analysis, such as time domain
 
 Many statistical methods in these approaches depend on specific conditions, such as large sample sizes or normally distributed observations. However, these assumptions are often unrealistic, leading to inaccurate or biased results. When such conditions are not met, alternative methods must be considered.
 
-As a result, alternative methods, often referred to as non-parametric techniques, must be considered. 
-These methods rely on the rank $R_t$ of the observations $x_t$ rather than their actual values, making them robust and applicable to a wide range of data sets. 
-Since non-parametric tests do not assume a normal distribution, they are highly reliable. 
-For example, the Kruskal-Wallis $H$ test 
 %%% ACF Do you use the KW test again? You have defined H as the notation for its statistics, while H becomes entropy
-and the Wilcoxon test are effective tools for comparing two or more population probability distributions from independent random samples. However, these techniques are not always suitable for time series data, which often require specialized methods tailored to their unique characteristics.
+As a result, alternative methods, commonly known as non-parametric techniques, are often considered. These approaches do not rely on the actual numerical values of the observations $x_t$, but rather on their ranks $R_t$, making them more robust and less sensitive to outliers and applicable to a wide range of data sets. 
+%For examples, the Mann–Whitney U test, Spearman’s rank correlation, Wilcoxon test are effective tools for comparing two or more population probability distributions from independent random samples. 
+Since non-parametric tests do not assume any specific distribution, such as normality, they are considered highly reliable for a range of data types.
+
+However, while these techniques are powerful for general statistical analysis, they are not always well-suited for time series data. 
 
 To address these challenges, ordinal pattern methods provide a robust alternative. Instead of analyzing the absolute values of a time series, these methods focus on the order relationships among consecutive data points.
 
@@ -51,7 +51,7 @@ Later, Rosso~\cite{EEGAnalysisUsingWaveletBasedInformationTools} introduced an a
 \section*{Introduction to Ordinal Pattern Analysis}
 
 %%% ACF Is this a good sentence? Read it out loud
-Ordinal patterns are a non-parametric representation of real-valued time series and ordinal patterns are transformations that encode the sorting characteristics of values in $\mathbb{R}^D$ into $D!$ symbols, where $D$ represents for the ''Embedding Dimension'' and usually ranges between three to six. 
+Ordinal patterns are a non-parametric representation of real-valued time series by transforming small subsets of observations into symbols based on their relative order, rather than looking into actual values. This approach maps each segment of the time series in $\mathbb{R}^D$ into a finite set of $D!$ distinct symbols, where $D$ represents for the ''Embedding Dimension'' and usually ranges between three to six. 
 One of the possible encoding is the set of indexes that sort the $D$ values in non-decreasing order.
 
 To illustrate this idea, let $\bm{x}=\{x_1,x_2, \dots, x_{n+D-1}\}$ 
@@ -76,14 +76,8 @@ For convenience, we will model those symbols as a $k$ dimensional random vector 
 
 
 \section*{Problem Statement}
-%To illustrate this concept, we consider food preferences among individuals as an example of time series data. Meal choices vary widely among people, reflecting their unique tastes and priorities. For instance, when selecting main meals such as beef, pork, chicken, fish, and vegetables, each person has distinct preferences. By analyzing these choices, we can uncover intriguing patterns that highlight the diversity in individual selections.
-
 
 To illustrate this concept, imagine tracking the mean monthly humidity in Wellington. You want to analyze how humidity changes throughout the year. By examining this data, you can uncover interesting patterns that highlight the variations in humidity across different months. 
-
-%Imagine two individuals with different meal preferences. Person 1 enjoys pork the most, followed by beef, fish, chicken, and vegetables. In contrast, Person 2 prefers chicken first, followed by fish, vegetables, beef, and pork. A simple graph illustrating these preferences would show that their choices do not overlap significantly, emphasizing their unique tastes.
-
-%Expanding this analysis to a larger group allows us to observe even more diverse and complex patterns. Each individual's preference forms a unique data point, and collectively, they create a rich tapestry of variation. This exploration provides valuable insights into how food choices differ across individuals and groups, making the study both meaningful and captivating.
 
 \begin{table}[hbt]
 	\centering
@@ -125,7 +119,7 @@ This ``embedding dimension'' usually varies between $3$ and $6$, but any dimensi
 The conversion can be made in any way that uniquely maps the sorting properties of the sub sequence into a symbol.
 For example, consider the time series presented in Table \ref{tab:humidity}. We can transform this series into ordinal patterns as follows. 
 %%% ACF You haven't defined the time lag. You won't use the time lag is this example. Do you you need it at this point?
-Assume we use patterns of length $D=3$ with a time lag $\tau=1$. 
+Assume we use patterns of length $D=3$. 
 The first overlapping window $(77.3,81,82.4)$ corresponds to the pattern  $(1,2,3)$, where type is considering with the order of the real time series data. Here $77.3$ is the smallest value and is assigned rank $1$; $81$ is the next highest and is assigned rank $2$; and $82.4$ is the largest, assigned rank $3$. As another example, consider the overlapping window $(83.1, 78.8, 79.6)$.  In this case, $78.8$ is the smallest value and is assigned rank $1$; $79.6$ is the next highest, assigned rank $2$; and $83.1$ is the largest, assigned rank $3$. Therefore, the pattern for this window is $(3,1,2)$.
 Table \ref{tab:op} has shown this scenario. 
 %%% ACF Summarise and present in your own words from Section 3
@@ -209,8 +203,8 @@ We construct the histogram of proportions $h=(h_1,h_2,h_3,h_4,h_5,h_6)$, where e
 This example explains how time series data can be converted into ordinal patterns and how the probability distribution function can be calculated from these patterns.
 %%% ACF The example should proceed by discussing, defining, and illustrating the permutation entropy and the statistical complexity
 %%% ACF Do not be redundant
-
-Chapter~\ref{C:lit} will review the literature on ordinal pattern analysis, while Chapter~\ref{C:aim} will expand on this concept by exploring the characterization of time series. It will also cover the computation of two key descriptors entropy and complexity from the resulting histograms. Additionally, Chapter~\ref{C:futw} will outline the main ideas and objectives of this research project.      
+%% I didn’t address this comment because I swapped the chapters to improve the flow.
+Chapter~\ref{C:aim} will expand on this concept by exploring the characterization of time series and cover the computation of two key descriptors entropy and complexity from the resulting histograms. Chapter~\ref{C:lit} will review the literature on ordinal pattern analysis. Additionally, Chapter~\ref{C:futw} will outline the main ideas and objectives of this research project.      
 
 
 
