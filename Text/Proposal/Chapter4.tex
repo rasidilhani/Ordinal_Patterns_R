@@ -17,23 +17,26 @@ We have also examined key research articles by Bandt and Pompe \cite{PhysRevLett
 	\item Martin et al. \cite{Martin2006}, who defined the theoretical boundaries of this generalized statistical complexity measure.
 \end{itemize}
 
-In addition, we reviewed recent work by Rey et al. \cite{Rey2025,Rey2023a,Rey2023}, which investigates the statistical properties of entropy derived from ordinal patterns, including the asymptotic distribution under the multinomial law and the behavior of permutation entropy.
+In addition, we reviewed recent work by Rey et al. \cite{Rey2025,Rey2023a,Rey2023}, which investigates the statistical properties of entropy derived from ordinal patterns, including the asymptotic distribution under the multinomial law and the behavior of permutation entropy. 
 
-We applied this theoretical concept to analyze bearing fault data. As a case study, we calculated the asymptotic mean, variance, and corresponding confidence intervals using two large-sample datasets under the Multinomial law, as presented in Chapter~\ref{C:aim}, Section~\ref{Sec:CaseStudy}.
+As a case study, we computed the Shannon entropy, statistical complexity, and their associated asymptotic variances based on the probability distribution of ordinal patterns. Using these results, we derived confidence intervals for both entropy and complexity. The analysis was further visualized using the entropy–complexity plane, offering insights into the underlying system dynamics. All computations were performed using two large-sample datasets under the asymptotic distribution, as detailed in Chapter~\ref{C:aim}, Section~\ref{Sec:CaseStudy}. 
 
-The formulas and procedures used to analyze the data are summarized as follows:
+
+The formulas and procedures used to analyze the case study are summarized as follows:
 \begin{itemize}
-	\item Calculate the entropy of the time series.
+	\item Calculate the Shannon entropy of the time series.
 	\item Calculate the statistical complexity.
-	\item Estimate the asymptotic variance.
+	\item Estimate the asymptotic variance for Shannon entropy and complexity.
 	\item Construct confidence intervals for both entropy and complexity.
 	\item Plot the results in the entropy–complexity plane.
 	\item Divide the data into batches (batch size = 10,000).
 	\item Repeat the above calculations for each batch.
 	\item Graphically represent the results of the two time series across batches in the entropy–complexity plane.
+	\item Finally, the results are analyzed for time series clustering, as shown in the final output in Figure~\ref{fig:EntopyComplexity Plane}
 \end{itemize}
 
-As a first part of the calculation we use the permutation  entropy formula as described below. Permutation entropy is the Shannon entropy computed from the ordinal patterns extracted from a time series.
+
+As a first part of the calculation we use the normalized Shannon entropy formula as described below. 
 \begin{equation}
 	H(\mathbf{p})=-\dfrac{1}{\log k}\sum^{k}_{\ell=1}p_{\ell} \ln{p_{\ell}}.
 \end{equation}
@@ -61,16 +64,40 @@ where both $H$ and $Q$ are normalized quantities, therefore $C$ is also normaliz
 
 Then the entropy-complexity plane, which is a two-dimensional representation used to graphically represent the results. 
 
-As a key component of our research work, We calculated the asymptotic variance based on the asymptotic distribution of entropy and statistical complexity. This approach assumes that the distribution of entropy and complexity measures follows a Multinomial model. Following the research work proposed by Rey et al.~\cite{Rey2025}, we recognize that as the sample size increases, the distribution of entropy, and statistical complexity converges to a normal distribution, where its variance is determined by the underlying system’s dynamics.  We used this concept in our analysis, and the results show a significant improvement in the reliability of complexity estimates. 
-Furthermore, we used this asymptotic distribution to calculate confidence intervals for entropy and complexity in the context of time series clustering. 
+As a key component of our research work, we calculated the asymptotic variance for Shannon entropy. After that associated confidence interval for Shannon entropy was used to analyze the results. 
+
 The estimated Shannon entropy is defined as:
 \begin{equation}
 	H_s(\widehat{\bm{p}})=-\sum_{\ell=1}^{k}\widehat{p_\ell}\log\widehat{p_\ell}.
 \end{equation}
+
 The asymptotic variance $\widehat{\sigma}^2$ of the entropy estimator is given by:
 \begin{equation}
-	\widehat{\sigma}^2=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
+	\widehat{\sigma}^2_p=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
 \end{equation}
+
+
+The asymptotic distribution of the statistical complexity defined as follows:
+\begin{equation}
+		C[\widehat{p}]=H[\widehat{\bm{p}}]Q[\widehat{\bm{p}}]
+\end{equation}
+
+As defined by Rey et.al.~\cite{Rey2025} the asymptotic distribution of $C[\widehat{p}]$ by a normal law, with mean of Shannon entropy ($\mu_C$) and variance (${\sigma}^2_C$)is given by:
+\begin{equation}
+	\mu_C=\dfrac{\max(Q'){\sigma_Q}{\sigma_p}}{n({\delta_Q}{\delta_H}+\rho)}
+\end{equation} 
+\begin{equation}
+	{\sigma}^2_C=\dfrac{{\max(Q')}^2{\sigma^2_Q}{\sigma^2_p}}{{n^2}({\delta^2_Q}+{\delta^2_H}+2\rho \delta_Q \delta_H+1+{\rho}^2)}
+\end{equation}
+where $\rho$ is the correlation coefficient bet ween normalized Shannon entropy and normalized disequilibrium.
+Further, 
+
+$\delta_Q=\dfrac{n\times \text{asymptotic mean of the Jensen Shannon divergence}(\mu_Q)}{\text{asymptotic variance of disequilibrium}(\sigma_Q)}$,
+
+$\delta_H=\dfrac{n\times \text{asymptotic mean of the Shannon Entropy}(\mu_C)}{\text{asymptotic variance of Shannon entropy}(\sigma_p)}$
+
+Assuming that $n$ is sufficiently large, $\delta_Q$ and $\delta_H$ tend to infinity, we can calculate asymptotic distribution of the complexity.
+
 This approach will be further analyzed, as described in the following objectives, to evaluate the accuracy of the results.
 
 This proposal has three objectives in order to continue this research work.
