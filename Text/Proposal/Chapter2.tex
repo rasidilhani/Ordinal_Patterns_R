@@ -209,7 +209,7 @@ This situation is denoted as $\bm{N}\sim \text{Mult}(n,\bm{p}).$ \cite{Rey2023}
 
 In practical applications, the true probability distribution $\bm{p}$ governing a Multinomial system is typically unknown. Instead, estimators $\widehat{p}_l,$ are derived empirically by calculating the observed frequency of each event $\pi^l$ within the set of $k$ possible outcomes $\bm{\pi}=\pi^1,\pi^2, \dots, \pi^k$  across $n$ independent trials. These frequencies approximate the underlying probabilities, enabling inference about the system’s behavior. This maximum likelihood estimator (MLE) aligns with the empirical estimator derived from first-moment matching of the distribution. Due to its consistency, asymptotic normality, and computational tractability under regularity conditions, it remains the predominant choice in applied statistical modeling.
 
-Shannon entropy quantifies the level of disorder within a system. When the system's behavior is entirely predictable, the Shannon entropy reaches its minimum, indicating complete knowledge of future observations. Conversely, when the system follows a uniform distribution where all possible outcomes have equal probability—the entropy is maximized, reflecting minimal knowledge about the system's behavior. Chagas et al. \cite{Chagas2022} have analyzed the asymptotic distribution of Shannon entropy in their study. 
+Shannon entropy quantifies the level of disorder within a system. When the system's behavior is entirely predictable, the Shannon entropy reaches its minimum, indicating complete knowledge of future observations. Conversely, when the system follows a uniform distribution where all possible outcomes have equal probability, the entropy is maximized, reflecting minimal knowledge about the system's behavior. Chagas et al. \cite{Chagas2022} have analyzed the asymptotic distribution of Shannon entropy in their study. 
 
 %Shannon entropy $H$, in the distribution of $H(\bm{p})$ indexed by $\widehat{\bm{p}},$ the maximum likelihood estimator of $\bm{p}$. The distribution of $H(\widehat{\bm{p}})$ are defined as follows. 
 %\begin{equation}
@@ -251,7 +251,7 @@ The asymptotic variance $\widehat{\sigma}^2$ of the entropy estimator is given b
 \end{equation}
 These formulas serve as the basis for the subsequent case study in our research.
 
-\section{Case Study of Asymptotic Distribution of the Complexity} 
+\section{Case Study of Asymptotic Distribution of the Complexity} \label{Sec:CaseStudy} 
 
 Statistical complexity is defined as the product of two normalized quantities:
 \begin{itemize}

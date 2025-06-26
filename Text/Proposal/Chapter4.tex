@@ -19,6 +19,60 @@ We have also examined key research articles by Bandt and Pompe \cite{PhysRevLett
 
 In addition, we reviewed recent work by Rey et al. \cite{Rey2025,Rey2023a,Rey2023}, which investigates the statistical properties of entropy derived from ordinal patterns, including the asymptotic distribution under the multinomial law and the behavior of permutation entropy.
 
+We applied this theoretical concept to analyze bearing fault data. As a case study, we calculated the asymptotic mean, variance, and corresponding confidence intervals using two large-sample datasets under the Multinomial law, as presented in Chapter~\ref{C:aim}, Section~\ref{Sec:CaseStudy}.
+
+The formulas and procedures used to analyze the data are summarized as follows:
+\begin{itemize}
+	\item Calculate the entropy of the time series.
+	\item Calculate the statistical complexity.
+	\item Estimate the asymptotic variance.
+	\item Construct confidence intervals for both entropy and complexity.
+	\item Plot the results in the entropy–complexity plane.
+	\item Divide the data into batches (batch size = 10,000).
+	\item Repeat the above calculations for each batch.
+	\item Graphically represent the results of the two time series across batches in the entropy–complexity plane.
+\end{itemize}
+
+As a first part of the calculation we use the permutation  entropy formula as described below. Permutation entropy is the Shannon entropy computed from the ordinal patterns extracted from a time series.
+\begin{equation}
+	H(\mathbf{p})=-\dfrac{1}{\log k}\sum^{k}_{\ell=1}p_{\ell} \ln{p_{\ell}}.
+\end{equation}
+Here, $k=D!$ represents the total number of possible permutation patterns.
+
+The Jensen-Shannon distance between histogram of proportion $\mathbf{p}$ and the uniform probability function $\mathbf{u}=(1/k, 1/k, \dots, 1/k)$, where $k=D!$ are calculated as a next step to find the complexity. 
+Statistical equilibrium in time series data is defined as follows. 
+\begin{equation}
+	Q'(\mathbf{p,u})=\sum^k_{\ell=1} p_\ell\log\dfrac{p_\ell}{u_\ell}+u_\ell\log\dfrac{u_\ell}{p_\ell}.
+\end{equation}
+After that, we used the normalized disequilibrium is defined as follows
+\begin{equation}
+	Q=\dfrac{Q'}{\max{(Q')}},
+\end{equation}
+where $\max(Q')$ is defined as follows
+\begin{equation}
+	\max(Q')=-2 \left[\dfrac{k+1}{k}\log(k+1)-2\log(2k)+\log k\right].
+\end{equation}
+to calculate the complexity.
+The complexity equation is given as follows.
+\begin{equation}
+	C=HQ,
+\end{equation}
+where both $H$ and $Q$ are normalized quantities, therefore $C$ is also normalized.   
+
+Then the entropy-complexity plane, which is a two-dimensional representation used to graphically represent the results. 
+
+As a key component of our research work, We calculated the asymptotic variance based on the asymptotic distribution of entropy and statistical complexity. This approach assumes that the distribution of entropy and complexity measures follows a Multinomial model. Following the research work proposed by Rey et al.~\cite{Rey2025}, we recognize that as the sample size increases, the distribution of entropy, and statistical complexity converges to a normal distribution, where its variance is determined by the underlying system’s dynamics.  We used this concept in our analysis, and the results show a significant improvement in the reliability of complexity estimates. 
+Furthermore, we used this asymptotic distribution to calculate confidence intervals for entropy and complexity in the context of time series clustering. 
+The estimated Shannon entropy is defined as:
+\begin{equation}
+	H_s(\widehat{\bm{p}})=-\sum_{\ell=1}^{k}\widehat{p_\ell}\log\widehat{p_\ell}.
+\end{equation}
+The asymptotic variance $\widehat{\sigma}^2$ of the entropy estimator is given by:
+\begin{equation}
+	\widehat{\sigma}^2=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
+\end{equation}
+This approach will be further analyzed, as described in the following objectives, to evaluate the accuracy of the results.
+
 This proposal has three objectives in order to continue this research work.
 \begin{itemize}
 	\item Define a data base of time series for clustering, i.e., finding similar time series. 
