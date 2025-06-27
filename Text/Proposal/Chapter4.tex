@@ -36,18 +36,16 @@ The formulas and procedures used to analyze the case study are summarized as fol
 \end{itemize}
 
 
-As a first part of the calculation we use the normalized Shannon entropy formula as described below. 
+Asymptotic distribution of normalized Shannon entropy $H(\mathbf{p})$ was derived under the assumption of independent ordinal patterns, following the multinomial law. As a foundational step, we use the normalized Shannon entropy formula: 
 \begin{equation}
 	H(\mathbf{p})=-\dfrac{1}{\log k}\sum^{k}_{\ell=1}p_{\ell} \ln{p_{\ell}}.
 \end{equation}
-Here, $k=D!$ represents the total number of possible permutation patterns.
-
-The Jensen-Shannon distance between histogram of proportion $\mathbf{p}$ and the uniform probability function $\mathbf{u}=(1/k, 1/k, \dots, 1/k)$, where $k=D!$ are calculated as a next step to find the complexity. 
-Statistical equilibrium in time series data is defined as follows. 
+Where, $k=D!$ is the number of possible ordinal patterns. To evaluate statistical complexity, we compute the Jensen–Shannon divergence between the histogram of proportion $\mathbf{p}$ and the uniform probability function $\mathbf{u}=(1/k, 1/k, \dots, 1/k)$, defined by:  
 \begin{equation}
 	Q'(\mathbf{p,u})=\sum^k_{\ell=1} p_\ell\log\dfrac{p_\ell}{u_\ell}+u_\ell\log\dfrac{u_\ell}{p_\ell}.
 \end{equation}
-After that, we used the normalized disequilibrium is defined as follows
+
+This disequilibrium measure is normalized using:
 \begin{equation}
 	Q=\dfrac{Q'}{\max{(Q')}},
 \end{equation}
@@ -55,8 +53,8 @@ where $\max(Q')$ is defined as follows
 \begin{equation}
 	\max(Q')=-2 \left[\dfrac{k+1}{k}\log(k+1)-2\log(2k)+\log k\right].
 \end{equation}
-to calculate the complexity.
-The complexity equation is given as follows.
+
+The statistical complexity is then calculated as:
 \begin{equation}
 	C=HQ,
 \end{equation}
@@ -64,39 +62,35 @@ where both $H$ and $Q$ are normalized quantities, therefore $C$ is also normaliz
 
 Then the entropy-complexity plane, which is a two-dimensional representation used to graphically represent the results. 
 
-As a key component of our research work, we calculated the asymptotic variance for Shannon entropy. After that associated confidence interval for Shannon entropy was used to analyze the results. 
-
-The estimated Shannon entropy is defined as:
+As a key component of our research, we also calculated the asymptotic variance of the Shannon entropy estimator. The estimated normalized entropy based on sample proportions $\widehat{\bm{p}}$ is: 
 \begin{equation}
-	H_s(\widehat{\bm{p}})=-\sum_{\ell=1}^{k}\widehat{p_\ell}\log\widehat{p_\ell}.
+	H_s(\widehat{\bm{p}})=-\dfrac{1}{\log k}\sum_{\ell=1}^{k}\widehat{p_\ell}\log\widehat{p_\ell}.
 \end{equation}
 
-The asymptotic variance $\widehat{\sigma}^2$ of the entropy estimator is given by:
+The corresponding asymptotic variance under the multinomial model is given by:
 \begin{equation}
 	\widehat{\sigma}^2_p=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
 \end{equation}
-
-
-The asymptotic distribution of the statistical complexity defined as follows:
+where $n$ is the sample size. From this variance, we derive confidence intervals for entropy, which are used to assess uncertainty in theentropy-complexity plane. The asymptotic distribution of statistical complexity under the multinomial law is:
 \begin{equation}
-		C[\widehat{p}]=H[\widehat{\bm{p}}]Q[\widehat{\bm{p}}]
+		C[\widehat{\bm{p}}]=H[\widehat{\bm{p}}]Q[\widehat{\bm{p}}].
 \end{equation}
 
-As defined by Rey et.al.~\cite{Rey2025} the asymptotic distribution of $C[\widehat{p}]$ by a normal law, with mean of Shannon entropy ($\mu_C$) and variance (${\sigma}^2_C$)is given by:
-\begin{equation}
-	\mu_C=\dfrac{\max(Q'){\sigma_Q}{\sigma_p}}{n({\delta_Q}{\delta_H}+\rho)}
-\end{equation} 
-\begin{equation}
-	{\sigma}^2_C=\dfrac{{\max(Q')}^2{\sigma^2_Q}{\sigma^2_p}}{{n^2}({\delta^2_Q}+{\delta^2_H}+2\rho \delta_Q \delta_H+1+{\rho}^2)}
-\end{equation}
-where $\rho$ is the correlation coefficient bet ween normalized Shannon entropy and normalized disequilibrium.
-Further, 
+%As defined by Rey et.al.~\cite{Rey2025} the asymptotic distribution of $C[\widehat{\bm{p}}]$ by a normal law, with mean of Shannon entropy ($\mu_C$) and variance (${\sigma}^2_C$)is given by:
+%\begin{equation}
+%	\mu_C=\dfrac{\max(Q'){\sigma_Q}{\sigma_p}}{n({\delta_Q}{\delta_H}+\rho)},
+%\end{equation} 
+%\begin{equation}
+%	{\sigma}^2_C=\dfrac{{\max(Q')}^2{\sigma^2_Q}{\sigma^2_p}}{{n^2}({\delta^2_Q}+{\delta^2_H}+2\rho \delta_Q \delta_H+1+{\rho}^2)},
+%\end{equation}
+%where $\rho$ is the correlation coefficient bet ween normalized Shannon entropy and normalized disequilibrium.
+%Further, 
 
-$\delta_Q=\dfrac{n\times \text{asymptotic mean of the Jensen Shannon divergence}(\mu_Q)}{\text{asymptotic variance of disequilibrium}(\sigma_Q)}$,
+%$\delta_Q=\dfrac{n\times \text{asymptotic mean of the Jensen Shannon divergence}(\mu_Q)}{\text{asymptotic variance of disequilibrium}(\sigma_Q)}$,
 
-$\delta_H=\dfrac{n\times \text{asymptotic mean of the Shannon Entropy}(\mu_C)}{\text{asymptotic variance of Shannon entropy}(\sigma_p)}$
+%$\delta_H=\dfrac{n\times \text{asymptotic mean of the Shannon Entropy}(\mu_C)}{\text{asymptotic variance of Shannon entropy}(\sigma_p)}$.
 
-Assuming that $n$ is sufficiently large, $\delta_Q$ and $\delta_H$ tend to infinity, we can calculate asymptotic distribution of the complexity.
+%Assuming that $n$ is sufficiently large, $\delta_Q$ and $\delta_H$ tend to infinity, we can calculate asymptotic distribution of the complexity.
 
 This approach will be further analyzed, as described in the following objectives, to evaluate the accuracy of the results.
 
