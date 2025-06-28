@@ -251,33 +251,67 @@ The asymptotic variance $\widehat{\sigma}^2$ of the entropy estimator is given b
 \end{equation}
 These formulas serve as the basis for the subsequent case study in our research.
 
-\section{Case Study of Asymptotic Distribution of the Complexity} \label{Sec:CaseStudy} 
+\section{Asymptotic distribution of Permutation Entropy}\label{Sec:AsymptoticVariance}
+
+As we discussed earlier, real-valued time series $\bm{x}=\{x_1,x_2,...,x_{n+D-1}\}$  transform into the series symbols $\bm{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$ from sub-sequences of embedding dimension $D$, where we considered $D!=k$. Due to the overlapping of time windows, the ordinal patterns which we calculate are dependent. For $i=1,2,...k$, let $p_i$ be the probability of observing the state $\pi_i$, denote the vector probabilities, $\bm{p}={\left\{p_1,p_2,\dots,p_k\right\}}$ and express as $\bm{D_p}=\text{Diag}(p_1,p_2, ..., p_k)$ the diagonal matrix. The transition probability of reaching state $\pi_j$ at time $t+\ell$ from the state $\pi_i$ at time $t$, for $\ell=1,2,...,D-1$, is denoted by $p^{(\ell)}_{ij}$. These transition probabilities can be collected in the matrix $\bm{Q}^{(\ell)}$ whose elements are  $p^{(\ell)}_{ij}$. As describe in the Rey et al.~\cite{Rey2023a} when $n$ is sufficiently large, asymptotic variance of the Shannon entropy defined as follows. 
+%\begin{equation}
+	%\sigma^2_{\bm{p}}=\sum_{i=1}^{k}(\bm{\Sigma}_{\bm{p}})_{ii}+2\sum_{i=1}^{k-1}\sum%_{j=i+1}^{k}(\bm{\Sigma}_{\bm{p}})_{ij}=\sum_{i=1}^{k}(\ln p_i+1)^2
+%\times \left[ p_i-(2D-1)p^2_i+2\sum_{\ell=1}^{D-1}\bm{Q}^{(\ell)}_{ii}\right] - %2\sum_{i=1}^{k-1}\sum_{j=i+1}^{k} (\ln p_i+1)(\ln p_j+1) \left[(2D-1)p_i %p_j-\sum_{\ell=1}^{D-1}\left(\bm{Q}^{(\ell)}_{ij}+\bm{Q}^{(\ell)}_{ji}\right)\right].
+%\end{equation}
+
+\begin{equation}
+	\begin{split}
+		\sigma^2_{\bm{p}} = & \sum_{i=1}^{k}(\ln p_i + 1)^2 
+		\left[ p_i - (2D - 1)p_i^2 + 2\sum_{\ell=1}^{D-1} \bm{Q}^{(\ell)}_{ii} \right] \\
+		& - 2 \sum_{i=1}^{k-1} \sum_{j=i+1}^{k} (\ln p_i + 1)(\ln p_j + 1) \\
+		& \quad \times \left[ (2D - 1)p_i p_j - \sum_{\ell=1}^{D-1} \left( \bm{Q}^{(\ell)}_{ij} + \bm{Q}^{(\ell)}_{ji} \right) \right].
+	\end{split}
+	\label{eq:asympvar}
+\end{equation} 
+
+Asymptotic variance of the Shannon entropy of ordinal patterns considering their correlation structure is given in Equation~\ref{eq:asympvar}.
+For practical purpose, given $n$ is sufficiently large, we can use $H(\bm{p})$ has a normal distribution with mean equal to $H(\widehat{\bm{p}})$ and variance equal to $\sigma^2_{\bm{p}}/n$. 
+
+In addition to that, for $\alpha\in(0,1)$ and $n$ sufficiently large, the $(1-\alpha)\SI{100}{\percent}$ confidence interval of $H(\bm{p})$ is given by, 
+\begin{equation}
+  H(\widehat{\bm{p}})\pm \dfrac{Z_{\sigma/2}\sigma_{\bm{p}}}{\sqrt{n}}.
+  \label{eq:ConfidenceInterval}
+\end{equation} 
+
+For convenience, Equation~\ref{eq:ConfidenceInterval} is referred to and defined as follows.
+\begin{equation}
+	H(\widehat{\bm{p}})\pm \textbf{Semi Length},
+	\label{eq:CI}
+\end{equation} 
+where $\textbf{Semi Length}=\dfrac{Z_{\sigma/2}\sigma_{\bm{p}}}{\sqrt{n}}$
+
+\section{Case Study of Asymptotic Distribution of the Shannon Entropy} \label{Sec:CaseStudy} 
 
 Statistical complexity is defined as the product of two normalized quantities:
 \begin{itemize}
-	\item The Shannon entropy
-	\item The Jensen-Shannon distance between the observed probability distribution and the uniform distribution 
+	\item The Shannon entropy,
+	\item The Jensen-Shannon distance between the observed probability distribution and the uniform distribution. 
 \end{itemize}
 
-In this section we discuss three key aspects with real world scenario:
+In this section we discuss two key aspects with real world scenario:
 \begin{enumerate}
-	\item \textbf{Significance of Asymptotic Complexity Distributions}: Why understanding large-sample behavior matters for statistical inference
-	\item \textbf{Multinomial Model Framework}: Derivation of the asymptotic distribution for statistical complexity under Multinomial assumptions
-	\item \textbf{Practical Formula}: A working equation for calculating the asymptotic distribution of complexity
+	\item \textbf{Significance of Asymptotic Distributions}: Why understanding large-sample behavior matters for statistical inference,
+%	\item \textbf{Multinomial Model Framework}: Derivation of the asymptotic distribution for statistical complexity under Multinomial assumptions
+	\item \textbf{Practical Formula}: A working equation for calculating the asymptotic distribution of complexity.
 \end{enumerate}
 
 As a case study for our work, we consider data from the Bearing Data Center and the seeded fault test data from Case Western Reserve University, School of Engineering. The datasets includes ball bearing test data for normal bearings as well as single-point defects on the fan end and drive end. Data were collected at a rate of $48,000 (48k$ drive-end) data points per second during bearing tests. Each file contains motor loads $(0, 1, 2,$ and $3)$, drive-end vibration data, and fan-end vibration data. The approximate motor speeds in RPM during testing: $1797, 1772, 1750,$ and $1730$. For our case study, we consider two time series (Normal Baseline and $48k$ Drive-End) with a motor load of $0$ and an RPM of $1797$. 
 
 The primary objective of this study is to detect malfunctioning machinery by analyzing two time series using ordinal patterns. We introduce a distance metric based on the ordinal structure of the segments to quantify similarity. This metric facilitates the identification of faulty machines across various embedding dimensions, ranging from $3$ to $6$. For this case study, we employ an embedding dimension of $3$ for convenience; subsequent analyses will extend to the remaining dimensions to compare results. Permutation entropy under asymptotic conditions is computed by considering the probability distribution of ordinal patterns. The results are further analyzed using the complexity–entropy plane, providing insights into the system's dynamics.
 
-Initially, we analyzed the complete datasets from two time series such as one comprising $250,000$ data points representing the normal baseline at motor load $0$, and another containing $2,540,000$ data points from the $48k$ drive end under the same motor load. We computed entropy and complexity measures fro these entire datasets, with the results presented in the Table \ref{tab:EnComplexResults}
+Initially, we analyzed complete datasets from two time series: one comprising 250,000 data points representing the normal baseline at motor load 0, and another containing 2,540,000 data points from the 48k drive end under the same motor load. We computed the entropy and complexity measures for these entire datasets, followed by the calculation of the asymptotic variance as defined in Section~\ref{Sec:AsymptoticVariance}. This asymptotic variance was then used to determine the confidence interval for entropy (Equation is defined in~\ref{eq:ConfidenceInterval}). The calculation of the semi-length of the interval is given by Equation~\ref{eq:CI}. The final results are presented in Table~\ref{tab:EnComplexResults}.
 
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{llcr}
 		\toprule
-		Entropy  & Complexity  & Std Deviation & Semi Length \\
+		Entropy  & Complexity  & $\sigma_{\bm{p}}$ & Semi Length \\
 		\midrule
 		$0.665235$ & $0.226447$ & $0.358893$ & $0.000441$\\ 
 		$0.772973$ & $0.170954$ & $0.324376$ & $0.001287$\\
