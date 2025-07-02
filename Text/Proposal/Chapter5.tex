@@ -1,10 +1,7 @@
-\chapter{Conclusion}\label{C:conc}
+\chapter{Statistical Properties of Features from Ordinal Patterns}\label{C:StatisitcalProperty}
 
-The Library states:
-\begin{itemize}
-\item Thesis must be fully bound and cased in cloth or buckram in optional colour. (I think they mean you can pick the colour!)
-\item Author's surname and initials and (short) title lettered on spine. (The thesis's title, not the author's, presumably.)
-\item Author's full name and full title lettered on front cover. (Again, the thesis's title, not the author's, presumably.)
-\item Two copies of a PhD thesis and one copy of a Master's thesis must be deposited. A signed availability slip must accompany the thesis.
-\item  The principal supervisor is responsible for the deposit.
-\end{itemize}
+Although ordinal pattern based methods, such as permutation entropy, have been widely used for nonlinear time series analysis, the statistical properties of the features derived from these patterns, such as their distribution, variance, and confidence intervals remain under-explored and require further theoretical and empirical investigation. Therefore, the purpose of this chapter is to investigate the researchers who worked related to ordinal patterns, what kind of statistical properties of features used for their research work.
+
+Wang et al.~\cite{Wang2025} uses the Generalized Gaussian Distribution (GGD) as the statistical distribution for its proposed entropy method. This is explicitly stated in their methodology, and the method transforms raw vibration signals using the GGD's Cumulative Distribution Function (CDF) to map data into a normalized space (0 to 1).
+Jieren Xie et.al.~\cite{bibid} introduces a novel approach that replaces traditional probability distributions with evidence theory, specifically using belief functions and mass assignments to quantify uncertainty in time series analysis. Instead of relying on fixed probabilities, this method assigns basic probability masses to subsets of permutation patterns, capturing both uncertainty and ignorance through belief intervals. The belief permutation entropy (BPE) is calculated using Deng entropy, which generalizes Shannon entropy by incorporating the cardinality of subsets, allowing for a more flexible representation of uncertainty. This framework integrates neighborhood relationships among permutation patterns, enhancing robustness to noise and ambiguity, particularly in short or non-stationary time series.
+

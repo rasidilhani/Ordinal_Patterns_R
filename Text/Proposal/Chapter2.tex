@@ -274,16 +274,17 @@ For practical purpose, given $n$ is sufficiently large, we can use $H(\bm{p})$ h
 
 In addition to that, for $\alpha\in(0,1)$ and $n$ sufficiently large, the $(1-\alpha)\SI{100}{\percent}$ confidence interval of $H(\bm{p})$ is given by, 
 \begin{equation}
-  H(\widehat{\bm{p}})\pm \dfrac{Z_{\sigma/2}\sigma_{\bm{p}}}{\sqrt{n}}.
+  H(\widehat{\bm{p}})\pm \dfrac{Z_{\alpha/2}\sigma_{\bm{p}}}{\sqrt{n}},
   \label{eq:ConfidenceInterval}
 \end{equation} 
+where $Z_{\alpha/2}$ is the $\alpha/2$-quantile of a standard normal random variable.
 
 For convenience, Equation~\ref{eq:ConfidenceInterval} is referred to and defined as follows.
 \begin{equation}
 	H(\widehat{\bm{p}})\pm \textbf{Semi Length},
 	\label{eq:CI}
 \end{equation} 
-where $\textbf{Semi Length}=\dfrac{Z_{\sigma/2}\sigma_{\bm{p}}}{\sqrt{n}}$
+where $\textbf{Semi Length}=\dfrac{Z_{\alpha/2}\sigma_{\bm{p}}}{\sqrt{n}}$
 
 \section{Case Study of Asymptotic Distribution of the Shannon Entropy} \label{Sec:CaseStudy} 
 
