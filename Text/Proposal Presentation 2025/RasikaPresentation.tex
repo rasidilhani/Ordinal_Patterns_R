@@ -1,0 +1,427 @@
+\documentclass{beamer}
+%\usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+\title{Ordinal Pattern Features: Statistical Properties and Their Applications in Time Series Clustering}
+\author[Rasika Dilhani]{{Rasika Dilhani}\\{\small Supervisor: Alejandro C.\ Frery}}
+\institute[VUW]{Victoria University of Wellington}
+\date{14 July 2025}
+
+\usetheme{Madrid}
+
+%\titlegraphic{\includegraphics[width=2cm]{logopolito}\hspace*{4.75cm}~%
+   %\includegraphics[width=2cm]{VUW_Standard_Landscape_BLACK.eps}
+%}
+\titlegraphic{\includegraphics[width=4cm]{VUW_Standard_Landscape_BLACK.eps}
+}
+% Change base colour beamer@blendedblue (originally RGB: 0.2,0.2,0.7)
+\definecolor{VUWgreen}{RGB}{0,71,48}
+\colorlet{beamer@blendedblue}{VUWgreen}
+
+
+% Packages used
+%\usepackage{tikz-cd}
+%\usepackage{bm}
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{amsthm}
+%\usepackage{pgfplots}
+%\usepackage{xcolor}
+%\usepackage[mathscr]{euscript}
+%\usepackage{longtable}
+
+
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[mathscr]{euscript}
+\pgfplotsset{compat = newest}
+\usepackage{float}
+\usepackage{microtype}
+\usepackage[mode=text]{siunitx}
+\usepackage{longtable}
+%%%
+\pgfplotsset{compat=1.18}
+
+% Special definitions
+\newcommand{\Sha}{\rotatebox[origin=c]{180}{$\Pi\kern-0.347em\Pi$}}
+
+\begin{document}
+
+\maketitle
+%outline
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+%--------------------%
+\section{Introduction}
+%--------------------%
+%--------------------%
+\subsection{Approaches to time series analysis}
+%--------------------%
+
+\begin{frame}{What is a Time Series?}
+	\begin{itemize}
+		\item A \textbf{time series} is a sequence of observations $x_t$, each indexed by time $t$ (discrete or continuous).
+		\item Each $x_t$ is a realization of a random variable $X_t$.
+		\item \textbf{Examples:}
+		\begin{itemize}
+			\item Finance: stock prices, exchange rates
+			\item Biology: heart rate, population growth
+			\item Geoscience: weather, humidity
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Why Analyze Time Series?}
+	\begin{itemize}
+		\item Understand underlying system dynamics.
+		\item Forecast future values.
+		\item Detect anomalies or Non-stationarities.
+	\end{itemize}
+\end{frame}
+
+
+%---------------------------%
+\subsection{The Bandt-Pompe Approach: Successes and Limitations}
+%---------------------------%
+
+\begin{frame}{The Bandt-Pompe Approach: Motivation and Context}
+	\begin{itemize}
+		\item \textbf{Time series} contain valuable insights about the underlying system that generates the data.
+		\item Traditional analysis uses two main approaches:Time-domain and frequency-domain.
+		%\begin{itemize}
+		%	\item \textbf{Time-domain methods:} Analyze relationships between current and past values.
+		%	\item \textbf{Transformed-domain methods:} Use spectral expansions (e.g., Fourier, wavelets).
+		%\end{itemize}
+		\item Many classical statistical methods require assumptions (large sample sizes, normality) that are often violated in real data, leading to unreliable results.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{The Bandt-Pompe Approach: Successes and Limitations}
+	\begin{itemize}
+		\item \textbf{Ordinal patterns:} Capture the order relations among consecutive values in a time series.
+		\item \textbf{Bandt \& Pompe (2002)\cite{PhysRevLett.88.174102}:} Transform time series into ordinal patterns, build a histogram of patterns, and compute Shannon entropy.
+		\item \textbf{Advantages:}
+		\begin{itemize}
+			\item Non-parametric (no distribution assumptions)
+			\item Robust to outliers and monotonic transformations
+			\item Captures temporal structure
+		\end{itemize}
+		\item \textbf{Limitations:}
+		\begin{itemize}
+			\item Sensitive to equal (tied) values
+			\item Choice of embedding parameters affects results
+			\item May not capture long-range dependencies
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+%---------------------------%
+\subsection{General and specific objectives of research work}
+%---------------------------%
+
+\begin{frame}{General and specific objectives of research work}
+	\begin{itemize}
+		\item \textbf{General Objective: To answer the following question}
+		\begin{itemize}
+			\item How can confidence intervals for generalized entropy measures (Shannon, Tsallis, Rényi, Fisher information measure) and their associated complexity metrics be used to improve the robustness and discriminative power of time series clustering techniques?
+		\end{itemize}
+		\item \textbf{Main Objectives:}
+		\begin{itemize}
+			\item Define a data base of time series for clustering, i.e., finding similar time series. 
+			\item Extract all the features we know from their Bandt \& Pompe symbolization (Shannon, Tsallis and Renyi entropies, Fisher information measure, complexities, and the available confidence intervals)
+			\item Use those features for time series clustering 
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+%---------------------------%
+\section{Literature Review}
+%---------------------------%
+\begin{frame}
+	\begin{center}
+		\alert{Literature Review}
+	\end{center}
+\end{frame}
+
+%---------------------------%
+\subsection{which statistical results do we know about features from ordinal patterns?}
+%---------------------------%
+
+\begin{frame}{Known statistical results about features from ordinal patterns}
+	\begin{itemize}
+		\item \textbf{Normal (Gaussian) distribution:}
+		\begin{itemize}
+			\item Describes the asymptotic behavior of entropy and complexity estimators derived from ordinal patterns~\cite{Rey2023, Rey2023a, Rey2024, Rey2025, Chagas2022, Davalos2019a}.
+		\end{itemize}
+		\item \textbf{Chi-squared ($\chi^2$) distribution:}
+		\begin{itemize}
+			\item Arises in tests for randomness, independence, and serial dependence in ordinal patterns~\cite{Rey2023, Rey2024, Rey2025, YamashitaRiosDeSousa2022, Shternshis2025}.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Known statistical results about features from ordinal patterns (cont.)}
+	\begin{itemize}
+		\item \textbf{Empirical (permutation) distributions:}
+		\begin{itemize}
+			\item Used in non-parametric independence and randomness tests by shuffling data to generate the null distribution~\cite{MatillaGarcia2008, AshtariNezhad2019}.
+			\item Used in white noise tests by repeatedly shuffling the time series to estimate the null distribution of the test statistic~\cite{Chagas2022a}.
+		\end{itemize}
+		\item \textbf{Alpha-stable distributions:}
+		\begin{itemize}
+			\item Applied for feature extraction in heavy-tailed or non-Gaussian environments, such as fault diagnosis~\cite{Chouri2014}.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Known statistical results about features from ordinal patterns (cont.)}
+	\begin{itemize}
+		\item \textbf{Markov transition probabilities:}
+		\begin{itemize}
+			\item Used to model the dynamics of ordinal patterns as Markov processes~\cite{Sakellariou2019}.
+		\end{itemize}
+		\item \textbf{Belief functions and evidence theory:}
+		\begin{itemize}
+			\item Provide a framework for quantifying uncertainty using Deng entropy and mass assignments, extending beyond classical probability~\cite{Xie2025}.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+%---------------------------%
+\section{Methodology}
+%---------------------------%
+
+\begin{frame}
+	\begin{center}
+		\alert{Methodology}
+	\end{center}
+\end{frame}
+
+%---------------------%
+\subsection{Ordinal Patterns}
+%---------------------%
+
+\begin{frame}{From Time Series to Ordinal Patterns: An Example}
+	\begin{itemize}
+		\item \textbf{Given:} Mean monthly humidity in Wellington
+		\begin{itemize}
+			\item January, February, March, April, May, June, etc...
+			\item 77.3, 81.0, 82.4, 81.7, 83.6, 85.6, etc... 
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Transforming to Ordinal Patterns}
+	For $D=3$, where $D$ is called as \alert{embedding dimension}.\\ 
+	The first window (77.3, 81.0, 82.4) $\rightarrow$ Pattern: (1,2,3) $\rightarrow \pi^1$.\\ 
+	Next window (81.0, 82.4, 81.7) $\rightarrow$ Pattern: (1,3,2) $\rightarrow \pi^2$.\\
+	Continue for all overlapping windows.\\
+	We have $n+D-1$ overlapping windows, where $n$ represents the series length. 
+\end{frame}
+
+%---------------------%
+\subsection{Histogram}
+%---------------------%
+
+\begin{frame}{Histogram of Ordinal Patterns}
+	Count the frequency of each ordinal pattern.\\
+	For $D=3$, there are $3!=6$ possible patterns: (1,2,3), (1,3,2), (2,1,3), (2,3,1), (3,1,2), (3,2,1).\\
+	The histogram shows the proportion of each pattern in the time series.
+\end{frame}
+
+\begin{frame}{Visualizing the Histogram}
+	The histogram provides a visual summary of the distribution of ordinal patterns.\\
+	Peaks indicate common patterns; valleys indicate rare patterns.\\
+	This distribution is the basis for entropy calculation.
+		\begin{center}
+		\includegraphics[width=0.7\textwidth]{frequency histogram}
+	\end{center}
+\end{frame}
+
+%---------------------%
+\subsection{Entropy}
+%---------------------%
+
+\begin{frame}{Shannon Entropy and Permutation Entropy}
+	Entropy measures, such as \alert{Shannon entropy} (which quantifies the uncertainty in a probability distribution) and \alert{Permutation entropy} (which measures the complexity of the order structure in time series using ordinal patterns), are used to quantify the degree of randomness or disorder in data. 
+	\begin{block}{Definition:}
+		\[
+		H(\mathbf{p}) = -\dfrac{1}{\log k} \sum_{i=1}^{k} p(\pi^i) \log p(\pi^i)
+		\]
+		where $k=D!$ and $p(\pi^i)$ is the proportion of pattern $\pi^i$.
+	\end{block}
+	High entropy: patterns are equally likely (randomness).\\
+	Low entropy: some patterns dominate (regularity/structure).
+\end{frame}
+
+%---------------------%
+\subsection{Complexity}
+%---------------------%
+
+\begin{frame}{Complexity}
+	While Permutation entropy is a powerful tool for quantifying disorder, it does not fully capture the complexity of dynamical systems.\\
+	Entropy measures randomness, but cannot distinguish between purely random and structured (complex) behaviors.\\
+	To address this, López-Ruiz et al.~\cite{lopez1995statistical} introduced the concept of \textbf{disequilibrium} $Q$, quantifying the deviation of a probability distribution $\mathbf{p}$ from a uniform (maximally disordered) state.
+\end{frame}
+
+\begin{frame}{Measuring Disequilibrium: Jensen-Shannon Distance}
+	López-Ruiz et al.~\cite{lopez1995statistical} used the \alert{Euclidean distance}; Lamberti et al.~\cite{lamberti2004intensive} proposed the \alert{Jensen-Shannon distance} for ordinal pattern distributions.
+	\begin{block}{Definition:Disequilibrium}
+		For a histogram $\mathbf{p}$ and uniform distribution $\mathbf{u}=(1/k, \ldots, 1/k)$ ($k=D!$):
+		\[
+		Q'(\mathbf{p},\mathbf{u}) = \sum_{\ell=1}^k p_\ell \log\frac{p_\ell}{u_\ell} + u_\ell \log\frac{u_\ell}{p_\ell}
+		\]
+		Normalized disequilibrium:
+		\[
+		Q = \frac{Q'}{\max(Q')}
+		\]
+		where $\max(Q')$ is the maximum possible value of $Q'$~\cite{lamberti2004intensive}.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Statistical Complexity: Combining Entropy and Disequilibrium}
+	\begin{itemize}
+		\item Lamberti et al.~\cite{lamberti2004intensive} defined \alert{statistical complexity} $C$ as:
+		\begin{block}{Definition:Complexity}
+			\[
+			C = H Q
+			\]
+			where $H$ is normalized entropy and $Q$ is normalized disequilibrium.
+		\end{block}
+		\item $C$ is also normalized, ranging from 0 (minimal complexity) to 1 (maximal complexity).
+		\item This measure captures both randomness and structure, providing a richer description of time series dynamics than entropy alone.
+	\end{itemize}
+\end{frame}
+
+
+%---------------------%
+\section{The Entropy-Complexity manifold, its boundaries and "areas" according to the literature}
+%---------------------%
+\begin{frame}{The Entropy-Complexity Plane: Mapping Dynamics}
+	The \alert{entropy-complexity plane} is a two-dimensional representation where time series are mapped according to their entropy ($H$) and statistical complexity ($C$).
+	
+	 Both metrics are derived from ordinal pattern distributions, obtained by mapping a time series into histograms of $D!$ bins.
+	 
+	This framework enables the distinction between different types of dynamics based on their location in the plane.
+\end{frame}
+
+
+\begin{frame}{Boundaries and Structure in the Plane}
+	\begin{itemize}
+		\item Martin et al.~\cite{Martin2006} derived expressions for the boundaries of the entropy-complexity plane using geometric arguments.
+		\item The \alert{lower boundary} is a smooth curve; the \alert{upper boundary} consists of $D!-1$ segments, becoming smoother as $D \to \infty$.
+		\item These boundaries provide a structured approach to analyzing the spatial behavior of specific systems or models.
+		\item \textbf{Example:} The entropy-complexity plane for embedding dimensions 3, 4, 5, and 6 is shown below.
+		\begin{center}
+			\includegraphics[width=0.6\textwidth]{complexity plane}
+		\end{center}
+	\end{itemize}
+\end{frame}
+
+
+%---------------------%
+\section{Asymptotic distribution of the Entropy}
+%---------------------%
+
+\begin{frame}{Asymptotic distribution of the Entropy}
+	Three types of Asymptotic distribution of entropy are discussed.
+	\begin{itemize}
+		\item Empirical Approach
+		\item Under the Multinomial model for the Entropy
+		\item Incorporating dependence among patterns
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Asymptotic Distribution of Entropy: Empirical Approach}
+What is an \alert{Empirical Distribution}?
+	\begin{itemize}
+		\item It is a probability distribution constructed directly from observed data, without assuming any theoretical model.
+		\item It is built by counting how often each outcome appears in the data and dividing by the total number of observations.
+		\item \textbf{Key features:}
+		\begin{itemize}
+			\item \textbf{Data-driven:} Reflects the actual frequencies observed in the sample.
+			\item \textbf{Non-parametric:} Makes no assumptions about the underlying distribution.
+			\item \textbf{Flexible:} Useful for any data type, especially when the true distribution is unknown.
+		\end{itemize}
+		\item \textbf{Example:} In ordinal pattern analysis, the empirical distribution describes the observed frequencies of each pattern in the time series, forming the basis for entropy and complexity calculations.~\cite{Chagas2020a}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Multinomial Model for Ordinal Patterns}
+	\begin{itemize}
+		\item Imagine $n$ independent trials, each resulting in one of $k$ mutually exclusive outcomes $\pi^1, \pi^2, \ldots, \pi^k$ with probabilities $\bm{p} = (p_1, \ldots, p_k)$, where $\sum_{\ell=1}^{k} p_\ell = 1$.
+		\item The random vector $\bm{N} = (N_1, \ldots, N_k)$ counts the number of occurrences of each outcome in $n$ trials, with $\sum_{\ell=1}^{k} N_\ell = n$.
+		\item The joint distribution is:
+		\[
+		\Pr(\bm{N} = \bm{n}) = n! \prod_{\ell=1}^{k} \frac{p_\ell^{n_\ell}}{n_\ell!}
+		\]
+		\item This is denoted as $\bm{N} \sim \text{Mult}(n, \bm{p})$~\cite{Rey2023}.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Asymptotic Distribution of Entropy under the Multinomial Law}
+	\begin{itemize}
+		\item The estimated Shannon entropy is:
+		\[
+		\hat{H} = -\sum_{\ell=1}^k \hat{p}_\ell \log \hat{p}_\ell, \quad \text{where } \hat{p}_\ell = \frac{N_\ell}{n}
+		\]
+		\item As the sample size $n \rightarrow \infty$, $\hat{H}$ converges to a normal distribution, even for dependent processes:
+		\[
+		\sqrt{n}(\hat{H} - H) \xrightarrow{d} \mathcal{N}(0, \sigma^2)
+		\]
+		\item This provides a theoretical foundation for using entropy and complexity as statistical tools when probabilities are estimated from finite samples~\cite{Rey2023}.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Asymptotic Distribution of Entropy: Incorporating dependence among patterns}
+	content...
+\end{frame}
+
+%---------------------%
+\section{Asymptotic distribution of the Complexity}
+%---------------------%
+
+
+
+%---------------------%
+\section{The StatOrdHxC package; its contents and limitations}
+%---------------------%
+
+
+
+%---------------------%
+\section{Results}
+%---------------------%
+
+
+
+%---------------------%
+\section{Future Plans}
+%---------------------%
+
+\begin{frame}{Future Plans}
+    \begin{itemize}
+        \item Define a data base of time series for clustering, i.e., finding similar time series.
+        \item Extract all the features we know from their Bandt \& Pompe symbolization (Shannon, Tsallis and Renyi entropies, Fisher information measure, complexities, and the available confidence intervals).
+        \item Use those features for time series clustering
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+    \bibliographystyle{alpha}
+    \bibliography{BearingFaultDiagnosis}
+    
+\end{frame}
+%Ending slides
+\end{document}

@@ -1,7 +1,67 @@
 \chapter{Statistical Properties of Features from Ordinal Patterns}\label{C:StatisitcalProperty}
 
-Although ordinal pattern based methods, such as permutation entropy, have been widely used for nonlinear time series analysis, the statistical properties of the features derived from these patterns, such as their distribution, variance, and confidence intervals remain under-explored and require further theoretical and empirical investigation. Therefore, the purpose of this chapter is to investigate the researchers who worked related to ordinal patterns, what kind of statistical properties of features used for their research work.
+Although ordinal pattern based methods, such as permutation entropy, have been widely used for nonlinear time series analysis, the statistical properties of the features derived from these patterns, such as their distribution, variance, and confidence intervals remain under-explored and require further theoretical and empirical investigation. Therefore, the purpose of this chapter is to investigate the researchers who worked related to ordinal patterns, what kind of statistical properties of features used for their research work. Table~\ref{tab:StatisticalProperties} provides more information about the research articles and the test statistics or distributions they used.
 
-Wang et al.~\cite{Wang2025} uses the Generalized Gaussian Distribution (GGD) as the statistical distribution for its proposed entropy method. This is explicitly stated in their methodology, and the method transforms raw vibration signals using the GGD's Cumulative Distribution Function (CDF) to map data into a normalized space (0 to 1).
-Jieren Xie et.al.~\cite{bibid} introduces a novel approach that replaces traditional probability distributions with evidence theory, specifically using belief functions and mass assignments to quantify uncertainty in time series analysis. Instead of relying on fixed probabilities, this method assigns basic probability masses to subsets of permutation patterns, capturing both uncertainty and ignorance through belief intervals. The belief permutation entropy (BPE) is calculated using Deng entropy, which generalizes Shannon entropy by incorporating the cardinality of subsets, allowing for a more flexible representation of uncertainty. This framework integrates neighborhood relationships among permutation patterns, enhancing robustness to noise and ambiguity, particularly in short or non-stationary time series.
+
+\begin{longtable}{|p{5.5cm}|p{2.5cm}|p{6.5cm}|}
+	\caption{The test statistics used by the research articles for hypothesis testing}
+	\label{tab:StatisticalProperties} \\
+	\hline
+	\textbf{Paper Title/Reference} & \textbf{Distribution} & \textbf{Brief Description} \\
+	\hline
+	\endfirsthead
+	
+	\multicolumn{3}{c}%
+	{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+	\hline
+	\textbf{Paper Title/Reference} & \textbf{Distribution} & \textbf{Brief Description} \\
+	\hline
+	\endhead
+	
+	\hline \multicolumn{3}{r}{{Continued on next page}} \\
+	\endfoot
+	
+	\hline
+	\endlastfoot
+	
+	A non-parametric independence test using permutation entropy. Matilla-García et.al.~\cite{MatillaGarcia2008} & Empirical (permutation) distribution & Tests independence by comparing the observed permutation entropy-based statistic to its distribution under random shuffling (permutation) of the time series.\\
+	\hline
+	Asymptotic distribution of certain types of entropy under the multinomial law. Rey at.at.~\cite{Rey2023} & Normal, Chi-squared ($\chi^2$) & Analyzes the asymptotic distribution (normal and chi-squared) of entropy estimators under the multinomial law. \\
+	\hline
+	Asymptotic distribution of entropies and Fisher information measure of ordinal patterns with applications. Reyet.al.~\cite{Rey2024} & Normal, Chi-squared ($\chi^2$) & Provides asymptotic distributions for entropy and Fisher information measures of ordinal patterns. \\
+	\hline
+	Asymptotic distribution of the permutation entropy. Rey at.al.~\cite{Rey2023a} & Normal & Derives the asymptotic normal distribution for permutation entropy estimators. \\
+	\hline
+	Asymptotic distribution of the statistical complexity under the multinomial law. Rey at.al.~\cite{Rey2025} & Normal, Chi-squared ($\chi^2$) & Studies the asymptotic distribution of statistical complexity measures derived from ordinal patterns under the multinomial law. \\
+	\hline
+	Assessing serial dependence in ordinal patterns processes using chi-squared tests with application to EEG data. Yamashita et.al.~\cite{YamashitaRiosDeSousa2022} & Chi-squared ($\chi^2$) & Applies chi-squared tests to assess serial dependence in ordinal pattern processes, with application to EEG data. \\
+	\hline
+	Bearing fault diagnosis based on Alpha-stable distribution feature extraction and SVM classifier. Chouri et.al.~\cite{Chouri2014} & Alpha-stable & Uses alpha-stable distribution parameters for feature extraction and SVM for classification in bearing fault diagnosis. \\
+	\hline
+	Belief permutation entropy of time series: A natural transition in analytical framework from probability theory to evidence theory. Xie et. al.~\cite{Xie2025} & Belief functions, Evidence theory basis & Introduces belief permutation entropy (BPE) using evidence theory (belief functions and mass assignments) and Deng entropy instead of classical probability distributions. \\
+	\hline
+	Markov modeling via ordinal partitions: An alternative paradigm for network-based time-series analysis. Sakellariou et.al.~\cite{Sakellariou2019} & Markov (transition) probabilities & Uses Markov models constructed from ordinal partitions to analyze time series as networks. \\
+	\hline
+	On the statistical properties of Multiscale Permutation Entropy: Characterization of the estimator's variance. Dávalos et.al.~\cite{Davalos2019a} & Normal (asymptotic) & Shows that the multiscale permutation entropy estimator is asymptotically normally distributed, allowing inference on variance.\\
+	\hline
+	Price predictability at ultra high frequency:Entropy based randomness test. Shternshis et.al.~\cite{Shternshis2025}& Chi-squared ($\chi^2$) & Proposes a randomness test for time series based on entropy, with asymptotic chi-squared distribution for the test statistic. \\
+	\hline
+	Statistical properties of the entropy from ordinal patterns. Chagas et.al.~\cite{Chagas2022} & Normal & Investigates statistical properties and asymptotic normality of entropy estimators from ordinal patterns. \\
+	\hline
+	The asymptotic distribution of the permutation entropy. Rey at.al.~\cite{Rey2023a} & Normal & Derives the asymptotic normal distribution for permutation entropy estimators. \\
+	\hline
+	The modified permutation entropy-based independence test of time series. Ashtari et.al.~\cite{AshtariNezhad2019} & Empirical (permutation) distribution & Tests independence by comparing the observed permutation entropy-based statistic to its distribution under random shuffling (permutation) of the time series.\\
+	\hline
+	White Noise Test from ordinal patterns in the entropy-complexity plane. Chagas et.al.~\cite{Chagas2022a} & Empirical Distribution & Used in white noise tests by repeatedly shuffling the time series to estimate the null distribution of the test statistic.\\
+	\hline
+	
+\end{longtable}
+
+	
+	
+
+
+
+
+
 
