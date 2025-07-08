@@ -1,8 +1,26 @@
 \documentclass{beamer}
-%\usepackage{graphicx} % Required for inserting images
+
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{bm}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[mathscr]{euscript}
+\pgfplotsset{compat = newest}
+\usepackage{float}
+\usepackage{microtype}
+\usepackage[mode=text]{siunitx}
+\usepackage{longtable}
+
+% Special definitions
+\newcommand{\Sha}{\rotatebox[origin=c]{180}{$\Pi\kern-0.347em\Pi$}}
+
+
 \title{Ordinal Pattern Features: Statistical Properties and Their Applications in Time Series Clustering}
-\author[Rasika Dilhani]{{Rasika Dilhani}\\{\small Supervisor: Alejandro C.\ Frery}}
+\author[Rasika Dilhani]{{Rasika Dilhani}\\{\small Supervisors: Alejandro C.\ Frery and Andrea A.\ Rey}}
 \institute[VUW]{Victoria University of Wellington}
 \date{14 July 2025}
 
@@ -17,39 +35,6 @@
 \definecolor{VUWgreen}{RGB}{0,71,48}
 \colorlet{beamer@blendedblue}{VUWgreen}
 
-
-% Packages used
-%\usepackage{tikz-cd}
-%\usepackage{bm}
-%\usepackage{amsmath}
-%\usepackage{amssymb}
-%\usepackage{amsthm}
-%\usepackage{pgfplots}
-%\usepackage{xcolor}
-%\usepackage[mathscr]{euscript}
-%\usepackage{longtable}
-
-
-\usepackage{graphicx}
-\usepackage{tikz-cd}
-\usepackage{bm}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage{pgfplots}
-\usepackage{xcolor}
-\usepackage[shortlabels]{enumitem}
-\usepackage[mathscr]{euscript}
-\pgfplotsset{compat = newest}
-\usepackage{float}
-\usepackage{microtype}
-\usepackage[mode=text]{siunitx}
-\usepackage{longtable}
-%%%
-\pgfplotsset{compat=1.18}
-
-% Special definitions
-\newcommand{\Sha}{\rotatebox[origin=c]{180}{$\Pi\kern-0.347em\Pi$}}
 
 \begin{document}
 
@@ -77,13 +62,14 @@
 			\item Geoscience: weather, humidity
 		\end{itemize}
 	\end{itemize}
+%%% ACF Illustrate with one time series from each example (on the same slide)
 \end{frame}
 
 \begin{frame}{Why Analyze Time Series?}
 	\begin{itemize}
 		\item Understand underlying system dynamics.
 		\item Forecast future values.
-		\item Detect anomalies or Non-stationarities.
+		\item Detect anomalies or Non-stationarities. %%% ACF You haven't defined stationarity yet; better say "changes"
 	\end{itemize}
 \end{frame}
 
@@ -100,14 +86,14 @@
 		%	\item \textbf{Time-domain methods:} Analyze relationships between current and past values.
 		%	\item \textbf{Transformed-domain methods:} Use spectral expansions (e.g., Fourier, wavelets).
 		%\end{itemize}
-		\item Many classical statistical methods require assumptions (large sample sizes, normality) that are often violated in real data, leading to unreliable results.
+		\item Many classical statistical methods make assumptions (large sample sizes, normality) that are often violated in real data, leading to unreliable results.
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{The Bandt-Pompe Approach: Successes and Limitations}
 	\begin{itemize}
 		\item \textbf{Ordinal patterns:} Capture the order relations among consecutive values in a time series.
-		\item \textbf{Bandt \& Pompe (2002)\cite{PhysRevLett.88.174102}:} Transform time series into ordinal patterns, build a histogram of patterns, and compute Shannon entropy.
+		\item \textbf{Bandt \& Pompe (2002) \cite{PhysRevLett.88.174102}:} Transform time series into ordinal patterns, build a histogram of patterns, and compute Shannon entropy.
 		\item \textbf{Advantages:}
 		\begin{itemize}
 			\item Non-parametric (no distribution assumptions)
@@ -123,6 +109,13 @@
 	\end{itemize}
 \end{frame}
 
+%%% ACF The previous slide presents the BP (2002)
+%%% The next, your proposal
+%%% But your proposal also uses the complexity
+%%% You need an intermediate slide (or a couple of slides) that situates the audience in the state-of-the-art:
+%%% The HxC manifold and what we know about the statistical properties of these (and other) features
+%%% Only then, you present the general and specific objetives
+
 %---------------------------%
 \subsection{General and specific objectives of research work}
 %---------------------------%
@@ -131,10 +124,13 @@
 	\begin{itemize}
 		\item \textbf{General Objective: To answer the following question}
 		\begin{itemize}
-			\item How can confidence intervals for generalized entropy measures (Shannon, Tsallis, Rényi, Fisher information measure) and their associated complexity metrics be used to improve the robustness and discriminative power of time series clustering techniques?
+			\item How can confidence intervals for generalized entropy measures (Shannon, Tsallis, Rényi, Fisher information measure) and their associated complexity metrics be used to improve the 
+			%%% ACF I would avoid "robustness" here because you are referring to the robustness of conclusions, but the OPs are robust to transformations in a different way
+			robustness and discriminative power of time series clustering techniques?
 		\end{itemize}
 		\item \textbf{Main Objectives:}
 		\begin{itemize}
+%%% ACF Add, in your own words, review the literature and verify if the claims hold when using confidence regions for the features
 			\item Define a data base of time series for clustering, i.e., finding similar time series. 
 			\item Extract all the features we know from their Bandt \& Pompe symbolization (Shannon, Tsallis and Renyi entropies, Fisher information measure, complexities, and the available confidence intervals)
 			\item Use those features for time series clustering 
@@ -156,10 +152,12 @@
 %---------------------------%
 
 \begin{frame}{Known statistical results about features from ordinal patterns}
+%%% ACF These slides are central to your work. You must know what each reference does
 	\begin{itemize}
 		\item \textbf{Normal (Gaussian) distribution:}
 		\begin{itemize}
 			\item Describes the asymptotic behavior of entropy and complexity estimators derived from ordinal patterns~\cite{Rey2023, Rey2023a, Rey2024, Rey2025, Chagas2022, Davalos2019a}.
+			%%% ACF Did Chagas et al use the normal distribution?
 		\end{itemize}
 		\item \textbf{Chi-squared ($\chi^2$) distribution:}
 		\begin{itemize}
@@ -211,6 +209,7 @@
 %---------------------%
 
 \begin{frame}{From Time Series to Ordinal Patterns: An Example}
+%%% ACF Make this graphical
 	\begin{itemize}
 		\item \textbf{Given:} Mean monthly humidity in Wellington
 		\begin{itemize}
@@ -240,8 +239,12 @@
 
 \begin{frame}{Visualizing the Histogram}
 	The histogram provides a visual summary of the distribution of ordinal patterns.\\
-	Peaks indicate common patterns; valleys indicate rare patterns.\\
-	This distribution is the basis for entropy calculation.
+	Peaks indicate common 
+	%%% ACF "common" or "frequent"?
+	patterns; valleys indicate rare patterns.\\
+	This distribution is the basis for entropy 
+	%%% ACF Only the entropy? Remember: you work in the HxC manifold!
+	calculation.
 		\begin{center}
 		\includegraphics[width=0.7\textwidth]{frequency histogram}
 	\end{center}
@@ -276,6 +279,7 @@
 \begin{frame}{Measuring Disequilibrium: Jensen-Shannon Distance}
 	López-Ruiz et al.~\cite{lopez1995statistical} used the \alert{Euclidean distance}; Lamberti et al.~\cite{lamberti2004intensive} proposed the \alert{Jensen-Shannon distance} for ordinal pattern distributions.
 	\begin{block}{Definition:Disequilibrium}
+		%%% ACF Missing punctuation after equations
 		For a histogram $\mathbf{p}$ and uniform distribution $\mathbf{u}=(1/k, \ldots, 1/k)$ ($k=D!$):
 		\[
 		Q'(\mathbf{p},\mathbf{u}) = \sum_{\ell=1}^k p_\ell \log\frac{p_\ell}{u_\ell} + u_\ell \log\frac{u_\ell}{p_\ell}
@@ -285,6 +289,7 @@
 		Q = \frac{Q'}{\max(Q')}
 		\]
 		where $\max(Q')$ is the maximum possible value of $Q'$~\cite{lamberti2004intensive}.
+		%%% ACF Alredy cited. Do not cite the same work many times. 
 	\end{block}
 \end{frame}
 
@@ -327,12 +332,14 @@
 	\end{itemize}
 \end{frame}
 
+%%% ACF Make your own version of Fig. 4 from Chagas et al. (2022) with representative examples
 
 %---------------------%
 \section{Asymptotic distribution of the Entropy}
 %---------------------%
 
 \begin{frame}{Asymptotic distribution of the Entropy}
+	%%% ACF Only entropy? We discussed this! Revise everything.
 	Three types of Asymptotic distribution of entropy are discussed.
 	\begin{itemize}
 		\item Empirical Approach
@@ -360,6 +367,7 @@ What is an \alert{Empirical Distribution}?
 
 \begin{frame}{Multinomial Model for Ordinal Patterns}
 	\begin{itemize}
+		%%% ACF \bm p and \boldmath p for the same. We had talked about this. Revise everything
 		\item Imagine $n$ independent trials, each resulting in one of $k$ mutually exclusive outcomes $\pi^1, \pi^2, \ldots, \pi^k$ with probabilities $\bm{p} = (p_1, \ldots, p_k)$, where $\sum_{\ell=1}^{k} p_\ell = 1$.
 		\item The random vector $\bm{N} = (N_1, \ldots, N_k)$ counts the number of occurrences of each outcome in $n$ trials, with $\sum_{\ell=1}^{k} N_\ell = n$.
 		\item The joint distribution is:
