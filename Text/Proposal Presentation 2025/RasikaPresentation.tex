@@ -81,7 +81,7 @@
 \begin{frame}{The Bandt-Pompe Approach: Motivation and Context}
 	\begin{itemize}
 		\item \textbf{Time series} contain valuable insights about the underlying system that generates the data.
-		\item Traditional analysis uses two main approaches:Time-domain and frequency-domain.
+		\item Traditional analysis uses two main approaches: time-domain and frequency-domain.
 		%\begin{itemize}
 		%	\item \textbf{Time-domain methods:} Analyze relationships between current and past values.
 		%	\item \textbf{Transformed-domain methods:} Use spectral expansions (e.g., Fourier, wavelets).
@@ -93,7 +93,7 @@
 \begin{frame}{The Bandt-Pompe Approach: Successes and Limitations}
 	\begin{itemize}
 		\item \alert{Ordinal patterns:} Capture the order relations among consecutive values in a time series.
-		\item \alert{Bandt \& Pompe (2002) \cite{PhysRevLett.88.174102}:} Transform time series into ordinal patterns, build a histogram of patterns, and compute Shannon entropy.
+		\item \alert{Bandt \& Pompe (2002) \cite{PhysRevLett.88.174102}:} Transform time series into ordinal patterns, build a histogram of patterns, and compute Shannon entropy aka Permutation Entropy.
 		\item \textbf{Advantages:}
 		\begin{itemize}
 			\item Non-parametric (no distribution assumptions)
@@ -110,10 +110,13 @@
 \end{frame}
 
 \begin{frame}{Complexity}
-	While Permutation entropy is a powerful tool for quantifying disorder, it does not fully capture the complexity of dynamical systems.\\
-	Entropy measures randomness, but cannot distinguish between purely random and structured (complex) behaviors.\\
-	To address this, López-Ruiz et al.~\cite{lopez1995statistical} introduced the concept of \alert{disequilibrium}, quantifying the deviation of a probability distribution from a uniform (maximally disordered) state.\\
-	Using this disequilibrium, another descriptor, statistical complexity is used to analyze tie series data.  
+	While Permutation Entropy is a powerful tool for quantifying disorder, it does not fully capture the complexity of dynamical systems.
+	
+	Entropy measures randomness, but cannot distinguish between purely random and structured (complex) behaviors.
+	
+	To address this, López-Ruiz et al.~\cite{lopez1995statistical} introduced the concept of \alert{disequilibrium}, quantifying the deviation of a probability distribution from a uniform (maximally disordered) state.
+	
+	Using the disequilibrium defined by Lamberti et al. \cite{lamberti2004intensive}, another descriptor, statistical complexity is used to analyze tie series data.  
 \end{frame}
 
 \begin{frame}{The Entropy-Complexity Plane: Mapping Dynamics}
@@ -678,7 +681,7 @@ What is an \alert{Empirical Distribution}?
 
 \begin{frame}[allowframebreaks]{References}
     \bibliographystyle{alpha}
-    \bibliography{BearingFaultDiagnosis}
+    \bibliography{../BearingFaultDiagnosis}
     
 \end{frame}
 %Ending slides
