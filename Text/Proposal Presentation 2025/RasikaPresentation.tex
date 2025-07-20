@@ -22,7 +22,7 @@
 \title{Ordinal Pattern Features: Statistical Properties and Their Applications in Time Series Clustering}
 \author[Rasika Dilhani]{{Rasika Dilhani}\\{\small Supervisors: Alejandro C.\ Frery and Andrea A.\ Rey}}
 \institute[VUW]{Victoria University of Wellington}
-\date{14 July 2025}
+\date{16 July 2025}
 
 \usetheme{Madrid}
 
@@ -48,7 +48,7 @@
 \section{Introduction}
 %--------------------%
 %--------------------%
-\subsection{Approaches to time series analysis}
+%\subsection{Approaches to time series analysis}
 %--------------------%
 
 \begin{frame}{What is a Time Series?}
@@ -61,7 +61,13 @@
 			\item Biology: heart rate, population growth
 			\item Geoscience: weather, humidity
 		\end{itemize}
-	\end{itemize}
+		\end{itemize}
+		\begin{figure}[hbt]
+			\centering
+			\includegraphics[width=0.6\textwidth]{time series plots}
+			\caption{Example for Biology, Finance, and Geoscience: sources from Silva et.al., Patra et.al. and Meng et.al.~\cite{Silva2023,Patra2022,Meng2023}}
+			\label{fig:timeseries}
+		\end{figure}	
 %%% ACF Illustrate with one time series from each example (on the same slide)
 \end{frame}
 
@@ -75,7 +81,7 @@
 
 
 %---------------------------%
-\subsection{The Bandt-Pompe Approach: Successes and Limitations}
+%\subsection{The Bandt-Pompe Approach: Successes and Limitations}
 %---------------------------%
 
 \begin{frame}{The Bandt-Pompe Approach: Motivation and Context}
@@ -122,21 +128,21 @@
 \begin{frame}{The Entropy-Complexity Plane: Mapping Dynamics}
 	The \alert{entropy-complexity plane} is a two-dimensional representation where time series are mapped according to their entropy ($H$) and statistical complexity ($C$).
 	
-	Both metrics are derived from ordinal pattern distributions, obtained by mapping a time series into histograms of $D!$ bins.
+	Both metrics are derived from ordinal pattern distributions, obtained by mapping a time series into histograms.
+	% of $D!$ bins.
 	
 	This framework enables the distinction between different types of dynamics based on their location in the plane.
 \end{frame}
 
 \begin{frame}{Statistical Properties of Entropy, Complexity, and Related Features}
-	Several types of statistical properties have been studied in the literature:
+	Based on the literature review, determining the exact distribution of ordinal patterns is challenging; therefore, researchers have extensively investigated this distribution and its related statistical properties.
+%	First simplification
 	\begin{itemize}
 		\item \textbf{Empirical distributions:} Constructed directly from observed data, these distributions reflect the actual frequencies of patterns or outcomes.
-		\item \textbf{Asymptotic distributions of entropy and complexity:} Describe the limiting behavior of these measures as the sample size increases.
-		\item \textbf{Multinomial model:} Ordinal patterns are modeled as multinomial random variables, providing a probabilistic framework for analysis.
+		\item \textbf{Asymptotic distributions:} Two types of asymptotic distributions are discussed: the first assumes that patterns are independent and identically distributed (Multinomial Model), while the second considers patterns that are dependent.
 		\item \textbf{Other features:} Beyond entropy and complexity, related statistical measures such as Tsallis entropy, Rényi entropy, and Fisher information have also been studied for their asymptotic properties.
 	\end{itemize}
 \end{frame}
-
 
 %%% ACF The previous slide presents the BP (2002)
 %%% The next, your proposal
@@ -146,7 +152,7 @@
 %%% Only then, you present the general and specific objetives
 
 %---------------------------%
-\subsection{General and specific objectives of research work}
+%\subsection{General and specific objectives of research work}
 %---------------------------%
 
 \begin{frame}{General and specific objectives of research work}
@@ -187,7 +193,7 @@ The literature review shows that confidence intervals have not been used to asse
 \end{frame}
 
 %---------------------------%
-\subsection{which statistical results do we know about features from ordinal patterns?}
+%\subsection{which statistical results do we know about features from ordinal patterns?}
 %---------------------------%
 
 \begin{frame}{Known statistical results about features from ordinal patterns}
@@ -244,7 +250,7 @@ The literature review shows that confidence intervals have not been used to asse
 \end{frame}
 
 %---------------------%
-\subsection{Ordinal Patterns}
+%\subsection{Ordinal Patterns}
 %---------------------%
 
 \begin{frame}{From Time Series to Ordinal Patterns: An Example}
@@ -274,7 +280,7 @@ The literature review shows that confidence intervals have not been used to asse
 \end{frame}
 
 %---------------------%
-\subsection{Histogram}
+%\subsection{Histogram}
 %---------------------%
 
 \begin{frame}{Histogram of Ordinal Patterns}
@@ -297,7 +303,7 @@ The literature review shows that confidence intervals have not been used to asse
 \end{frame}
 
 %---------------------%
-\subsection{Entropy}
+%\subsection{Entropy}
 %---------------------%
 
 \begin{frame}{Shannon Entropy and Permutation Entropy}
@@ -313,16 +319,16 @@ The literature review shows that confidence intervals have not been used to asse
 \end{frame}
 
 %---------------------%
-\subsection{Complexity}
+%\subsection{Complexity}
 %---------------------%
 
-\begin{frame}{Complexity}
-	While Permutation entropy is a powerful tool for quantifying disorder, it does not fully capture the complexity of dynamical systems.\\
-	Entropy measures randomness, but cannot distinguish between purely random and structured (complex) behaviors.\\
-	To address this, López-Ruiz et al.~\cite{lopez1995statistical} introduced the concept of \textbf{disequilibrium} $Q$, quantifying the deviation of a probability distribution $\mathbf{p}$ from a uniform (maximally disordered) state.
-\end{frame}
+%\begin{frame}{Complexity}
+%	While Permutation entropy is a powerful tool for quantifying disorder, it does not fully capture the complexity of dynamical systems.\\
+%	Entropy measures randomness, but cannot distinguish between purely random and structured (complex) behaviors.\\
+%	To address this, López-Ruiz et al.~\cite{lopez1995statistical} introduced the concept of \textbf{disequilibrium} $Q$, quantifying the deviation of a probability distribution $\mathbf{p}$ from a uniform (maximally disordered) state.
+%\end{frame}
 
-\begin{frame}{Measuring Disequilibrium: Jensen-Shannon Distance}
+\begin{frame}{Measuring Disequilibrium: Jensen-Shannon Distance to calculate complexity}
 	López-Ruiz et al.~\cite{lopez1995statistical} used the \alert{Euclidean distance}; Lamberti et al.~\cite{lamberti2004intensive} proposed the \alert{Jensen-Shannon distance} for ordinal pattern distributions.
 	\begin{block}{Definition:Disequilibrium}
 		%%% ACF Missing punctuation after equations
@@ -355,15 +361,15 @@ The literature review shows that confidence intervals have not been used to asse
 
 
 %---------------------%
-\subsection{The Entropy-Complexity manifold, its boundaries and "areas" according to the literature}
+%\subsection{The Entropy-Complexity manifold, its boundaries and "areas" according to the literature}
 %---------------------%
-\begin{frame}{The Entropy-Complexity Plane: Mapping Dynamics}
-	The \alert{entropy-complexity plane} is a two-dimensional representation where time series are mapped according to their entropy ($H$) and statistical complexity ($C$).
+%\begin{frame}{The Entropy-Complexity Plane: Mapping Dynamics}%
+%	The \alert{entropy-complexity plane} is a two-dimensional representation where time series are mapped according to their entropy ($H$) and statistical complexity ($C$).
 	
-	 Both metrics are derived from ordinal pattern distributions, obtained by mapping a time series into histograms of $D!$ bins.
+%	 Both metrics are derived from ordinal pattern distributions, obtained by mapping a time series into histograms of $D!$ bins.
 	 
-	This framework enables the distinction between different types of dynamics based on their location in the plane.
-\end{frame}
+%	This framework enables the distinction between different types of dynamics based on their location in the plane.
+%\end{frame}
 
 
 \begin{frame}{Boundaries and Structure in the Plane}
@@ -389,15 +395,15 @@ The literature review shows that confidence intervals have not been used to asse
 %%% ACF Make your own version of Fig. 4 from Chagas et al. (2022) with representative examples
 
 %---------------------%
-\subsection{Asymptotic distribution of the Entropy}
+%\subsection{Asymptotic distribution of the Entropy}
 %---------------------%
 
 \begin{frame}{Asymptotic distribution of the Entropy and complexity}
 	%%% ACF Only entropy? We discussed this! Revise everything.
-	Three types of Asymptotic distribution of entropy complexity are discussed.
+	Three types of Asymptotic distribution of entropy and complexity are discussed.
 	\begin{itemize}
 		\item Empirical Approach
-		\item Under the Multinomial model for the Entropy and complexity
+		\item Incorporating with independence pattern: Multinomial model 
 		\item Incorporating dependence among patterns
 	\end{itemize}
 \end{frame}
@@ -414,7 +420,7 @@ What is an \alert{Empirical Distribution}?
 			\item \textbf{Non-parametric:} Makes no assumptions about the underlying distribution.
 			\item \textbf{Flexible:} Useful for any data type, especially when the true distribution is unknown.
 		\end{itemize}
-		\item \textbf{Example:} In ordinal pattern analysis, the empirical distribution describes the observed frequencies of each pattern in the time series, forming the basis for entropy and complexity calculations.~\cite{Chagas2020a}
+	%	\item \textbf{Example:} In ordinal pattern analysis, the empirical distribution describes the observed frequencies of each pattern in the time series, forming the basis for entropy and complexity calculations.~\cite{Chagas2022a}
 	\end{itemize}
 \end{frame}
 
@@ -510,7 +516,7 @@ What is an \alert{Empirical Distribution}?
 
 
 %---------------------%
-\subsection{Other types of entropy measures}
+%\subsection{Other types of entropy measures}
 %---------------------%
 
 \begin{frame}{Other types of Entropy: Tsallis Entropy}
@@ -561,7 +567,7 @@ What is an \alert{Empirical Distribution}?
 
 
 %---------------------%
-\subsection{The StatOrdHxC package; its contents and limitations}
+%\subsection{The StatOrdHxC package; its contents and limitations}
 %---------------------%
 
 \begin{frame}{The StatOrdPattHxC Package: Contents}
@@ -594,6 +600,11 @@ What is an \alert{Empirical Distribution}?
 	\end{itemize}
 \end{frame}
 
+\begin{frame}
+	\begin{center}
+		\alert{Results}
+	\end{center}
+\end{frame}
 
 %---------------------%
 \section{Results}
@@ -615,7 +626,7 @@ What is an \alert{Empirical Distribution}?
 \begin{frame}{Methodology: Ordinal Patterns, Entropy, and Complexity}
 	\begin{itemize}
 		\item \textbf{Objective:} Detect malfunctioning machinery by analyzing time series with ordinal patterns.
-		\item \textbf{Embedding Dimension:} Used $D = 3$ for this analysis; future work will extend to $D = 4, 5, 6$.
+		\item \textbf{Embedding Dimension:} Used $D = 3, 4, 5, 6$ for analysis.
 		\item \textbf{Analysis Steps:}
 		\begin{itemize}
 			\item Computed permutation entropy and statistical complexity using the ordinal patterns.
@@ -674,7 +685,7 @@ What is an \alert{Empirical Distribution}?
 \begin{frame}{Future Plans}
     \begin{itemize}
         \item Define a data base of time series for clustering, i.e., finding similar time series.
-        \item Extract all the features we know from their Bandt \& Pompe symbolization (Shannon, Tsallis and Renyi entropies, Fisher information measure, complexities, and the available confidence intervals).
+        \item Extract all the features we know from their Bandt \& Pompe symbolization (Tsallis and Renyi entropies, Fisher information measure, complexities, and the available confidence intervals).
         \item Use those features for time series clustering
     \end{itemize}
 \end{frame}
