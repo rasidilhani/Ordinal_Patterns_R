@@ -65,7 +65,7 @@
 		\begin{figure}[hbt]
 			\centering
 			\includegraphics[width=0.6\textwidth]{time series plots}
-			\caption{Example for Biology, Finance, and Geoscience: sources from Silva et.al., Patra et.al. and Meng et.al.~\cite{Silva2023,Patra2022,Meng2023}}
+			\caption{Examples for Biology, Finance, and Geoscience: sources from Silva et.al., Patra et.al. and Meng et.al.~\cite{Silva2023,Patra2022,Meng2023}}
 			\label{fig:timeseries}
 		\end{figure}	
 %%% ACF Illustrate with one time series from each example (on the same slide)
@@ -137,7 +137,7 @@
 \end{frame}
 
 \begin{frame}{Statistical Properties of Entropy, Complexity, and Related Features}
-	Based on the literature review, determining the exact distribution of ordinal patterns is challenging; therefore, researchers have extensively investigated this distribution and its related statistical properties.
+	Based on the literature review, determining the exact distribution of \alert{features} from ordinal patterns is challenging; therefore, researchers have extensively investigated this distribution and its related statistical properties.
 %	First simplification
 	\begin{itemize}
 		\item \textbf{Empirical distributions:} Constructed directly from observed data, these distributions reflect the actual frequencies of patterns or outcomes.
@@ -177,8 +177,8 @@ The literature review shows that confidence intervals have not been used to asse
 	\begin{itemize}
 		%%% ACF Add, in your own words, review the literature and verify if the claims hold when using confidence regions for the features
 		\item Define a data base of time series for clustering, i.e., finding similar time series. 
-		\item Extract all the features we know from their Bandt \& Pompe symbolization (Shannon, Tsallis and Renyi entropies, Fisher information measure, complexities, and the available confidence intervals)
-		\item Use those features for time series clustering 
+		\item Extract all the features we know from their Bandt \& Pompe symbolization (Shannon, Tsallis and Renyi entropies, Fisher information measure, complexities, and the available confidence intervals).
+		\item Use those features for time series clustering.
 	\end{itemize} 
 \end{itemize}	
 
@@ -202,6 +202,7 @@ The literature review shows that confidence intervals have not been used to asse
 %%% ACF These slides are central to your work. You must know what each reference does
 	\begin{itemize}
 		\item \textbf{Normal (Gaussian) distribution:}
+		%%% ACF Does the normal law appear only under independence or only without independence or in both cases?
 		\begin{itemize}
 			\item Describes the asymptotic behavior of entropy and complexity estimators derived from ordinal patterns~\cite{Chagas2022, Rey2023, Rey2023a, Rey2024, Rey2025}.
 			%%% ACF Did Chagas et al use the normal distribution?
@@ -274,10 +275,15 @@ The literature review shows that confidence intervals have not been used to asse
 \end{frame}
 
 \begin{frame}{Transforming to Ordinal Patterns}
-	For $D=3$, where $D$ is called as \alert{embedding dimension}.\\ 
-	The first window (77.3, 81.0, 82.4) $\rightarrow$ Pattern: (1,2,3) $\rightarrow \pi^1$.\\ 
-	Next window (81.0, 82.4, 81.7) $\rightarrow$ Pattern: (1,3,2) $\rightarrow \pi^2$.\\
-	Continue for all overlapping windows.\\
+	For $D=3$, where $D$ is called as \alert{embedding dimension}.
+	
+	The first window (77.3, 81.0, 82.4) $\rightarrow$ Pattern: (1,2,3) $\rightarrow \pi^1$.
+	
+	Next window (81.0, 82.4, 81.7) $\rightarrow$ Pattern: (1,3,2) $\rightarrow \pi^2$.
+	
+	Continue for all overlapping windows.
+	
+	%%% ACF Check
 	We have $n+D-1$ overlapping windows, where $n$ represents the series length. 
 \end{frame}
 
@@ -309,6 +315,9 @@ The literature review shows that confidence intervals have not been used to asse
 %---------------------%
 
 \begin{frame}{Shannon Entropy and Permutation Entropy}
+
+%%% ACF reformulate. It sounds as if you were presenting two totally different things
+
 	Entropy measures, such as \alert{Shannon entropy} (which quantifies the uncertainty in a probability distribution) and \alert{Permutation entropy} (which measures the complexity of the order structure in time series using ordinal patterns), are used to quantify the degree of randomness or disorder in data. 
 	\begin{block}{Definition:}
 		\[
@@ -331,12 +340,14 @@ The literature review shows that confidence intervals have not been used to asse
 %\end{frame}
 
 \begin{frame}{Measuring Disequilibrium: Jensen-Shannon Distance to calculate complexity}
+	
+%%% ACF Read this slide outloud; does it sound good?
 	López-Ruiz et al.~\cite{lopez1995statistical} used the \alert{Euclidean distance}; Lamberti et al.~\cite{lamberti2004intensive} proposed the \alert{Jensen-Shannon distance} for ordinal pattern distributions.
 	\begin{block}{Definition:Disequilibrium}
 		%%% ACF Missing punctuation after equations
 		For a histogram $\mathbf{p}$ and uniform distribution $\mathbf{u}=(1/k, \ldots, 1/k)$ ($k=D!$):
 		\[
-		Q'(\mathbf{p},\mathbf{u}) = \sum_{\ell=1}^k p_\ell \log\frac{p_\ell}{u_\ell} + u_\ell \log\frac{u_\ell}{p_\ell}.
+		Q'(\mathbf{p},\mathbf{u}) = \sum_{\ell=1}^k \Big( p_\ell \log\frac{p_\ell}{u_\ell} + u_\ell \log\frac{u_\ell}{p_\ell} \Big).
 		\]
 		Normalized disequilibrium:
 		\[
@@ -410,7 +421,7 @@ The literature review shows that confidence intervals have not been used to asse
 	\end{itemize}
 \end{frame}
 
-
+%%% ACF Asymptotic and Empirical do not go together
 \begin{frame}{Asymptotic Distribution of Entropy and complexity: Empirical Approach}
 What is an \alert{Empirical Distribution}?
 	\begin{itemize}
@@ -452,7 +463,7 @@ What is an \alert{Empirical Distribution}?
 	
 		\item As the sample size $n \rightarrow \infty$, $H(\widehat{\mathbf{p}})$ converges to a normal distribution, even for dependent processes:
 		\[
-		\sqrt{n}(H(\widehat{\mathbf{p}}) - H(\mathbf(p))) \xrightarrow{d} \mathcal{N}(0, \sigma^2)
+		\sqrt{n}(H(\widehat{\mathbf{p}}) - H(\mathbf{p})) \xrightarrow{d} \mathcal{N}(0, \sigma^2)
 		\]
 		\item This provides a theoretical foundation for using entropy and complexity as statistical tools when probabilities are estimated from finite samples~\cite{Rey2023}.
 	\end{itemize}
@@ -504,12 +515,12 @@ What is an \alert{Empirical Distribution}?
 \end{frame}
 
 \begin{frame}{Asymptotic Distribution for Entropy and Complexity (cont..)}
-	Thus for practical purpose, given $n$ is sufficiently large, we can use $H(\mathbf{p})$ has a normal distribution with mean equal to $H(\widehat{\mathbf{p}})$ and variance equal to $\sigma^2_{\mathbf{p}}/n$.
+	Thus for practical purpose, given $n$ is sufficiently large, we can assume that $H(\widehat{\mathbf{p}})$ has a normal distribution with mean equal to $H(\widehat{\mathbf{p}})$ and variance equal to $\sigma^2_{\widehat{\mathbf{p}}}/n$.
 	
-	In addition to that, for $\alpha\in(0,1)$ and $n$ sufficiently large, the $(1-\alpha)\SI{100}{\percent}$ confidence interval of $H(\mathbf{p})$ is given by, 
+	In addition to that, for $\alpha\in(0,1)$ and $n$ sufficiently large, the $(1-\alpha)\SI{100}{\percent}$ confidence interval of $H(\widehat{\mathbf{p}})$ is given by, 
 	\begin{block}{Definition: Confidence Interval}
 		\[
-		H(\widehat{\mathbf{p}})\pm \dfrac{Z_{\alpha/2}\sigma_{\mathbf{p}}}{\sqrt{n}},
+		H(\widehat{\mathbf{p}})\pm \dfrac{Z_{\alpha/2}\sigma_{\widehat{\mathbf{p}}}}{\sqrt{n}},
 		\label{eq:ConfidenceInterval}
 		\]
 		where $Z_{\alpha/2}$ is the $\alpha/2$-quantile of a standard normal random variable.
@@ -537,6 +548,7 @@ What is an \alert{Empirical Distribution}?
 \end{frame}
 
 \begin{frame}{Other types of Entropy: Rényi Entropy}
+	%%% ACF Does the Rényi entropy follow asymptotically a normal distribuiton?
 	\begin{itemize}
 		\item \textbf{Rényi entropy} is another generalization of Shannon entropy, parameterized by $q$.
 		\item It emphasizes different aspects of the distribution depending on the value of $q$.
@@ -591,6 +603,7 @@ What is an \alert{Empirical Distribution}?
 		\item \textbf{Computational limitations:}
 		\begin{itemize}
 			\item The number of possible ordinal patterns grows factorially with the embedding dimension ($D!$), leading to rapid increases in computational complexity.
+			%%% ACF Are the features the problem? NO
 			\item For large datasets or embedding dimensions greater than 3, calculations (such as entropy, complexity, and hypothesis testing) can become extremely time-consuming—potentially taking more than a week for a single analysis.
 		\end{itemize}
 		\item \textbf{Practical advice:}
@@ -699,3 +712,6 @@ What is an \alert{Empirical Distribution}?
 \end{frame}
 %Ending slides
 \end{document}
+
+Dávalos, A., Jabloun, M., Ravier, P., Buttelli, O., 2019. On the statistical properties of Multiscale Permutation Entropy: Characterization of the estimator’s variance, Entropy, 21, 5. doi: 10.3390/e21050450.
+Please read it carefully, check the hypothesis and assumptions, and compare those results with ours. This would be an interesting contribution.
