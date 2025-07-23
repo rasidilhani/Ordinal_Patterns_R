@@ -444,14 +444,14 @@ ggplot(dfM2000, mapping = aes(H_data2000,C_data2000)) +
 #All in one
 
 # Construct data frames
-dfM10    <- data.frame(H = H_data10,    C = meanC_data10,    HSemi = HSemiLength10,  CSemi = CSemiLength10,  Group = "n=10")
+#dfM10    <- data.frame(H = H_data10,    C = meanC_data10,    HSemi = HSemiLength10,  CSemi = CSemiLength10,  Group = "n=10")
 dfM100   <- data.frame(H = H_data100,   C = meanC_data100,   HSemi = HSemiLength100, CSemi = CSemiLength100, Group = "n=100")
 dfM1000  <- data.frame(H = H_data1000,  C = meanC_data1000,  HSemi = HSemiLength1000,CSemi = CSemiLength1000,Group = "n=1000")
 dfM2000  <- data.frame(H = H_data2000,  C = meanC_data2000,  HSemi = HSemiLength2000,CSemi = CSemiLength2000,Group = "n=2000")
 
 # Combine all data into one data frame
-df_all <- rbind(dfM10, dfM100, dfM1000, dfM2000)
-
+#df_all <- rbind(dfM10, dfM100, dfM1000, dfM2000)
+df_all <- rbind(dfM100, dfM1000, dfM2000)
 
 
 D <- 3  # chosen embedding dimension
@@ -491,7 +491,7 @@ ggplot(df_all, aes(x = H, y = C, color = Group)) +
   ) +
   theme_minimal() +
   scale_color_manual(
-    values = c("n=10" = "red", "n=100" = "blue", "n=1000" = "green", "n=2000" = "black",
+    values = c("n=100" = "red", "n=1000" = "blue", "n=2000" = "green",
                "Lower Boundary" = "grey30", "Upper Boundary" = "grey60"),
     breaks = c("n=10", "n=100", "n=1000", "n=2000", "Lower Boundary", "Upper Boundary")
   )
