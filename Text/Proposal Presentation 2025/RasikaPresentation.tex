@@ -577,14 +577,14 @@ Main purpose of this work is to find the distribution of Entropy and complexity 
 %	\end{itemize}
 %\end{frame}
 
-\begin{frame}{Asymptotic Distribution Incorporating dependence patterns cont...}
+\begin{frame}{Asymptotic Distribution Incorporating dependence patterns cont...} %%% ACF Use \dots for ellipsis
 Procedure for the method is summarized as follows:
 
 	\begin{itemize}
 		\item Calculate the estimated Shannon entropy $H(\widehat{\mathbf{p}})$.
 		\item Calculate the estimated complexity $C(\widehat{\bm{p}})$ 
 		\item Calculate the Variance for the model $\widehat{\nu}^2_{\widehat{\mathbf{p}}}$  
-		\item Calculate the confidence interval associated to the $\widehat{\nu}^2_{\widehat{\mathbf{p}}}$  
+		\item Calculate the confidence interval associated to $\widehat{\nu}^2_{\widehat{\mathbf{p}}}$  
 	\end{itemize}
 \end{frame}
 
@@ -699,6 +699,7 @@ $$
 			\item Provides tools for hypothesis testing between time series (\texttt{entropicTest}, \texttt{pval}), including asymptotic variance calculations for entropy and complexity (\texttt{asymptoticVarHShannonMultinomial}, \texttt{sigma2q}, \texttt{meanC}, \texttt{varC}).
 			\item Determines boundaries for the entropy-complexity ($H \times C$) manifold (\texttt{LinfLsup}) and computes moving averages (\texttt{mov.av}).
 		\end{itemize}
+		%%% ACF Is this true and complete? Do you need robust/nonparametric?
 		\item The package supports robust, non-parametric inference for time series features under the multinomial model, making it suitable for a wide range of scientific and engineering applications.
 	\end{itemize}
 \end{frame}
