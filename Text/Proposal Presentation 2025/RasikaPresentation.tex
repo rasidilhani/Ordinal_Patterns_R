@@ -500,7 +500,8 @@ The literature review shows that confidence intervals have not been used to asse
 	\begin{itemize}
 		%%% ACF \bm p and \boldmath p for the same. We had talked about this. Revise everything
 		\item Imagine $n$ independent trials, each resulting in one of $k$ mutually exclusive outcomes $\pi^1, \pi^2, \ldots, \pi^k$ with probabilities $\mathbf{p} = (p_1, \ldots, p_k)$, where $\sum_{\ell=1}^{k} p_\ell = 1$.
-		\item The random vector $\mathbf{N} = (N_1, \ldots, N_k)$ counts the number of occurrences of each outcome in $n$ trials, with $\sum_{\ell=1}^{k} N_\ell = n$.
+		\item The random vector $\mathbf{N} = (N_1, \ldots, N_k)$ counts the number of occurrences of each outcome in $n$ trials.
+		An outcome of $\mathbf N$ is $\mathbf n=(n_1,n_2,\dots, n_k)$, and $\sum_{\ell=1}^{k} n_\ell = n$.
 		\item The joint distribution is:
 		\[
 		\Pr(\mathbf{N} = \mathbf{n}) = n! \prod_{\ell=1}^{k} \frac{p_\ell^{n_\ell}}{n_\ell!}
@@ -603,13 +604,31 @@ Procedure for the method is summarized as follows:
 
 \begin{frame}{Confidence Interval for estimated Entropy}
 	Confidence interval for estimated entropy is shown as below.
-	\begin{block}{Definition: Confidence Interval for Entropy and complexity}
+	\begin{block}{Definition: Confidence Interval for Entropy}
 			\[
 			H(\widehat{\mathbf{p}})\pm \dfrac{Z_{\alpha/2}\sigma_{\widehat{\mathbf{p}}}}{\sqrt{n}},
 				\label{eq:ConfidenceInterval}
 			\]
 			where $Z_{\alpha/2}$ is the $\alpha/2$-quantile of a standard normal random variable.
 			\end{block} 
+We have two expressions for $\sigma_{\widehat{\mathbf{p}}}$:
+\begin{itemize}
+	\item under independence
+	\item with serial dependence
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The variance of $H(\widehat{\mathbf p})$}
+Under independence:
+$$
+\widehat{\sigma}^2_{\widehat{\mathbf{p}}} =
+$$
+
+With serial dependence
+$$
+\widehat{\nu}^2_{\widehat{\mathbf{p}}} = \widehat{\sigma}^2_{\widehat{\mathbf{p}}} + \text{ something positive}
+$$
+
 \end{frame}
 %---------------------%
 %\subsection{Other types of entropy measures}
