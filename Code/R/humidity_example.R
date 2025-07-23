@@ -6,11 +6,13 @@ library(ggplot2)
 #Data
 Mean_of_Relative_Humidity<-c(77.3,81,82.4,81.7,83.6,85.6,84.4,83.1,78.8,79.6,78.2,78.8)
 
-Month<-c("January","February","March","April","May","June","July","August","September","October","Nvermber","December")
+Month<-c("January","February","March","April","May","June","July","August","September","October","Novermber","December")
 
-humidity_frame<-data.frame(Month,Mean_of_Relative_Humidity, stringsAsFactors = F)
+humidity_frame<-data.frame(Month,Mean_of_Relative_Humidity, stringsAsFactors = T)
 
-humidity_frame
+humidity_frame$Month <- factor(humidity_frame$Month,
+                               levels = c("January", "February", "March", "April", "May", "June",
+                                          "July", "August", "September", "October", "November", "December"))
 
 #Compute Ordinal Patterns
 ordinal_patterns<-OPseq(humidity_frame$Mean_of_Relative_Humidity,emb=3,lag = 1)
@@ -31,10 +33,13 @@ print(paste("Statistical Complexity:", C_Complexity))
 ggplot(data=humidity_frame, aes(x=Month, y=Mean_of_Relative_Humidity, group=1)) +
   geom_line(color="blue", size=1, alpha=0.8) +
   geom_point(color="red", size=3, alpha=0.8) +
-  labs(x="Month",
-       y="Mean Relative Humidity") +
+  labs(x="Month", y="Mean Relative Humidity") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust=1),text = element_text(family = "serif", size=16), panel.grid = element_blank(), axis.line = element_line(color = "black"))  # Rotate x-axis labels
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        text = element_text(family = "serif", size=16),
+        panel.grid = element_blank(),
+        axis.line = element_line(color = "black"))
+
 
 ggsave(file="../../Text/Proposal/humidity graph.pdf", width = 16, height=10, units = "cm") 
 

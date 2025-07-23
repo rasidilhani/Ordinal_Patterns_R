@@ -4,9 +4,9 @@ library(tidyverse)
 library(readxl)
 library(ggplot2)
 
-normal <- read_excel("Data/case_study.xlsx",  sheet = "Normal")   
+normal <- read_excel("~/GitHub/Ordinal_Patterns_R/Data/case_study.xlsx",  sheet = "Normal")   
                      
-fourty_eightk <- read_excel("Data/case_study.xlsx",  sheet = "48k")   
+fourty_eightk <- read_excel("~/GitHub/Ordinal_Patterns_R/Data/case_study.xlsx",  sheet = "48k")   
 
   
 #Compute Ordinal Patterns

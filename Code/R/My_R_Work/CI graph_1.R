@@ -13,7 +13,14 @@ VSemiLength <- sigmaC/sqrt(10000-3)*qnorm(1-0.05/2)
 
 df <- data.frame(H,C,sigmaH,sigmaC, HSemiLength, VSemiLength)
 
+#D = 3
+#data("LinfLsup")
+
 ggplot(data=df, mapping = aes(H,C)) + 
+  #geom_line(data = subset(LinfLsup, Side == "Lower" & Dimension == as.character(D)), 
+            #aes(x = H, y = C, color = "Lower Boundary"), linetype = "dashed") +
+  #geom_line(data = subset(LinfLsup, Side == "Upper" & Dimension == as.character(D)), 
+           # aes(x = H, y = C, color = "Upper Boundary"), linetype = "dashed") +
   geom_point(color="red", size=1) +
   geom_errorbarh(data=df, mapping = aes(xmin=H-HSemiLength,
                                         xmax=H+HSemiLength, height=0.001)
