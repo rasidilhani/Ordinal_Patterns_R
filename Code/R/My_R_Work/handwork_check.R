@@ -220,15 +220,15 @@ ggplot(results_all, aes(x = H, y = C, color = Group)) +
   geom_errorbar(aes(ymin = C - semiLengthC, ymax = C + semiLengthC), width = 0.008) +
   coord_cartesian(xlim = c(0.25, 0.95), ylim = c(0.02, 0.35)) +
   labs(
-    title = "Confidence Interval for Entropy and Complexity (Pattern Dependence)",
+    title = "Confidence Interval for Entropy and Complexity \n(Pattern Dependence)",
     x = expression(italic(H)),
     y = expression(italic(C)),
-    color = "Sample Size/Boundary"
+    color = "Sample Size"
   ) +
   theme_minimal() +
   scale_color_manual(
     values = c("n=100" = "red", "n=1000" = "blue", "n=2000" = "green",
-               "Lower Boundary" = "grey30", "Upper Boundary" = "grey60"),
+               "Lower Boundary" = "grey30", "Upper Boundary" = "black"),
     breaks = c("n=100", "n=1000", "n=2000", "Lower Boundary", "Upper Boundary")
   )
 
@@ -484,16 +484,16 @@ ggplot(df_all, aes(x = H, y = C, color = Group)) +
   ) +
   coord_cartesian(xlim = c(0.45, 0.95), ylim = c(0.1, 0.3)) +
   labs(
-    title = "Confidence Interval for Entropy and Complexity (Multinomial Model )",
+    title = "Confidence Interval for Entropy and Complexity \n(Multinomial Model )",
     x = expression(italic(H)),
     y = expression(italic(C)),
-    color = "Sample Size/Boundary"
+    color = "Sample Size"
   ) +
   theme_minimal() +
-  scale_color_manual(
+    scale_color_manual(
     values = c("n=100" = "red", "n=1000" = "blue", "n=2000" = "green",
-               "Lower Boundary" = "grey30", "Upper Boundary" = "grey60"),
-    breaks = c("n=10", "n=100", "n=1000", "n=2000", "Lower Boundary", "Upper Boundary")
+               "Lower Boundary" = "grey30", "Upper Boundary" = "black"),
+    breaks = c("n=100", "n=1000", "n=2000", "Lower Boundary", "Upper Boundary")
   )
 
 

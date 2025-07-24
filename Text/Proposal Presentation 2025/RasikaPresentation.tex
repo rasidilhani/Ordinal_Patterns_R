@@ -606,12 +606,12 @@ Procedure for the method is summarized as follows:
 	Confidence interval for estimated entropy is shown as below.
 	\begin{block}{Definition: Confidence Interval for Entropy}
 			\[
-			H(\widehat{\mathbf{p}})\pm \dfrac{Z_{\alpha/2}\sigma_{\widehat{\mathbf{p}}}}{\sqrt{n}},
+			H(\widehat{\mathbf{p}})\pm \dfrac{Z_{\alpha/2}\widehat{\sigma}_{\widehat{\mathbf{p}}}}{\sqrt{n}},
 				\label{eq:ConfidenceInterval}
 			\]
 			where $Z_{\alpha/2}$ is the $\alpha/2$-quantile of a standard normal random variable.
 			\end{block} 
-We have two expressions for $\sigma_{\widehat{\mathbf{p}}}$:
+We have two expressions for $\widehat{\sigma}_{\widehat{\mathbf{p}}}$:
 \begin{itemize}
 	\item under independence
 	\item with serial dependence
@@ -619,17 +619,60 @@ We have two expressions for $\sigma_{\widehat{\mathbf{p}}}$:
 \end{frame}
 
 \begin{frame}{The variance of $H(\widehat{\mathbf p})$}
-Under independence:
+\textbf{Under independence:}
 $$
-\widehat{\sigma}^2_{\widehat{\mathbf{p}}} =
+\widehat{\sigma}^2_{\widehat{\mathbf{p}}} = \dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
 $$
 
-With serial dependence
-$$
-\widehat{\nu}^2_{\widehat{\mathbf{p}}} = \widehat{\sigma}^2_{\widehat{\mathbf{p}}} + \text{ something positive}
-$$
+\textbf{With serial dependence}
+\[ \begin{split}
+\widehat{\nu}^2_{\widehat{\mathbf{p}}} = \widehat{\sigma}^2_{\widehat{\mathbf{p}}} + 
+	 & \sum_{i=1}^{k}(\log p_i + 1)^2 
+	\left[ (2D - 2)p_i^2 + 2\sum_{r=1}^{D-1} \mathbf{Q}^{(r)}_{ii} \right] \\
+	& - 2 \sum_{i=1}^{k-1} \sum_{j=i+1}^{k} (\log p_i + 1)(\log p_j + 1) \\
+	& \quad \times \left[ (2D - 1)p_i p_j - \sum_{r=1}^{D-1} \left( \mathbf{Q}^{(r)}_{ij} + \mathbf{Q}^{(r)}_{ji} \right) \right].
+\end{split}
+\]
 
 \end{frame}
+
+%\begin{frame}{The variance of $C(\widehat{\mathbf p})$}
+%	Two types of variance for complexity are calculated separately. 
+	
+%	Multinomial modal variance $\widehat{\omega}^2_{\widehat{\mathbf{p}}}$,  
+	
+%	To calculate serial dependence variance $(\widehat{\eta}^2_{\widehat{\mathbf{p}}})$, we calculate the ratio $(a)$ $\dfrac{\widehat{\nu}^2_{\widehat{\mathbf{p}}}}{\widehat{\sigma}^2_{\widehat{\mathbf{p}}}}$. 
+	
+%	Then to get $\widehat{\eta}^2_{\widehat{\mathbf{p}}}$, we multiply ratio by Multinomial model variance.  
+	
+%	$\widehat{\eta}^2_{\widehat{\mathbf{p}}}=a \times \widehat{\omega}^2_{\widehat{\mathbf{p}}}$  
+%\end{frame} 
+
+\begin{frame}{Variance of Statistical Complexity $C(\widehat{\mathbf{p}})$}
+	\begin{itemize}
+		\item The variance of the estimated complexity, $C(\widehat{\mathbf{p}})$, has two estimators:
+		\begin{itemize}
+			\item \textbf{Multinomial model variance}, denoted as $\widehat{\omega}^2_{\widehat{\mathbf{p}}}$, which assumes independent ordinal patterns.
+			\item \textbf{Serial dependence variance}, denoted as $\widehat{\eta}^2_{\widehat{\mathbf{p}}}$.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+		\begin{itemize}
+		\item To estimate the serial dependence variance, we first compute the ratio
+		\[
+		a = \dfrac{\widehat{\nu}^2_{\widehat{\mathbf{p}}}}{\widehat{\sigma}^2_{\widehat{\mathbf{p}}}},
+		\]
+		where $\widehat{\nu}^2_{\widehat{\mathbf{p}}}$ is the variance of entropy under serial dependence, and $\widehat{\sigma}^2_{\widehat{\mathbf{p}}}$ is the variance of entropy under independence.
+		\item Then, the serial dependence statistical complexity variance is calculated by scaling the Multinomial statistical complexity variance:
+		\[
+		\widehat{\eta}^2_{\widehat{\mathbf{p}}} = a \times \widehat{\omega}^2_{\widehat{\mathbf{p}}}.
+		\]
+		\item This approach allows to calculate the estimated statistical complexity variance for serial dependence. 
+	\end{itemize}
+\end{frame}
+
 %---------------------%
 %\subsection{Other types of entropy measures}
 %---------------------%
@@ -689,26 +732,27 @@ $$
 %\subsection{The StatOrdHxC package; its contents and limitations}
 %---------------------%
 
-\begin{frame}{The StatOrdPattHxC Package: Contents}
+\begin{frame}{The StatOrdPattHxC Package: Overview}
 	\begin{itemize}
-		\item \textbf{StatOrdPattHxC} is a package for statistical analysis of time series using ordinal patterns.
-		\item \textbf{Key features and functions:}
+		\item Provides statistical tools to analyze time series through ordinal patterns.
+		\item \textbf{Key features:}
 		\begin{itemize}
-			\item Computes normalized Shannon, Rényi, and Tsallis entropies, as well as Fisher information and statistical complexity.
-			\item Calculates ordinal pattern probabilities (\texttt{OPprob}) and sequences (\texttt{OPseq}) for a given embedding dimension.
-			\item Provides tools for hypothesis testing between time series (\texttt{entropicTest}, \texttt{pval}), including asymptotic variance calculations for entropy and complexity (\texttt{asymptoticVarHShannonMultinomial}, \texttt{sigma2q}, \texttt{meanC}, \texttt{varC}).
-			\item Determines boundaries for the entropy-complexity ($H \times C$) manifold (\texttt{LinfLsup}) and computes moving averages (\texttt{mov.av}).
+			\item Computes entropy measures: Shannon, Rényi, Tsallis entropies, Fisher information, and statistical complexity.
+			\item Calculates ordinal pattern probabilities and sequences for a given embedding dimension.
+			\item Provides tools for hypothesis testing between time series including asymptotic variance calculations for entropy and complexity.
+			\item Enabling hypothesis testing between time series.
 		\end{itemize}
 		%%% ACF Is this true and complete? Do you need robust/nonparametric?
-		\item The package supports robust, non-parametric inference for time series features under the multinomial model, making it suitable for a wide range of scientific and engineering applications.
+		\item The package supports for time series features under the multinomial model and serial dependence, making it suitable for a wide range of scientific and engineering applications.
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{StatOrdPattHxC: Limitations and Practical Considerations}
 	\begin{itemize}
-		\item \textbf{Computational limitations:}
+		\item \textbf{Limitations:}
 		\begin{itemize}
-			\item The number of possible ordinal patterns grows factorially with the embedding dimension ($D!$), leading to rapid increases in computational complexity.
+			\item Although the package covers many statistical features for time series with serial dependence, it lacks variance estimator for complexity.
+			\item Computational complexity increases rapidly as the embedding dimension $D$ grows.
 			%%% ACF Are the features the problem? NO
 			%\item For large datasets or embedding dimensions greater than 3, calculations (such as entropy, complexity, and hypothesis testing) can become extremely time-consuming—potentially taking more than a week for a single analysis.
 		\end{itemize}
@@ -717,7 +761,7 @@ $$
 			\item Choose embedding dimensions carefully, balancing the need for detailed pattern analysis with available computational resources.
 			\item For very large time series or high $D$, consider parallel computing or dimensionality reduction techniques.
 		\end{itemize}
-		\item Despite this challenge, StatOrdPattHxC remains a powerful tool for extracting and statistically validating features from time series using ordinal pattern analysis.
+		\item Despite this challenge, this package remains a powerful tool for extracting and statistically validating features from time series using ordinal pattern analysis.
 	\end{itemize}
 \end{frame}
 
@@ -798,19 +842,23 @@ $$
 	\end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Results with hand calculation}
+Because the original case study involved a large sample size, we computed entropy and statistical complexity for smaller sample sizes of 100, 1000, and 2000. These values were then analyzed using both the Multinomial and Serial Dependence models. The analysis clearly demonstrates the confidence intervals for both entropy and complexity.	
+\end{frame}
+
+\begin{frame}{Results with hand calculation cont...}
 	\begin{figure}[hbt]
 		\centering
-		\includegraphics[width=0.8 \textwidth]{CI for Multinomial model}
+		\includegraphics[width=0.7 \textwidth]{CI for Multinomial model}
 		%\caption{Entropy Complexity Plane}
 		%\label{fig:EntopyComplexity Plane D=6}
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Results with hand calculation}
+\begin{frame}{Results with hand calculation cont...}
 	\begin{figure}[hbt]
 		\centering
-		\includegraphics[width=0.8 \textwidth]{CI for pattern dependence}
+		\includegraphics[width=0.7 \textwidth]{CI for pattern dependence}
 		%\caption{Entropy Complexity Plane}
 		%\label{fig:EntopyComplexity Plane D=6}
 		\end{figure}
@@ -839,13 +887,13 @@ $$
 
 %Dávalos, A., Jabloun, M., Ravier, P., Buttelli, O., 2019. On the statistical properties of Multiscale Permutation Entropy: Characterization of the estimator’s variance, Entropy, 21, 5. doi: 10.3390/e21050450.
 %Please read it carefully, check the hypothesis and assumptions, and compare those results with ours. This would be an interesting contribution.
-Multinomial distribution
-The authors analyze the variance of Multiscale Permutation Entropy (MPE), an extension of PE designed to capture temporal patterns at multiple scales — by deriving an explicit theoretical expression and comparing it to both simulations and the Cramér–Rao lower bound (CRLB)
-They use a Taylor-series expansion on the MPE estimator to derive a cubic polynomial expression for its variance as a function of time scale and probability distribution of ordinal patterns.
-From this, they simplify to a linear approximation valid for small m/N, and obtain the CRLB to assess estimator efficiency. Variance predictions are then validated against simulated surrogate time series with known pattern distributions.
+%Multinomial distribution
+%The authors analyze the variance of Multiscale Permutation Entropy (MPE), an extension of PE designed to capture temporal patterns at multiple scales — by deriving an explicit theoretical expression and comparing it to both simulations and the Cramér–Rao lower bound (CRLB)
+%They use a Taylor-series expansion on the MPE estimator to derive a cubic polynomial expression for its variance as a function of time scale and probability distribution of ordinal patterns.
+%From this, they simplify to a linear approximation valid for small m/N, and obtain the CRLB to assess estimator efficiency. Variance predictions are then validated against simulated surrogate time series with known pattern distributions.
 
-Key Findings:
-Symmetry (The variance is symmetric around the uniform distribution (maximum entropy)) \& Extrema (exhibiting both maxima (intermediate entropy) and minima (at maximum and minimum entropy))
-Scale dependence such that Generally increases linearly with the time scale m. Also, for entropy values near maximum, variance shows quadratic growth, making the linear approximation invalid there.
-Estimator Efficiency such that The theoretical variance approaches the CRLB for small m/N, indicating that the estimator is near-optimal
+%Key Findings:
+%Symmetry (The variance is symmetric around the uniform distribution (maximum entropy)) \& Extrema (exhibiting both maxima (intermediate entropy) and minima (at maximum and minimum entropy))
+%Scale dependence such that Generally increases linearly with the time scale m. Also, for entropy values near maximum, variance shows quadratic growth, making the linear approximation invalid there.
+%Estimator Efficiency such that The theoretical variance approaches the CRLB for small m/N, indicating that the estimator is near-optimal
 
