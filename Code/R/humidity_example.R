@@ -6,7 +6,7 @@ library(ggplot2)
 #Data
 Mean_of_Relative_Humidity<-c(77.3,81,82.4,81.7,83.6,85.6,84.4,83.1,78.8,79.6,78.2,78.8)
 
-Month<-c("January","February","March","April","May","June","July","August","September","October","Novermber","December")
+Month<-c("January","February","March","April","May","June","July","August","September","October","November","December")
 
 humidity_frame<-data.frame(Month,Mean_of_Relative_Humidity, stringsAsFactors = T)
 

@@ -22,7 +22,7 @@
 \title{Ordinal Pattern Features: Statistical Properties and Their Applications in Time Series Clustering}
 \author[Rasika Dilhani]{{Rasika Dilhani}\\{\small Supervisors: Alejandro C.\ Frery and Andrea A.\ Rey}}
 \institute[VUW]{Victoria University of Wellington}
-\date{16 July 2025}
+\date{28 July 2025}
 
 \usetheme{Madrid}
 
@@ -197,7 +197,7 @@ The literature review shows that confidence intervals have not been used to asse
 %%% ACF Where have they been used?
 \end{frame}
 
-\begin{frame}{General and specific objectives of research work (cont..)}
+\begin{frame}{General and specific objectives of research work (cont\dots)}
 \begin{itemize}
 	\item \textbf{Main Objectives:}
 	\begin{itemize}
@@ -230,17 +230,18 @@ The literature review shows that confidence intervals have not been used to asse
 		\item \textbf{Normal (Gaussian) distribution:}
 		%%% ACF Does the normal law appear only under independence or only without independence or in both cases?
 		\begin{itemize}
-			\item Describes the asymptotic behavior of entropy and complexity estimators derived from ordinal patterns~\cite{Chagas2022, Rey2023, Rey2023a, Rey2024, Rey2025}.
+			\item Describes the asymptotic behavior of entropy and complexity estimators derived from ordinal patterns~\cite{Davalos2019a, Rey2023a, Rey2025}.
 			%%% ACF Did Chagas et al use the normal distribution?
+			% Rey2023a, Davalos2019a pattern dependence
 		\end{itemize}
 		\item \textbf{Chi-squared ($\chi^2$) distribution:}
 		\begin{itemize}
-			\item Arises in tests for randomness, independence, and serial dependence in ordinal patterns~\cite{Rey2023, Rey2024, Rey2025, YamashitaRiosDeSousa2022, Shternshis2025}.
+			\item Arises in tests for randomness, independence, and serial dependence in ordinal patterns~\cite{Chagas2022, YamashitaRiosDeSousa2022, Rey2023, Rey2024, Shternshis2024, Shternshis2025}.
 		\end{itemize}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Known statistical results about features from ordinal patterns (cont.)}
+\begin{frame}{Known statistical results about features from ordinal patterns (cont\dots)}
 	\begin{itemize}
 		\item \textbf{Empirical (permutation) distributions:}
 		\begin{itemize}
@@ -254,7 +255,7 @@ The literature review shows that confidence intervals have not been used to asse
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Known statistical results about features from ordinal patterns (cont.)}
+\begin{frame}{Known statistical results about features from ordinal patterns (cont\dots)}
 	\begin{itemize}
 		\item \textbf{Markov transition probabilities:}
 		\begin{itemize}
@@ -287,8 +288,8 @@ The literature review shows that confidence intervals have not been used to asse
 	\begin{itemize}
 		\item \textbf{Given:} Mean monthly humidity in Wellington,
 		\begin{itemize}
-			\item January, February, March, April, May, June, etc...
-			\item 77.3, 81.0, 82.4, 81.7, 83.6, 85.6, etc... 
+			\item January, February, March, April, May, June, etc\dots
+			\item 77.3, 81.0, 82.4, 81.7, 83.6, 85.6, etc\dots 
 		\end{itemize}
 	\end{itemize}
 \begin{figure}[hbt]
@@ -385,7 +386,7 @@ The literature review shows that confidence intervals have not been used to asse
 %	\end{block}
 %\end{frame}
 
-\begin{frame}{Disequilibrium: Jensen-Shannon Distance to calculate complexity}
+\begin{frame}{Disequilibrium: Jensen-Shannon Distance to calculate Complexity}
 	
 	López-Ruiz et al.~\cite{lopez1995statistical} introduced the concept of \alert{disequilibrium, $Q$}, which quantifies how far a probability histogram $\mathbf{p}$ (such as from observed ordinal patterns) departs from a completely uniform (non-informative) distribution.
 	
@@ -397,7 +398,7 @@ The literature review shows that confidence intervals have not been used to asse
 
 
 \begin{frame}{Disequilibrium: Jensen-Shannon Distance to calculate complexity cont..}
-	\begin{block}{Jensen-Shannon Disequilibrium}
+	\begin{block}{Jensen-Shannon Distance}
 		Given a histogram $\mathbf{p}$ and the reference uniform distribution $\mathbf{u} = (1/k, \ldots, 1/k)$ ($k = D!$), the disequilibrium is calculated as:
 		\[
 		Q'(\mathbf{p},\mathbf{u}) = \sum_{\ell=1}^k \Big( p_\ell \log\frac{p_\ell}{u_\ell} + u_\ell \log\frac{u_\ell}{p_\ell} \Big).
@@ -469,7 +470,7 @@ The literature review shows that confidence intervals have not been used to asse
 %\subsection{Asymptotic distribution of the Entropy}
 %---------------------%
 
-\begin{frame}{Asymptotic distribution of the Entropy and complexity}
+\begin{frame}{Asymptotic distribution of the Entropy and Complexity}
 	%%% ACF Only entropy? We discussed this! Revise everything.
 	Two types of Asymptotic distribution of entropy and complexity are discussed.
 	\begin{itemize}
@@ -511,8 +512,8 @@ The literature review shows that confidence intervals have not been used to asse
 \end{frame}
 
 
-\begin{frame}{Multinomial Model cont...}
-Main purpose of this work is to find the distribution of Entropy and complexity assuming that patterns are independence. The following steps are followed:
+\begin{frame}{Multinomial Model cont\dots}
+Main purpose of this work is to find the distribution of Entropy and Complexity assuming that patterns are independence. The following steps are followed:
 		\begin{itemize}
 		\item Calculate the estimated Shannon entropy $H(\widehat{\mathbf{p}})$.
 		\item Calculate the estimated complexity $C(\widehat{\bm{p}})$ 
@@ -541,12 +542,12 @@ Main purpose of this work is to find the distribution of Entropy and complexity 
 %	\end{block}
 %\end{frame}
 
-\begin{frame}{Asymptotic Distribution of Entropy and complexity: Incorporating dependence among patterns}
+\begin{frame}{Asymptotic Distribution of Entropy and Complexity: Incorporating dependence among patterns}
 	\begin{itemize}
 		\item Given a real-valued time series $\mathbf{x} = \{x_1, x_2, \ldots, x_{n+D-1}\}$, we extract ordinal patterns by transforming overlapping subsequences of embedding dimension $D$ into symbols: $\mathbf{\pi} = (\pi_1, \pi_2, \ldots, \pi_n)$.
 		\item The number of possible patterns $\pi^1, \pi^2, \ldots, \pi^k$ where $k = D!$.
 		\item Due to the overlapping windows, the resulting ordinal patterns are \textbf{dependent}.
-		\item For each $i = 1, 2, \ldots, k$, let $p_i$ be the probability of observing the pattern $\pi_i$, and define the probability vector $\mathbf{p} = (p_1, p_2, \ldots, p_k)$.
+		\item For each $i = 1, 2, \ldots, k$, let $p_i$ be the probability of observing the pattern $\pi^i$, and define the probability vector $\mathbf{p} = (p_1, p_2, \ldots, p_k)$.
 		\item The diagonal matrix of probabilities is $\mathbf{D_p} = \text{Diag}(p_1, p_2, \ldots, p_k)$.
 	\end{itemize}
 \end{frame}
@@ -577,7 +578,7 @@ Main purpose of this work is to find the distribution of Entropy and complexity 
 %	\end{itemize}
 %\end{frame}
 
-\begin{frame}{Asymptotic Distribution Incorporating dependence patterns cont...} %%% ACF Use \dots for ellipsis
+\begin{frame}{Asymptotic Distribution Incorporating dependence patterns cont\dots} %%% ACF Use \dots for ellipsis
 Procedure for the method is summarized as follows:
 
 	\begin{itemize}
@@ -739,7 +740,7 @@ $$
 		\begin{itemize}
 			\item Computes entropy measures: Shannon, Rényi, Tsallis entropies, Fisher information, and statistical complexity.
 			\item Calculates ordinal pattern probabilities and sequences for a given embedding dimension.
-			\item Provides tools for hypothesis testing between time series including asymptotic variance calculations for entropy and complexity.
+		%	\item Provides tools for hypothesis testing between time series including asymptotic variance calculations for entropy and complexity.
 			\item Enabling hypothesis testing between time series.
 		\end{itemize}
 		%%% ACF Is this true and complete? Do you need robust/nonparametric?
@@ -846,7 +847,7 @@ $$
 Because the original case study involved a large sample size, we computed entropy and statistical complexity for smaller sample sizes of 100, 1000, and 2000. These values were then analyzed using both the Multinomial and Serial Dependence models. The analysis clearly demonstrates the confidence intervals for both entropy and complexity.	
 \end{frame}
 
-\begin{frame}{Results with hand calculation cont...}
+\begin{frame}{Results with hand calculation cont\dots}
 	\begin{figure}[hbt]
 		\centering
 		\includegraphics[width=0.7 \textwidth]{CI for Multinomial model}
@@ -855,7 +856,7 @@ Because the original case study involved a large sample size, we computed entrop
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Results with hand calculation cont...}
+\begin{frame}{Results with hand calculation cont\dots}
 	\begin{figure}[hbt]
 		\centering
 		\includegraphics[width=0.7 \textwidth]{CI for pattern dependence}

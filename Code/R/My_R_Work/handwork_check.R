@@ -213,7 +213,7 @@ ggplot(results_all, aes(x = H, y = C, color = Group)) +
     inherit.aes = FALSE
   ) +
   # Sample size points
-  geom_point(size = 3) +
+  geom_point(size = 2) +
   # Horizontal error bars for H
   geom_errorbarh(aes(xmin = H - semiLengthH, xmax = H + semiLengthH), height = 0.004) +
   # Vertical error bars for C
@@ -471,7 +471,7 @@ ggplot(df_all, aes(x = H, y = C, color = Group)) +
     inherit.aes = FALSE
   ) +
   # All sample size points
-  geom_point(size = 3) +
+  geom_point(size = 2) +
   # Horizontal error bars (entropy)
   geom_errorbarh(
     aes(xmin = H - HSemi, xmax = H + HSemi),
