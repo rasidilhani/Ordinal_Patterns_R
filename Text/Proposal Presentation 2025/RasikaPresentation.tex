@@ -20,7 +20,7 @@
 
 
 \title{Ordinal Pattern Features: Statistical Properties and Their Applications in Time Series Clustering}
-\author[Rasika Dilhani]{{Rasika Dilhani}\\{\small Supervisors: Alejandro C.\ Frery and Andrea A.\ Rey}}
+\author[Rasika Dilhani]{{Rasika Dilhani}\\{\small Supervisors: Alejandro C.\ Frery, Andrea A.\ Rey and Nokuthaba Sibanda}}
 \institute[VUW]{Victoria University of Wellington}
 \date{28 July 2025}
 
@@ -152,12 +152,15 @@
 \end{frame}
 
 \begin{frame}{Areas of research based on the Ordinal Patterns}
-	According to the literature, research topics are categorized into five clusters:
+According to the literature, the use of ordinal patterns in research topics can be categorized into four clusters:
 	
 	\begin{itemize}
 		\item Permutation entropy, Complexity and other types of Entropy;
 		\item EEG and Machine learning approach;
 		\item Fault diagnosis and failure analysis;
+		%Fault diagnosis is usually focused on early detection and identification of faults before they lead to full system failure—often performed in real-time or ongoing operations.
+		
+		%Failure analysis is generally carried out after a failure has occurred to understand why it happened and how to prevent it in the future
 		\item Chaos and other research work;
 	\end{itemize}
 \end{frame}
@@ -190,6 +193,14 @@
 			\item How can confidence intervals for generalized entropy measures (Shannon, Tsallis, Rényi, Fisher information measure) and their associated complexity metrics be used to improve the 
 			%%% ACF I would avoid "robustness" here because you are referring to the robustness of conclusions, but the OPs are robust to transformations in a different way
 			reliability and discriminative power of time series clustering techniques?
+			%Power series clustering involves grouping multiple time series into clusters such that series within the same cluster are similar to each other according to a predefined distance or similarity metric.
+			%Time series clustering can be:
+			
+			%Whole series clustering: Clustering entire sequences.
+			
+			%Subsequence clustering: Clustering parts (windows) of time series.
+			
+			%Time point clustering: Grouping individual time points based on similarity.
 		\end{itemize}
 	\end{itemize}		
 		
@@ -232,11 +243,12 @@ The literature review shows that confidence intervals have not been used to asse
 		\begin{itemize}
 			\item Describes the asymptotic behavior of entropy and complexity estimators derived from ordinal patterns~\cite{Davalos2019a, Rey2023a, Rey2025}.
 			%%% ACF Did Chagas et al use the normal distribution?
-			% Rey2023a, Davalos2019a pattern dependence
+			% serial dependence: Rey2023a, Davalos2019a
 		\end{itemize}
 		\item \textbf{Chi-squared ($\chi^2$) distribution:}
 		\begin{itemize}
 			\item Arises in tests for randomness, independence, and serial dependence in ordinal patterns~\cite{Chagas2022, YamashitaRiosDeSousa2022, Rey2023, Rey2024, Shternshis2024, Shternshis2025}.
+			% serial dependence: Shternshis2025, YamashitaRiosDeSousa2022 
 		\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -251,6 +263,7 @@ The literature review shows that confidence intervals have not been used to asse
 		\item \textbf{Alpha-stable distributions:}
 		\begin{itemize}
 			\item Applied for feature extraction in heavy-tailed or non-Gaussian environments, such as fault diagnosis~\cite{Chouri2014}.
+			%Alpha stable distributions are used to model phenomena with heavy tails and skewness, such as financial returns, signal processing, or certain natural phenomena where rare extreme events are more common than predicted by a normal distribution.
 		\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -662,9 +675,9 @@ $$
 \begin{frame}
 		\begin{itemize}
 		\item To estimate the serial dependence variance, we first compute the ratio
-		\[
+	$$
 		a = \dfrac{\widehat{\nu}^2_{\widehat{\mathbf{p}}}}{\widehat{\sigma}^2_{\widehat{\mathbf{p}}}},
-		\]
+		$$
 		where $\widehat{\nu}^2_{\widehat{\mathbf{p}}}$ is the variance of entropy under serial dependence, and $\widehat{\sigma}^2_{\widehat{\mathbf{p}}}$ is the variance of entropy under independence.
 		\item Then, the serial dependence statistical complexity variance is calculated by scaling the Multinomial statistical complexity variance:
 		\[
@@ -738,8 +751,8 @@ $$
 		\item Provides statistical tools to analyze time series through ordinal patterns.
 		\item \textbf{Key features:}
 		\begin{itemize}
+			\item Calculates ordinal pattern probabilities for a given embedding dimension.
 			\item Computes entropy measures: Shannon, Rényi, Tsallis entropies, Fisher information, and statistical complexity.
-			\item Calculates ordinal pattern probabilities and sequences for a given embedding dimension.
 		%	\item Provides tools for hypothesis testing between time series including asymptotic variance calculations for entropy and complexity.
 			\item Enabling hypothesis testing between time series.
 		\end{itemize}
@@ -843,11 +856,11 @@ $$
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Results with hand calculation}
+\begin{frame}{Manually computed results}
 Because the original case study involved a large sample size, we computed entropy and statistical complexity for smaller sample sizes of 100, 1000, and 2000. These values were then analyzed using both the Multinomial and Serial Dependence models. The analysis clearly demonstrates the confidence intervals for both entropy and complexity.	
 \end{frame}
 
-\begin{frame}{Results with hand calculation cont\dots}
+\begin{frame}{Manually computed results cont\dots}
 	\begin{figure}[hbt]
 		\centering
 		\includegraphics[width=0.7 \textwidth]{CI for Multinomial model}
@@ -856,7 +869,7 @@ Because the original case study involved a large sample size, we computed entrop
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Results with hand calculation cont\dots}
+\begin{frame}{Manually computed results cont\dots}
 	\begin{figure}[hbt]
 		\centering
 		\includegraphics[width=0.7 \textwidth]{CI for pattern dependence}

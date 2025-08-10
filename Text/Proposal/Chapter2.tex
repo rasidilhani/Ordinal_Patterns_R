@@ -1,381 +1,240 @@
-\chapter{The Research Project}\label{C:aim}
+\chapter{Literature Review}\label{C:lit}
 
-In this chapter, we outline the main ideas and objectives of this research project. 
-%%% ACF Only complexity?
-Section~\ref{Sec:AdvantagesLimitations} discusses entropy and complexity analysis in time series, highlighting its advantages and limitations. 
-%%% ACF Use numbered sections/subsections and refer to their automatic numbers
-Section~\ref{Sec:BP method} examines the advantages and  limitations of the Bandt and Pompe method. 
-Section~\ref{Sec:BackgroundKnowledge}  provides background knowledge on the 
-%%% ACF What is this plane?
-entropy-complexity plane. 
-Section~\ref{Sec:EntropyComplexity} explores the entropy-complexity plane for a broad class of time series. Section~\ref{Sec:AsymptoticDistribution} provides the asymptotic distribution of the entropy. Finally, the chapter concludes with the objectives of the research project and a case study related to our work.
+The analysis of complex time series has long relied on both time-domain and frequency-domain techniques. 
+However, traditional methods often fall short in capturing nonlinear dynamics or are limited by strict assumptions such as stationarity and Gaussianity. 
 
-%%% ACF Do you analyse complexity only?
-\section{Entropy and Complexity Analysis in Time Series: Advantages and Limitations}\label{Sec:AdvantagesLimitations}
+The ordinal symbolic approach introduced by Bandt and Pompe in 2002 marked a significant theoretical advance by enabling robust, model-free characterization of time series. 
+Their approach, rooted in information theory, involves converting segments of time series data into symbols based on the ordinal (rank) relationships among the data points.
+These symbols are called "ordinal patterns." After computing all the symbols, their relative frequencies are used to estimate the probability distribution of ordinal patterns.
 
-Entropy and complexity analysis in time series provides powerful tools for measuring the unpredictability and structural richness of dynamical systems, which means the systems that evolve in time. 
-These methods help describe the behavior of a system using mathematical models. 
-%%% ACF What's the difference between SE and PE?
-Entropy measures, such as Shannon entropy (which quantifies the uncertainty in a probability distribution) and permutation entropy (which measures the complexity of the order structure in time series using ordinal patterns), are used to quantify the degree of randomness or disorder in data. 
-The major difference between Shannon entropy and permutation entropy is that permutation entropy is the Shannon entropy computed from the ordinal patterns (permutations) extracted from a time series.
-The complexity measures assess the balance between order and chaos.  
-%%% ACF What is a nonlinear pattern?
-Entropy and complexity measures are powerful tools for identifying nonlinear patterns in time series data, and together, they are particularly valuable for distinguishing between deterministic and stochastic behavior by revealing hidden structures and irregular dynamics that traditional linear methods often overlook.
-%However, their effectiveness depends heavily on parameter choices, such as embedding dimension and time delay. 
-%%% ACF Several problems with the following sentence. (1) at some point, we will say that OPs are little sensitve to outliers, (2) we don't know what "data length" means
-%They can be sensitive to noise and data length. 
-%%% ACF Rethink the following assertion. I tend to disagree. Computing these quantities is not computationally intensive; but computing their statistical properties taking into account the serial correlation is
-%%% ACF What is a high dimensional system?
-%%% ACF What is a multi-scale system?
-While entropy and complexity analysis offers powerful insights into non-linearity and chaos, capturing patterns that traditional linear methods often miss, it requires careful preprocessing, precise parameter tuning, and a solid understanding of the system's domain to avoid misleading conclusions. Non-linearity refers to relationships within the data where small changes in input can lead to disproportionately large or unpredictable changes in output, often seen in complex real-world systems such as biological signals or financial markets. Choosing the right parameters, such as embedding dimension and time delay, is crucial for accurately capturing the underlying dynamics, and without domain knowledge, interpreting the results and identifying meaningful patterns can be challenging.
-% ACF What is a "linear method"?
-Despite these limitations, entropy and complexity remain essential in modern time series analysis for uncovering hidden dynamics beyond the reach of traditional linear methods. Linear methods, such as auto-correlation, linear regression, and Fourier analysis, assume that relationships within data are proportional and predictable, often focusing on averaged behavior, periodicity, or stationary patterns. However, many real-world systems (like the brain, heart, or climate) display nonlinear behavior, where the output does not change in a simple, direct way with the input. Entropy and complexity measures are specifically designed to capture these irregularities, revealing subtle structures, transient changes, or chaotic patterns that linear tools often overlook or misinterpret. This makes them invaluable for exploring complex, dynamic, and nonlinear systems where traditional approaches fall short.
+From this distribution estimate, two key descriptors entropy and complexity are calculated to characterize the time series: the scaled Shannon entropy, now widely known as permutation entropy, and the statistical complexity.
 
-%While this method effectively captures ordinal relationships between data points, it has notable drawbacks. 
-%First, it ignores amplitude information in the time series. 
-%%% ACF "complexity-entropy plane"?
-%Second, classifying data via the entropy-complexity plane becomes challenging (or even misleading) in high-dimensional chaotic systems, 
-%%% ACF Do you know what chaotic systems are?
-%chaotic system is a deterministic dynamical system which shows complex system. There is no random behaviours and the long term process is not repeating the same patterns. 
-%%% ACF Read and study about the logistic map.
-% Deterministic means that the process always depend on the initial condition and it cannot see the repeated solutions.
-%%% ACF What is surrogate data? Surrogate data refers to artificial time series generated from an original data set, which preserve certain properties of the original (like mean, variance, or power spectrum), but are otherwise randomized or restructured. We use surrogate data to test whether patterns in data are truly nonlinear/chaotic, or just due to random chance or noise.
-%as both deterministic chaotic time series and stochastic surrogate data may occupy overlapping regions within the plane.
-
-%%% ACF I think that when you refer to "statistical complexity measures" you are referring to "information theory-based measures"
-%Despite these limitations, entropy-complexity plane offers a robust framework to enhance ordinal pattern analysis. 
-%%% ACF Not only from the (marginal) distribution, but also from the independence
-%%% ACF What a dynamical proces is?
-%These measures quantify deviations from uniform ordinal pattern distributions, enabling a more nuanced characterization of dynamical processes. 
-%%% ACF Cite your sources, otherwise the text is yours
-%By combining permutation entropy with statistical complexity, researchers gain a refined tool to differentiate stochastic signals from deterministic chaos, thereby revealing intricate structural patterns and degrees of randomness in time series data.
-
-\section{The Bandt and Pompe Method: A Robust Approach} \label{Sec:BP method}
-
-%%% ACF Reserve "demonstrate" for mathetical proofs
-The concept of ordinal patterns in time series can be effectively studied through real world examples. 
-Traditionally, numerous algorithms, techniques, and heuristics have been employed to estimate complexity measures from real world data. 
-%%% ACF What is a low-dimensional dynamical system? the number of state variables or dimensions are small, we called it as low dimension. 1D, 2D or 3D can be considered as low dimension. 
-
-However, these methods often perform well only for low-dimensional dynamical systems and struggle when noise is introduced. Low-dimensional dynamical systems are systems whose behavior can be described using a small number of variables or equations, typically two or three, such as the logistic map, or pendulum. These systems exhibit rich and often chaotic dynamics but remain mathematically tractable and easier to analyze using entropy and complexity measures. Because of their limited dimensionality, the patterns within the data are more distinct, making it easier to extract meaningful information. 
-
-%%% ACF What is the Lyapunov exponent? It is one of the complexity parameters. It measures how small changes grow over time. 
-The Bandt and Pompe method overcomes this limitation by providing a robust approach that remains reliable even in noisy environments. 
-In time series analysis, key complexity parameters such as entropy, fractal dimension, 
-%%% ACF If you mention it, you must  be able to define it
-and Lyapunov exponents play a crucial role in comparing neighboring values and uncovering the underlying structure and dynamics of the data. A Lyapunov exponent measures the average rate at which nearby trajectories in a dynamical system diverge or converge. It provides deeper understanding of system's behavior. 
-
-The advantages of Bandt \& Pompe methods:
-\begin{itemize}
-	\item Simplicity
-	\item Extremely fast calculation
-	\item Robustness
-	\item Invariance to nonlinear monotonous transformations
-\end{itemize}	
-
-This method exhibits low sensitivity to noise and naturally accounts for the causal order of elements in a time series. As a result, it can be applied to various real-world problems, particularly in differentiating between chaotic and stochastic signals.
-
-Despite its limitations, researchers have developed extensions to the original method to address its shortcomings and enhance its applicability to a broader range of complex systems.
-
-\section{Statistical Complexity measures} \label{Sec:BackgroundKnowledge}
-
-Bandt and Pompe introduced a highly effective method for analyzing time series within this framework. They calculated Shannon entropy based on the histogram of causal patterns and successfully identified chaotic components in sequences of words, among other applications.
-
-Later, Rosso et al.~\cite{EEGAnalysisUsingWaveletBasedInformationTools} expanded this analysis by introducing an additional dimension: the statistical complexity derived from the same histogram of causal patterns. The authors have contributed to a wide range of applications. This approach, which utilizes the entropy-complexity plane, has been successfully applied to the visualization and characterization of different dynamical regimes as system parameters change  \cite{Bandt2005,Cao2004,DeMicco2012a,Kowalski2007,Kowalski2011b,Rosso2010a,Zunino2010a,Zunino2012a}, as well as to optical chaos \cite{Liu2016f,Soriano2011a,Toomey2014,Yang2015e,Zunino2011a}, hydrology \cite{Lange2013,Serinaldi2014,Stosic2016}, geophysics \cite{Consolini2014,Saco2010,Sippel2016}, engineering \cite{Aquino2017,Aquino2015,Redelico2017a,Yan2012}, biometrics \cite{Rosso2016}, characterization of pseudo-random number generators \cite{DeMicco2008,DeMicco2009}, biomedical signal analysis \cite{Li2014b,Li2008b,Li2007,Liang2015b,Montani2015a,Montani2014,Montani2014a,Montani2015,Morabito2012,Parlitz2012,Perinelli2025,Perinelli2019,Zanin2012},and econophysics \cite{Bariviera2015a,Bariviera2015,Bariviera2016,Zanin2012,Zunino2016a,Zunino2009,Zunino2010}, to name a few.
-
-%%% ACF What is system parameter change? It means altering one of the constants in the dynamical system and this can cause the system's behavior to shift drastically.
-%system parameter change
-%%% ACF Sort the citation number
-%%% ACF You must have an idea of every paper you cite
-%\cite{Bandt2005,Cao2004,DeMicco2012a,Kowalski2007,Kowalski2011b,Rosso2010a,Zunino2010a,Zunino2012a}, 
-%%% ACF What is optical chaos: It refers to chaotic behavior, i.e., unpredictable and highly sensitive to initial conditions, optical system which involves light, such as lasers, or optical fibers.
-%optical chaos \cite{Liu2016f,Soriano2011a,Toomey2014,Yang2015e,Zunino2011a}, hydrology \cite{Lange2013,Serinaldi2014,Stosic2016}, geophysics \cite{Consolini2014,Saco2010,Sippel2016}, engineering \cite{Aquino2017,Aquino2015,Redelico2017a,Yan2012}, biometrics \cite{Rosso2016}, characterization of pseudo-random number generators \cite{DeMicco2008,DeMicco2009}, biomedical signal analysis \cite{Li2014b,Li2008b,Li2007,Liang2015b,Montani2015a,Montani2014,Montani2014a,Montani2015,Morabito2012,Parlitz2012,Zanin2012}, econophysics \cite{Bariviera2015a,Bariviera2015,Bariviera2016,Zanin2012,Zunino2016a,Zunino2009,Zunino2010}.
-
-After computing all symbols as described in Chapter~\ref{C:intro}, the histogram proportions are used to estimate the probability distribution of ordinal patterns. 
-From this distribution, two key descriptors are calculated to characterize the time series:
-\begin{enumerate}
-	\item Entropy 
-	
-	\item Statistical complexity
-\end{enumerate}
-The most common metric for the first descriptor is the normalized Shannon entropy, defined as:
-\begin{equation}
-	H(\mathbf{p})=-\dfrac{1}{\log k}\sum^{k}_{\ell=1}p_{\ell} \ln{p_{\ell}}.
-\end{equation}
-Here, $k=D!$ represents the total number of possible permutation patterns.
-%%% ACF Something is missing here
-This entropy is bounded within the unit interval:
-\begin{itemize}
-	\item It reaches its minimum value $(H=0)$ when a single pattern dominates  for some $p_{\ell}=1$ for some $\ell$ 
-	\item It achieves its maximum $(H=1)$ under uniform probability $p_{\ell}=1/k$ for all $\ell$. 
-\end{itemize}
-This normalized entropy is often termed permutation entropy in time series analysis. 
-
-While normalized Shannon entropy is a powerful tool for quantifying disorder, it fails to fully characterize complex dynamics. To address this limitation, López-Ruiz et al.~\cite{lopez1995statistical} introduced the disequilibrium $Q$ concept, which quantifies the deviation of a probability distribution $\mathbf{p}$ from a uniform (non-informative) equilibrium state. 
-%%% ACF Here you say that the disequilibrium is the Euclidean distance, but then you say that it is the Jensen-Shannon
-López-Ruiz and the team employed the Euclidean distance between $\mathbf{p}$ and the uniform distribution, providing a complementary metric to Shannon entropy for assessing structural complexity in systems.
-
-%%% ACF Present the statistical complexity in a logical manner
-The Jensen-Shannon distance between histogram of proportion $\mathbf{p}$ and the uniform probability function $\mathbf{u}=(1/k, 1/k, \dots, 1/k)$, where $k=D!$ corresponds to the number of possible permutation patterns provides a robust metric for quantifying deviations from uniformity. This distance measure, derived from the symmetric Jensen-Shannon divergence, is particularly suited for analyzing ordinal pattern distributions due to its ability to capture both structural differences and statistical disequilibrium in time series data.
-%%% ACF We don't write like this: Here is the formula for $Q'$:
-It is defined as:
-\begin{equation}
-	Q'(\mathbf{p,u})=\sum^k_{\ell=1} p_\ell\log\dfrac{p_\ell}{u_\ell}+u_\ell\log\dfrac{u_\ell}{p_\ell}.
-\end{equation}
-
-Lamberti et al. \cite{lamberti2004intensive} proposed Jensen-Shannon distance as a symmetric metric rooted in the Jensen-Shannon divergence. As the reference model, most works consider the uniform distribution $\mathbf{u}=(1/k,1/k, \dots, 1/k)$. The normalized disequilibrium is defined as follows
-\begin{equation}
-	Q=\dfrac{Q'}{\max{(Q')}},
-\end{equation}
-where $\max(Q')$ is defined as follows
-\begin{equation}
-	\max(Q')=-2 \left[\dfrac{k+1}{k}\log(k+1)-2\log(2k)+\log k\right].
-\end{equation}
-
-With this, Lamberti et al. \cite{lamberti2004intensive} proposed complexity as a measure of the statistical complexity of the underlying dynamics, which is defined as 
-\begin{equation}
-	C=HQ,
-\end{equation}
-where both $H$ and $Q$ are normalized quantities, therefore $C$ is also normalized. 
-
-\section{The Entropy Complexity Plane} \label{Sec:EntropyComplexity}
-The entropy-complexity plane is a two-dimensional representation where time series are mapped based on their entropy and statistical complexity. These metrics are derived from ordinal pattern distributions obtained through embedding dimension $D$ that are mapped on histograms of $D!$ bins. 
-%, a technique involving:
-%\begin{itemize}
-%	\item Embedding dimension $D$: Determines the number of permutation patterns $D!$ used to construct histograms.
-%	\item Time delay $(\tau)$: Often optimized for specific applications 
-%\end{itemize} 
+This chapter is divided into four main sections. Section~\ref{Sec:Onset} presents a brief overview of the area, focusing on what we consider the four seminal papers. Section~\ref{Sec:ResearchQuestion} discusses the research question and the motivation for conducting the bibliometric analysis. The final section, Section~\ref{Sec:BiblioIntro}, highlights the importance of bibliometric analysis and presents the results obtained from references that cite the Bandt and Pompe methodology and other related topics based on our research focus. 
+Section~\ref{Sec:StatisitcalProperty} discusses the statistical properties of features from ordinal patterns based on the literature review.   
+%\textcolor{red}{COMPLETE WITH ONE LINE}
 
 
-\subsection{Key Dynamics in the plane}
-\begin{enumerate}
-	\item Highly Ordered Systems, where the behavior is very predictable, structured, and often repeats in a regular pattern over time.
-	
-	Example: Strictly monotonic time series.
-	\begin{itemize}
-		\item Produces a single ordinal pattern $(H=0)$.
-		
-		\item Maximal disequilibrium (distance from uniform distribution).
-		
-		\item Maps to $(0,0),$ indicating minimal complexity.
-	\end{itemize}
-	
-	\item Perfectly Random Systems
-	
-	Example: White noise
-	\begin{itemize}
-		\item Uniform ordinal pattern distribution $(H=1)$.
-		\item Disequilibrium vanishes (distance $=0)$.
-		\item Maps to $(1,0),$ reflecting maximal entropy without structural complexity.
-	\end{itemize}
-\end{enumerate}
-The two extreme values are proved by Anteneodo \& Plastino \cite{anteneodo1996some}.
-Expressions for the boundaries, derived using geometrical arguments within space configurations, were proposed by Martin et al. \cite{Martin2006}. 
-These formulations provide a structured approach to understanding and analyzing the spatial behavior of specific systems or models. The lower boundary is characterized by a smooth curve, whereas the upper boundary consists of $D!-1$ distinct segments. As the embedding dimension $D$ approaches infinity, the upper boundary gradually converges into a smooth curve. 
-Example for the entropy complexity plane is shown in Figure \ref{fig:complexity}
+\section{The Onset of the Entropy-Complexity Plane}\label{Sec:Onset}
 
-%%% ACF Illustrate the boundaries for D=3,4,5,6
+This section discusses the emergence of the entropy-complexity plane. This topic is presented as a central theme because it reflects the foundation of our main research focus and illustrates how it has evolved over time into the current approach to time series analysis based on the concept of ordinal patterns. 
+
+López-Ruiz et al.~\cite{lopez1995statistical} to capture the structure of a system:
+the product between the entropy and a distance between the estimated model and a non-informative model is an interesting way of measuring complexity.
+Lamberti et al.~\cite{lamberti2004intensive}, using that idea, proposed using the Euclidean distance between the measured probability function and the uniform distribution.
+Rosso et al.~\cite{EEGAnalysisUsingWaveletBasedInformationTools} discussed using other distances, proposed the Jensen-Shannon distance, and used it jointly with the scaled Shannon entropy to form a bivariate feature.
+They mapped this feature into the so-called ``Entropy-Complexity Plane,'' devising  a powerful diagnostic tool to distinguish between different dynamical regimes, such as chaos, noise, and periodicity.
+Further, Martin et.al.~\cite{Martin2006} discussed the boundaries of this generalized statistical complexity measure. 
+
+In the following, we present the research question and the motivation for continuing this research. 
+
+\section{Research Question and Motivation}\label{Sec:ResearchQuestion}
+
+The primary research question guiding this study is:
+\begin{quote}
+	\textit{How can confidence intervals for generalized entropy measures (Shannon, Tsallis, Rényi, Fisher information measure) and their associated complexity metrics be used to improve the robustness and discriminative power of time series clustering techniques?}
+\end{quote}
+
+We are motivated to conduct a literature review to confirm the relevance of our research areas in relation to the research question. Our aim is to determine whether other researchers are engaging with similar types of questions. Additionally, we seek to verify whether there is a strong focus on practical applications within this topic. 
+
+
+\section{The Bibliometric Analysis: data collection, tools and background}\label{Sec:BiblioIntro}
+
+Bibliometric analyses provide a quantitative approach to reviewing and mapping the intellectual structure of a research field. By systematically analyzing citation patterns, author collaborations, and keyword co-occurrences, they help identify key themes, research trends, and emerging topics. This method ensures objectivity, reveals key contributions, and offers a structured overview of intellectual development, making it a valuable tool for systematic literature reviews.
+
+In this study, we conducted a bibliometric analysis using the Bibliometrix package in R and its user-friendly web interface Biblioshiny~\cite{Aria2017} focusing on literature related to ordinal patterns, permutation entropy, and complexity measures in time series analysis. 
+
+Section~\ref{Subsec:Dataextraction} discusses the data extraction process using the Bibliometrix package in R.
+%%% ACF Cite it
+
+\subsection{Conceptual Structure: Data extraction and Summary Statistics}\label{Subsec:Dataextraction}
+
+%%% ACF Make it clear that this is the data extraction phase
+Scopus-indexed references that cited the seminal work by Bandt and Pompe, along with other references relevant to our research topic, were collected on June 9, 2025.
+Based on these reference files, we analyzed a dataset consisting of 4125 reference files spanning the years 1993 to 2025. %%% ACF If you used papers that cited B&P, how can there be papers from 1993?
+%%% ACF REVISE REMOVE REDUNDANT PARTS OR MOVE THEM TO WHERE THEY BELONG
+%%% ACF USE \siunitx
+The descriptive analysis of the dataset revealed a total of 4063 usable documents (out of 4125; the others had missing data and were removed), sourced from 1317 
+%%% ACF What are they? publication sources refer to the outlets where research outputs (like journal articles, conference papers, books, etc.) are published. 
+publication sources. 
+The dataset shows an annual growth rate of \SI{18.15}{\percent}, %%% ACF??? indicates the percentage increase or decrease in the number of items within that dataset over a specific year. This metric helps researchers understand the trend of scholarly activity in a particular field, showing whether research output is expanding, contracting, or remaining stable. 
+involving 7254 authors, 
+123 single-authored documents, 
+\SI{27.32}{\percent} international co-authorship, 
+with an average of 4.28 co-authors per document. 
+The author keywords totaled 7667, 
+with an average document age of 5.7 years, %%% ACF???the mean age of all documents (e.g., articles, books) included in a study, typically measured in years from their publication date. It provides insights into the lifespan of research within a specific field or domain and can indicate how quickly research findings are disseminated and cited. A lower average age suggests a more rapidly evolving field, while a higher average age might indicate more established or mature research areas. 
+and 22.6 citations per document. 
+
+\subsection{Thematic Map Analysis}
+
+Thematic map helps to understand the research direction and the relevant topics for the future studies. Therefore, we motivated to analyse it. The axes of the thematic map depicts the strength of their internal (density), which reflects inter-cluster growth, and external (connectivity) relevance or significance of the study in a particular area (centrality). 
+
+Figure~\ref{fig:ThematicMap} illustrates the thematic map derived from author keywords.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{complexity plane}
-	\caption{Entropy Complexity Plane for Embedding dimension 3, 4,5, and 6}
-	\label{fig:complexity}
+	\includegraphics[width=\textwidth]{ThematicMap-2025-06-20}
+	\caption{The Thematic Map generated by Bibliometrix.}
+	\label{fig:ThematicMap}
 \end{figure}
 
-\section {Asymptotic Distribution of the Shannon Entropy under the Multinomial Model} \label{Sec:AsymptoticDistribution}
+The map is divided into four quadrants based on two dimensions: centrality (relevance) and density (development). 
+A right upper quadrant representing motor themes that are both well developed and highly interconnected areas of research, such as EEG, machine learning, permutation entropy, complexity, and other types of entropy. This theme is also at the core of current research, particularly in areas such as biomedical signal processing and nonlinear time series analysis. The consistent presence of entropy-based measures and machine learning highlights the interface between theory and practice.
+%%% ACF What are Motor Themes? 
 
-The Multinomial distribution describes how observations fall into categories when an adequate model is available. It is similar to the Multivariate normal distribution, which is one of the continuous Multivariate distributions. Furthermore, it has received considerable attention from researchers, both in theoretical studies and in applications related to discrete Multivariate distributions. 
-The normalized Shannon entropy, often employed in applications like permutation entropy, can be rigorously connected to its asymptotic distribution through the lens of statistical estimation theory. When estimating entropy from finite data, the plug-in estimator (computed directly from observed frequencies) converges to a normal distribution as the sample size $N\longrightarrow \infty$ even for dependent processes such as Markov chains. 
-%%This asymptotic normality, demonstrated by Martin et al~\cite{M} 
-%%% ACF Check the correct author/reference above
-%%and Chagas et al~\cite{Chagas2022}, ensures that the estimator’s fluctuations around the true entropy value are Gaussian-distributed, with variance and bias determined by the underlying system’s dynamics. 
-The Statistical properties of entropy measures under Multinomial distributions are crucial for analyzing complex systems where entropy serves as a key descriptors. Rey at al~\cite{Rey2023} investigate the asymptotic distributions of various entropy measures specifically, the Rényi and Tsallis entropies of order $q$, as well as Fisher information when these are computed using maximum likelihood estimators of probabilities from Multinomial random samples. The authors demonstrate that the Tsallis entropy and Fisher information asymptotically follow a normal distribution, whereas the Rényi entropy does not exhibit asymptotic normality. Through simulation studies, the paper validates that these asymptotic models effectively describe a variety of data scenarios. Additionally, the study introduces test statistics for comparing different types of entropies derived from two samples, even when the samples have differing numbers of categories. An application of these tests to social survey data indicates that the results are consistent and offer a more general approach compared to traditional chi-squared tests. 
+Emerging or declining themes like image encryption reflect peripheral or potentially declining research interests, while chaos and semiconductor lasers hold theoretical interest, but its practical integration appears limited.  
 
+A right down quadrant depicts basic themes indicates that opportunities for further theoretical and methodological advancement. 
+Research fields such as fault diagnosis, feature extraction and rolling bearings are at the center of the map. Its moderate centrality and density mean that it is still active and is subject to evolving research fields. These topics are closely linked to engineering and diagnostic applications. These are important and growing areas which require further methodological refinement and integration.
+%%% ACF What are Basic Themes... and so on
 
-In a subsequent study, Rey et al \cite{Rey2025} focus on the statistical complexity measure defined as the product of normalized Shannon entropy and the Normalized Jensen-Shannon divergence between a given probability distribution and the uniform distribution. 
-They derive the asymptotic distribution of this complexity measure under the assumption that the observed data follow a Multinomial distribution. Further the study demonstrates that, as the sample size increases, the distribution of the statistical complexity converges to a normal distribution, with its variance and bias determined by the dynamics of the underlying system. This result provides a theoretical foundation for using statistical complexity as a tool for analyzing systems where the probability distributions are estimated from finite samples. The results are validated with theoretical findings through numerical experiments, showing that the asymptotic normality holds even in scenarios where the Multinomial model is not strictly applicable, such as in applications involving Bandt and Pompe ordinal patterns. 
+The size of each circle further represents the frequency of the topic based on keyword occurrences associated with the publications. The clustering structure shows that entropy-related measures (such as the entropy of a permutation and the complexity of a system) are gaining ground not only in theory but also in practical applications such as EEG and machine learning.
+%%% ACF This is NOT a thematic analysis. This is the output of bibliometrix. The thematic analysis starts from this evidence
 
-Crucially, the convergence rate and limiting distribution depend on the system’s correlation structure, which deviates from the standard Multinomial case. However, they remain tractable through spectral analysis, which involves examining the eigenvalues and eigenvectors of the transition matrix or the distributions of ordinal patterns \cite{Chagas2022,PhysRevE.103.022215}. 
-%%% ACF I don't recall that we mentioned "eigenvalues and eigenvectors of the transition matrix" in Chagas et al. (2022). Please be very careful when making such assertions.
-This connection underscores the reliability of normalized entropy measures in large data regimes while highlighting the need to account for dependence structures in finite sample applications.
+From these results, we conclude that our research focus on entropy and complexity of permutation is relevant for many studies. These are basic concepts which are widely used in the literature, but which offer considerable potential for further development. Moreover, this thematic map shows that research is strongly focused on entropy-based methods, machine learning and biomedical applications, with fault diagnosis and feature extraction emerging as promising intermediate topics for further discuss.
 
+%\textcolor{red}{From this results, we conclude that\dots}
 
-Imagine a sequence of $n$ independent trials, each resulting in precisely one outcome from a set of $k$ distinct possibilities labeled $\pi^1,\pi^2, \dots, \pi^k$ and so on. These outcomes are mutually exclusive, meaning only one can occur per trial, with respective probabilities $\mathbf{p}={\left\{p_1,p_2,\dots,p_k\right\}}$, such that $p_\ell \geq 0$ and $\sum^{k}_{\ell=1} {p_\ell =1}.$ The random vector $\mathbf{N}=(N_1,N_2,\dots, N_k)$ counts the number of occurrences of the events $\pi^1,\pi^2, \dots, \pi^k$ in the $n$ trials, with $N_\ell \geq0$ and $\sum^{k}_{\ell=1} {N_\ell =n}.$ A $\mathbf{n}$ is a sample from $\mathbf{N}$ and it has a $k-$variate vector of integer values $\mathbf{n}=(n_1,n_2,\dots,n_k).$ Then the joint distribution of $\mathbf{N}$ is 
-\begin{equation}
-	Pr(\mathbf{N=n})=Pr(N_1=n_1,N_2=n_2, \dots,N_k=n_k)=n!\prod_{\ell=1}^{k}\frac{{p_\ell}^{n_\ell}}{n_\ell !}.
-\end{equation}   
+\subsection{Factorial Analysis}
+To identify the broad overview of the main research topics, we analyze the conceptual structure map. In this case we considered all keywords which are automatically generated by indexing databases. The shaded polygon in Figure~\ref{fig:factorialMap}  outlines the conceptual space defined by the most distinctive keywords. The X-axis (Dim 1) and the Y-axis (Dim 2) are the first two dimensions of the factorial space, and explain the largest differences in the co-occurrence of the keywords.
 
-This situation is denoted as $\mathbf{N}\sim \text{Mult}(n,\mathbf{p}).$ \cite{Rey2023}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{FactorialMap}
+	\caption{Conceptual Structure map generated by Bibliometrix.}
+	\label{fig:factorialMap}
+\end{figure}
+%%% ACF Interpret: what do the axes mean? What does the point size encode?
 
+The conceptual structure map reveals four major clusters:
 
-In practical applications, the true probability distribution $\mathbf{p}$ governing a Multinomial system is typically unknown. 
-%%% ACF As previously pointed many times, do not change the notation. You used \ell (correct), and then l (incorrect)
-Instead, estimators $\widehat{p}_\ell,$ are derived empirically by calculating the observed frequency of each event $\pi^l$ within the set of $k$ possible outcomes $\mathbf{\pi}=\pi^1,\pi^2, \dots, \pi^k$  across $n$ independent trials. These frequencies approximate the underlying probabilities, enabling inference about the system’s behavior. This maximum likelihood estimator (MLE) aligns with the empirical estimator derived from first-moment matching of the distribution. Due to its consistency, asymptotic normality, and computational tractability under regularity conditions, it remains the predominant choice in applied statistical modeling.
+The first cluster (upper right) includes theoretical concepts such as chaos theory, chaotic systems, Lyapunov methods, ordinal pattern, information theory, complex networks, and permutation entropy, forming the theoretical core of the research area.
 
-Shannon entropy quantifies the level of disorder within a system. When the system's behavior is entirely predictable, the Shannon entropy reaches its minimum, indicating complete knowledge of future observations. Conversely, when the system follows a uniform distribution where all possible outcomes have equal probability, the entropy is maximized, reflecting minimal knowledge about the system's behavior. Chagas et al. \cite{Chagas2022} have analyzed the asymptotic distribution of Shannon entropy in their study.
-%%% ACF Again, inadequate attribution of work to Chagas et al. (2022) 
+The second cluster (lower right) includes practical applications such as feature extraction, empirical mode decomposition, variational mode decomposition, fault diagnosis, fault detection, and failure analysis, emphasizing the applied relevance of complexity-based time series analysis.
 
-%Shannon entropy $H$, in the distribution of $H(\bm{p})$ indexed by $\widehat{\bm{p}},$ the maximum likelihood estimator of $\bm{p}$. The distribution of $H(\widehat{\bm{p}})$ are defined as follows. 
-%\begin{equation}
-%	H_s(\widehat{\bm{p}})=-\sum_{\ell=1}^{k}\widehat{p_\ell} %\log\widehat{p_\ell}
-%\end{equation} 
+The third cluster (center) comprises terms related to biomedical signal processing and machine learning, including biomedical signal processing, EEG, support vector machine, classification, and machine learning, indicating the multidisciplinary applications of entropy measures.
 
-Moreover, other types of descriptors, such as Rényi entropy\cite{renyi1961measures}, Tsallis entropy\cite{tsallis1988possible}, and Fisher information \cite{frieden2004science}, have been proposed to extract additional information that is not captured by Shannon entropy.
-From these entropy measures, Fisher information has garnered more attention due to its unique properties. Fisher information is defined as the average logarithmic derivative of a continuous probability density function.
+A fourth, smaller cluster (left) includes clinical and physiological study keywords such as clinical article, controlled study, adult, male, female, humans, and physiology.
 
-For discrete probability distributions, Fisher information can be approximated by calculating the differences between probabilities of consecutive distribution elements. A key distinction between Shannon entropy and Fisher information lies in their focus: Shannon entropy quantifies the overall unpredictability of a system, while Fisher information measures the rate of change between consecutive observations, making it more sensitive to small changes and perturbations.
+The conceptual map thus provides further evidence of the diverse applications and theoretical development surrounding ordinal patterns and complexity measures, supporting the originality and relevance of the present research.
 
-The following equations define Tsallis entropy $	(H_{T}^{q}(\widehat{\mathbf{p}}))$, Rényi entropy $(H_{R}^{q}(\widehat{\mathbf{p}}))$, and Fisher information measures $(H_{F}(\widehat{\mathbf{p}}))$ \cite{sanchez2009discrete} :
-\begin{equation}
-	H_{T}^{q}(\widehat{\mathbf{p}})=\sum_{\ell=1}^{k}\dfrac{\widehat{p_\ell}-\widehat{p_\ell}^q}{q-1},
-\end{equation}
-where the index $q\in \mathbb{R}\backslash \{1\}$
-\begin{equation}
-	H_{R}^{q}(\widehat{\mathbf{p}})=\dfrac{1}{1-q} \log \sum_{\ell=1}^{k}{\widehat{p_\ell}}^q,
-\end{equation}
-where the index $q\in \mathbb{R}^{+}\backslash \{1\}$
-\begin{equation}
-	H_F(\widehat{\mathbf{p}})=F_0\sum_{\ell=1}^{k-1}(\sqrt{\widehat{p_\ell}_{+1}}-\sqrt{\widehat{p_\ell}})^2 ,
-\end{equation}
-where the re-normalization coefficient is $F_0=4$ \cite{sanchez2009discrete}
+%\textcolor{red}{MAKE YOUR CONCLUSIONS HERE. WHICH TOPICS AND WHY?}
+\subsection{Conclusion and Justification of Research Focus}
 
-Rey et al.~\cite{Rey2023} investigated the asymptotic distribution of several entropy measures, including Shannon, Tsallis, Rényi entropy, and Fisher information, and provided the following formulation:
+Based on the thematic map and factorial analysis, research topics are categorized into four clusters and we will structure our review of the literature based on this clusters:
 
-Let  $\mathbf{Z}\sim N(\mathbf{\mu},\sum),$ be a $k-$dimensional multivariate normal distribution with mean vector $\mu \in \mathbb{R}^k$ and covariance matrix $\sum=(\sigma_{{\ell}{j}})$. Then, for any $\mathbf{a} \in \mathbb{R}^k,$ the linear combination $W=\mathbf{a}^T\mathbf{Z},$ is normally distributed as:
-\begin{equation}
-	W\sim N(\mathbf{a}^T\bm{\mu},\sum_{\ell=1}^{k}a_\ell^2 \sigma_{{\ell}{\ell}}+2\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k} a_\ell a_j\sigma_{{\ell}{j}}).
-\end{equation}
-The estimated Shannon entropy is defined as:
-\begin{equation}
-	H_s(\widehat{\mathbf{p}})=-\sum_{\ell=1}^{k}\widehat{p_\ell}\log\widehat{p_\ell}.
-\end{equation}
-The asymptotic variance $\widehat{\sigma}^2$ of the entropy estimator is given by:
-\begin{equation}
-	\widehat{\sigma}^2=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
-\end{equation}
-These formulas serve as the basis for the subsequent case study in our research.
-
-\section{Asymptotic distribution of Permutation Entropy}\label{Sec:AsymptoticVariance}
-
-As we discussed earlier, real-valued time series $\mathbf{x}=\{x_1,x_2,...,x_{n+D-1}\}$  transform into the series symbols $\mathbf{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$ from sub-sequences of embedding dimension $D$, where we considered $D!=k$. Due to the overlapping of time windows, the ordinal patterns which we calculate are dependent. For $i=1,2,...k$, let $p_i$ be the probability of observing the state $\pi_i$, denote the vector probabilities, $\mathbf{p}={\left\{p_1,p_2,\dots,p_k\right\}}$ and express as $\mathbf{D_p}=\text{Diag}(p_1,p_2, \dots, p_k)$ the diagonal matrix. 
-The transition probability of reaching state $\pi_j$ at time 
-%%% ACF Is this the same \ell as before?
-$t+\ell$ from the state $\pi_i$ at time $t$, for $\ell=1,2,\dots,D-1$, is denoted by $p^{(\ell)}_{ij}$. These transition probabilities can be collected in the matrix $\mathbf{Q}^{(\ell)}$ whose elements are  $p^{(\ell)}_{ij}$. As describe in the Rey et al.~\cite{Rey2023a} when $n$ is sufficiently large, asymptotic variance of the Shannon entropy defined as follows. 
-%\begin{equation}
-	%\sigma^2_{\bm{p}}=\sum_{i=1}^{k}(\bm{\Sigma}_{\bm{p}})_{ii}+2\sum_{i=1}^{k-1}\sum%_{j=i+1}^{k}(\bm{\Sigma}_{\bm{p}})_{ij}=\sum_{i=1}^{k}(\ln p_i+1)^2
-%\times \left[ p_i-(2D-1)p^2_i+2\sum_{\ell=1}^{D-1}\bm{Q}^{(\ell)}_{ii}\right] - %2\sum_{i=1}^{k-1}\sum_{j=i+1}^{k} (\ln p_i+1)(\ln p_j+1) \left[(2D-1)p_i %p_j-\sum_{\ell=1}^{D-1}\left(\bm{Q}^{(\ell)}_{ij}+\bm{Q}^{(\ell)}_{ji}\right)\right].
-%\end{equation}
-
-\begin{equation}
-	\begin{split}
-		\sigma^2_{\mathbf{p}} = & \sum_{i=1}^{k}(\ln p_i + 1)^2 
-		\left[ p_i - (2D - 1)p_i^2 + 2\sum_{\ell=1}^{D-1} \mathbf{Q}^{(\ell)}_{ii} \right] \\
-		& - 2 \sum_{i=1}^{k-1} \sum_{j=i+1}^{k} (\ln p_i + 1)(\ln p_j + 1) \\
-		& \quad \times \left[ (2D - 1)p_i p_j - \sum_{\ell=1}^{D-1} \left( \mathbf{Q}^{(\ell)}_{ij} + \mathbf{Q}^{(\ell)}_{ji} \right) \right].
-	\end{split}
-	\label{eq:asympvar}
-\end{equation} 
-
-Asymptotic variance of the Shannon entropy of ordinal patterns considering their correlation structure is given in Equation~\ref{eq:asympvar}.
-For practical purpose, given $n$ is sufficiently large, we can use $H(\mathbf{p})$ has a normal distribution with mean equal to $H(\widehat{\mathbf{p}})$ and variance equal to $\sigma^2_{\mathbf{p}}/n$. 
-
-In addition to that, for $\alpha\in(0,1)$ and $n$ sufficiently large, the $(1-\alpha)\SI{100}{\percent}$ confidence interval of $H(\mathbf{p})$ is given by, 
-\begin{equation}
-  H(\widehat{\mathbf{p}})\pm \dfrac{Z_{\alpha/2}\sigma_{\mathbf{p}}}{\sqrt{n}},
-  \label{eq:ConfidenceInterval}
-\end{equation} 
-where $Z_{\alpha/2}$ is the $\alpha/2$-quantile of a standard normal random variable.
-
-For convenience, Equation~\ref{eq:ConfidenceInterval} is referred to and defined as follows.
-\begin{equation}
-	H(\widehat{\mathbf{p}})\pm \textbf{Semi Length},
-	\label{eq:CI}
-\end{equation} 
-where $\textbf{Semi Length}=\dfrac{Z_{\alpha/2}\sigma_{\mathbf{p}}}{\sqrt{n}}$
-
-\section{Case Study of Asymptotic Distribution of the Shannon Entropy} \label{Sec:CaseStudy} 
-
-Statistical complexity is defined as the product of two normalized quantities:
 \begin{itemize}
-	\item The Shannon entropy,
-	\item The Jensen-Shannon distance between the observed probability distribution and the uniform distribution. 
+	\item Permutation entropy, Complexity and other types of Entropy (section~\ref{Sec:ReviewTopicPE});
+	\item EEG and Machine learning approach (section~\ref{Sec:ReviewTopicEEG});
+	\item Fault diagnosis and failure analysis (section~\ref{Sec:ReviewTopicFault});
+	\item Chaos other research works (section~\ref{Sec:ReviewTopicOthers});
+	%\item Image encryption  (section~\ref{Sec:ReviewTopicImage}).
 \end{itemize}
 
-In this section we discuss two key aspects with real world scenario:
-\begin{enumerate}
-	\item \textbf{Significance of Asymptotic Distributions}: Why understanding large-sample behavior matters for statistical inference,
-%	\item \textbf{Multinomial Model Framework}: Derivation of the asymptotic distribution for statistical complexity under Multinomial assumptions
-	\item \textbf{Practical Formula}: A working equation for calculating the asymptotic distribution of complexity.
-\end{enumerate}
+\section{Permutation entropy, Complexity and other types of Entropy}\label{Sec:ReviewTopicPE}
+This cluster is associated with the keywords time series analysis, statistical complexity, nonlinear dynamics, ordinal patterns, entropy, and information theory. Although ordinal pattern based research have gained wide recognition as powerful tools for nonlinear time series analysis, with applications ranging from biomedical signal processing to cyber-physical systems, their theoretical and practical challenges remain unsolved \cite{Keller2017, Zanin2012}. 
 
-As a case study for our work, we consider data from the Bearing Data Center and the seeded fault test data from Case Western Reserve University, School of Engineering. The datasets includes ball bearing test data for normal bearings as well as single-point defects on the fan end and drive end. Data were collected at a rate of $48,000 (48k$ drive-end) data points per second during bearing tests. Each file contains motor loads $(0, 1, 2,$ and $3)$, drive-end vibration data, and fan-end vibration data. The approximate motor speeds in RPM during testing: $1797, 1772, 1750,$ and $1730$. For our case study, we consider two time series (Normal Baseline and $48k$ Drive-End) with a motor load of $0$ and an RPM of $1797$. 
+Li et.al.~\cite{Li2015e} asses the complexity of short-term heartbeat interval series by using distribution entropy. They found that sample entropy (SampEn) or fuzzy entropy (FuzzyEn) quantifies essentially the randomness, which may not be uniformly identical to complexity. Zhang et.al.~\cite{Zhang2018d} uses the ordinal pattern technique to analyze dynamic behaviors such as regular, chaotic, or random patterns. The paper highlights the application of ordinal patterns in various fields, including ecology, finance, and physiology, where assessing variability and complexity is essential. It also emphasizes the advantages of using ordinal models to identify structural differences in time series that may not be detectable through traditional statistical methods.
 
-The primary objective of this study is to detect malfunctioning machinery by analyzing two time series using ordinal patterns. We introduce a distance metric based on the ordinal structure of the segments to quantify similarity. This metric facilitates the identification of faulty machines across various embedding dimensions, ranging from $3$ to $6$. For this case study, we employ an embedding dimension of $3$ for convenience; subsequent analyses will extend to the remaining dimensions to compare results. Permutation entropy under asymptotic conditions is computed by considering the probability distribution of ordinal patterns. The results are further analyzed using the complexity–entropy plane, providing insights into the system's dynamics.
-
-Initially, we analyzed complete datasets from two time series: one comprising 250,000 data points representing the normal baseline at motor load 0, and another containing 2,540,000 data points from the 48k drive end under the same motor load. We computed the entropy and complexity measures for these entire datasets, followed by the calculation of the asymptotic variance as defined in Section~\ref{Sec:AsymptoticVariance}. This asymptotic variance was then used to determine the confidence interval for entropy (Equation is defined in~\ref{eq:ConfidenceInterval}). The calculation of the semi-length of the interval is given by Equation~\ref{eq:CI}. The final results are presented in Table~\ref{tab:EnComplexResults}.
+Several studies have formalized the statistical behaviour of entropy and complexity measures derived from ordinal patterns, and have provided insights into their asymptotic distribution~\cite{Rey2024, Rey2023a} and sensitivity under the Multinomial law~\cite{Rey2023}. Despite these advances, the reliability of these measures in finite sampling conditions, in particular in non-stationary and noisy environments, remains limited~\cite{Borges2023}. 
 
 
-\begin{table}[H]
-	\centering
-	\begin{tabular}{llcr}
-		\toprule
-		Entropy  & Complexity  & $\sigma_{\bm{p}}$ & Semi Length \\
-		\midrule
-		$0.665235$ & $0.226447$ & $0.358893$ & $0.000441$\\ 
-		$0.772973$ & $0.170954$ & $0.324376$ & $0.001287$\\
-		\bottomrule
-	\end{tabular}
-	\caption{Entropy Complexity Results}
-	\label{tab:EnComplexResults}
-\end{table}
+Applications such as  Internet of Things(IoT) botnet detection~\cite{Borges2023} and  synthetic aperture radar(SAR) structure classification~\cite{Chagas2021a} have demonstrated the discriminability of ordinal-based features, particularly when combined with multiscale analysis; however, these methods often depend on the optimisation of parameters (dimension, delay) and may lack generalizability to a wide range of data. Similarly, the integration of entropy-complexity representations of class separation in time series dynamics~\cite{Borges2022}, although effective in a structured environment, poses problems when extended to real-time or data-scarce scenarios. 
+%Data scarcity refers to the situation where there is insufficient data to meet the requirements of a system, particularly in enhancing the accuracy of predictive analytics.
 
-Subsequently, we segmented the data into batches of $10,000$ points, categorizing them as either `Normal` or `48k Drive End`. We then performed a batch wise comparison of entropy and complexity metrics to identify fault data segments. 
-The normal dataset comprises $25$ batches, all corresponding to motor load $0$, while the $48k$ drive end dataset includes $254$ batches. Due to the extensive volume of entropy and complexity data generated, the complete results table is not included in this report. However, the entropy–complexity plane effectively illustrates both batch-wise and full-data analyses. As depicted in Figure \ref{fig:EntopyComplexity Plane} below, faulty machines form a distinct cluster in the entropy–complexity plane, highlighting their deviation from normal operational patterns. 
-It is clear from the graph that there are both overlapping and non-overlapping confidence intervals. This indicates that some machines differ significantly, while others do not. The main purpose of our experiment is to identify faulty machines. Therefore, we highly recommend extending these results by increasing the embedding dimension to better understand the final outcomes. The general framework of this experiment is also provided in this chapter to clarify the main objective of the research.
+The conceptual works linking ordinal complexity to broader ideas, such as the technological singularity~\cite{Modis2022} and the development of artistic expression ~\cite{Sigaki2018} illustrate the richness of the framework, but these studies are often qualitative and lack empirical rigour. 
 
-\begin{figure}[hbt]
-	\centering
-	\includegraphics[width=0.8 \textwidth]{confidence_interval}
-	\caption{Entropy Complexity Plane}
-	\label{fig:EntopyComplexity Plane}
-\end{figure}
+Entropy-based clustering techniques have revealed evolving efficiency patterns in cryptocurrency markets~\cite{Sigaki2019}. The reliance on sensitive parameters and lack of standardized benchmarks highlight the need for more robust and interpretable methods to track market maturation reliably.
 
-The general framework for analyzing entropy-complexity planes with confidence intervals are given as follows.
-\begin{enumerate}
-	\item \textbf{Calculate Entropy (H) and Complexity (C):} 
-	appropriate estimator are Shannon entropy, statistical complexity measures 
-	\item \textbf{Compute Confidence Intervals:}
-	Generate multiple resampled datasets to estimate the variance of $H$ and $C$.
-	\item \textbf{Plot on Entropy-Complexity Plane:}
-	\begin{itemize}
-		\item Axes:x-axis: Entropy $(H)$, y-axis: Statistical complexity $(C)$
-		\item Data Points: Plot individual or aggregated results.
-		\item Confidence Regions: Represent uncertainty 
-	\end{itemize}
+Moreover, white noise testing using entropy-complexity plane~\cite{Chagas2022a} and the use of ordinal properties in compressor signal diagnostics~\cite{Barbosa2024} demonstrate the methodological versatility of ordinal approaches. , the lack of uniform and reliable reference points prevents cross-domain comparison. Therefore, while ordinal methods provide a mathematically elegant and computationally efficient basis for obtaining information from complex signals, further research is needed to improve their statistical robustness, interpretability and adaptability to the challenges of the real world.
+
+Although ordinal patterns are widely used in time series analysis, particularly in deriving entropy measures, studying their asymptotic distribution under the multinomial law, and analyzing the behavior of permutation entropy, their integration with confidence intervals remains widely unexplored. A systematic literature review reveals that while many studies investigate the statistical properties, asymptotic behavior, and robustness of ordinal pattern-based measures, no work has addressed the derivation or application of confidence intervals to assess the reliability or significance of time series clustering. This lack of statistical property limits interpretability and inference, especially when ordinal patterns are applied in data-driven algorithms. Therefore, this study aims to fill this gap by investigating how confidence intervals can be constructed for Shannon, Tsallis, and Renyi entropies, Fisher information measure, complexities, and how they may enhance time series clustering.
+%%% ACF Do you need to describe again what the method is?
+%Zanin et.al.~\cite{Zanin2012}  discuss the development and applications of permutation entropy, a method that captures the temporal structure and complexity of time series by analyzing the order relations among data points. 
+%%% ACF Who is "He"?
+%He focuses solely on probability distributions, permutation entropy incorporates temporal dynamics, making it particularly effective for studying chaotic and complex systems. 
+
+\section{EEG and Machine learning approach}\label{Sec:ReviewTopicEEG}
+
+%%% ACF Are EEG, epilepsy etc. "applications of entropy measures"?
+This cluster is based on multidisciplinary studies involving entropy measures applied to areas such as EEG, epilepsy, classification, heart rate variability, deep learning methods, and nonlinear analysis. An analysis of the author keywords indicates that many of these studies are centered on applications in biomedical signal processing. 
+%%% ACF Make the citation
+Acharya et al. ~\cite{Acharya2015a, Acharya2015, Acharya2017, Acharya2016, Acharya2019,  Acharya2017a, Acharya2018} have made significant contributions to biomedical signal processing by developing and evaluating advanced automated diagnostic tools across a wide range of clinical applications. Their work includes the use of entropy measures to detect epilepsy and heart disease from EEG and ECG signals, as well as the use of nonlinear dynamics to enhance the detection of sleep stages and the characterisation of focal EEG signals. In the cardiovascular field, they have performed comparative studies on the localization of myocardial infarction using various ECG leads and have developed empirical decomposition methods to identify congestive heart failure from cardiac
+%%% ACF Sort them so they appear in a sequence
+signals. Another study by Lajnef et.al.~\cite{Lajnef2015} revealed that an automated approach to the classification of sleep stages using a multi-class support vector machine (SVM) based decision tree approach. The proposed method uses physiological signals (such as EEG, EOG, and EMG) to effectively classify the different stages of sleep.
+
+\section{Fault diagnosis and failure analysis}\label{Sec:ReviewTopicFault}
+This section primarily relates to the engineering applications of complexity-based time series analysis. The author keywords most commonly used to categorize this cluster include fault diagnosis, feature extraction, rolling bearing, support vector machine, variational mode decomposition, multiscale permutation entropy, dispersion entropy, rotating machinery, and empirical mode decomposition. 
+
+Recent studies in bearing fault diagnosis often use entropy-based methods. Multiscale permutation entropy (MPE) and dispersion entropy are two popular techniques. These methods help detect complex changes in signals under different working conditions. For example, using variational mode decomposition with weighted entropy features helps extract useful information from non-stationary vibration signals. This improves how well faults can be classified~\cite{Lei2024a}. The weighted multiscale entropy method also works well by focusing on important frequency parts of the signal~\cite{Minhas2021a}. Self-adaptive hierarchical multiscale fuzzy entropy is also applied in bearing fault diagnosis. It makes fault detection easier without needing many manual settings~\cite{Yan2021}.  Composite multiscale fluctuation dispersion entropy can detect small fault signs even in noisy signals~\cite{Gan2019}. Some methods combine data decomposition with multiscale permutation entropy to better handle complex, changing systems~\cite{Yasir2018}. These improved entropy methods are also used in medical signal analysis, such as ECG or EEG, showing they work in other areas~\cite{Azami2017, HumeauHeurtier2015}. Dispersion entropy is known for being fast and good at finding small signal changes~\cite{Rostaghi2019,Rostaghi2016}, whereas multiscale permutation entropy still has issues. It can be affected by the length of the signal, noise, and it can be slow to compute~\cite{HumeauHeurtier2015, Zheng2014c}. Multiscale Permutation Entropy (MPE) with the Natural Visibility Graph (NVG) to enhance the fault diagnosis of rolling bearings by capturing both the dynamic complexity and structural features of time series method is proposed by Ma et.al.~\cite{Ma2025}. However, the method may still face limitations related to computational cost, parameter sensitivity, and the requirement for relatively long and noise-free signals to ensure reliable multiscale analysis.Therefore, more research is needed to make these methods faster, better with noise, and easier to use in different fault diagnosis tasks.
+
+\section{Chaos and Other research works}\label{Sec:ReviewTopicOthers}
+Research works related to chaos, semiconductor lasers, and image encryption are discussed in this category. 
+A self-synchronous chaotic stream cipher, designed to resist active attacks and limit error propagation during image transmission, is a novel technique for image encryption.~\cite{Fan2018}. The 2D discrete wavelet transform, Arnold mapping, and a four-dimensional hyper-chaotic system with positive Lyapunov exponents are used to enhance the security and complexity of the encryption method. The advancement of chaos-based encryption and intelligent video security techniques in modern information systems has been demonstrated through a successful hardware implementation that transforms non-chaotic systems into chaotic ones, significantly enhancing unpredictability for secure communication. In addition, temporal action segmentation for video encryption has been analyzed to optimize computational resources and improve data protection~\cite{Gao2024,Liu2024k}
+%\section{Image Encryption}\label{Sec:ReviewTopicImage}
+
+\section{Statistical Properties of Features from Ordinal Patterns}\label{Sec:StatisitcalProperty}
+
+Although ordinal pattern based methods, such as permutation entropy, have been widely used for nonlinear time series analysis, the statistical properties of the features derived from these patterns, such as their distribution, variance, and confidence intervals remain under-explored and require further theoretical and empirical investigation. Therefore, based on the literature review we investigate the researchers who worked related to ordinal patterns, what kind of statistical properties of features used for their research work. Table~\ref{tab:StatisticalProperties} provides more information about the research articles and the test statistics or distributions they used.
+
+
+\begin{longtable}{|p{5.5cm}|p{2.5cm}|p{6.5cm}|}
+	\caption{The test statistics used by the research articles for hypothesis testing}
+	\label{tab:StatisticalProperties} \\
+	\hline
+	\textbf{Paper Title/Reference} & \textbf{Distribution} & \textbf{Brief Description} \\
+	\hline
+	\endfirsthead
 	
-	\item \textbf{Interpretation}
-	\begin{table}[H]
-		\centering
-		\begin{tabular}{cr}
-			\toprule
-			Region of Plane  & Interpretation  \\
-			\midrule
-			High $H$ and High $C$ & Complex, structured systems \\ 
-			Low $H$ and Low $C$ & Simple, predictable systems \\
-			High $H$ and Low $C$ & Random/noisy systems \\
-			Low $H$ and High $C$ & Non-random systems \\ 
-			\bottomrule
-		\end{tabular}
-	\end{table}
+	\multicolumn{3}{c}%
+	{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+	\hline
+	\textbf{Paper Title/Reference} & \textbf{Distribution} & \textbf{Brief Description} \\
+	\hline
+	\endhead
 	
-	\item \textbf{Statistical testing:}
-	\begin{itemize}
-		\item Compare confidence intervals between groups to assess significant differences.
-		\item Overlapping intervals $\rightarrow$ {No significant difference}.
-		\item Non-overlapping intervals $\rightarrow$ Potential significance.
-	\end{itemize}
-\end{enumerate}
+	\hline \multicolumn{3}{r}{{Continued on next page}} \\
+	\endfoot
+	
+	\hline
+	\endlastfoot
+	
+	A non-parametric independence test using permutation entropy. Matilla-García et.al.~\cite{MatillaGarcia2008} & Empirical (permutation) distribution & Tests independence by comparing the observed permutation entropy-based statistic to its distribution under random shuffling (permutation) of the time series.\\
+	\hline
+	Asymptotic distribution of certain types of entropy under the multinomial law. Rey at.at.~\cite{Rey2023} & Normal, Chi-squared ($\chi^2$) & Analyzes the asymptotic distribution (normal and chi-squared) of entropy estimators under the multinomial law. \\
+	\hline
+	Asymptotic distribution of entropies and Fisher information measure of ordinal patterns with applications. Reyet.al.~\cite{Rey2024} & Normal, Chi-squared ($\chi^2$) & Provides asymptotic distributions for entropy and Fisher information measures of ordinal patterns. \\
+	\hline
+	Asymptotic distribution of the permutation entropy. Rey at.al.~\cite{Rey2023a} & Normal & Derives the asymptotic normal distribution for permutation entropy estimators. \\
+	\hline
+	Asymptotic distribution of the statistical complexity under the multinomial law. Rey at.al.~\cite{Rey2025} & Normal, Chi-squared ($\chi^2$) & Studies the asymptotic distribution of statistical complexity measures derived from ordinal patterns under the multinomial law. \\
+	\hline
+	Assessing serial dependence in ordinal patterns processes using chi-squared tests with application to EEG data. Yamashita et.al.~\cite{YamashitaRiosDeSousa2022} & Chi-squared ($\chi^2$) & Applies chi-squared tests to assess serial dependence in ordinal pattern processes, with application to EEG data. \\
+	\hline
+	Bearing fault diagnosis based on Alpha-stable distribution feature extraction and SVM classifier. Chouri et.al.~\cite{Chouri2014} & Alpha-stable & Uses alpha-stable distribution parameters for feature extraction and SVM for classification in bearing fault diagnosis. \\
+	\hline
+	Belief permutation entropy of time series: A natural transition in analytical framework from probability theory to evidence theory. Xie et. al.~\cite{Xie2025} & Belief functions, Evidence theory basis & Introduces belief permutation entropy (BPE) using evidence theory (belief functions and mass assignments) and Deng entropy instead of classical probability distributions. \\
+	\hline
+	Markov modeling via ordinal partitions: An alternative paradigm for network-based time-series analysis. Sakellariou et.al.~\cite{Sakellariou2019} & Markov (transition) probabilities & Uses Markov models constructed from ordinal partitions to analyze time series as networks. \\
+	\hline
+	On the statistical properties of Multiscale Permutation Entropy: Characterization of the estimator's variance. Dávalos et.al.~\cite{Davalos2019a} & Normal (asymptotic) & Shows that the multiscale permutation entropy estimator is asymptotically normally distributed, allowing inference on variance.\\
+	\hline
+	Price predictability at ultra high frequency:Entropy based randomness test. Shternshis et.al.~\cite{Shternshis2025}& Chi-squared ($\chi^2$) & Proposes a randomness test for time series based on entropy, with asymptotic chi-squared distribution for the test statistic. \\
+	\hline
+	Statistical properties of the entropy from ordinal patterns. Chagas et.al.~\cite{Chagas2022} & Normal & Investigates statistical properties and asymptotic normality of entropy estimators from ordinal patterns. \\
+	\hline
+	The asymptotic distribution of the permutation entropy. Rey at.al.~\cite{Rey2023a} & Normal & Derives the asymptotic normal distribution for permutation entropy estimators. \\
+	\hline
+	The modified permutation entropy-based independence test of time series. Ashtari et.al.~\cite{AshtariNezhad2019} & Empirical (permutation) distribution & Tests independence by comparing the observed permutation entropy-based statistic to its distribution under random shuffling (permutation) of the time series.\\
+	\hline
+	White Noise Test from ordinal patterns in the entropy-complexity plane. Chagas et.al.~\cite{Chagas2022a} & Empirical Distribution & Used in white noise tests by repeatedly shuffling the time series to estimate the null distribution of the test statistic.\\
+	\hline
+	 Variance of entropy for testing time-varying regimes with an application to meme stocks Shternshis et.al.~\cite{Shternshis2024} & Chi-squared ($\chi^2$) & Introduces a rigorous hypothesis testing framework featuring an unbiased analytic approximation of sample Shannon entropy’s variance and an optimal rolling-window selection method.\\
+	\hline
+	
+\end{longtable}
+
+
 
 
 
