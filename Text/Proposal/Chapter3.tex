@@ -191,55 +191,253 @@ Example for the entropy complexity plane is shown in Figure \ref{fig:complexity}
 	\label{fig:tentimeseries}
 \end{figure}
 
-\section{Asymptotic Distribution of the permutation entropy}
-Ordinal patterns are a robust symbolic transformation method that enables the unveiling of latent dynamics in time series data. This approach involves constructing histograms of patterns and calculating both entropy and statistical complexity. Based on the literature, determining the exact distribution of features derived from ordinal patterns is challenging; therefore, researchers have extensively investigated this distribution and its related statistical properties. Two types of statistical distributions are discussed in the literature:
-\begin{enumerate}
-	\item Empirical distribution
-	\item Asymptotic distribution
-\end{enumerate}
+\section{Asymptotic Distribution of the permutation entropy}\label{Sec:AsymptoticDistribution}
+Ordinal patterns are a robust symbolic transformation method that enables the unveiling of latent dynamics in time series data. This approach involves constructing histograms of patterns and calculating both entropy and statistical complexity. According to the literature, determining the exact distribution of features derived from ordinal patterns is challenging; therefore, researchers have extensively investigated this distribution and its related statistical properties. Two types of statistical distributions are discussed in the literature: the empirical distribution and the asymptotic distribution.
 
-\subsection{Empirical distribution}
-With knowledge of the expected variability of entropy and complexity, it is possible to perform hypothesis tests for a wide variety of models according to the underlying dynamics. Results in this direction can be found in the literature~\cite{Chagas2022a, DeMicco2008, Larrondo2005, Larrondo2006}. In this approach, researchers construct empirical distributions directly from observed data, which reflect the actual frequencies of patterns or outcomes.
+The empirical distribution is used in conjunction with knowledge of the expected variability of entropy and complexity, allowing hypothesis tests to be performed for a wide variety of models according to the underlying dynamics. Results in this direction can be found in the literature~\cite{Chagas2022a, DeMicco2008, Larrondo2005, Larrondo2006}. In this approach, researchers construct empirical distributions directly from observed data, which reflect the actual frequencies of patterns or outcomes.
 
+Furthermore, two types of asymptotic distributions are discussed: the first assumes that patterns are independent and identically distributed (multinomial model), while the second accounts for dependent patterns.
 
-\section {Asymptotic Distribution of the Shannon Entropy under the Multinomial Model} \label{Sec:AsymptoticDistribution}
+\subsection {Asymptotic Distribution of the Shannon Entropy under the Multinomial Model}\label{Subsec:Multinomial} 
 
-The Multinomial distribution describes how observations fall into categories when an adequate model is available. It is similar to the Multivariate normal distribution, which is one of the continuous Multivariate distributions. Furthermore, it has received considerable attention from researchers, both in theoretical studies and in applications related to discrete Multivariate distributions. 
-The normalized Shannon entropy, often employed in applications like permutation entropy, can be rigorously connected to its asymptotic distribution through the lens of statistical estimation theory. When estimating entropy from finite data, the plug-in estimator (computed directly from observed frequencies) converges to a normal distribution as the sample size $N\longrightarrow \infty$ even for dependent processes such as Markov chains. 
+%The Multinomial distribution describes how observations fall into categories when an adequate model is available. It is similar to the Multivariate normal distribution, which is one of the continuous Multivariate distributions. Furthermore, it has received considerable attention from researchers, both in theoretical studies and in applications related to discrete Multivariate distributions. 
+%The normalized Shannon entropy, often employed in applications like permutation entropy, can be rigorously connected to its asymptotic distribution through the lens of statistical estimation theory. When estimating entropy from finite data, the plug-in estimator (computed directly from observed frequencies) converges to a normal distribution as the sample size $N\longrightarrow \infty$ even for dependent processes such as Markov chains. 
 %%This asymptotic normality, demonstrated by Martin et al~\cite{M} 
 %%% ACF Check the correct author/reference above
 %%and Chagas et al~\cite{Chagas2022}, ensures that the estimator’s fluctuations around the true entropy value are Gaussian-distributed, with variance and bias determined by the underlying system’s dynamics. 
-The Statistical properties of entropy measures under Multinomial distributions are crucial for analyzing complex systems where entropy serves as a key descriptors. Rey at al~\cite{Rey2023} investigate the asymptotic distributions of various entropy measures specifically, the Rényi and Tsallis entropies of order $q$, as well as Fisher information when these are computed using maximum likelihood estimators of probabilities from Multinomial random samples. The authors demonstrate that the Tsallis entropy and Fisher information asymptotically follow a normal distribution, whereas the Rényi entropy does not exhibit asymptotic normality. Through simulation studies, the paper validates that these asymptotic models effectively describe a variety of data scenarios. Additionally, the study introduces test statistics for comparing different types of entropies derived from two samples, even when the samples have differing numbers of categories. An application of these tests to social survey data indicates that the results are consistent and offer a more general approach compared to traditional chi-squared tests. 
+%The Statistical properties of entropy measures under Multinomial distributions are crucial for analyzing complex systems where entropy serves as a key descriptors. Rey at al~\cite{Rey2023} investigate the asymptotic distributions of various entropy measures specifically, the Rényi and Tsallis entropies of order $q$, as well as Fisher information when these are computed using maximum likelihood estimators of probabilities from Multinomial random samples. The authors demonstrate that the Tsallis entropy and Fisher information asymptotically follow a normal distribution, whereas the Rényi entropy does not exhibit asymptotic normality. Through simulation studies, the paper validates that these asymptotic models effectively describe a variety of data scenarios. Additionally, the study introduces test statistics for comparing different types of entropies derived from two samples, even when the samples have differing numbers of categories. An application of these tests to social survey data indicates that the results are consistent and offer a more general approach compared to traditional chi-squared tests. 
 
 
-In a subsequent study, Rey et al \cite{Rey2025} focus on the statistical complexity measure defined as the product of normalized Shannon entropy and the Normalized Jensen-Shannon divergence between a given probability distribution and the uniform distribution. 
-They derive the asymptotic distribution of this complexity measure under the assumption that the observed data follow a Multinomial distribution. Further the study demonstrates that, as the sample size increases, the distribution of the statistical complexity converges to a normal distribution, with its variance and bias determined by the dynamics of the underlying system. This result provides a theoretical foundation for using statistical complexity as a tool for analyzing systems where the probability distributions are estimated from finite samples. The results are validated with theoretical findings through numerical experiments, showing that the asymptotic normality holds even in scenarios where the Multinomial model is not strictly applicable, such as in applications involving Bandt and Pompe ordinal patterns. 
+%In a subsequent study, Rey et al \cite{Rey2025} focus on the statistical complexity measure defined as the product of normalized Shannon entropy and the Normalized Jensen-Shannon divergence between a given probability distribution and the uniform distribution. 
+%They derive the asymptotic distribution of this complexity measure under the assumption that the observed data follow a Multinomial distribution. Further the study demonstrates that, as the sample size increases, the distribution of the statistical complexity converges to a normal distribution, with its variance and bias determined by the dynamics of the underlying system. This result provides a theoretical foundation for using statistical complexity as a tool for analyzing systems where the probability distributions are estimated from finite samples. The results are validated with theoretical findings through numerical experiments, showing that the asymptotic normality holds even in scenarios where the Multinomial model is not strictly applicable, such as in applications involving Bandt and Pompe ordinal patterns. 
 
-Crucially, the convergence rate and limiting distribution depend on the system’s correlation structure, which deviates from the standard Multinomial case. However, they remain tractable through spectral analysis, which involves examining the eigenvalues and eigenvectors of the transition matrix or the distributions of ordinal patterns \cite{Chagas2022,PhysRevE.103.022215}. 
+%Crucially, the convergence rate and limiting distribution depend on the system’s correlation structure, which deviates from the standard Multinomial case. However, they remain tractable through spectral analysis, which involves examining the eigenvalues and eigenvectors of the transition matrix or the distributions of ordinal patterns \cite{Chagas2022,PhysRevE.103.022215}. 
 %%% ACF I don't recall that we mentioned "eigenvalues and eigenvectors of the transition matrix" in Chagas et al. (2022). Please be very careful when making such assertions.
-This connection underscores the reliability of normalized entropy measures in large data regimes while highlighting the need to account for dependence structures in finite sample applications.
+%This connection underscores the reliability of normalized entropy measures in large data regimes while highlighting the need to account for dependence structures in finite sample applications.
 
 
-Imagine a sequence of $n$ independent trials, each resulting in precisely one outcome from a set of $k$ distinct possibilities labeled $\pi^1,\pi^2, \dots, \pi^k$ and so on. These outcomes are mutually exclusive, meaning only one can occur per trial, with respective probabilities $\mathbf{p}={\left\{p_1,p_2,\dots,p_k\right\}}$, such that $p_\ell \geq 0$ and $\sum^{k}_{\ell=1} {p_\ell =1}.$ The random vector $\mathbf{N}=(N_1,N_2,\dots, N_k)$ counts the number of occurrences of the events $\pi^1,\pi^2, \dots, \pi^k$ in the $n$ trials, with $N_\ell \geq0$ and $\sum^{k}_{\ell=1} {N_\ell =n}.$ A $\mathbf{n}$ is a sample from $\mathbf{N}$ and it has a $k-$variate vector of integer values $\mathbf{n}=(n_1,n_2,\dots,n_k).$ Then the joint distribution of $\mathbf{N}$ is 
-\begin{equation}
-	Pr(\mathbf{N=n})=Pr(N_1=n_1,N_2=n_2, \dots,N_k=n_k)=n!\prod_{\ell=1}^{k}\frac{{p_\ell}^{n_\ell}}{n_\ell !}.
-\end{equation}   
-
-This situation is denoted as $\mathbf{N}\sim \text{Mult}(n,\mathbf{p}).$ \cite{Rey2023}
-
-
-In practical applications, the true probability distribution $\mathbf{p}$ governing a Multinomial system is typically unknown. 
-%%% ACF As previously pointed many times, do not change the notation. You used \ell (correct), and then l (incorrect)
-Instead, estimators $\widehat{p}_\ell,$ are derived empirically by calculating the observed frequency of each event $\pi^l$ within the set of $k$ possible outcomes $\mathbf{\pi}=\pi^1,\pi^2, \dots, \pi^k$  across $n$ independent trials. These frequencies approximate the underlying probabilities, enabling inference about the system’s behavior. This maximum likelihood estimator (MLE) aligns with the empirical estimator derived from first-moment matching of the distribution. Due to its consistency, asymptotic normality, and computational tractability under regularity conditions, it remains the predominant choice in applied statistical modeling.
-
-Shannon entropy quantifies the level of disorder within a system. When the system's behavior is entirely predictable, the Shannon entropy reaches its minimum, indicating complete knowledge of future observations. Conversely, when the system follows a uniform distribution where all possible outcomes have equal probability, the entropy is maximized, reflecting minimal knowledge about the system's behavior. Chagas et al. \cite{Chagas2022} have analyzed the asymptotic distribution of Shannon entropy in their study.
-%%% ACF Again, inadequate attribution of work to Chagas et al. (2022) 
-
-%Shannon entropy $H$, in the distribution of $H(\bm{p})$ indexed by $\widehat{\bm{p}},$ the maximum likelihood estimator of $\bm{p}$. The distribution of $H(\widehat{\bm{p}})$ are defined as follows. 
+%Imagine a sequence of $n$ independent trials, each resulting in precisely one outcome from a set of $k$ distinct possibilities labeled $\pi^1,\pi^2, \dots, \pi^k$ and so on. These outcomes are mutually exclusive, meaning only one can occur per trial, with respective probabilities $\mathbf{p}={\left\{p_1,p_2,\dots,p_k\right\}}$, such that $p_\ell \geq 0$ and $\sum^{k}_{\ell=1} {p_\ell =1}.$ The random vector $\mathbf{N}=(N_1,N_2,\dots, N_k)$ counts the number of occurrences of the events $\pi^1,\pi^2, \dots, \pi^k$ in the $n$ trials, with $N_\ell \geq0$ and $\sum^{k}_{\ell=1} {N_\ell =n}.$ A $\mathbf{n}$ is a sample from $\mathbf{N}$ and it has a $k-$variate vector of integer values $\mathbf{n}=(n_1,n_2,\dots,n_k).$ Then the joint distribution of $\mathbf{N}$ is 
 %\begin{equation}
-%	H_s(\widehat{\bm{p}})=-\sum_{\ell=1}^{k}\widehat{p_\ell} %\log\widehat{p_\ell}
+%	Pr(\mathbf{N=n})=Pr(N_1=n_1,N_2=n_2, \dots,N_k=n_k)=n!\prod_{\ell=1}^{k}\frac{{p_\ell}^{n_\ell}}{n_\ell !},
+%\end{equation}   
+
+%where $n_{\ell}\geq 0$ and $\sum_{\ell=1}^{k}n_{\ell}=n.$ This situation is denoted as $\mathbf{N}\sim \text{Mult}(n,\mathbf{p}),$ with $\mathbf{p}=(p_1,p_2,\dots,p_k)$ \cite{Chagas2022, Rey2023}.
+
+%Under the conditions for applying the Bandt and Pompe technique, it is required that the sample size $n$ be sufficiently large, with $n\gg k$.
+
+%Consider the random vector $\mathbf{N}\sim \text{Mult}(n,\mathbf{p}),$. Its first and second-order statistics (mean, variance, covariance, and correlation) are
+%\begin{equation}
+%	E(N_{\ell})=np_{\ell},
 %\end{equation} 
 
+%\begin{equation}
+%	Var(N_{\ell})=np_{\ell}(1-p_{\ell}),
+%\end{equation}
+
+%\begin{equation}
+%	Cov(N_{\ell},N_j)=-np_{\ell}p_j,
+%\end{equation}
+
+%\begin{equation}
+%	\rho(N_{\ell},N_j)=\sqrt{\dfrac {p_{\ell}p_j}{(1-p_{\ell})(1-p_j)}},
+%\end{equation}
+%for every $1\leq \ell, j\leq k.   $
+%In practical applications, the true probability distribution $\mathbf{p}$ governing a Multinomial system is typically unknown. 
+%%% ACF As previously pointed many times, do not change the notation. You used \ell (correct), and then l (incorrect)
+%Instead, estimators $\widehat{p}_\ell,$ are derived empirically by calculating the observed frequency of each event $\pi^l$ within the set of $k$ possible outcomes $\mathbf{\pi}=\pi^1,\pi^2, \dots, \pi^k$  across $n$ independent trials. These frequencies approximate the underlying probabilities, enabling inference about the system’s behavior. This maximum likelihood estimator (MLE) aligns with the empirical estimator derived from first-moment matching of the distribution. Due to its consistency, asymptotic normality, and computational tractability under regularity conditions, it remains the predominant choice in applied statistical modeling.
+
+%The maximum likelihood (ML) estimator of $p_{\ell}$ is the relative frequency  $\widehat{p_{\ell}}=N_{\ell}/n, 1\leq \ell \leq k,$ and the distribution of $n \widehat{\mathbf{p}}$ follows $\text{Mult}(n,\mathbf{p})$. From the general properties of ML estimators, if  $\mathbf{\widehat{p}}$ is the ML estimator of $\mathbf{p}$, then for any function $g(\mathbf{p})$, the ML estimator of $g(\mathbf{p})$, denoted $\widehat g({\mathbf{p}}),$ is given by $g(\widehat{\mathbf{p}}).$ This property can be applied to derive the asymptotic distribution of Shannon's entropy.   
+
+%Shannon entropy quantifies the level of disorder within a system. When the system's behavior is entirely predictable, the Shannon entropy reaches its minimum, indicating complete knowledge of future observations. Conversely, when the system follows a uniform distribution where all possible outcomes have equal probability, the entropy is maximized, reflecting minimal knowledge about the system's behavior. Chagas et al. \cite{Chagas2022} have analyzed the asymptotic distribution of Shannon entropy in their study.
+
+
+%Rey et al.~\cite{Rey2023} investigated the asymptotic distribution of the estimators defined above, and provided the following formulation.
+
+%Let  $\mathbf{Z}\sim N(\mathbf{\mu},\sum),$ be a $k-$dimensional multivariate normal distribution with mean vector $\mu \in \mathbb{R}^k$ and covariance matrix $\sum=(\sigma_{{\ell}{j}})$. Then, for any $\mathbf{a} \in \mathbb{R}^k,$ the linear combination $W=\mathbf{a}^T\mathbf{Z},$ is normally distributed as:
+%\begin{equation}
+%	W\sim N\Big(\mathbf{a}^T\bm{\mu},\sum_{\ell=1}^{k}a_\ell^2 \sigma_{{\ell}{\ell}}+2\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k} a_\ell a_j\sigma_{{\ell}{j}}\Big).
+%\end{equation}
+%The estimated Shannon entropy is defined as:
+%\begin{equation}
+%	H_s(\widehat{\mathbf{p}})=-\sum_{\ell=1}^{k}\widehat{p_\ell}\log\widehat{p_\ell}.
+%\end{equation}
+%The asymptotic variance $\widehat{\sigma}^2$ of the entropy estimator is given by:
+%\begin{equation}
+%	\widehat{\sigma}^2=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
+%\end{equation}
+%These formulas serve as the basis for the subsequent case study in our research.
+
+The multinomial distribution models counts of observations in $k$ mutually exclusive categories $\pi^1,\pi^2,\dots,\pi^k$ from $n$ independent trials, with probability vector $\mathbf{p} = (p_1, p_2, \dots, p_k)$, $p_\ell \ge 0$, $\sum_{\ell=1}^k p_\ell = 1$. Let $\mathbf{N} = (N_1, \dots, N_k)$ denote category counts, $\sum_{\ell=1}^k N_\ell = n$. Its probability mass function is
+\[
+\Pr(\mathbf{N} = \mathbf{n}) = n! \prod_{\ell=1}^k \frac{p_\ell^{n_\ell}}{n_\ell!}, \quad \mathbf{N} \sim \mathrm{Mult}(n, \mathbf{p}),
+\]
+with moments
+\[
+E(N_\ell) = n p_\ell, \quad
+\mathrm{Var}(N_\ell) = n p_\ell (1-p_\ell), \quad
+\mathrm{Cov}(N_\ell, N_j) = -n p_\ell p_j.
+\]
+
+The maximum likelihood (ML) estimator $\widehat{p}_\ell = N_\ell / n$ satisfies $n\widehat{\mathbf{p}} \sim \mathrm{Mult}(n,\mathbf{p})$. For any smooth function $g(\mathbf{p})$, the plug-in $\widehat{g}(\mathbf{p}) = g(\widehat{\mathbf{p}})$ is also ML, enabling the asymptotic distribution of Shannon entropy
+\begin{equation}
+	H(\mathbf{p}) = -\sum_{\ell=1}^k p_\ell \log p_\ell,
+	\label{eq:AsymEntropy}
+\end{equation}
+to be derived from the asymptotic normality of $\widehat{\mathbf{p}}$ as $n \to \infty$.
+The Shannon's entropy of a multinomial distributed random variable is bounded between 0 and $\ln k$. The minimum is attained when $p_{\ell}=1$ for some $1\leq \ell \leq k$ and $p_j=0$ for every $j\ne \ell$. The expression is maximized by $p_{\ell}=1/k$ for every $1\leq \ell \leq k$.  
+
+Further, asymptotic distribution can be described as follows. Let $X_n=(X_{1n},X_{2n},\dots,X_{kn})$ be a sequence of independent and identical distributed random vectors, with distribution $\text{Mult}(n,\mathbf{p})$. If $\widehat{\mathbf{p}}$ denotes the vector of sample proportions, and 
+
+\[\mathbf{Y}_n=\sqrt{n}(\widehat{\mathbf{p}}-\mathbf{p})\] 
+
+then
+
+\[E(\mathbf{Y}_n)=0,\]
+\[\text{Cov}(\mathbf{Y}_n)=\mathbf{D_p}-\mathbf{pp}^T,\]
+
+where $\mathbf{D_p}=\text{Diag}(p_1,p_2,\dots,p_k)$, and the superscript $T$ denotes transposition. The asymptotic distribution of $\mathbf{Y}_n$ is multivariate normal with mean vector $0$ and covariance matrix $\mathbf{D_p}-\mathbf{pp}^T.$ The notation for this can be shown as follows.
+
+\begin{equation}
+	\mathbf{Y}_n \xrightarrow{\mathscr{D}} N(\mathbf{0}, \mathbf{D_p}-\mathbf{pp}^T).
+	\label{eq:Cov} 
+\end{equation}
+ 
+Our focus is on the statistical properties of $H(\mathbf{p})$ when $\mathbf{p}$ is replaced by its maximum likelihood estimate $\widehat{\mathbf{p}} = (\widehat{p}_1, \widehat{p}_2, \dots, \widehat{p}_k)$. The problem thus reduces to determining the distribution of $H(\widehat{\mathbf{p}})$.
+
+\begin{align}
+	H(\widehat{\mathbf{p}})
+	&= -\sum_{\ell=1}^k \widehat{p}_\ell \log \widehat{p}_\ell \nonumber \\
+	&= -\sum_{\ell=1}^k \frac{N_\ell}{n} \log \frac{N_\ell}{n} \nonumber \\
+	&= \log n - \frac{1}{n} \sum_{\ell=1}^k N_\ell \log N_\ell,
+\end{align}
+under $N=(N_1,N_2,\dots,N_k)\sim \text{Mult}(n,\mathbf{p})$
+
+For the asymptotic distribution case, we refer to the Delta Method theorems and their multivariate version.
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+
+\begin{theorem}[Delta Method, univariate]
+	Let $X_n$ be a sequence of independent and identically distributed random variables such that 
+	$\sqrt{n}(X_n - \theta) \xrightarrow{\mathscr{D}} N(0,\sigma^2)$. 
+	Consider a function $h$ such that $h'(\theta)$ exists and $h'(\theta)\neq 0$. 
+	Then,
+	\[
+	\sqrt{n}\,[h(X_n)-h(\theta)] \xrightarrow{\mathscr{D}} N\!\left(0,\,\sigma^2 [h'(\theta)]^2\right).
+	\]
+\end{theorem}
+
+\begin{theorem}[Delta Method, multivariate]
+	Let $\mathbf{X}_n= (X_{1n}, X_{2n}, \dots, X_{kn})$ be a sequence of independent and identically distributed random vectors such that 
+	\[
+	\sqrt{n}\,(\mathbf{X}_n - \boldsymbol{\theta}) \xrightarrow{\mathscr{D}} N_k(\mathbf{0},\Sigma),
+	\]
+	where $\boldsymbol{\theta} = (\theta_1,\theta_2,\dots,\theta_k)$ and $\Sigma$ is the covariance matrix. 
+	Suppose that $h:\mathbb{R}^k \to \mathbb{R}^m$ is continuously differentiable in a neighborhood of $\boldsymbol{\theta}$, with Jacobian matrix
+	\[
+	B = \left( \frac{\partial h_i}{\partial \theta_j} \right)_{i,j=1}^k,
+	\]
+	which is non-singular at $\boldsymbol{\theta}$. Then,
+	\[
+	\sqrt{n}\,\big(h(\mathbf{X}_n)-h(\boldsymbol{\theta})\big) \xrightarrow{\mathscr{D}} N_m\!\left(\mathbf{0},\, B \Sigma B^T\right).
+	\]
+\end{theorem}
+
+Further, covariance matrix of Equation~\ref{eq:Cov} can be expressed as 
+
+\begin{equation}
+	(\mathbf{D_p}-\mathbf{pp}^T)_{\ell j} =
+	\begin{cases}
+		p_{\ell}(1-p_{\ell}), & \text{if } \ell = j, \\[6pt]
+		-\,p_{\ell}p_{j}, & \text{if } \ell \neq j,
+	\end{cases}
+\end{equation}
+for $1\leq {\ell}, j\leq k.$
+Even for dependent processes (e.g., Markov chains), normalized Shannon entropy converges to a normal distribution with variance determined by the covariance structure of $\widehat{\mathbf{p}}$. 
+%Rey et al.~\cite{Rey2023} showed that Tsallis entropy and Fisher information are asymptotically normal, whereas Rényi entropy is not, and proposed two-sample entropy comparison tests for distributions with unequal category counts. 
+
+Rey et. al.~\cite{Rey2025} derived the asymptotic distribution of statistical complexity, defined as normalized Shannon entropy times normalized Jensen–Shannon divergence from the uniform distribution under the multinomial model. They demonstrated convergence to normality, with variance and bias reflecting the system’s dynamics. Numerical studies confirm robustness even when the multinomial model is approximate, such as in Bandt–Pompe ordinal patterns. 
+
+We refer the asymptotic equation for the mean and variance provided by Rey et. al.~\cite{Rey2025} for our research work.
+
+\begin{equation}
+	\mu_{n,\mathbf{p}}	= H(\widehat{\mathbf{p}})
+	= -\sum_{\ell=1}^k \widehat{p}_\ell \log \widehat{p}_\ell 
+	\label{eq:AsympMean}
+\end{equation}  
+
+The above equation~\ref{eq:AsympMean} normally distributed with mean $H(\mathbf{p})$ and variance $\sigma^2_{n,\mathbf{p}},$ where
+
+\begin{equation}
+	\sigma^2_{n,\mathbf{p}}=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
+\end{equation}
+%When dependence exists, convergence rates and variances deviate from the independent case but remain tractable via spectral analysis \cite{Chagas2022,PhysRevE.103.022215}, providing a rigorous basis for entropy-based analysis of finite-sample categorical data.
+For practical purposes, given $n$ sufficiently large, we can use that Equation~\ref{eq:AsymEntropy} has a normal distribution with mean equal to $H(\widehat{\mathbf{p}})$ and variance equal to $\sigma^2_{\mathbf{p}}/n.$ In addition, for $\alpha \in (0,1)$ and $n$ sufficiently large, the $(1-\alpha)$\SI {100}{\percent} confidence interval for estimated entropy is shown as below.
+
+\begin{equation}
+	H(\widehat{\mathbf{p}})\pm \dfrac{Z_{\alpha/2}\widehat{\sigma}_{\widehat{\mathbf{p}}}}{\sqrt{n}},
+	\label{eq:ConfidenceInterval}
+\end{equation}
+where $Z_{\alpha/2}$ is the $\alpha/2$-quantile of a standard normal random variable.
+
+
+\subsection{Asymptotic distribution of Permutation Entropy under the pattern dependence}\label{Subsec:PatternDependence}
+
+As we discussed earlier, real-valued time series $\mathbf{x}=\{x_1,x_2,...,x_{n+D-1}\}$  transform into the series symbols $\mathbf{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$ from sub-sequences of embedding dimension $D$, where we considered $D!=k$. Due to the overlapping of time windows, the ordinal patterns which we calculate are dependent. For $i=1,2,...k$, let $p_i$ be the probability of observing the state $\pi_i$, denote the vector probabilities, $\mathbf{p}={\left\{p_1,p_2,\dots,p_k\right\}}$ and express as $\mathbf{D_p}=\text{Diag}(p_1,p_2, \dots, p_k)$ the diagonal matrix. 
+The transition probability of reaching state $\pi_j$ at time 
+%%% ACF Is this the same \ell as before?
+$t+\ell$ from the state $\pi_i$ at time $t$, for $\ell=1,2,\dots,D-1$, is denoted by $p^{(\ell)}_{ij}$. These transition probabilities can be collected in the matrix $\mathbf{Q}^{(\ell)}$ whose elements are  $p^{(\ell)}_{ij}$. As describe in the Rey et al.~\cite{Rey2023a} when $n$ is sufficiently large, asymptotic variance of the Shannon entropy defined as follows. 
+%\begin{equation}
+	%\sigma^2_{\bm{p}}=\sum_{i=1}^{k}(\bm{\Sigma}_{\bm{p}})_{ii}+2\sum_{i=1}^{k-1}\sum%_{j=i+1}^{k}(\bm{\Sigma}_{\bm{p}})_{ij}=\sum_{i=1}^{k}(\ln p_i+1)^2
+%\times \left[ p_i-(2D-1)p^2_i+2\sum_{\ell=1}^{D-1}\bm{Q}^{(\ell)}_{ii}\right] - %2\sum_{i=1}^{k-1}\sum_{j=i+1}^{k} (\ln p_i+1)(\ln p_j+1) \left[(2D-1)p_i %p_j-\sum_{\ell=1}^{D-1}\left(\bm{Q}^{(\ell)}_{ij}+\bm{Q}^{(\ell)}_{ji}\right)\right].
+%\end{equation}
+
+\begin{equation}
+	\begin{split}
+		\widehat{\nu}^2_{\widehat{\mathbf{p}}} = & \sum_{i=1}^{k}(\ln p_i + 1)^2 
+		\left[ p_i - (2D - 1)p_i^2 + 2\sum_{\ell=1}^{D-1} \mathbf{Q}^{(\ell)}_{ii} \right] \\
+		& - 2 \sum_{i=1}^{k-1} \sum_{j=i+1}^{k} (\ln p_i + 1)(\ln p_j + 1) \\
+		& \quad \times \left[ (2D - 1)p_i p_j - \sum_{\ell=1}^{D-1} \left( \mathbf{Q}^{(\ell)}_{ij} + \mathbf{Q}^{(\ell)}_{ji} \right) \right].
+	\end{split}
+	\label{eq:asympvar}
+\end{equation} 
+
+Asymptotic variance of the Shannon entropy of ordinal patterns considering their correlation structure is given in Equation~\ref{eq:asympvar}.
+For practical purpose, given $n$ is sufficiently large, we can use $H(\mathbf{p})$ has a normal distribution with mean equal to $H(\widehat{\mathbf{p}})$ and variance equal to $\nu^2_{\mathbf{p}}/n$. 
+
+In addition to that, for $\alpha\in(0,1)$ and $n$ sufficiently large, the $(1-\alpha)\SI{100}{\percent}$ confidence interval of $H(\mathbf{p})$ is given by, 
+\begin{equation}
+  H(\widehat{\mathbf{p}})\pm \dfrac{Z_{\alpha/2}\nu_{\mathbf{p}}}{\sqrt{n}},
+  \label{eq:ConfidenceInterval}
+\end{equation} 
+where $Z_{\alpha/2}$ is the $\alpha/2$-quantile of a standard normal random variable.
+
+For convenience, Equation~\ref{eq:ConfidenceInterval} is referred to and defined as follows.
+\begin{equation}
+	H(\widehat{\mathbf{p}})\pm \textbf{Semi Length},
+	\label{eq:CI}
+\end{equation} 
+where $\textbf{Semi Length}=\dfrac{Z_{\alpha/2}\nu_{\mathbf{p}}}{\sqrt{n}}$
+
+\subsection{Asymptotic Variance of Statistical Complexity $C(\widehat{\mathbf{p}})$}\label{Subsec:AsympVarComplexity}
+The variance of the estimated complexity, $C(\widehat{\mathbf{p}})$, has two estimators:
+\begin{itemize}
+	\item \textbf{Multinomial model variance}, denoted as $\widehat{\omega}^2_{\widehat{\mathbf{p}}}$, which assumes independent ordinal patterns.
+	\item \textbf{Serial dependence variance}, denoted as $\widehat{\eta}^2_{\widehat{\mathbf{p}}}$.
+\end{itemize}
+To estimate the serial dependence variance, we first compute the ratio
+$$
+a = \dfrac{\widehat{\nu}^2_{\widehat{\mathbf{p}}}}{\widehat{\sigma}^2_{\widehat{\mathbf{p}}}},
+$$
+where $\widehat{\nu}^2_{\widehat{\mathbf{p}}}$ is the variance of entropy under serial dependence, and $\widehat{\sigma}^2_{\widehat{\mathbf{p}}}$ is the variance of entropy under independence.
+Then, the serial dependence statistical complexity variance is calculated by scaling the Multinomial statistical complexity variance:
+\[
+\widehat{\eta}^2_{\widehat{\mathbf{p}}} = a \times \widehat{\omega}^2_{\widehat{\mathbf{p}}}.
+\]
+This approach allows to calculate the estimated statistical complexity variance for serial dependence.
+
+
+\subsection{Other types of Entropy}
 Moreover, other types of descriptors, such as Rényi entropy\cite{renyi1961measures}, Tsallis entropy\cite{tsallis1988possible}, and Fisher information \cite{frieden2004science}, have been proposed to extract additional information that is not captured by Shannon entropy.
 From these entropy measures, Fisher information has garnered more attention due to its unique properties. Fisher information is defined as the average logarithmic derivative of a continuous probability density function.
 
@@ -259,61 +457,7 @@ where the index $q\in \mathbb{R}^{+}\backslash \{1\}$
 \end{equation}
 where the re-normalization coefficient is $F_0=4$ \cite{sanchez2009discrete}
 
-Rey et al.~\cite{Rey2023} investigated the asymptotic distribution of the estimators defined above, and provided the following formulation.
-
-Let  $\mathbf{Z}\sim N(\mathbf{\mu},\sum),$ be a $k-$dimensional multivariate normal distribution with mean vector $\mu \in \mathbb{R}^k$ and covariance matrix $\sum=(\sigma_{{\ell}{j}})$. Then, for any $\mathbf{a} \in \mathbb{R}^k,$ the linear combination $W=\mathbf{a}^T\mathbf{Z},$ is normally distributed as:
-\begin{equation}
-	W\sim N\Big(\mathbf{a}^T\bm{\mu},\sum_{\ell=1}^{k}a_\ell^2 \sigma_{{\ell}{\ell}}+2\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k} a_\ell a_j\sigma_{{\ell}{j}}\Big).
-\end{equation}
-The estimated Shannon entropy is defined as:
-\begin{equation}
-	H_s(\widehat{\mathbf{p}})=-\sum_{\ell=1}^{k}\widehat{p_\ell}\log\widehat{p_\ell}.
-\end{equation}
-The asymptotic variance $\widehat{\sigma}^2$ of the entropy estimator is given by:
-\begin{equation}
-	\widehat{\sigma}^2=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
-\end{equation}
-These formulas serve as the basis for the subsequent case study in our research.
-
-\section{Asymptotic distribution of Permutation Entropy}\label{Sec:AsymptoticVariance}
-
-As we discussed earlier, real-valued time series $\mathbf{x}=\{x_1,x_2,...,x_{n+D-1}\}$  transform into the series symbols $\mathbf{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$ from sub-sequences of embedding dimension $D$, where we considered $D!=k$. Due to the overlapping of time windows, the ordinal patterns which we calculate are dependent. For $i=1,2,...k$, let $p_i$ be the probability of observing the state $\pi_i$, denote the vector probabilities, $\mathbf{p}={\left\{p_1,p_2,\dots,p_k\right\}}$ and express as $\mathbf{D_p}=\text{Diag}(p_1,p_2, \dots, p_k)$ the diagonal matrix. 
-The transition probability of reaching state $\pi_j$ at time 
-%%% ACF Is this the same \ell as before?
-$t+\ell$ from the state $\pi_i$ at time $t$, for $\ell=1,2,\dots,D-1$, is denoted by $p^{(\ell)}_{ij}$. These transition probabilities can be collected in the matrix $\mathbf{Q}^{(\ell)}$ whose elements are  $p^{(\ell)}_{ij}$. As describe in the Rey et al.~\cite{Rey2023a} when $n$ is sufficiently large, asymptotic variance of the Shannon entropy defined as follows. 
-%\begin{equation}
-	%\sigma^2_{\bm{p}}=\sum_{i=1}^{k}(\bm{\Sigma}_{\bm{p}})_{ii}+2\sum_{i=1}^{k-1}\sum%_{j=i+1}^{k}(\bm{\Sigma}_{\bm{p}})_{ij}=\sum_{i=1}^{k}(\ln p_i+1)^2
-%\times \left[ p_i-(2D-1)p^2_i+2\sum_{\ell=1}^{D-1}\bm{Q}^{(\ell)}_{ii}\right] - %2\sum_{i=1}^{k-1}\sum_{j=i+1}^{k} (\ln p_i+1)(\ln p_j+1) \left[(2D-1)p_i %p_j-\sum_{\ell=1}^{D-1}\left(\bm{Q}^{(\ell)}_{ij}+\bm{Q}^{(\ell)}_{ji}\right)\right].
-%\end{equation}
-
-\begin{equation}
-	\begin{split}
-		\sigma^2_{\mathbf{p}} = & \sum_{i=1}^{k}(\ln p_i + 1)^2 
-		\left[ p_i - (2D - 1)p_i^2 + 2\sum_{\ell=1}^{D-1} \mathbf{Q}^{(\ell)}_{ii} \right] \\
-		& - 2 \sum_{i=1}^{k-1} \sum_{j=i+1}^{k} (\ln p_i + 1)(\ln p_j + 1) \\
-		& \quad \times \left[ (2D - 1)p_i p_j - \sum_{\ell=1}^{D-1} \left( \mathbf{Q}^{(\ell)}_{ij} + \mathbf{Q}^{(\ell)}_{ji} \right) \right].
-	\end{split}
-	\label{eq:asympvar}
-\end{equation} 
-
-Asymptotic variance of the Shannon entropy of ordinal patterns considering their correlation structure is given in Equation~\ref{eq:asympvar}.
-For practical purpose, given $n$ is sufficiently large, we can use $H(\mathbf{p})$ has a normal distribution with mean equal to $H(\widehat{\mathbf{p}})$ and variance equal to $\sigma^2_{\mathbf{p}}/n$. 
-
-In addition to that, for $\alpha\in(0,1)$ and $n$ sufficiently large, the $(1-\alpha)\SI{100}{\percent}$ confidence interval of $H(\mathbf{p})$ is given by, 
-\begin{equation}
-  H(\widehat{\mathbf{p}})\pm \dfrac{Z_{\alpha/2}\sigma_{\mathbf{p}}}{\sqrt{n}},
-  \label{eq:ConfidenceInterval}
-\end{equation} 
-where $Z_{\alpha/2}$ is the $\alpha/2$-quantile of a standard normal random variable.
-
-For convenience, Equation~\ref{eq:ConfidenceInterval} is referred to and defined as follows.
-\begin{equation}
-	H(\widehat{\mathbf{p}})\pm \textbf{Semi Length},
-	\label{eq:CI}
-\end{equation} 
-where $\textbf{Semi Length}=\dfrac{Z_{\alpha/2}\sigma_{\mathbf{p}}}{\sqrt{n}}$
-
-\section{Case Study of Asymptotic Distribution of the Shannon Entropy} \label{Sec:CaseStudy} 
+\section{Case Study of Asymptotic Distribution of the Shannon Entropy under pattern dependence and independence} \label{Sec:CaseStudy} 
 
 Statistical complexity is defined as the product of two normalized quantities:
 \begin{itemize}
@@ -332,7 +476,7 @@ As a case study for our work, we consider data from the Bearing Data Center and 
 
 The primary objective of this study is to detect malfunctioning machinery by analyzing two time series using ordinal patterns. We introduce a distance metric based on the ordinal structure of the segments to quantify similarity. This metric facilitates the identification of faulty machines across various embedding dimensions, ranging from $3$ to $6$. For this case study, we employ an embedding dimension of $3$ for convenience; subsequent analyses will extend to the remaining dimensions to compare results. Permutation entropy under asymptotic conditions is computed by considering the probability distribution of ordinal patterns. The results are further analyzed using the complexity–entropy plane, providing insights into the system's dynamics.
 
-Initially, we analyzed complete datasets from two time series: one comprising 250,000 data points representing the normal baseline at motor load 0, and another containing 2,540,000 data points from the 48k drive end under the same motor load. We computed the entropy and complexity measures for these entire datasets, followed by the calculation of the asymptotic variance as defined in Section~\ref{Sec:AsymptoticVariance}. This asymptotic variance was then used to determine the confidence interval for entropy (Equation is defined in~\ref{eq:ConfidenceInterval}). The calculation of the semi-length of the interval is given by Equation~\ref{eq:CI}. The final results are presented in Table~\ref{tab:EnComplexResults}.
+Initially, we analyzed complete datasets from two time series: one comprising 250,000 data points representing the normal baseline at motor load 0, and another containing 2,540,000 data points from the 48k drive end under the same motor load. We computed the entropy and complexity measures for these entire datasets, followed by the calculation of the asymptotic variance as defined in Section~\ref{Subsec:PatternDependence}. This asymptotic variance was then used to determine the confidence interval for entropy (Equation is defined in~\ref{eq:ConfidenceInterval}). The calculation of the semi-length of the interval is given by Equation~\ref{eq:CI}. The final results are presented in Table~\ref{tab:EnComplexResults}.
 
 
 \begin{table}[H]
@@ -358,6 +502,30 @@ It is clear from the graph that there are both overlapping and non-overlapping c
 	\includegraphics[width=0.8 \textwidth]{confidence_interval}
 	\caption{Entropy Complexity Plane}
 	\label{fig:EntopyComplexity Plane}
+\end{figure}
+
+In addition to this we analyze the full data results for higher embedding dimension $D=6$.
+	\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.8 \textwidth]{Confidence Interval}
+	\caption{Entropy Complexity Plane for $D=6$}
+	\label{fig:EntopyComplexity Plane D=6}
+\end{figure}
+
+Because the original case study involved a large sample size, we computed entropy and statistical complexity for smaller sample sizes of 100, 1000, and 2000. These values were then analyzed using both the Multinomial and Serial Dependence models. The analysis clearly demonstrates the confidence intervals for both entropy and complexity.	
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8 \textwidth]{CI for Multinomial model}
+	\caption{Confidence Interval for Multinomial Model}
+	\label{fig:CIMultinorm}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7 \textwidth]{CI for pattern dependence}
+	\caption{Confidence Interval Pattern Dependence model}
+	\label{fig:CIDependence}
 \end{figure}
 
 The general framework for analyzing entropy-complexity planes with confidence intervals are given as follows.
