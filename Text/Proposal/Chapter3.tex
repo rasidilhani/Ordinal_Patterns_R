@@ -81,7 +81,7 @@ Despite its limitations, researchers have developed extensions to the original m
 
 Bandt and Pompe introduced a highly effective method for analyzing time series within this framework. They calculated Shannon entropy based on the histogram of causal patterns and successfully identified chaotic components in sequences of words, among other applications.
 
-Later, Rosso et al.~\cite{EEGAnalysisUsingWaveletBasedInformationTools} expanded this analysis by introducing an additional dimension: the statistical complexity derived from the same histogram of causal patterns. The authors have contributed to a wide range of applications. This approach, which utilizes the entropy-complexity plane, has been successfully applied to the visualization and characterization of different dynamical regimes as system parameters change  \cite{Bandt2005,Cao2004,DeMicco2012a,Kowalski2007,Kowalski2011b,Rosso2010a,Zunino2010a,Zunino2012a}, as well as to optical chaos \cite{Liu2016f,Soriano2011a,Toomey2014,Yang2015e,Zunino2011a}, hydrology \cite{Lange2013,Serinaldi2014,Stosic2016}, geophysics \cite{Consolini2014,Saco2010,Sippel2016}, engineering \cite{Aquino2017,Aquino2015,Redelico2017a,Yan2012}, biometrics \cite{Rosso2016}, characterization of pseudo-random number generators \cite{DeMicco2008,DeMicco2009}, biomedical signal analysis \cite{Li2014b,Li2008b,Li2007,Liang2015b,Montani2015a,Montani2014,Montani2014a,Montani2015,Morabito2012,Parlitz2012,Perinelli2025,Perinelli2019,Zanin2012},and econophysics \cite{Bariviera2015a,Bariviera2015,Bariviera2016,Zanin2012,Zunino2016a,Zunino2009,Zunino2010}, to name a few.
+Later, Rosso et al.~\cite{EEGAnalysisUsingWaveletBasedInformationTools} expanded this analysis by introducing an additional dimension: the statistical complexity derived from the same histogram of causal patterns. The authors have contributed to a wide range of applications. This approach, which utilizes the entropy-complexity plane, has been successfully applied to the visualization and characterization of different dynamical regimes as system parameters change  \cite{Bandt2005,Cao2004,DeMicco2012a,Kowalski2007,Kowalski2011b,Rosso2010a,Zunino2010a,Zunino2012a}, as well as to optical chaos \cite{Liu2016f,Soriano2011a,Toomey2014,Yang2015e,Zunino2011a}, hydrology \cite{Lange2013,Serinaldi2014,Stosic2016}, geophysics \cite{Consolini2014,Saco2010,Sippel2016}, engineering \cite{Aquino2017,Aquino2015,Redelico2017a,Yan2012}, biometrics \cite{Rosso2016}, characterization of pseudo-random number generators \cite{DeMicco2008,DeMicco2009}, biomedical signal analysis \cite{Li2014b,Li2008b,Li2007,Liang2015b,Montani2015a,Montani2014,Montani2014a,Montani2015,Morabito2012,Parlitz2012,Perinelli2025,Perinelli2019,Zanin2012}, and econophysics \cite{Bariviera2015a,Bariviera2015,Bariviera2016,Zanin2012,Zunino2016a,Zunino2009,Zunino2010}, to name a few.
 
 %%% ACF What is system parameter change? It means altering one of the constants in the dynamical system and this can cause the system's behavior to shift drastically.
 %system parameter change
@@ -106,7 +106,7 @@ Here, $k=D!$ represents the total number of possible permutation patterns.
 %%% ACF Something is missing here
 This entropy is bounded within the unit interval:
 \begin{itemize}
-	\item It reaches its minimum value $(H=0)$ when a single pattern dominates  for some $p_{\ell}=1$ for some $\ell$ 
+	\item It reaches its minimum value $(H=0)$ when a single pattern dominates, i.e., $p_{\ell}=1$ for some $\ell$.
 	\item It achieves its maximum $(H=1)$ under uniform probability $p_{\ell}=1/k$ for all $\ell$. 
 \end{itemize}
 This normalized entropy is often termed permutation entropy in time series analysis. 
@@ -278,7 +278,7 @@ E(N_\ell) = n p_\ell, \quad
 \mathrm{Cov}(N_\ell, N_j) = -n p_\ell p_j.
 \]
 
-The maximum likelihood (ML) estimator $\widehat{p}_\ell = N_\ell / n$ satisfies $n\widehat{\mathbf{p}} \sim \mathrm{Mult}(n,\mathbf{p})$. For any smooth function $g(\mathbf{p})$, the plug-in $\widehat{g}(\mathbf{p}) = g(\widehat{\mathbf{p}})$ is also ML, enabling the asymptotic distribution of Shannon entropy
+The maximum likelihood (ML) estimator $\widehat{p}_\ell = N_\ell / n$ satisfies $n\widehat{\mathbf{p}} \sim \mathrm{Mult}(n,\mathbf{p})$. For any smooth function $g(\mathbf{p})$, the plug-in estimator $\widehat{g}(\mathbf{p}) = g(\widehat{\mathbf{p}})$ is also ML, enabling the asymptotic distribution of Shannon entropy
 \begin{equation}
 	H(\mathbf{p}) = -\sum_{\ell=1}^k p_\ell \log p_\ell,
 	\label{eq:AsymEntropy}
@@ -294,9 +294,10 @@ then
 
 \[E(\mathbf{Y}_n)=0,\]
 \[\text{Cov}(\mathbf{Y}_n)=\mathbf{D_p}-\mathbf{pp}^T,\]
-
-where $\mathbf{D_p}=\text{Diag}(p_1,p_2,\dots,p_k)$, and the superscript $T$ denotes transposition. The asymptotic distribution of $\mathbf{Y}_n$ is multivariate normal with mean vector $0$ and covariance matrix $\mathbf{D_p}-\mathbf{pp}^T.$ The notation for this can be shown as follows.
-
+where $\mathbf{D_p}=\text{Diag}(p_1,p_2,\dots,p_k)$, and the superscript $T$ denotes transposition. The asymptotic distribution of $\mathbf{Y}_n$ is multivariate normal with mean vector $0$ and covariance matrix $\mathbf{D_p}-\mathbf{pp}^T$, denoted as
+%%% ACF Check how I wrote it
+%The notation for this can be shown as follows.
+%
 \begin{equation}
 	\mathbf{Y}_n \xrightarrow{\mathscr{D}} N(\mathbf{0}, \mathbf{D_p}-\mathbf{pp}^T).
 	\label{eq:Cov} 
@@ -343,8 +344,9 @@ For the asymptotic distribution case, we refer to the Delta Method theorems and 
 	\]
 \end{theorem}
 
-Further, covariance matrix of Equation~\ref{eq:Cov} can be expressed as 
-
+Further, covariance matrix of Equation~\eqref{eq:Cov} can be expressed as 
+%%% ACF Use \eqref when referring to equations
+%%% ACF Do not leave blank lines between elements of the same sentence
 \begin{equation}
 	(\mathbf{D_p}-\mathbf{pp}^T)_{\ell j} =
 	\begin{cases}
@@ -359,20 +361,22 @@ Even for dependent processes (e.g., Markov chains), normalized Shannon entropy c
 Rey et. al.~\cite{Rey2025} derived the asymptotic distribution of statistical complexity, defined as normalized Shannon entropy times normalized Jensen–Shannon divergence from the uniform distribution under the multinomial model. They demonstrated convergence to normality, with variance and bias reflecting the system’s dynamics. Numerical studies confirm robustness even when the multinomial model is approximate, such as in Bandt–Pompe ordinal patterns. 
 
 We refer the asymptotic equation for the mean and variance provided by Rey et. al.~\cite{Rey2025} for our research work.
-
+%%% ACF The following is strange; the left part depends on p, the right-hand side depends on \widehat p
 \begin{equation}
 	\mu_{n,\mathbf{p}}	= H(\widehat{\mathbf{p}})
 	= -\sum_{\ell=1}^k \widehat{p}_\ell \log \widehat{p}_\ell 
 	\label{eq:AsympMean}
 \end{equation}  
 
-The above equation~\ref{eq:AsympMean} normally distributed with mean $H(\mathbf{p})$ and variance $\sigma^2_{n,\mathbf{p}},$ where
-
+%%% ACF Is the verb missing?
+The above equation~\eqref{eq:AsympMean} normally distributed with mean $H(\mathbf{p})$ and variance $\sigma^2_{n,\mathbf{p}},$ where
 \begin{equation}
 	\sigma^2_{n,\mathbf{p}}=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
 \end{equation}
 %When dependence exists, convergence rates and variances deviate from the independent case but remain tractable via spectral analysis \cite{Chagas2022,PhysRevE.103.022215}, providing a rigorous basis for entropy-based analysis of finite-sample categorical data.
-For practical purposes, given $n$ sufficiently large, we can use that Equation~\ref{eq:AsymEntropy} has a normal distribution with mean equal to $H(\widehat{\mathbf{p}})$ and variance equal to $\sigma^2_{\mathbf{p}}/n.$ In addition, for $\alpha \in (0,1)$ and $n$ sufficiently large, the $(1-\alpha)$\SI {100}{\percent} confidence interval for estimated entropy is shown as below.
+For practical purposes, given $n$ sufficiently large, we can use that 
+%%% ACF That equation describes a deterministic object that does not have a normal distribution
+Equation~\ref{eq:AsymEntropy} has a normal distribution with mean equal to $H(\widehat{\mathbf{p}})$ and variance equal to $\sigma^2_{\mathbf{p}}/n.$ In addition, for $\alpha \in (0,1)$ and $n$ sufficiently large, the $(1-\alpha)$\SI {100}{\percent} confidence interval for estimated entropy is shown as below.
 
 \begin{equation}
 	H(\widehat{\mathbf{p}})\pm \dfrac{Z_{\alpha/2}\widehat{\sigma}_{\widehat{\mathbf{p}}}}{\sqrt{n}},
@@ -383,15 +387,16 @@ where $Z_{\alpha/2}$ is the $\alpha/2$-quantile of a standard normal random vari
 
 \subsection{Asymptotic distribution of Permutation Entropy under the pattern dependence}\label{Subsec:PatternDependence}
 
-As we discussed earlier, real-valued time series $\mathbf{x}=\{x_1,x_2,...,x_{n+D-1}\}$  transform into the series symbols $\mathbf{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$ from sub-sequences of embedding dimension $D$, where we considered $D!=k$. Due to the overlapping of time windows, the ordinal patterns which we calculate are dependent. For $i=1,2,...k$, let $p_i$ be the probability of observing the state $\pi_i$, denote the vector probabilities, $\mathbf{p}={\left\{p_1,p_2,\dots,p_k\right\}}$ and express as $\mathbf{D_p}=\text{Diag}(p_1,p_2, \dots, p_k)$ the diagonal matrix. 
+As we discussed earlier, real-valued time series $\mathbf{x}=\{x_1,x_2,...,x_{n+D-1}\}$  transform into the series symbols $\mathbf{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$ from sub-sequences of embedding dimension $D$, where we considered $D!=k$. Due to the overlapping of time windows, the ordinal patterns which we calculate are dependent. 
+%%% ACF Use \dots and correct punctuation
+For $i=1,2,...k$, let $p_i$ be the probability of observing the state $\pi_i$, denote the vector probabilities, $\mathbf{p}={\left\{p_1,p_2,\dots,p_k\right\}}$ and express as $\mathbf{D_p}=\text{Diag}(p_1,p_2, \dots, p_k)$ the diagonal matrix. 
 The transition probability of reaching state $\pi_j$ at time 
 %%% ACF Is this the same \ell as before?
-$t+\ell$ from the state $\pi_i$ at time $t$, for $\ell=1,2,\dots,D-1$, is denoted by $p^{(\ell)}_{ij}$. These transition probabilities can be collected in the matrix $\mathbf{Q}^{(\ell)}$ whose elements are  $p^{(\ell)}_{ij}$. As describe in the Rey et al.~\cite{Rey2023a} when $n$ is sufficiently large, asymptotic variance of the Shannon entropy defined as follows. 
+$t+\ell$ from the state $\pi_i$ at time $t$, for $\ell=1,2,\dots,D-1$, is denoted by $p^{(\ell)}_{ij}$. These transition probabilities can be collected in the matrix $\mathbf{Q}^{(\ell)}$ whose elements are  $p^{(\ell)}_{ij}$. As describe in the Rey et al.~\cite{Rey2023a} when $n$ is sufficiently large, asymptotic variance of the Shannon entropy defined as follows:
 %\begin{equation}
 	%\sigma^2_{\bm{p}}=\sum_{i=1}^{k}(\bm{\Sigma}_{\bm{p}})_{ii}+2\sum_{i=1}^{k-1}\sum%_{j=i+1}^{k}(\bm{\Sigma}_{\bm{p}})_{ij}=\sum_{i=1}^{k}(\ln p_i+1)^2
 %\times \left[ p_i-(2D-1)p^2_i+2\sum_{\ell=1}^{D-1}\bm{Q}^{(\ell)}_{ii}\right] - %2\sum_{i=1}^{k-1}\sum_{j=i+1}^{k} (\ln p_i+1)(\ln p_j+1) \left[(2D-1)p_i %p_j-\sum_{\ell=1}^{D-1}\left(\bm{Q}^{(\ell)}_{ij}+\bm{Q}^{(\ell)}_{ji}\right)\right].
 %\end{equation}
-
 \begin{equation}
 	\begin{split}
 		\widehat{\nu}^2_{\widehat{\mathbf{p}}} = & \sum_{i=1}^{k}(\ln p_i + 1)^2 
@@ -402,7 +407,9 @@ $t+\ell$ from the state $\pi_i$ at time $t$, for $\ell=1,2,\dots,D-1$, is denote
 	\label{eq:asympvar}
 \end{equation} 
 
+%%% ACF The first sentence repeats the last of the previous paragraph
 Asymptotic variance of the Shannon entropy of ordinal patterns considering their correlation structure is given in Equation~\ref{eq:asympvar}.
+%%% ACF Again, a deterministic quantity does not have a normal distribution
 For practical purpose, given $n$ is sufficiently large, we can use $H(\mathbf{p})$ has a normal distribution with mean equal to $H(\widehat{\mathbf{p}})$ and variance equal to $\nu^2_{\mathbf{p}}/n$. 
 
 In addition to that, for $\alpha\in(0,1)$ and $n$ sufficiently large, the $(1-\alpha)\SI{100}{\percent}$ confidence interval of $H(\mathbf{p})$ is given by, 
@@ -420,8 +427,11 @@ For convenience, Equation~\ref{eq:ConfidenceInterval} is referred to and defined
 where $\textbf{Semi Length}=\dfrac{Z_{\alpha/2}\nu_{\mathbf{p}}}{\sqrt{n}}$
 
 \subsection{Asymptotic Variance of Statistical Complexity $C(\widehat{\mathbf{p}})$}\label{Subsec:AsympVarComplexity}
+
+%%% ACF If it is estimated, it is a constant and its variance is zero
 The variance of the estimated complexity, $C(\widehat{\mathbf{p}})$, has two estimators:
 \begin{itemize}
+	%%% ACF Provide the expression taking care to make the notation match previous definitions
 	\item \textbf{Multinomial model variance}, denoted as $\widehat{\omega}^2_{\widehat{\mathbf{p}}}$, which assumes independent ordinal patterns.
 	\item \textbf{Serial dependence variance}, denoted as $\widehat{\eta}^2_{\widehat{\mathbf{p}}}$.
 \end{itemize}
@@ -429,6 +439,7 @@ To estimate the serial dependence variance, we first compute the ratio
 $$
 a = \dfrac{\widehat{\nu}^2_{\widehat{\mathbf{p}}}}{\widehat{\sigma}^2_{\widehat{\mathbf{p}}}},
 $$
+%%% ACF Provide the equations
 where $\widehat{\nu}^2_{\widehat{\mathbf{p}}}$ is the variance of entropy under serial dependence, and $\widehat{\sigma}^2_{\widehat{\mathbf{p}}}$ is the variance of entropy under independence.
 Then, the serial dependence statistical complexity variance is calculated by scaling the Multinomial statistical complexity variance:
 \[
@@ -438,7 +449,9 @@ This approach allows to calculate the estimated statistical complexity variance 
 
 
 \subsection{Other types of Entropy}
-Moreover, other types of descriptors, such as Rényi entropy\cite{renyi1961measures}, Tsallis entropy\cite{tsallis1988possible}, and Fisher information \cite{frieden2004science}, have been proposed to extract additional information that is not captured by Shannon entropy.
+%%% ACF At the end of this section, what do we know about them? Any asymptotic result? Under which conditions?
+
+Moreover, other types of descriptors, such as Rényi entropy~\cite{renyi1961measures}, Tsallis entropy~\cite{tsallis1988possible}, and Fisher information~\cite{frieden2004science}, have been proposed to extract additional information that is not captured by Shannon entropy.
 From these entropy measures, Fisher information has garnered more attention due to its unique properties. Fisher information is defined as the average logarithmic derivative of a continuous probability density function.
 
 For discrete probability distributions, Fisher information can be approximated by calculating the differences between probabilities of consecutive distribution elements. A key distinction between Shannon entropy and Fisher information lies in their focus: Shannon entropy quantifies the overall unpredictability of a system, while Fisher information measures the rate of change between consecutive observations, making it more sensitive to small changes and perturbations.
@@ -476,9 +489,13 @@ As a case study for our work, we consider data from the Bearing Data Center and 
 
 The primary objective of this study is to detect malfunctioning machinery by analyzing two time series using ordinal patterns. We introduce a distance metric based on the ordinal structure of the segments to quantify similarity. This metric facilitates the identification of faulty machines across various embedding dimensions, ranging from $3$ to $6$. For this case study, we employ an embedding dimension of $3$ for convenience; subsequent analyses will extend to the remaining dimensions to compare results. Permutation entropy under asymptotic conditions is computed by considering the probability distribution of ordinal patterns. The results are further analyzed using the complexity–entropy plane, providing insights into the system's dynamics.
 
-Initially, we analyzed complete datasets from two time series: one comprising 250,000 data points representing the normal baseline at motor load 0, and another containing 2,540,000 data points from the 48k drive end under the same motor load. We computed the entropy and complexity measures for these entire datasets, followed by the calculation of the asymptotic variance as defined in Section~\ref{Subsec:PatternDependence}. This asymptotic variance was then used to determine the confidence interval for entropy (Equation is defined in~\ref{eq:ConfidenceInterval}). The calculation of the semi-length of the interval is given by Equation~\ref{eq:CI}. The final results are presented in Table~\ref{tab:EnComplexResults}.
+Initially, we analyzed complete datasets from two time series: one comprising 250,000 data points representing the normal baseline at motor load 0, and another containing 2,540,000 data points from the 48k drive end under the same motor load. We computed the entropy and complexity measures for these entire datasets, followed by the calculation of the asymptotic variance as defined in Section~\ref{Subsec:PatternDependence}. This asymptotic variance was then used to determine the confidence interval for entropy (Equation is defined in~\ref{eq:ConfidenceInterval}). The calculation of the semi-length of the interval is given by Equation~\ref{eq:CI}. 
+%%% ACF With or without correlation? Justify
+The final results are presented in Table~\ref{tab:EnComplexResults}.
+%%% ACF Why omitting the standard deviation of the statistical complexity in the table?
 
-
+%%% ACF What is each line?
+%%% ACF $\sigma_{\bm{p}}$ is a new notation; moreover, is it an estimate?
 \begin{table}[H]
 	\centering
 	\begin{tabular}{llcr}
@@ -536,7 +553,7 @@ The general framework for analyzing entropy-complexity planes with confidence in
 	Generate multiple resampled datasets to estimate the variance of $H$ and $C$.
 	\item \textbf{Plot on Entropy-Complexity Plane:}
 	\begin{itemize}
-		\item Axes:x-axis: Entropy $(H)$, y-axis: Statistical complexity $(C)$
+		\item Axes: x-axis: Entropy $(H)$, y-axis: Statistical complexity $(C)$
 		\item Data Points: Plot individual or aggregated results.
 		\item Confidence Regions: Represent uncertainty 
 	\end{itemize}
