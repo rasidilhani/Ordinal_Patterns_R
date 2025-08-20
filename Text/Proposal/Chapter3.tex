@@ -449,6 +449,8 @@ This approach allows to calculate the estimated statistical complexity variance 
 
 
 \subsection{Other types of Entropy}
+%%% ACF At the end of this section, what do we know about them? Any asymptotic result? Under which conditions?
+
 Moreover, other types of descriptors, such as Rényi entropy~\cite{renyi1961measures}, Tsallis entropy~\cite{tsallis1988possible}, and Fisher information~\cite{frieden2004science}, have been proposed to extract additional information that is not captured by Shannon entropy.
 From these entropy measures, Fisher information has garnered more attention due to its unique properties. Fisher information is defined as the average logarithmic derivative of a continuous probability density function.
 
@@ -487,9 +489,13 @@ As a case study for our work, we consider data from the Bearing Data Center and 
 
 The primary objective of this study is to detect malfunctioning machinery by analyzing two time series using ordinal patterns. We introduce a distance metric based on the ordinal structure of the segments to quantify similarity. This metric facilitates the identification of faulty machines across various embedding dimensions, ranging from $3$ to $6$. For this case study, we employ an embedding dimension of $3$ for convenience; subsequent analyses will extend to the remaining dimensions to compare results. Permutation entropy under asymptotic conditions is computed by considering the probability distribution of ordinal patterns. The results are further analyzed using the complexity–entropy plane, providing insights into the system's dynamics.
 
-Initially, we analyzed complete datasets from two time series: one comprising 250,000 data points representing the normal baseline at motor load 0, and another containing 2,540,000 data points from the 48k drive end under the same motor load. We computed the entropy and complexity measures for these entire datasets, followed by the calculation of the asymptotic variance as defined in Section~\ref{Subsec:PatternDependence}. This asymptotic variance was then used to determine the confidence interval for entropy (Equation is defined in~\ref{eq:ConfidenceInterval}). The calculation of the semi-length of the interval is given by Equation~\ref{eq:CI}. The final results are presented in Table~\ref{tab:EnComplexResults}.
+Initially, we analyzed complete datasets from two time series: one comprising 250,000 data points representing the normal baseline at motor load 0, and another containing 2,540,000 data points from the 48k drive end under the same motor load. We computed the entropy and complexity measures for these entire datasets, followed by the calculation of the asymptotic variance as defined in Section~\ref{Subsec:PatternDependence}. This asymptotic variance was then used to determine the confidence interval for entropy (Equation is defined in~\ref{eq:ConfidenceInterval}). The calculation of the semi-length of the interval is given by Equation~\ref{eq:CI}. 
+%%% ACF With or without correlation? Justify
+The final results are presented in Table~\ref{tab:EnComplexResults}.
+%%% ACF Why omitting the standard deviation of the statistical complexity in the table?
 
-
+%%% ACF What is each line?
+%%% ACF $\sigma_{\bm{p}}$ is a new notation; moreover, is it an estimate?
 \begin{table}[H]
 	\centering
 	\begin{tabular}{llcr}
@@ -547,7 +553,7 @@ The general framework for analyzing entropy-complexity planes with confidence in
 	Generate multiple resampled datasets to estimate the variance of $H$ and $C$.
 	\item \textbf{Plot on Entropy-Complexity Plane:}
 	\begin{itemize}
-		\item Axes:x-axis: Entropy $(H)$, y-axis: Statistical complexity $(C)$
+		\item Axes: x-axis: Entropy $(H)$, y-axis: Statistical complexity $(C)$
 		\item Data Points: Plot individual or aggregated results.
 		\item Confidence Regions: Represent uncertainty 
 	\end{itemize}
