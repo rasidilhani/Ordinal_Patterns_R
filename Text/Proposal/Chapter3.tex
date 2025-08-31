@@ -13,42 +13,24 @@ Section~\ref{Sec:EntropyComplexity} explores the entropy-complexity plane for a 
 %%% ACF Do you analyse complexity only?
 \section{Entropy and Complexity Analysis in Time Series: Advantages and Limitations}\label{Sec:AdvantagesLimitations}
 
-Entropy and complexity analysis in time series provides powerful tools for measuring the unpredictability and structural richness of dynamical systems, which means the systems that evolve in time. 
-These methods help describe the behavior of a system using mathematical models. 
+Entropy and complexity analysis provides powerful tools for characterizing the unpredictability and structural richness of dynamical systems, which evolve over time. Entropy measures, such as Shannon entropy (quantifying uncertainty in a probability distribution) and permutation entropy (which measures the order structure of a time series through ordinal patterns), are widely used to assess randomness and disorder. The main distinction is that permutation entropy computes Shannon entropy on the ordinal patterns extracted from a time series data.
 %%% ACF What's the difference between SE and PE?
-Entropy measures, such as Shannon entropy (which quantifies the uncertainty in a probability distribution) and permutation entropy (which measures the complexity of the order structure in time series using ordinal patterns), are used to quantify the degree of randomness or disorder in data. 
-The major difference between Shannon entropy and permutation entropy is that permutation entropy is the Shannon entropy computed from the ordinal patterns (permutations) extracted from a time series.
-The complexity measures assess the balance between order and chaos.  
+ 
+
+Complexity measures complement entropy by evaluating the balance between order and chaos. Together, entropy and complexity are particularly effective for detecting nonlinear patterns, relationships captured by nonlinear models, where inputs and outputs are not proportional and small changes can produce large or unpredictable effects. Such behavior frequently appears in biological, financial, or climate systems.
+
 %%% ACF What is a nonlinear pattern?
-Entropy and complexity measures are powerful tools for identifying nonlinear patterns in time series data, and together, they are particularly valuable for distinguishing between deterministic and stochastic behavior by revealing hidden structures and irregular dynamics that traditional linear methods often overlook.
-%However, their effectiveness depends heavily on parameter choices, such as embedding dimension and time delay. 
+
+While these methods reveal hidden structures and irregular dynamics beyond the reach of traditional linear approaches, they also require careful preprocessing, appropriate parameter selection (e.g., embedding dimension and time delay), and sufficient domain knowledge. Without this, interpretations may be misleading.
+
+
+Despite these challenges, entropy and complexity remain essential in modern time series analysis. Unlike linear techniques, such as auto-correlation, regression, or Fourier analysis, that assume proportional and stationary relationships, entropy and complexity measures are designed to capture irregularities, pattern changes, and chaotic dynamics. This makes them invaluable for studying complex and nonlinear systems where conventional tools often fall short.
 %%% ACF Several problems with the following sentence. (1) at some point, we will say that OPs are little sensitve to outliers, (2) we don't know what "data length" means
 %They can be sensitive to noise and data length. 
 %%% ACF Rethink the following assertion. I tend to disagree. Computing these quantities is not computationally intensive; but computing their statistical properties taking into account the serial correlation is
 %%% ACF What is a high dimensional system?
 %%% ACF What is a multi-scale system?
-While entropy and complexity analysis offers powerful insights into non-linearity and chaos, capturing patterns that traditional linear methods often miss, it requires careful preprocessing, precise parameter tuning, and a solid understanding of the system's domain to avoid misleading conclusions. Non-linearity refers to relationships within the data where small changes in input can lead to disproportionately large or unpredictable changes in output, often seen in complex real-world systems such as biological signals or financial markets. Choosing the right parameters, such as embedding dimension and time delay, is crucial for accurately capturing the underlying dynamics, and without domain knowledge, interpreting the results and identifying meaningful patterns can be challenging.
-% ACF What is a "linear method"?
-Despite these limitations, entropy and complexity remain essential in modern time series analysis for uncovering hidden dynamics beyond the reach of traditional linear methods. Linear methods, such as auto-correlation, linear regression, and Fourier analysis, assume that relationships within data are proportional and predictable, often focusing on averaged behavior, periodicity, or stationary patterns. However, many real-world systems (like the brain, heart, or climate) display nonlinear behavior, where the output does not change in a simple, direct way with the input. Entropy and complexity measures are specifically designed to capture these irregularities, revealing subtle structures, transient changes, or chaotic patterns that linear tools often overlook or misinterpret. This makes them invaluable for exploring complex, dynamic, and nonlinear systems where traditional approaches fall short.
 
-%While this method effectively captures ordinal relationships between data points, it has notable drawbacks. 
-%First, it ignores amplitude information in the time series. 
-%%% ACF "complexity-entropy plane"?
-%Second, classifying data via the entropy-complexity plane becomes challenging (or even misleading) in high-dimensional chaotic systems, 
-%%% ACF Do you know what chaotic systems are?
-%chaotic system is a deterministic dynamical system which shows complex system. There is no random behaviours and the long term process is not repeating the same patterns. 
-%%% ACF Read and study about the logistic map.
-% Deterministic means that the process always depend on the initial condition and it cannot see the repeated solutions.
-%%% ACF What is surrogate data? Surrogate data refers to artificial time series generated from an original data set, which preserve certain properties of the original (like mean, variance, or power spectrum), but are otherwise randomized or restructured. We use surrogate data to test whether patterns in data are truly nonlinear/chaotic, or just due to random chance or noise.
-%as both deterministic chaotic time series and stochastic surrogate data may occupy overlapping regions within the plane.
-
-%%% ACF I think that when you refer to "statistical complexity measures" you are referring to "information theory-based measures"
-%Despite these limitations, entropy-complexity plane offers a robust framework to enhance ordinal pattern analysis. 
-%%% ACF Not only from the (marginal) distribution, but also from the independence
-%%% ACF What a dynamical proces is?
-%These measures quantify deviations from uniform ordinal pattern distributions, enabling a more nuanced characterization of dynamical processes. 
-%%% ACF Cite your sources, otherwise the text is yours
-%By combining permutation entropy with statistical complexity, researchers gain a refined tool to differentiate stochastic signals from deterministic chaos, thereby revealing intricate structural patterns and degrees of randomness in time series data.
 
 \section{The Bandt and Pompe Method: A Robust Approach} \label{Sec:BP method}
 
@@ -82,14 +64,6 @@ Despite its limitations, researchers have developed extensions to the original m
 Bandt and Pompe introduced a highly effective method for analyzing time series within this framework. They calculated Shannon entropy based on the histogram of causal patterns and successfully identified chaotic components in sequences of words, among other applications.
 
 Later, Rosso et al.~\cite{EEGAnalysisUsingWaveletBasedInformationTools} expanded this analysis by introducing an additional dimension: the statistical complexity derived from the same histogram of causal patterns. The authors have contributed to a wide range of applications. This approach, which utilizes the entropy-complexity plane, has been successfully applied to the visualization and characterization of different dynamical regimes as system parameters change  \cite{Bandt2005,Cao2004,DeMicco2012a,Kowalski2007,Kowalski2011b,Rosso2010a,Zunino2010a,Zunino2012a}, as well as to optical chaos \cite{Liu2016f,Soriano2011a,Toomey2014,Yang2015e,Zunino2011a}, hydrology \cite{Lange2013,Serinaldi2014,Stosic2016}, geophysics \cite{Consolini2014,Saco2010,Sippel2016}, engineering \cite{Aquino2017,Aquino2015,Redelico2017a,Yan2012}, biometrics \cite{Rosso2016}, characterization of pseudo-random number generators \cite{DeMicco2008,DeMicco2009}, biomedical signal analysis \cite{Li2014b,Li2008b,Li2007,Liang2015b,Montani2015a,Montani2014,Montani2014a,Montani2015,Morabito2012,Parlitz2012,Perinelli2025,Perinelli2019,Zanin2012}, and econophysics \cite{Bariviera2015a,Bariviera2015,Bariviera2016,Zanin2012,Zunino2016a,Zunino2009,Zunino2010}, to name a few.
-
-%%% ACF What is system parameter change? It means altering one of the constants in the dynamical system and this can cause the system's behavior to shift drastically.
-%system parameter change
-%%% ACF Sort the citation number
-%%% ACF You must have an idea of every paper you cite
-%\cite{Bandt2005,Cao2004,DeMicco2012a,Kowalski2007,Kowalski2011b,Rosso2010a,Zunino2010a,Zunino2012a}, 
-%%% ACF What is optical chaos: It refers to chaotic behavior, i.e., unpredictable and highly sensitive to initial conditions, optical system which involves light, such as lasers, or optical fibers.
-%optical chaos \cite{Liu2016f,Soriano2011a,Toomey2014,Yang2015e,Zunino2011a}, hydrology \cite{Lange2013,Serinaldi2014,Stosic2016}, geophysics \cite{Consolini2014,Saco2010,Sippel2016}, engineering \cite{Aquino2017,Aquino2015,Redelico2017a,Yan2012}, biometrics \cite{Rosso2016}, characterization of pseudo-random number generators \cite{DeMicco2008,DeMicco2009}, biomedical signal analysis \cite{Li2014b,Li2008b,Li2007,Liang2015b,Montani2015a,Montani2014,Montani2014a,Montani2015,Morabito2012,Parlitz2012,Zanin2012}, econophysics \cite{Bariviera2015a,Bariviera2015,Bariviera2016,Zanin2012,Zunino2016a,Zunino2009,Zunino2010}.
 
 After computing all symbols as described in Chapter~\ref{C:intro}, the histogram proportions are used to estimate the probability distribution of ordinal patterns. 
 From this distribution, two key descriptors are calculated to characterize the time series:
@@ -140,12 +114,6 @@ where both $H$ and $Q$ are normalized quantities, therefore $C$ is also normaliz
 
 \section{The Entropy Complexity Plane} \label{Sec:EntropyComplexity}
 The entropy-complexity plane is a two-dimensional representation where time series are mapped based on their entropy and statistical complexity. These metrics are derived from ordinal pattern distributions obtained through embedding dimension $D$ that are mapped on histograms of $D!$ bins. 
-%, a technique involving:
-%\begin{itemize}
-%	\item Embedding dimension $D$: Determines the number of permutation patterns $D!$ used to construct histograms.
-%	\item Time delay $(\tau)$: Often optimized for specific applications 
-%\end{itemize} 
-
 
 \subsection{Key Dynamics in the plane}
 \begin{enumerate}
