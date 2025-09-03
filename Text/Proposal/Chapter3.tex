@@ -255,14 +255,11 @@ to be derived from the asymptotic normality of $\widehat{\mathbf{p}}$ as $n \to 
 The Shannon's entropy of a multinomial distributed random variable is bounded between 0 and $\ln k$. The minimum is attained when $p_{\ell}=1$ for some $1\leq \ell \leq k$ and $p_j=0$ for every $j\ne \ell$. The expression is maximized by $p_{\ell}=1/k$ for every $1\leq \ell \leq k$.  
 
 Further, asymptotic distribution can be described as follows. Let $X_n=(X_{1n},X_{2n},\dots,X_{kn})$ be a sequence of independent and identical distributed random vectors, with distribution $\text{Mult}(n,\mathbf{p})$. If $\widehat{\mathbf{p}}$ denotes the vector of sample proportions, and 
-
 \[\mathbf{Y}_n=\sqrt{n}(\widehat{\mathbf{p}}-\mathbf{p})\] 
-
 then
-
-\[E(\mathbf{Y}_n)=0,\]
+\[E(\mathbf{Y}_n)=\bm 0,\]
 \[\text{Cov}(\mathbf{Y}_n)=\mathbf{D_p}-\mathbf{pp}^T,\]
-where $\mathbf{D_p}=\text{Diag}(p_1,p_2,\dots,p_k)$, and the superscript $T$ denotes transposition. The asymptotic distribution of $\mathbf{Y}_n$ is multivariate normal with mean vector $0$ and covariance matrix $\mathbf{D_p}-\mathbf{pp}^T$, denoted as
+where $\mathbf{D_p}=\text{Diag}(p_1,p_2,\dots,p_k)$, and the superscript $T$ denotes transposition. The asymptotic distribution of $\mathbf{Y}_n$ is multivariate normal with mean vector $\bm 0$ and covariance matrix $\mathbf{D_p}-\mathbf{pp}^T$, denoted as
 %%% ACF Check how I wrote it
 %The notation for this can be shown as follows.
 %
@@ -302,7 +299,7 @@ For the asymptotic distribution case, we refer to the Delta Method theorems and 
 	\sqrt{n}\,(\mathbf{X}_n - \boldsymbol{\theta}) \xrightarrow{\mathscr{D}} N_k(\mathbf{0},\Sigma),
 	\]
 	where $\boldsymbol{\theta} = (\theta_1,\theta_2,\dots,\theta_k)$ and $\Sigma$ is the covariance matrix. 
-	Suppose that $h:\mathbb{R}^k \to \mathbb{R}^m$ is continuously differentiable in a neighborhood of $\boldsymbol{\theta}$, with Jacobian matrix
+	Suppose that $h\colon\mathbb{R}^k \to \mathbb{R}^m$ is continuously differentiable in a neighborhood of $\boldsymbol{\theta}$, with Jacobian matrix
 	\[
 	B = \left( \frac{\partial h_i}{\partial \theta_j} \right)_{i,j=1}^k,
 	\]
@@ -337,7 +334,7 @@ We refer the asymptotic equation for the mean and variance provided by Rey et. a
 \end{equation}  
 
 %%% ACF Is the verb missing?
-The above equation~\eqref{eq:AsympMean} normally distributed with mean $H(\mathbf{p})$ and variance $\sigma^2_{n,\mathbf{p}},$ where
+The estimator in~\eqref{eq:AsympMean} is normally distributed with mean $H(\mathbf{p})$ and variance $\sigma^2_{n,\mathbf{p}},$ where
 \begin{equation}
 	\sigma^2_{n,\mathbf{p}}=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
 \end{equation}
