@@ -7,6 +7,7 @@
 \usepackage{booktabs}
 \usepackage{siunitx}
 \usepackage{hyperref}
+\usepackage{bm}
 \usepackage{natbib} % or biblatex if you prefer
 \bibliographystyle{apa} % set APA style
 
@@ -46,8 +47,10 @@
   
 Based on previous experience, very long time series can be problematic; a sample size of around 5000 data points are considered for analysis.
 
+\textcolor{red}{You state the model and the parameters that you will use. For example: $\bm X=(X_1,X_2,\dots,X_n)$ with $X\sim N(\mu, \sigma^2)$, and $\mu\in\{-1,0,1\}$\dots}
+
 \section{Introduction to simulated time series data}
-Time series clustering plays a crucial role in understanding complex dynamic systems, both in research and in everyday applications such as healthcare, finance, energy management, and climate monitoring. Based on the previous research experience in this regards on our proposal, while we work primarily with real-world datasets, it is essential to first establish a benchmark framework using simulated data. Simulated datasets allow controlled variation of parameters such as noise, series length, and complexity, enabling systematic evaluation of clustering algorithms and ensuring reproducibility. By uncovering hidden structures, detecting patterns, and grouping similar temporal behaviors, time series clustering facilitates exploratory analysis, anomaly detection, and improved decision-making in systems where labeling is costly or unavailable. Establishing a validated benchmark provides a foundation for applying clustering methods confidently to real data, enhancing the reliability and interpretability of experimental results.
+Time series clustering plays a crucial role in understanding complex dynamic systems, both in research and in everyday applications such as healthcare, finance, energy management, and climate monitoring. Based on the previous research experience in this regards on our proposal, while we work primarily with real-world datasets, it is essential to first establish a benchmark framework using simulated data. Simulated datasets allow controlled variation of parameters such as \textcolor{red}{noise}, series length, and \textcolor{red}{complexity}, enabling systematic evaluation of clustering algorithms and ensuring reproducibility. By uncovering hidden structures, detecting patterns, and grouping similar temporal behaviors, time series clustering facilitates exploratory analysis, anomaly detection, and improved decision-making in systems where labeling is costly or unavailable. Establishing a validated benchmark provides a foundation for applying clustering methods confidently to real data, enhancing the reliability and interpretability of experimental results.
 	
 \section{Methodology}
 
@@ -106,7 +109,7 @@ To evaluate the effectiveness of ordinal pattern features for time series cluste
 \]
 For each combination of AR and MA parameters, a time series was simulated and analyzed using ordinal patterns. The simulation loop systematically covered all grid points, ensuring a variety of dynamic behaviors and noise structures.
 
-Figures~\ref{fig:HC ARMA(11)} -- \ref{fig:HC ARMA(21)} display entropy–complexity $(H \times C)$ plane scatter plots derived from simulated data, covering diverse AR and MA parameter combinations and sample sizes.
+Figures~\ref{fig:HC ARMA(21)} to~\ref{fig:HC ARMA(11)}  display entropy–complexity $(H \times C)$ plane scatter plots derived from simulated data, covering diverse AR and MA parameter combinations and sample sizes.
 
 \subsection{Key Features from Entropy–Complexity Analysis}
 
