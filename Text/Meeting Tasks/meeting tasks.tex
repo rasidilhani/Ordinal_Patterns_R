@@ -10,7 +10,7 @@
 \usepackage{natbib} % or biblatex if you prefer
 \bibliographystyle{apa} % set APA style
 
-\title{Benchmarking Time Series Clustering Using Simulated Data}
+\title{Time Series Clustering Using Simulated Data}
 \author{Rasika Dilhani}
 \date{\today}
 
@@ -44,81 +44,147 @@
 	
 \section{Parametric space}
   
-Based on previous experience, very long time series can be problematic; a sample size of around 1000 data points may be more suitable for analysis.
-
-\section{Details of ECG datasets}
-Each record includes the ECG signals measured from both the left and right sides of the thorax. Consequently, every entry in this dataset is represented as a two-dimensional time series that characterizes a type of non-invasive fetal ECG.  More details of \url{https://www.physionet.org/content/challenge-2013/1.0.0/}
-
-\section{Publicly available another datasets}
-The GitHub page at \url{https://github.com/awesomedata/awesome-public-datasets/tree/master} contains a variety of datasets that can be used for time series analysis. This GitHub repository offers a comprehensive, topic-centric listing of public, high-quality datasets collected from numerous sources. The datasets cover a wide range of domains including agriculture, climate, economics, healthcare, biology, machine learning, finance, transportation, and more, making it easy to find relevant data for particular analytical tasks.
-
-\subsection{Time Series Datasets}
-Dedicated sections, such as "TimeSeries" and "Economics," feature datasets suitable for time series analysis, including:
-
-\textbf{Time Series Data Library (TSDL):} Contains diverse time series data for statistical modeling and forecasting.
-
-\textbf{UC Riverside Time Series Dataset:} Offers benchmark datasets for classification, clustering, and time series prediction.
-
-\textbf{Hard Drive Failure Rates:} Useful for reliability analysis over time.
-
-
-Additional datasets in climate, energy, finance, and transportation (like airline and bike share data) are also frequently time-indexed, and can be leveraged for time series or longitudinal studies. 
+Based on previous experience, very long time series can be problematic; a sample size of around 5000 data points are considered for analysis.
 
 \section{Introduction to simulated time series data}
 Time series clustering plays a crucial role in understanding complex dynamic systems, both in research and in everyday applications such as healthcare, finance, energy management, and climate monitoring. Based on the previous research experience in this regards on our proposal, while we work primarily with real-world datasets, it is essential to first establish a benchmark framework using simulated data. Simulated datasets allow controlled variation of parameters such as noise, series length, and complexity, enabling systematic evaluation of clustering algorithms and ensuring reproducibility. By uncovering hidden structures, detecting patterns, and grouping similar temporal behaviors, time series clustering facilitates exploratory analysis, anomaly detection, and improved decision-making in systems where labeling is costly or unavailable. Establishing a validated benchmark provides a foundation for applying clustering methods confidently to real data, enhancing the reliability and interpretability of experimental results.
 	
 \section{Methodology}
-In this study, ordinal patterns were utilized for time series clustering. The experiments were conducted using simulated ARMA processes with a range of sample sizes (500, 1000, 1500, 2000, and 5000). For the initial analysis, the ARMA model parameters were fixed at AR = 0.6 and MA = 0.3, while the embedding dimension (D) was systematically varied from 3 to 6 to investigate its influence on the ordinal pattern-based measures.
 
-Based on the results obtained from these experiments, an embedding dimension of 5 (D = 5) with a fixed sample size of 1000 was determined to be representative for deeper investigation. Subsequently, a second set of experiments was conducted in which the ARMA model parameters were varied, enabling assessment of the effect of different AR and MA configurations on the clustering characteristics derived from ordinal pattern analysis.
+In this study, ordinal patterns are used for time series clustering. To generate simulated data, we employ autoregressive moving average (ARMA) models, an important class for representing stationary time series. An ARMA($p$,$q$) process for a time series $\{x_t\}$ combines both autoregressive (AR) and moving average (MA) terms, and can be expressed as:
+\begin{equation}
+	x_t = \alpha_1 x_{t-1} + \alpha_2 x_{t-2} + \dots + \alpha_p x_{t-p} + w_t + \beta_1 w_{t-1} + \beta_2 w_{t-2} + \dots + \beta_q w_{t-q},
+	\label{eq:arma}
+\end{equation}
+where $\{w_t\}$ denotes a white noise process. The model in equation~\eqref{eq:arma} can be compactly represented using the backward shift operator $B$:
+\begin{equation}
+	\theta_p(B) x_t = \phi_q(B) w_t,
+	\label{eq:arma_polynomial}
+\end{equation}
+where $\theta_p(B)$ and $\phi_q(B)$ are polynomials of degrees $p$ and $q$, respectively.
 
-This approach allowed for a comprehensive evaluation of how both sample size and embedding dimension impact the application of ordinal patterns in time series clustering, as well as how sensitive the results are to underlying ARMA model dynamics. 
+Key properties of the $ARMA(p,q)$ process are:
+\begin{itemize}
+	\item The process is \textit{stationary} when all roots of $\theta_p(B)$ lie outside the unit circle.
+	\item The process is \textit{invertible} when all roots of $\phi_q(B)$ lie outside the unit circle.
+	\item The $AR(p)$ model is a special case: $ARMA(p,0)$.
+	\item The $MA(q)$ model is a special case: $ARMA(0,q)$.
+	\item \textit{Parameter parsimony}: ARMA models can often provide a more efficient description (fewer parameters) than separate AR or MA models.
+	\item \textit{Parameter redundancy}: If $\theta_p(B)$ and $\phi_q(B)$ share a common factor, it may be canceled algebraically from both sides, simplifying the model. For example,
+	\[
+	(1 - \alpha B)(1 - \beta B)x_t = (1 - \beta B)w_t
+	\]
+	can be simplified to
+	\[
+	(1 - \alpha B)x_t = w_t.
+	\]
+\end{itemize}
 
+Simulation experiments were performed using ARMA models with varying sample sizes ($n = 100, 500, 5000$). The following parameter configurations were explored:
+\begin{enumerate}
+	\item ARMA(2,2) model, with constraints for stationarity: sample size $n = 5000$
+	\begin{itemize}
+		\item $\phi_1 + \phi_2 < 1$
+		\item $\phi_2 - \phi_1 < 1$
+	\end{itemize}
+	\item ARMA(2,2) model, unconstrained: $n = 5000$
+	\item ARMA(2,2) model, unconstrained: $n = 100$
+	\item ARMA(2,2) model, unconstrained: $n = 500$
+	\item ARMA(2,1) model, with constraints: $n = 5000$
+	\item ARMA(1,2) model: $n = 5000$
+	\item ARMA(1,1) model: $n = 5000$
+\end{enumerate}
 
 \section{Results and Discussion}
-The results from these experiments are summarized as follows. The first five figures illustrate the outcomes when the ARMA model parameters are fixed (AR = 0.6, MA = 0.3), highlighting the effects of different sample sizes (500, 1000, 1500, 2000, and 5000) and embedding dimensions (ranging from 3 to 6) on the clustering performance using ordinal patterns.
 
-Subsequently, based on these preliminary results, embedding dimension 5 and a sample size of 1000 were selected for a more detailed study of how clustering characteristics change when the ARMA model parameters are varied. The following figures present these findings, demonstrating the sensitivity of ordinal pattern-based clustering to underlying time series dynamics as governed by the AR and MA coefficients.
+To evaluate the effectiveness of ordinal pattern features for time series clustering, simulation experiments were conducted with ARMA processes across a comprehensive grid of parameters. Specifically, the autoregressive (AR) and moving average (MA) coefficients were varied over the sets:
+\[
+\text{AR} \in \{-0.8,\ -0.5,\ -0.3,\ 0,\ 0.3,\ 0.5,\ 0.8\}
+\]
+\[
+\text{MA} \in \{-0.8,\ -0.5,\ -0.3,\ 0,\ 0.3,\ 0.5,\ 0.8\}
+\]
+For each combination of AR and MA parameters, a time series was simulated and analyzed using ordinal patterns. The simulation loop systematically covered all grid points, ensuring a variety of dynamic behaviors and noise structures.
 
-These visualizations collectively showcase how sample size, embedding dimension, and model parameters interact to influence the entropy and complexity measures derived from ordinal pattern analysis, providing insights for optimal parameter selection in practical time series clustering applications.
+Figures~\ref{fig:HC ARMA(11)} -- \ref{fig:HC ARMA(21)} display entropy–complexity $(H \times C)$ plane scatter plots derived from simulated data, covering diverse AR and MA parameter combinations and sample sizes.
+
+\subsection{Key Features from Entropy–Complexity Analysis}
+
+\begin{itemize}
+	\item \textbf{Distinctive Clustering:} Simulated ARMA time series populate visually separable clusters on the $(H \times C)$ plane, corresponding to different combinations of AR and MA coefficients. Stronger coefficients (e.g., $\pm0.8$) tend to shift points toward lower entropy or higher complexity, capturing more persistent dynamic behavior.
+	\item \textbf{Parameter Sensitivity:} Variation in AR and MA parameters systematically alters the location and spread of points in the $(H \times C)$ plane. This demonstrates the ordinal-pattern features' sensitivity to underlying dynamics, effectively distinguishing regular, noisy, and mixed processes.
+	\item \textbf{Sample Size Effect:} Increasing the sample size ($n=100$, $500$, $5000$) results in tighter clusters and reduced scatter, confirming the reliability of entropy and complexity estimates in larger series.
+	\item \textbf{Model Type Comparison:} ARMA(2,2), ARMA(1,2),  ARMA(2,1), and ARMA(1,1) models occupy different regions, with constraints (e.g., $\phi_1 + \phi_2 < 1$ for stationarity) yielding more tightly grouped points. This affirms the method's ability to capture subtle model differences.
+	\item \textbf{High-Complexity Outliers:} For parameter values near the boundaries of stationarity or invertibility, series often yield high-entropy or high-complexity outliers, visually separable from regular processes.
+\end{itemize}
+
+\subsection{Discussion}
+
+The $(H \times C)$ plane results show that ordinal-pattern based entropy and complexity metrics are highly effective for differentiating simulated ARMA time series. The figures confirm reliable clustering and meaningful separation across a comprehensive parameter grid and for a range of sample sizes. These findings support the use of ordinal-pattern analysis for unsupervised time series clustering, and suggest that entropy–complexity plots are a practical tool for revealing hidden structure in both synthetic and real-world datasets.
+
+Future work could explore applications to other time series classes or investigate the impact of embedding dimension and noise on clustering robustness.
+
 
 \begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{d3 different sample size}
-	\caption{$H \times C$ Plane with Embedding dimension 3}
-	\label{fig:HC Plane D3}
+	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(22) n5000}
+	\caption{$H \times C$ plane for ARMA(2,2) model with parameter condition: Sample size 5000}
+	\label{fig:HC ARMA(22) constraint}
 \end{figure}	
 
 \begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{d4 different sample size}
-	\caption{$H \times C$ Plane with Embedding dimension 4}
-	\label{fig:HC Plane D4}
+	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(22) n5000 without condition}
+	\caption{$H \times C$ plane for ARMA(2,2) model without parameter condition: Sample size 5000}
+	\label{fig:HC ARMA(22) unconstraint}
 \end{figure}
 
 \begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{d5 different sample size}
-	\caption{$H \times C$ Plane with Embedding dimension 5}
-	\label{fig:HC Plane D5}
+	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(22) n100}
+	\caption{$H \times C$ plane for ARMA(2,2) model with parameter condition: Sample size 100}
+	\label{fig:HC ARMA(22) constraint n100}
 \end{figure}
 
 \begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{d6 different sample size}
-	\caption{$H \times C$ Plane with Embedding dimension 6}
-	\label{fig:HC Plane D6}
+	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(22) n500}
+	\caption{$H \times C$ plane for ARMA(2,2) model with parameter condition: Sample size 500}
+	\label{fig:HC ARMA(22) constraint n500}
 \end{figure}			
 	
 \begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{different ARMA parameters}
-	\caption{ARMA parameter changes}
-	\label{fig:HC Plane for different parameters}
+	\includegraphics[width=0.8 \textwidth]{HC plane ARMA21 n5000}
+	\caption{$H \times C$ plane for ARMA(2,1) model with parameter condition: Sample size 5000}
+	\label{fig:HC ARMA(21)}
 \end{figure}	
-	
-\section{Conclusion and future work}
-These experiments show that using ordinal patterns can help group (cluster) time series data in meaningful ways. First, we kept the model settings the same (AR = 0.6 and MA = 0.3) and changed the sample size (from 500 up to 5000) and the embedding dimension (from 3 to 6) to see how these factors affect measures like entropy and complexity. Then, we focused on one case (embedding dimension 5 and sample size 1000) and changed the ARMA model’s parameters. The results suggest that the way we group time series using ordinal patterns depends on the sample size, the embedding dimension, and the ARMA model’s settings.
 
-Future Work
-In the future, I plan to include experiments with deterministic chaos (using time series with chaotic behavior) as well as random data. This will help test whether ordinal patterns and complexity-entropy measures can tell the difference between chaos and randomness, and improve clustering results in these new situations.
+\begin{figure}[H]
+	\includegraphics[width=0.8 \textwidth]{HC plane ARMA12 n5000}
+	\caption{$H \times C$ plane for ARMA(1,2) model:Sample size 5000}
+	\label{fig:HC ARMA(12)}
+\end{figure}
+
+
+\begin{figure}[H]
+	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(11) n5000}
+	\caption{$H \times C$ plane for ARMA(1,1) model:Sample size 5000}
+	\label{fig:HC ARMA(11)}
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(11) with CI}
+	\caption{$H \times C$ plane for ARMA(1,1) model with Confidence Interval:Sample size 5000}
+	\label{fig:HC ARMA(11) CI}
+\end{figure}
+
+
+
 	
-%	\bibliography{yourbibfile}
+	
+%\section{Conclusion and future work}
+%These experiments show that using ordinal patterns can help group (cluster) time series data in meaningful ways. First, we kept the model settings the same (AR = 0.6 and MA = 0.3) and changed the sample size (from 500 up to 5000) and the embedding dimension (from 3 to 6) to see how these factors affect measures like entropy and complexity. Then, we focused on one case (embedding dimension 5 and sample size 1000) and changed the ARMA model’s parameters. The results suggest that the way we group time series using ordinal patterns depends on the sample size, the embedding dimension, and the ARMA model’s settings.
+
+%Future Work
+%In the future, I plan to include experiments with deterministic chaos (using time series with chaotic behavior) as well as random data. This will help test whether ordinal patterns and complexity-entropy measures can tell the difference between chaos and randomness, and improve clustering results in these new situations.
+	
+%	\bibliography{../BearingFaultDiagnosis}
 	
 \end{document}
 
