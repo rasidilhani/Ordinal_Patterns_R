@@ -62,11 +62,11 @@ for (i in seq_len(nrow(param_grid))) {
 }
 
 
-save(results, file = "arma_grid_with_condition_results.RData")  # Save results for flexible plotting
-write_xlsx(results, path = "arma(12)_grid_results.xlsx")
+save(results, file = "arma(22)_replication_results.RData")  # Save results for flexible plotting
+write_xlsx(results, path = "arma(22)_replication_results.xlsx")
 
 # 4. Plot results 
-load("arma_grid_with_condition_results.RData") # Use if you've already run the simulation and saved results
+#load("arma(22)_replication_results.RData") # Use if you've already run the simulation and saved results
 
 data("LinfLsup")  
 
@@ -81,6 +81,100 @@ ggplot(results, aes(x = Entropy, y = Complexity, color = ParameterSet)) +
   coord_cartesian(xlim = c(0.7, 1.0), ylim = c(0, 0.4)) +
   labs(
     title = paste("Entropy and Complexity for ARMA(2,2) Time Series"),
+    x = expression(italic(H)),
+    y = expression(italic(C)),
+    color = "Parameter Set"
+  ) +
+  theme_minimal() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "None")
+
+
+#############################################################################################################
+library(StatOrdPattHxC)
+library(dplyr)
+library(ggplot2)
+library(writexl)
+
+# Parameter grids
+ar_vals1 <- c(-0.8, -0.5, -0.3, 0, 0.3, 0.5, 0.8)
+ar_vals2 <- c(-0.8, -0.5, -0.3, 0, 0.3, 0.5, 0.8)
+ma_vals1 <- c(-0.8, -0.5, -0.3, 0, 0.3, 0.5, 0.8)
+ma_vals2 <- c(-0.8, -0.5, -0.3, 0, 0.3, 0.5, 0.8)
+
+param_grid <- expand.grid(
+  ar1 = ar_vals1, 
+  ar2 = ar_vals2, 
+  ma1 = ma_vals1, 
+  ma2 = ma_vals2,
+  KEEP.OUT.ATTRS = FALSE, 
+  stringsAsFactors = FALSE
+)
+param_grid$label <- with(param_grid, paste0("AR1=", ar1, " AR2=", ar2, ", MA1=", ma1, ", MA2=", ma2))
+
+set.seed(1234567890, kind="Mersenne-Twister")
+n <- 100
+D <- 3
+n_rep <- 300
+results <- data.frame()
+
+# --- AR(2) Stationarity function
+is_stationary <- function(ar1, ar2) {
+  abs(ar2) < 1 && (ar2 + ar1) < 1 && (ar2 - ar1) < 1
+}
+
+for (i in seq_len(nrow(param_grid))) {
+  ar1 <- param_grid$ar1[i]
+  ar2 <- param_grid$ar2[i]
+  ma1 <- param_grid$ma1[i]
+  ma2 <- param_grid$ma2[i]
+  label <- param_grid$label[i]
+  
+  # Use correct AR(2) stationarity check
+  if(is_stationary(ar1, ar2)) {
+    stats <- replicate(n_rep, {
+      ts_data <- arima.sim(model = list(ar = c(ar1, ar2), ma = c(ma1, ma2)), n = n)
+      ProbARMA <- OPprob(ts_data, emb = D)
+      Entropy <- HShannon(ProbARMA)
+      Complexity <- StatComplexity(ProbARMA)
+      c(Entropy = Entropy, Complexity = Complexity)
+    })
+    # Aggregate summary statistics
+    mean_entropy <- mean(stats["Entropy", ])
+    sd_entropy <- sd(stats["Entropy", ])
+    mean_complexity <- mean(stats["Complexity", ])
+    sd_complexity <- sd(stats["Complexity", ])
+    results <- rbind(
+      results,
+      data.frame(
+        ParameterSet = label,
+        MeanEntropy = mean_entropy,
+        SDEntropy = sd_entropy,
+        MeanComplexity = mean_complexity,
+        SDComplexity = sd_complexity
+      )
+    )
+    print(label)
+  }
+}
+save(results, file = "arma22_replication_summary_n100.RData")
+write_xlsx(results, path = "arma22_replication_summary_n100.xlsx")
+
+# Plot results
+data("LinfLsup")
+ggplot(results, aes(x = MeanEntropy, y = MeanComplexity, color = ParameterSet)) +
+  geom_point(size = 2) +
+  # Uncomment error bars if needed:
+  #geom_errorbarh(aes(xmin = MeanEntropy - SDEntropy, xmax = MeanEntropy + SDEntropy), height = 0.02) +
+  #geom_errorbar(aes(ymin = MeanComplexity - SDComplexity, ymax = MeanComplexity + SDComplexity), width = 0.02) +
+  geom_line(data = subset(LinfLsup, Side == "Lower" & Dimension == as.character(D)),
+            aes(x = H, y = C), color = "black", linetype = "dashed", inherit.aes = FALSE) +
+  geom_line(data = subset(LinfLsup, Side == "Upper" & Dimension == as.character(D)),
+            aes(x = H, y = C), color = "black", linetype = "dashed", inherit.aes = FALSE) +
+  coord_cartesian(xlim = c(0.7, 1.0), ylim = c(0, 0.4)) +
+  labs(
+    title = paste("Mean Entropy/Complexity from 300 Replications (D=3)"),
     x = expression(italic(H)),
     y = expression(italic(C)),
     color = "Parameter Set"
