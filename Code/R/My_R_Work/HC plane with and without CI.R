@@ -5,8 +5,8 @@ library(readxl)
 results <- readxl::read_xlsx("arma_results_Shannon.xlsx")
 
 # Thresholds – adjust as needed
-high_entropy_thresh <- 0.95   # Example: entropy > 0.98
-low_complexity_thresh <- 0.125 # Example: complexity < 0.025
+high_entropy_thresh <- 0.96   # Example: entropy < 0.98
+low_complexity_thresh <- 0.1 # Example: complexity > 0.025
 
 # Subset for error bars: high entropy, low complexity
 results_with_ci <- subset(results, Entropy < high_entropy_thresh & Complexity > low_complexity_thresh)

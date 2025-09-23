@@ -23,7 +23,8 @@ Output <- NULL
 for(n in N){
   for(r in 1:R){
     
-    ts_data <- arima.sim(model = list(ar1 = 0.1, ar2 = 0.8, ma1 = 0.1, ma2 = 0.8), n = n)
+    #ts_data <- arima.sim(model = list(ar1 = 0.1, ar2 = 0.8, ma1 = 0.1, ma2 = 0.8), n = n)
+    ts_data <- arima.sim(model = list(ar = c(0.1, 0.8), ma = c(0.1, 0.8)), n = n)
     ProbARMA <- OPprob(ts_data, emb = D)
     Entropy <- HShannon(ProbARMA)
     Complexity <- StatComplexity(ProbARMA)
@@ -33,6 +34,7 @@ for(n in N){
 }
 
 Output <- data.frame(Output)
+Output
 names(Output) <- c("Entropy", "Complexity", "n")
 
 Output$n <- as.factor(Output$n)
@@ -46,13 +48,17 @@ p <- ggplot() +
   geom_point(data = subset(Output, n=="500" | n=="1000"), 
              aes(x=Entropy, y=Complexity, col=n)
   ) +
-  xlim(.99, 1) +
+  xlim(.90, 1) +
   xlab(expression(italic(H))) +
-  ylim(0, 0.01) +
+  ylim(0, 0.15) +
   ylab(expression(italic(C))) +
   theme_pander() +
   theme(legend.position = "bottom")
 
 ggMarginal(p, groupColour=TRUE)
 
+save(Output, file = "arma22_M1.RData")
+write_xlsx(Output, path = "arma22_M1.xlsx")
+#ggsave("ARMA22_M1.pdf", p, 
+#       width = 12, height = 10, dpi = 300)
 

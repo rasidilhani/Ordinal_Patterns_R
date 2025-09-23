@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{booktabs}
+\usepackage{tabularx}
 \usepackage{siunitx}
 \usepackage{hyperref}
 \usepackage{bm}
@@ -19,173 +20,147 @@
 \begin{document}
 	\maketitle
 	
-	\section*{Meeting Tasks to Study}
-	
-	\begin{itemize}
-		\item Propose the parametric space of the simulation study.  
-		Based on previous experience, very long time series can be problematic; a sample size of around 1000 data points may be more suitable for analysis.
-		
-		\item Review details about the ECG datasets already found and answer the question:  
-		\textit{Are these data already clustered/classified in the literature?}
-		
-		\item Always bring validated, high-quality references and citations.
-		
-		\item Identify another possible dataset for clustering/classification.
-		
-		\item Browse carefully through \url{http://www.timeseriesclassification.com}.
-		
-		\item Create a benchmark for time series clustering using simulated data:
-		\begin{itemize}
-			\item Explore different ARMA models (varying series lengths and parameters).
-			\item Investigate the "addition" of deterministic chaos.
-		\end{itemize}
-		
-	\end{itemize}
+\section{Introduction}
+Time series analysis provides a framework for characterizing the structural properties of data and its random variation. In this study, we conduct a simulation experiment to examine the features of ordinal patterns within ARMA (Autoregressive Moving Average) processes. To do this, we use simulated data, also known as synthetic series, which are generated from specified time series models. Simulation plays a main role in time series research, as it facilitates the assessment of statistical properties, the construction of confidence intervals for model parameters, and the exploration of potential future scenarios. Furthermore, simulation methods are computationally accessible,  as most standard statistical distributions can be generated directly through established algorithms. To explore the features of ordinal patterns, we replicate the experiment under two different sample sizes. The aim was to investigate how different ARMA parameter settings influence the stochastic properties of the resulting time series data, particularly in terms of entropy, complexity, and other statistical features.
 
 	
-\section{Parametric space}
-  
-Based on previous experience, very long time series can be problematic; a sample size of around 5000 data points are considered for analysis.
+\section{ARMA model}
+In this study, simulated datasets are generated for clustering time series using ordinal patterns. The base random model for sampling is the normal distribution: $\bm X=(X_1,X_2,\dots,X_n)$, with $X_i \sim N(\mu, \sigma^2)$. Here, the mean parameter varies as $\mu \in \{-1, 0, 1\}$. For investigating more complex dynamics, simulated time series are constructed using autoregressive moving average (ARMA) models, a central class of models for representing stationary processes.
 
-\textcolor{red}{You state the model and the parameters that you will use. For example: $\bm X=(X_1,X_2,\dots,X_n)$ with $X\sim N(\mu, \sigma^2)$, and $\mu\in\{-1,0,1\}$\dots}
+\subsection{The Backward Shift (Lag) Operator}
 
-\section{Introduction to simulated time series data}
-Time series clustering plays a crucial role in understanding complex dynamic systems, both in research and in everyday applications such as healthcare, finance, energy management, and climate monitoring. Based on the previous research experience in this regards on our proposal, while we work primarily with real-world datasets, it is essential to first establish a benchmark framework using simulated data. Simulated datasets allow controlled variation of parameters such as \textcolor{red}{noise}, series length, and \textcolor{red}{complexity}, enabling systematic evaluation of clustering algorithms and ensuring reproducibility. By uncovering hidden structures, detecting patterns, and grouping similar temporal behaviors, time series clustering facilitates exploratory analysis, anomaly detection, and improved decision-making in systems where labeling is costly or unavailable. Establishing a validated benchmark provides a foundation for applying clustering methods confidently to real data, enhancing the reliability and interpretability of experimental results.
-	
-\section{Methodology}
+The backward shift (or lag) operator $\mathbf{B}$ is defined as $\mathbf{B} x_t = x_{t-1}$. By repeated application, this yields $\mathbf{B}^n x_t = x_{t-n}$. This compact notation is fundamental in expressing ARMA models and related difference equations.
 
-In this study, ordinal patterns are used for time series clustering. To generate simulated data, we employ autoregressive moving average (ARMA) models, an important class for representing stationary time series. An ARMA($p$,$q$) process for a time series $\{x_t\}$ combines both autoregressive (AR) and moving average (MA) terms, and can be expressed as:
+\subsection{ARMA Model Specification}
+
+Let $\{x_t\}$ denote a real-valued time series. An ARMA($p,q$) process can be written as:
 \begin{equation}
 	x_t = \alpha_1 x_{t-1} + \alpha_2 x_{t-2} + \dots + \alpha_p x_{t-p} + w_t + \beta_1 w_{t-1} + \beta_2 w_{t-2} + \dots + \beta_q w_{t-q},
 	\label{eq:arma}
 \end{equation}
-where $\{w_t\}$ denotes a white noise process. The model in equation~\eqref{eq:arma} can be compactly represented using the backward shift operator $B$:
+where $\{w_t\}$ is a white noise sequence.
+
+Using the lag operator, the above model can be expressed more compactly as:
 \begin{equation}
-	\theta_p(B) x_t = \phi_q(B) w_t,
+	\theta_p(\mathbf{B}) x_t = \phi_q(\mathbf{B}) w_t,
 	\label{eq:arma_polynomial}
 \end{equation}
-where $\theta_p(B)$ and $\phi_q(B)$ are polynomials of degrees $p$ and $q$, respectively.
+where $\theta_p(\mathbf{B}) = 1 - \alpha_1 \mathbf{B} - \alpha_2 \mathbf{B}^2 - \cdots - \alpha_p \mathbf{B}^p$ and $\phi_q(\mathbf{B}) = 1 + \beta_1 \mathbf{B} + \cdots + \beta_q \mathbf{B}^q$.
 
-Key properties of the $ARMA(p,q)$ process are:
+\section{Parameter Settings and Data Generation}
+
+To systematically analyze time series structure via entropy and complexity, we define a comprehensive grid of ARMA model configurations. The following models and coefficient settings are considered:
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{llllll}
+		\toprule
+		\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
+		\midrule
+		AR(1)      & AR1\_M1  & 0.8   &      &      &      \\
+		& AR1\_M2  & 0.1   &      &      &      \\
+		& AR1\_M3  & -0.8  &      &      &      \\
+		& AR1\_M4  & -0.1  &      &      &      \\
+		AR(2)      & AR2\_M1  & 0.1   & 0.8  &      &      \\
+		& AR2\_M2  & -0.8  & 0.1  &      &      \\
+		& AR2\_M3  & 0.1   & -0.8 &      &      \\
+		& AR2\_M4  & -0.8  & -0.1 &      &      \\
+		MA(1)      & MA1\_M1  &       &      & 0.8  &      \\
+		& MA1\_M2  &       &      & 0.1  &      \\
+		& MA1\_M3  &       &      & -0.8 &      \\
+		& MA1\_M4  &       &      & -0.1 &      \\
+		MA(2)      & MA2\_M1  &       &      & 0.1  & 0.8  \\
+		& MA2\_M2  &       &      & -0.8 & 0.1  \\
+		& MA2\_M3  &       &      & 0.1  & -0.8 \\
+		& MA2\_M4  &       &      & -0.8 & -0.1 \\
+		ARMA(1,1)  & ARMA11\_M1 & 0.8 &      & 0.8  &      \\
+		& ARMA11\_M2 & 0.1 &      & 0.1  &      \\
+		& ARMA11\_M3 & -0.8 &     & -0.8 &      \\
+		& ARMA11\_M4 & -0.1 &     & -0.1 &      \\
+		ARMA(2,2)  & ARMA22\_M1 & 0.1 & 0.8  & 0.1  & 0.8  \\
+		& ARMA22\_M2 & -0.8 & 0.1 & -0.8 & 0.1  \\
+		& ARMA22\_M3 & 0.1 & -0.8 & 0.1  & -0.8 \\
+		& ARMA22\_M4 & -0.8 & -0.1 & -0.8 & -0.1 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Models and parameter sets for AR(1), AR(2), MA(1), MA(2), ARMA(1,1), and ARMA(2,2). Empty cells indicate omitted parameters.}
+\end{table}
+
+
+For each model type and specified parameterization:
 \begin{itemize}
-	\item The process is \textit{stationary} when all roots of $\theta_p(B)$ lie outside the unit circle.
-	\item The process is \textit{invertible} when all roots of $\phi_q(B)$ lie outside the unit circle.
-	\item The $AR(p)$ model is a special case: $ARMA(p,0)$.
-	\item The $MA(q)$ model is a special case: $ARMA(0,q)$.
-	\item \textit{Parameter parsimony}: ARMA models can often provide a more efficient description (fewer parameters) than separate AR or MA models.
-	\item \textit{Parameter redundancy}: If $\theta_p(B)$ and $\phi_q(B)$ share a common factor, it may be canceled algebraically from both sides, simplifying the model. For example,
-	\[
-	(1 - \alpha B)(1 - \beta B)x_t = (1 - \beta B)w_t
-	\]
-	can be simplified to
-	\[
-	(1 - \alpha B)x_t = w_t.
-	\]
+	\item Embedding dimension $D=3$ is used for ordinal pattern analysis.
+	\item Sample sizes: $n \in \{500, 1000\}$.
+	\item For each parameter configuration and each sample size, $R=100$ independent time series are simulated.
+	\item For every time series, both permutation entropy ($H$) and statistical complexity ($C$) are computed.
+	\item Each set of $(H, C)$ results is visualized: the $(H, C)$  pairs are plotted in the entropy-complexity plane, incorporating boundary curves and using axis splits suitable to each model class and time series length.
+	\item For further insight, density plots grouped by sample size illustrate the distribution of points.
+	\item For each model class, four subplots (corresponding to four specific parameter combinations) are combined into one grid, yielding six grids (one per model type) for a total of $6 \times 4$ subplots.
 \end{itemize}
 
-Simulation experiments were performed using ARMA models with varying sample sizes ($n = 100, 500, 5000$). The following parameter configurations were explored:
-\begin{enumerate}
-	\item ARMA(2,2) model, with constraints for stationarity: sample size $n = 5000$
-	\begin{itemize}
-		\item $\phi_1 + \phi_2 < 1$
-		\item $\phi_2 - \phi_1 < 1$
-	\end{itemize}
-	\item ARMA(2,2) model, unconstrained: $n = 5000$
-	\item ARMA(2,2) model, unconstrained: $n = 100$
-	\item ARMA(2,2) model, unconstrained: $n = 500$
-	\item ARMA(2,1) model, with constraints: $n = 5000$
-	\item ARMA(1,2) model: $n = 5000$
-	\item ARMA(1,1) model: $n = 5000$
-\end{enumerate}
+The simulation design provides systematic coverage of AR, MA, and ARMA structures, supporting robust clustering analysis of ordinal pattern features in both short ($n=500$) and moderate ($n=1000$) time series settings. Visualization strategies enable both direct comparisons between parameterizations and analysis of overall model class behavior in the entropy-complexity space.
 
 \section{Results and Discussion}
 
 To evaluate the effectiveness of ordinal pattern features for time series clustering, simulation experiments were conducted with ARMA processes across a comprehensive grid of parameters. Specifically, the autoregressive (AR) and moving average (MA) coefficients were varied over the sets:
 \[
-\text{AR} \in \{-0.8,\ -0.5,\ -0.3,\ 0,\ 0.3,\ 0.5,\ 0.8\}
+\text{AR} \in \{-0.8,\ -0.1,\ 0.8,\ 0.1 \}
 \]
 \[
-\text{MA} \in \{-0.8,\ -0.5,\ -0.3,\ 0,\ 0.3,\ 0.5,\ 0.8\}
+\text{MA} \in \{-0.8,\ -0.1,\ 0.8,\ 0.1 \}
 \]
 For each combination of AR and MA parameters, a time series was simulated and analyzed using ordinal patterns. The simulation loop systematically covered all grid points, ensuring a variety of dynamic behaviors and noise structures.
 
-Figures~\ref{fig:HC ARMA(21)} to~\ref{fig:HC ARMA(11)}  display entropy–complexity $(H \times C)$ plane scatter plots derived from simulated data, covering diverse AR and MA parameter combinations and sample sizes.
-
-\subsection{Key Features from Entropy–Complexity Analysis}
-
-\begin{itemize}
-	\item \textbf{Distinctive Clustering:} Simulated ARMA time series populate visually separable clusters on the $(H \times C)$ plane, corresponding to different combinations of AR and MA coefficients. Stronger coefficients (e.g., $\pm0.8$) tend to shift points toward lower entropy or higher complexity, capturing more persistent dynamic behavior.
-	\item \textbf{Parameter Sensitivity:} Variation in AR and MA parameters systematically alters the location and spread of points in the $(H \times C)$ plane. This demonstrates the ordinal-pattern features' sensitivity to underlying dynamics, effectively distinguishing regular, noisy, and mixed processes.
-	\item \textbf{Sample Size Effect:} Increasing the sample size ($n=100$, $500$, $5000$) results in tighter clusters and reduced scatter, confirming the reliability of entropy and complexity estimates in larger series.
-	\item \textbf{Model Type Comparison:} ARMA(2,2), ARMA(1,2),  ARMA(2,1), and ARMA(1,1) models occupy different regions, with constraints (e.g., $\phi_1 + \phi_2 < 1$ for stationarity) yielding more tightly grouped points. This affirms the method's ability to capture subtle model differences.
-	\item \textbf{High-Complexity Outliers:} For parameter values near the boundaries of stationarity or invertibility, series often yield high-entropy or high-complexity outliers, visually separable from regular processes.
-\end{itemize}
-
-\subsection{Discussion}
-
-The $(H \times C)$ plane results show that ordinal-pattern based entropy and complexity metrics are highly effective for differentiating simulated ARMA time series. The figures confirm reliable clustering and meaningful separation across a comprehensive parameter grid and for a range of sample sizes. These findings support the use of ordinal-pattern analysis for unsupervised time series clustering, and suggest that entropy–complexity plots are a practical tool for revealing hidden structure in both synthetic and real-world datasets.
-
-Future work could explore applications to other time series classes or investigate the impact of embedding dimension and noise on clustering robustness.
-
+Figures~\ref{fig:HC AR(1)} to~\ref{fig:HC ARMA(22)}  display entropy–complexity $(H \times C)$ plane scatter plots derived from simulated data, covering diverse AR and MA parameter combinations and sample sizes.
 
 \begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(22) n5000}
-	\caption{$H \times C$ plane for ARMA(2,2) model with parameter condition: Sample size 5000}
-	\label{fig:HC ARMA(22) constraint}
+	\includegraphics[width=0.9 \textwidth]{AR1_combined_analysis}
+	\caption{$H \times C$ plane for AR(1) model}
+	\label{fig:HC AR(1)}
 \end{figure}	
 
 \begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(22) n5000 without condition}
-	\caption{$H \times C$ plane for ARMA(2,2) model without parameter condition: Sample size 5000}
-	\label{fig:HC ARMA(22) unconstraint}
+	\includegraphics[width=0.9 \textwidth]{AR2_combined_analysis}
+	\caption{$H \times C$ plane for AR(2) model}
+	\label{fig:HC AR(2)}
 \end{figure}
 
 \begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(22) n100}
-	\caption{$H \times C$ plane for ARMA(2,2) model with parameter condition: Sample size 100}
-	\label{fig:HC ARMA(22) constraint n100}
+	\includegraphics[width=0.9 \textwidth]{MA1_combined_analysis}
+	\caption{$H \times C$ plane for MA(1) model}
+	\label{fig:HC MA(1)}
 \end{figure}
 
 \begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(22) n500}
-	\caption{$H \times C$ plane for ARMA(2,2) model with parameter condition: Sample size 500}
-	\label{fig:HC ARMA(22) constraint n500}
+	\includegraphics[width=0.9 \textwidth]{MA2_combined_analysis}
+	\caption{$H \times C$ plane for MA(2) model}
+	\label{fig:HC MA(2)}
 \end{figure}			
 	
 \begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{HC plane ARMA21 n5000}
-	\caption{$H \times C$ plane for ARMA(2,1) model with parameter condition: Sample size 5000}
-	\label{fig:HC ARMA(21)}
+	\includegraphics[width=0.9 \textwidth]{ARMA11_combined_analysis}
+	\caption{$H \times C$ plane for ARMA(1,1) model}
+	\label{fig:HC ARMA(11)}
 \end{figure}	
 
 \begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{HC plane ARMA12 n5000}
-	\caption{$H \times C$ plane for ARMA(1,2) model:Sample size 5000}
-	\label{fig:HC ARMA(12)}
+	\includegraphics[width=0.9 \textwidth]{ARMA22_combined_analysis}
+	\caption{$H \times C$ plane for ARMA(2,2) model}
+	\label{fig:HC ARMA(22)}
 \end{figure}
 
 
-\begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(11) n5000}
-	\caption{$H \times C$ plane for ARMA(1,1) model:Sample size 5000}
-	\label{fig:HC ARMA(11)}
-\end{figure}
+The results from the entropy–complexity analysis across AR1, AR2, MA1, MA2, ARMA(1,1), and ARMA(2,2) models reveal distinct clustering and spread patterns. These results provide key insights into the structural effects of different time series model classes and parameter variation.
 
-\begin{figure}[H]
-	\includegraphics[width=0.8 \textwidth]{HC plane ARMA(11) with CI}
-	\caption{$H \times C$ plane for ARMA(1,1) model with Confidence Interval:Sample size 5000}
-	\label{fig:HC ARMA(11) CI}
-\end{figure}
+For the AR1 models, series with stronger positive or negative coefficients exhibit lower entropy and higher complexity. In contrast, smaller coefficients allow greater entropy variation. In all cases, estimates become more precise with larger sample sizes.
 
+AR2 models produce a wider spread in the entropy–complexity plane. This reflects the richer dynamics possible with two autoregressive lags. However, stationary parameter values remain within a consistent range of complexity.
 
+The MA1 and MA2 analyses further demonstrate that moving average structure drives most realizations toward lower complexity. Entropy is also tightly controlled, especially for stronger coefficients. This reveals the smoothing and memory-limiting role of moving average behavior.
 
-	
-	
-%\section{Conclusion and future work}
-%These experiments show that using ordinal patterns can help group (cluster) time series data in meaningful ways. First, we kept the model settings the same (AR = 0.6 and MA = 0.3) and changed the sample size (from 500 up to 5000) and the embedding dimension (from 3 to 6) to see how these factors affect measures like entropy and complexity. Then, we focused on one case (embedding dimension 5 and sample size 1000) and changed the ARMA model’s parameters. The results suggest that the way we group time series using ordinal patterns depends on the sample size, the embedding dimension, and the ARMA model’s settings.
+The ARMA(1,1) and ARMA(2,2) joint models combine these mechanisms. As a result, they produce denser, but still distinct, groupings in the ($H \times C$) diagram as both AR and MA parameters interact.
 
-%Future Work
-%In the future, I plan to include experiments with deterministic chaos (using time series with chaotic behavior) as well as random data. This will help test whether ordinal patterns and complexity-entropy measures can tell the difference between chaos and randomness, and improve clustering results in these new situations.
+Overall, the increase in sample size reduces spread and enhances the reliability of entropy and complexity estimates. This comparative analysis shows how model order and parameter values directly influence the diversity and location of points in the entropy–complexity space. These results support the use of entropy and complexity for both identification and clustering of time series dynamics.
 	
 %	\bibliography{../BearingFaultDiagnosis}
 	

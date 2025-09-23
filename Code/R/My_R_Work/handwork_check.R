@@ -139,7 +139,7 @@ oprob_data2000<-OPprob(data2000$DE_time, emb = 3)
 H_data2000<-HShannon(oprob_data2000)
 C_data2000<-StatComplexity(oprob_data2000)
 
-# Compute asymptotic variance
+# Compute asymptotic variance of the Entropy under pattern dependence 
 variance_data2000 <- sigma2q(data2000$DE_time, emb = 3)
 std_data2000 <- sqrt(variance_data2000)
 
