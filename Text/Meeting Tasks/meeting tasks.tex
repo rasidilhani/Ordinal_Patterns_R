@@ -92,8 +92,10 @@ For each model type and specified parameterization:
 	\item Embedding dimension $D=3$ is used for ordinal pattern analysis.
 	\item Sample sizes: $n \in \{500, 1000\}$.
 	\item For each parameter configuration and each sample size, $R=100$ independent time series are simulated.
+	\begin{itemize}
 	\item For every time series, both permutation entropy ($H$) and statistical complexity ($C$) are computed.
 	\item Each set of $(H, C)$ results is visualized: the $(H, C)$  pairs are plotted in the entropy-complexity plane, incorporating boundary curves and using axis splits suitable to each model class and time series length.
+	\end{itemize}
 	\item For further insight, density plots grouped by sample size illustrate the distribution of points.
 	\item For each model class, four subplots (corresponding to four specific parameter combinations) are combined into one grid, yielding six grids (one per model type) for a total of $6 \times 4$ subplots.
 \end{itemize}
