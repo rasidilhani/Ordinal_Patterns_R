@@ -1,0 +1,125 @@
+---
+title: "Aggregate Simulation model ARMA"
+author: "Rasika Dilhani"
+date: "2025-09-08"
+output: bookdown::pdf_document2
+header-includes:
+- \usepackage{bbm}
+- \usepackage{float}
+classoption: 12pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(1234567890, kind="Mersenne-Twister")
+library(StatOrdPattHxC)
+library(dplyr)
+library(ggplot2)
+```
+
+# Meeting Tasks to Study
+
+  - Propose the parametric space of the simulation study.  
+  
+  - Create a benchmark for time series clustering using simulated data:
+    - Explore different ARMA models (varying series lengths and parameters).
+   
+    
+# Parametric space
+Based on previous experience, very long time series can be problematic; a sample size of around 5000 data points may be more suitable for analysis. We choose the AR and MA coefficients ranging -0.8, -0.5, -0.3, 0, 0.3, 0.5, 0.8. ARMA model has chosen as a grid. 
+
+# Methodology
+
+In this study, ordinal patterns were utilized for time series clustering. The experiments were conducted using simulated ARMA processes with a range of sample sizes (500, 1000, 1500, 2000, and 5000). For the initial analysis, the ARMA model parameters were fixed at AR = 0.6 and MA = 0.3, while the embedding dimension (D) was systematically varied from 3 to 6 to investigate its influence on the ordinal pattern-based measures.
+
+Based on the results obtained from these experiments, an embedding dimension of 5 (D = 5) with a fixed sample size of 5000 was determined to be representative for deeper investigation. Subsequently, a second set of experiments was conducted in which the ARMA model parameters were varied, enabling assessment of the effect of different AR and MA configurations on the clustering characteristics derived from ordinal pattern analysis.
+
+This approach allowed for a comprehensive evaluation of how both sample size and embedding dimension impact the application of ordinal patterns in time series clustering, as well as how sensitive the results are to underlying ARMA model dynamics. 
+
+## Results for Shannon Entropy 
+
+```{r }
+# 1. Create grids of AR and MA values
+ar1_vals <- c(-0.8, -0.5, -0.3, 0, 0.3, 0.5, 0.8)
+ma1_vals <- c(-0.8, -0.5, -0.3, 0, 0.3, 0.5, 0.8)
+param_grid <- expand.grid(ar = ar1_vals, ma = ma1_vals, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+param_grid$label <- with(param_grid, paste0("AR=", ar, ", MA=", ma))
+
+# 2. Generate and save standard normal sample data
+#set.seed(1234567890, kind="Mersenne-Twister")
+n <- 5000
+sample_data <- rnorm(n)
+save(sample_data, file = "sample_data_Shannon.RData")  
+
+# 3. Simulation and feature calculation for ARMA combinations
+D <- 5  
+results <- data.frame()  
+
+for (i in seq_len(nrow(param_grid))) {
+  ar <- param_grid$ar[i]
+  ma <- param_grid$ma[i]
+  label <- param_grid$label[i]
+  
+  ts_data <- arima.sim(model = list(ar = ar, ma = ma), n = n)
+  ProbARMA <- OPprob(ts_data, emb = D)
+  Entropy <- HShannon(ProbARMA) 
+  Complexity <- StatComplexity(ProbARMA)
+  variancePD <- sigma2q(ts_data, emb = D)
+  VarianceM <- asymptoticVarHShannonMultinomial(ProbARMA, n - D + 1)
+  VarianceM <- max(VarianceM, 1e-8)
+  varCM <- varC(ProbARMA, n - D + 1)
+  a <- variancePD / VarianceM
+  VariancePDC <- a * varCM
+  semiLengthPD <- sqrt(variancePD) / sqrt(n - D + 1) * qnorm(0.975)
+  semiLengthPDC <- sqrt(VariancePDC) / sqrt(n - D + 1)
+  
+  results <- rbind(
+    results,
+    data.frame(
+      ParameterSet = label,
+      Entropy,
+      Complexity,
+      semiLengthPD,
+      semiLengthPDC
+    )
+  )
+}
+
+save(results, file = "arma_results_Shannon.RData")  # Save results for flexible plotting
+
+```
+
+```{r}
+# 4. Plot results (can reload the results for future plots without re-running simulation)
+#load("arma_results_Shannon.RData") # Use if you've already run the simulation and saved results
+```
+
+
+## Including Plots for Shannon Entropy
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+data("LinfLsup")  # Theoretical boundary from package
+
+ggplot(results, aes(x = Entropy, y = Complexity, color = ParameterSet)) +
+  geom_point(size = 2) +
+  geom_errorbarh(aes(xmin = Entropy - semiLengthPD, xmax = Entropy + semiLengthPD), height = 0.02) +
+  geom_errorbar(aes(ymin = Complexity - semiLengthPDC, ymax = Complexity + semiLengthPDC), width = 0.02) +
+  geom_line(data = subset(LinfLsup, Side == "Lower" & Dimension == as.character(D)),
+            aes(x = H, y = C), color = "black", linetype = "dashed", inherit.aes = FALSE) +
+  geom_line(data = subset(LinfLsup, Side == "Upper" & Dimension == as.character(D)),
+            aes(x = H, y = C), color = "black", linetype = "dashed", inherit.aes = FALSE) +
+  coord_cartesian(xlim = c(0.7, 1.0), ylim = c(0, 0.4)) +
+  labs(
+    title = paste("Entropy and Complexity for ARMA Time Series (D =", D, ", n =", n, ")"),
+    x = expression(italic(H)),
+    y = expression(italic(C)),
+    color = "Parameter Set"
+  ) +
+  theme_minimal() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "right")
+```
+

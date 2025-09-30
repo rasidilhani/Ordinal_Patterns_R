@@ -47,6 +47,51 @@ Using the lag operator, the above model can be expressed more compactly as:
 \end{equation}
 where $\theta_p(\mathbf{B}) = 1 - \alpha_1 \mathbf{B} - \alpha_2 \mathbf{B}^2 - \cdots - \alpha_p \mathbf{B}^p$ and $\phi_q(\mathbf{B}) = 1 + \beta_1 \mathbf{B} + \cdots + \beta_q \mathbf{B}^q$.
 
+\subsection{Parameter Constraint for ARMA model}
+In an ARMA model, the constraints are about two things. The AR part must satisfy stationarity, meaning the series has constant mean and variance over time. The MA part must satisfy invertibility, meaning the model can be written in terms of past observations. These rules apply to ARMA($p,q$) models. 
+
+\begin{itemize}
+\item \textbf{AR part (stationarity):}
+	\begin{itemize}
+		\item AR coefficients ($\phi_i$) must satisfy stationarity.
+		\item Roots of the AR polynomial must lie outside the unit circle.
+		\item Conditions:
+		\begin{itemize}
+			\item \textbf{AR(1):} $-1 < \phi_1 < 1$.
+			\item \textbf{AR(2):} all three must hold:
+			\begin{itemize}
+				\item $-1 < \phi_2 < 1$
+				\item $\phi_2 + \phi_1 < 1$
+				\item $\phi_2 - \phi_1 < 1$
+			\end{itemize}
+			\item \textbf{AR($p \geq 3$):} all roots of
+			\[
+			1 - \phi_1 x - \phi_2 x^2 - \dots - \phi_p x^p = 0
+			\]
+			must lie outside the unit circle.
+		\end{itemize}
+	\end{itemize}
+	
+\item \textbf{MA part (invertibility):}
+	\begin{itemize}
+		\item MA coefficients ($\theta_j$) must ensure invertibility.
+		\item Roots of the MA polynomial must also lie outside the unit circle.
+		\item Conditions:
+		\begin{itemize}
+			\item \textbf{MA(1):} $-1 < \theta_1 < 1$.
+			\item \textbf{MA(2):} all three must hold:
+			\begin{itemize}
+				\item $-1 < \theta_2 < 1$
+				\item $\theta_2 + \theta_1 < 1$
+				\item $\theta_2 - \theta_1 < 1$
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+
+If these constraints are violated, the ARMA model is not stationary or invertible, and is invalid for forecasting or inference.
+
+
 \section{Parameter Settings and Data Generation}
 
 To systematically analyze time series structure via entropy and complexity, we define a comprehensive grid of ARMA model configurations. The following models and coefficient settings are considered:
@@ -94,13 +139,16 @@ For each model type and specified parameterization:
 	\item For each parameter configuration and each sample size, $R=100$ independent time series are simulated.
 	\begin{itemize}
 	\item For every time series, both permutation entropy ($H$) and statistical complexity ($C$) are computed.
-	\item Each set of $(H, C)$ results is visualized: the $(H, C)$  pairs are plotted in the entropy-complexity plane, incorporating boundary curves and using axis splits suitable to each model class and time series length.
+	\item Each set of $(H, C)$ results is visualized: the $(H, C)$  pairs are plotted in the entropy-complexity plane, incorporating boundary curves and using axis splits suitable to each model and time series length.
 	\end{itemize}
 	\item For further insight, density plots grouped by sample size illustrate the distribution of points.
-	\item For each model class, four subplots (corresponding to four specific parameter combinations) are combined into one grid, yielding six grids (one per model type) for a total of $6 \times 4$ subplots.
+	\item For each model, four subplots (corresponding to four specific parameter combinations) are combined into one grid, yielding six grids (one per model type) for a total of $6 \times 4$ subplots.
 \end{itemize}
 
 The simulation design provides systematic coverage of AR, MA, and ARMA structures, supporting robust clustering analysis of ordinal pattern features in both short ($n=500$) and moderate ($n=1000$) time series settings. Visualization strategies enable both direct comparisons between parameterizations and analysis of overall model class behavior in the entropy-complexity space.
+
+For a more detailed investigation of the results, each process type was analyzed separately with respect to the AR, MA, and ARMA model structures.
+
 
 \section{Results and Discussion}
 
@@ -163,6 +211,23 @@ The MA1 and MA2 analyses further demonstrate that moving average structure drive
 The ARMA(1,1) and ARMA(2,2) joint models combine these mechanisms. As a result, they produce denser, but still distinct, groupings in the ($H \times C$) diagram as both AR and MA parameters interact.
 
 Overall, the increase in sample size reduces spread and enhances the reliability of entropy and complexity estimates. This comparative analysis shows how model order and parameter values directly influence the diversity and location of points in the entropy–complexity space. These results support the use of entropy and complexity for both identification and clustering of time series dynamics.
+
+For a more detailed investigation of the results, each process type was analyzed separately with respect to the AR, MA, and ARMA model structures. When we look at the further details of the results, as shown in Figures~\ref{fig:HC new n500} and~\ref{fig:HC new n1000}, clear differences among the model classes can be observed in the entropy–complexity plane.
+
+\begin{figure}[H]
+	\includegraphics[width=0.9 \textwidth]{New_model_group_plot_n500}
+	\caption{$H \times C$ plane for new model n500}
+	\label{fig:HC new n500}
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=0.9 \textwidth]{New_model_group_plot_n1000}
+	\caption{$H \times C$ plane for new model n1000}
+	\label{fig:HC new n1000}
+\end{figure}
+
+Distinct clustering patterns were observed among AR, MA, and ARMA models in the entropy–complexity plane. For 
+$n=500$, the data points appeared relatively scattered. In contrast, with $n=1000$, the clusters were tighter and exhibited greater stability. These findings suggest that increasing the sample size enhances the reliability of estimates and improves discrimination between models.
 	
 %	\bibliography{../BearingFaultDiagnosis}
 	
