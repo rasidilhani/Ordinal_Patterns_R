@@ -35,15 +35,28 @@
 	\begin{abstract}
 		
 				
-		Ordinal pattern analysis has emerged as a promising alternative to analysing time series data, providing a robust and computationally efficient approach. In this research, ordinal pattern analysis is used to analyse simulated time series under Autoregressive (AR), Moving Average (MA), and Autoregressive Moving Average (ARMA) models. It involves converting time series data into a sequence of symbols that represent ordering relationships among data points within specific time windows. Then, the Shannon entropy and the Statistical Complexity are computed from the histogram of symbols. The method detects small differences between models and sample sizes.
+Ordinal pattern analysis has emerged as a promising alternative to analysing time series data, providing a robust and computationally efficient approach. 
+It involves converting time series data into a sequence of symbols that represent ordering relationships among data points within specific time windows.  
+Then, the Shannon entropy and the Statistical Complexity are computed from the histogram of symbols. 
+The method detects small differences between models and sample sizes.
+We used ordinal pattern analysis to analyse simulated time series under Autoregressive (AR), Moving Average (MA), and Autoregressive Moving Average (ARMA) models. 
 		
-		This study investigates a simulation-based experiment into time series using ordinal pattern analysis. The primary research focus was on identifying the distinguishing characteristics of AR, MA, and ARMA models through ordinal patterns features. Simulated time series was generated with series length $n = 1000$, using parameter values chosen to satisfy the stationarity and invertibility conditions of the model.
+This study presents a simulation-based experiment into time series using ordinal pattern analysis. 
+The primary research focus was on identifying the distinguishing characteristics of AR, MA, and ARMA models through ordinal patterns features. 
+Simulated time series were generated with series length $n = 1000$, using parameter values chosen to satisfy the stationarity and invertibility conditions of the model. 
+The experimental design included several variants for each AR, MA, and ARMA model type, with each model representing a distinct parameter setting (Table~\ref{table:summary}). 
+To ensure model accuracy, 100 independent replications were performed for each model configuration.
 		
-		The experimental design included several variants for each AR, MA, and ARMA model type, with each model representing a distinct parameter setting (Table~\ref{table:summary}). To ensure model accuracy, 100 independent replications were performed for each model configuration.
-		
-		Ordinal patterns were extracted to compute entropy and complexity, and features were analyzed in the entropy–complexity plane for model discrimination. ARMA(1,1) shows two distinct clusters. AR coefficients $-0.8$ and $0.8$ produce lower entropy and higher complexity, while coefficients $0.1$ and $-0.1$ yield higher entropy and lower complexity. ARMA(2,2) shows overlapping groups across all four models. Clear separation appears by sample size, with larger samples forming more stable clusters (Figure~\ref{fig:HC new n1000}).
-		
-		The findings highlight the effectiveness of feature-based time series analysis, which uses Shannon entropy and complexity to characterize underling differences among models. The simulation experiment further validates the method’s reliability under varying structural and stochastic conditions. This research establishes a foundation for applying ordinal pattern analysis to unsupervised time series, with potential applications such as finance, engineering, and bioinformatics.
+Ordinal patterns were extracted to compute entropy and complexity. 
+Features were analysed in the entropy–complexity plane for model discrimination. 
+ARMA(1,1) shows two distinct clusters.
+AR coefficients $-0.8$ and $0.8$ produce lower entropy and higher complexity. 
+Coefficients $0.1$ and $-0.1$ yield higher entropy and lower complexity. 
+ARMA(2,2) shows overlapping groups across all four models. (Figures~\ref{fig:HC new n1000}).
+			
+The findings highlight the effectiveness of feature-based ordinal pattern analysis of time series, which uses Shannon entropy and complexity to characterize intrinsic differences among models. 
+The simulation framework further validates the method’s reliability under varying structural and stochastic configurations. 
+This research establishes a foundation for applying ordinal pattern analysis to unsupervised time series grouping, with potential applications in data-rich domains such as finance, engineering, and bioinformatics.
 		
 	\end{abstract}
 	
