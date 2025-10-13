@@ -10,6 +10,7 @@
 \usepackage{tabularx}
 \usepackage{siunitx}
 \usepackage{bm}
+\usepackage{multirow}
 
 \setstretch{1.05} % Slightly tighter line spacing
 \parskip=4pt      % Compact space between paragraphs
@@ -23,7 +24,7 @@
 \author[2]{Andrea A.\ Rey}
 
 \affil[1]{School of Mathematics and Statistics, Victoria University of Wellington, New Zealand}
-\affil[2]{Laboratorio de Investigación y Desarrollo Experimental en Computación (LIDEC), Instituto de Tecnología e Ingeniería, Universidad Nacional de Hurlingham (UNAHUR), Argentina}
+\affil[2]{Laboratorio de Investigación y Desarrollo Experimental en Computación (LIDEC), Universidad Nacional de Hurlingham (UNAHUR), Argentina}
 
 \date{}
 
@@ -49,10 +50,11 @@ To ensure model accuracy, 100 independent replications were performed for each m
 
 Ordinal patterns were extracted to compute entropy and complexity. 
 Features were analysed in the entropy–complexity plane for model discrimination. 
-ARMA(1,1) shows two distinct clusters.
+$\mathrm{ARMA}(1,1)$ shows two distinct clusters.
+%%% AR It is not clear which are the paremeters. In addition, the $\alpha_1$, $\alpha_2$, $\beta_1$, and $\beta_2$ that appear in the Table are never explained.
 AR coefficients $-0.8$ and $0.8$ produce lower entropy and higher complexity. 
 Coefficients $0.1$ and $-0.1$ yield higher entropy and lower complexity. 
-ARMA(2,2) shows overlapping groups across all four models. 
+$\mathrm{ARMA}(2,2)$ shows overlapping groups across all four models. 
 Clear separation appears by sample size, with larger samples forming more stable clusters. (Figures~\ref{fig:HC new n500} and \ref{fig:HC new n1000}).
 
 %%% ACF Did you do anything related to clustering? 
@@ -64,49 +66,57 @@ This research establishes a foundation for applying ordinal pattern analysis to 
 
 \begin{table}[hbt]
 	\centering
-	\begin{tabular}{llllll}
+	\begin{tabular}{llrrrr}
 		\toprule
 		\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
 		\midrule
-		AR(1)      & AR1\_M1  & $0.8$   &      &      &      \\
-		& AR1\_M2  & $0.1$   &      &      &      \\
-		& AR1\_M3  & $-0.8$  &      &      &      \\
-		& AR1\_M4  & $-0.1$  &      &      &      \\
-		AR(2)      & AR2\_M1  & $0.1$   & $0.8$  &      &      \\
-		& AR2\_M2  & $-0.8$  & $0.1$  &      &      \\
-		& AR2\_M3  & $0.1$   & $-0.8$ &      &      \\
-		& AR2\_M4  & $-0.8$  & $-0.1$ &      &      \\
-		MA(1)      & MA1\_M1  &       &      & $0.8$  &      \\
-		& MA1\_M2  &       &      & $0.1$  &      \\
-		& MA1\_M3  &       &      & $-0.8$ &      \\
-		& MA1\_M4  &       &      & $-0.1$ &      \\
-		MA(2)      & MA2\_M1  &       &      & $0.1$  & $0.8$  \\
-		& MA2\_M2  &       &      & $-0.8$ & $0.1$  \\
-		& MA2\_M3  &       &      & $0.1$  & $-0.8$ \\
-		& MA2\_M4  &       &      & $-0.8$ & $-0.1$ \\
-		ARMA(1,1)  & ARMA11\_M1 & $0.8$ &      & $0.8$  &      \\
-		& ARMA11\_M2 & $0.1$ &      & $0.1$  &      \\
-		& ARMA11\_M3 & $-0.8$ &     & $-0.8$ &      \\
-		& ARMA11\_M4 & $-0.1$ &     & $-0.1$ &      \\
-		ARMA(2,2)  & ARMA22\_M1 & $0.1$ & $0.8$  & $0.1$  & $0.8$  \\
-		& ARMA22\_M2 & $-0.8$ & $0.1$ & $-0.8$ & $0.1$  \\
-		& ARMA22\_M3 & $0.1$ & $-0.8$ & $0.1$  & $-0.8$ \\
-		& ARMA22\_M4 & $-0.8$ & $-0.1$ & $-0.8$ & $-0.1$ \\
+		\multirow{4}[2]{*}{$\mathrm{AR}(1)$}      & $\mathrm{AR}(1)_{\textrm{M}_1}$  & $0.8$   &      &      &      \\
+		& $\mathrm{AR}(1)_{\textrm{M}_2}$   & $0.1$   &      &      &      \\
+		& $\mathrm{AR}(1)_{\textrm{M}_3}$   & $-0.8$  &      &      &      \\
+		& $\mathrm{AR}(1)_{\textrm{M}_4}$   & $-0.1$  &      &      &      \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{AR}(2)$}      & $\mathrm{AR}(2)_{\textrm{M}_1}$   & $0.1$   & $0.8$  &      &      \\
+		& $\mathrm{AR}(2)_{\textrm{M}_2}$  & $-0.8$  & $0.1$  &      &      \\
+		& $\mathrm{AR}(2)_{\textrm{M}_3}$  & $0.1$   & $-0.8$ &      &      \\
+		& $\mathrm{AR}(2)_{\textrm{M}_4}$  & $-0.8$  & $-0.1$ &      &      \\
+		\midrule
+		\multirow{4}[2]{*}{	$\mathrm{MA}(1)$}      & $\mathrm{MA}(1)_{\textrm{M}_1}$ &       &      & $0.8$  &      \\
+		& $\mathrm{MA}(1)_{\textrm{M}_2}$  &       &      & $0.1$  &      \\
+		& $\mathrm{MA}(1)_{\textrm{M}_3}$  &       &      & $-0.8$ &      \\
+		& $\mathrm{MA}(1)_{\textrm{M}_4}$  &       &      & $-0.1$ &      \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{MA}(2)$}      & $\mathrm{MA}(2)_{\textrm{M}_1}$  &       &      & $0.1$  & $0.8$  \\
+		& $\mathrm{MA}(2)_{\textrm{M}_2}$  &       &      & $-0.8$ & $0.1$  \\
+		& $\mathrm{MA}(2)_{\textrm{M}_3}$  &       &      & $0.1$  & $-0.8$ \\
+		& $\mathrm{MA}(2)_{\textrm{M}_4}$  &       &      & $-0.8$ & $-0.1$ \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{ARMA}(1,1)$}  & $\mathrm{ARMA}(1,1)_{\textrm{M}_1}$ & $0.8$ &      & $0.8$  &      \\
+		& $\mathrm{ARMA}(1,1)_{\textrm{M}_2}$ & $0.1$ &      & $0.1$  &      \\
+		& $\mathrm{ARMA}(1,1)_{\textrm{M}_3}$ & $-0.8$ &     & $-0.8$ &      \\
+		& $\mathrm{ARMA}(1,1)_{\textrm{M}_4}$ & $-0.1$ &     & $-0.1$ &      \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{ARMA}(2,2)$}  & $\mathrm{ARMA}(2,2)_{\textrm{M}_1}$ & $0.1$ & $0.8$  & $0.1$  & $0.8$  \\
+		& $\mathrm{ARMA}(2,2)_{\textrm{M}_2}$ & $-0.8$ & $0.1$ & $-0.8$ & $0.1$  \\
+		& $\mathrm{ARMA}(2,2)_{\textrm{M}_3}$ & $0.1$ & $-0.8$ & $0.1$  & $-0.8$ \\
+		& $\mathrm{ARMA}(2,2)_{\textrm{M}_4}$ & $-0.8$ & $-0.1$ & $-0.8$ & $-0.1$ \\
 		\bottomrule
 	\end{tabular}
-	\caption{Models and parameter sets for AR(1), AR(2), MA(1), MA(2), ARMA(1,1), and ARMA(2,2). Empty cells indicate omitted parameters.}
+	\caption{Models and parameter sets for $\mathrm{AR}(1)$, $\mathrm{AR}(2)$, $\mathrm{MA}(1)$, $\mathrm{MA}(2)$, $\mathrm{ARMA}(1,1)$, and $\mathrm{ARMA}(2,2)$. Empty cells indicate omitted parameters.}
 	\label{table:summary}
 \end{table}
 
+%%% AR Do not include titles in Figures since they have a caption.
+
+%%% AR This figure exceeds the margin.
 \begin{figure}[H]
 	\includegraphics[width=0.9 \textwidth]{New_model_group_plot_n500}
-	\caption{$H \times C$ plane for new model n500}
+	\caption{$H \times C$ plane for new model $n=500$.}
 	\label{fig:HC new n500}
 \end{figure}
 
 \begin{figure}[H]
 	\includegraphics[width=0.9 \textwidth]{New_model_group_plot_n1000}
-	\caption{$H \times C$ plane for new model n1000}
+	\caption{$H \times C$ plane for new model $n=1000$.}
 	\label{fig:HC new n1000}
 \end{figure}
 
