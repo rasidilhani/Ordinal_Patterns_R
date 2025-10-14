@@ -10,6 +10,7 @@
 \usepackage{tabularx}
 \usepackage{siunitx}
 \usepackage{bm}
+\usepackage{multirow}
 
 \setstretch{1.05} % Slightly tighter line spacing
 \parskip=4pt      % Compact space between paragraphs
@@ -45,6 +46,8 @@ This study presents a simulation-based experiment into time series using ordinal
 The primary research focus was on identifying the distinguishing characteristics of AR, MA, and ARMA models through ordinal patterns features. 
 Simulated time series were generated with series length $n = 1000$, using parameter values chosen to satisfy the stationarity and invertibility conditions of the model. 
 The experimental design included several variants for each AR, MA, and ARMA model type, with each model representing a distinct parameter setting (Table~\ref{table:summary}). 
+For ARMA models, the parameters $\alpha_2$, $\beta_1$, and $\beta_2$ correspond to the autoregressive and moving average coefficients, respectively. 
+These parameters define the model structure and directly affect the time series dynamics examined in this study.
 To ensure model accuracy, 100 independent replications were performed for each model configuration.
 		
 Ordinal patterns were extracted to compute entropy and complexity. 
@@ -60,39 +63,44 @@ This research establishes a foundation for applying ordinal pattern analysis to 
 		
 	\end{abstract}
 	
-\begin{table}[h!]
+\begin{table}[hbt]
 	\centering
-	\begin{tabular}{llllll}
+	\begin{tabular}{llrrrr}
 		\toprule
 		\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
 		\midrule
-		AR(1)      & AR1\_M1  & $0.8$   &      &      &      \\
-		& AR1\_M2  & $0.1$   &      &      &      \\
-		& AR1\_M3  & $-0.8$  &      &      &      \\
-		& AR1\_M4  & $-0.1$  &      &      &      \\
-		AR(2)      & AR2\_M1  & $0.1$   & $0.8$  &      &      \\
-		& AR2\_M2  & $-0.8$  & $0.1$  &      &      \\
-		& AR2\_M3  & $0.1$   & $-0.8$ &      &      \\
-		& AR2\_M4  & $-0.8$  & $-0.1$ &      &      \\
-		MA(1)      & MA1\_M1  &       &      & $0.8$  &      \\
-		& MA1\_M2  &       &      & $0.1$  &      \\
-		& MA1\_M3  &       &      & $-0.8$ &      \\
-		& MA1\_M4  &       &      & $-0.1$ &      \\
-		MA(2)      & MA2\_M1  &       &      & $0.1$  & $0.8$  \\
-		& MA2\_M2  &       &      & $-0.8$ & $0.1$  \\
-		& MA2\_M3  &       &      & $0.1$  & $-0.8$ \\
-		& MA2\_M4  &       &      & $-0.8$ & $-0.1$ \\
-		ARMA(1,1)  & ARMA11\_M1 & $0.8$ &      & $0.8$  &      \\
-		& ARMA11\_M2 & $0.1$ &      & $0.1$  &      \\
-		& ARMA11\_M3 & $-0.8$ &     & $-0.8$ &      \\
-		& ARMA11\_M4 & $-0.1$ &     & $-0.1$ &      \\
-		ARMA(2,2)  & ARMA22\_M1 & $0.1$ & $0.8$  & $0.1$  & $0.8$  \\
-		& ARMA22\_M2 & $-0.8$ & $0.1$ & $-0.8$ & $0.1$  \\
-		& ARMA22\_M3 & $0.1$ & $-0.8$ & $0.1$  & $-0.8$ \\
-		& ARMA22\_M4 & $-0.8$ & $-0.1$ & $-0.8$ & $-0.1$ \\
+		\multirow{4}[2]{*}{$\mathrm{AR}(1)$}      & $\mathrm{AR}(1)_{\textrm{M}_1}$  & $0.8$   &      &      &      \\
+		& $\mathrm{AR}(1)_{\textrm{M}_2}$   & $0.1$   &      &      &      \\
+		& $\mathrm{AR}(1)_{\textrm{M}_3}$   & $-0.8$  &      &      &      \\
+		& $\mathrm{AR}(1)_{\textrm{M}_4}$   & $-0.1$  &      &      &      \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{AR}(2)$}      & $\mathrm{AR}(2)_{\textrm{M}_1}$   & $0.1$   & $0.8$  &      &      \\
+		& $\mathrm{AR}(2)_{\textrm{M}_2}$  & $-0.8$  & $0.1$  &      &      \\
+		& $\mathrm{AR}(2)_{\textrm{M}_3}$  & $0.1$   & $-0.8$ &      &      \\
+		& $\mathrm{AR}(2)_{\textrm{M}_4}$  & $-0.8$  & $-0.1$ &      &      \\
+		\midrule
+		\multirow{4}[2]{*}{	$\mathrm{MA}(1)$}      & $\mathrm{MA}(1)_{\textrm{M}_1}$ &       &      & $0.8$  &      \\
+		& $\mathrm{MA}(1)_{\textrm{M}_2}$  &       &      & $0.1$  &      \\
+		& $\mathrm{MA}(1)_{\textrm{M}_3}$  &       &      & $-0.8$ &      \\
+		& $\mathrm{MA}(1)_{\textrm{M}_4}$  &       &      & $-0.1$ &      \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{MA}(2)$}      & $\mathrm{MA}(2)_{\textrm{M}_1}$  &       &      & $0.1$  & $0.8$  \\
+		& $\mathrm{MA}(2)_{\textrm{M}_2}$  &       &      & $-0.8$ & $0.1$  \\
+		& $\mathrm{MA}(2)_{\textrm{M}_3}$  &       &      & $0.1$  & $-0.8$ \\
+		& $\mathrm{MA}(2)_{\textrm{M}_4}$  &       &      & $-0.8$ & $-0.1$ \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{ARMA}(1,1)$}  & $\mathrm{ARMA}(1,1)_{\textrm{M}_1}$ & $0.8$ &      & $0.8$  &      \\
+		& $\mathrm{ARMA}(1,1)_{\textrm{M}_2}$ & $0.1$ &      & $0.1$  &      \\
+		& $\mathrm{ARMA}(1,1)_{\textrm{M}_3}$ & $-0.8$ &     & $-0.8$ &      \\
+		& $\mathrm{ARMA}(1,1)_{\textrm{M}_4}$ & $-0.1$ &     & $-0.1$ &      \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{ARMA}(2,2)$}  & $\mathrm{ARMA}(2,2)_{\textrm{M}_1}$ & $0.1$ & $0.8$  & $0.1$  & $0.8$  \\
+		& $\mathrm{ARMA}(2,2)_{\textrm{M}_2}$ & $-0.8$ & $0.1$ & $-0.8$ & $0.1$  \\
+		& $\mathrm{ARMA}(2,2)_{\textrm{M}_3}$ & $0.1$ & $-0.8$ & $0.1$  & $-0.8$ \\
+		& $\mathrm{ARMA}(2,2)_{\textrm{M}_4}$ & $-0.8$ & $-0.1$ & $-0.8$ & $-0.1$ \\
 		\bottomrule
 	\end{tabular}
-	\caption{Models and parameter sets for AR(1), AR(2), MA(1), MA(2), ARMA(1,1), and ARMA(2,2). Empty cells indicate omitted parameters.}
+	\caption{Models and parameter sets for $\mathrm{AR}(1)$, $\mathrm{AR}(2)$, $\mathrm{MA}(1)$, $\mathrm{MA}(2)$, $\mathrm{ARMA}(1,1)$, and $\mathrm{ARMA}(2,2)$. Empty cells indicate omitted parameters.}
 	\label{table:summary}
 \end{table}
 
@@ -103,7 +111,7 @@ This research establishes a foundation for applying ordinal pattern analysis to 
 %\end{figure}
 
 \begin{figure}[H]
-	\includegraphics[width=0.9 \textwidth]{New_model_group_plot_n1000}
+	\includegraphics[width=0.8 \textwidth]{New_model_group_plot_n1000}
 	\caption{$H \times C$ plane for new model n1000}
 	\label{fig:HC new n1000}
 \end{figure}

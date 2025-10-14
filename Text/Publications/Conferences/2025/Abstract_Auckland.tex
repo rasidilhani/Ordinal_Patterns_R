@@ -46,6 +46,8 @@ The primary research focus was on identifying the distinguishing characteristics
 Simulated time series were generated with two series lengths ($n = 500$ and $n = 1000$), using parameter values chosen to satisfy the stationarity and invertibility conditions of the models. 
 %%% ACF The table number does not show in my compiled PDF
 The experimental design included several variants for each AR, MA, and ARMA model type, with each model representing a distinct parameter setting (Table~\ref{table:summary}). 
+For ARMA models, the parameters $\alpha_2$, $\beta_1$, and $\beta_2$ correspond to the autoregressive and moving average coefficients, respectively. 
+These parameters define the model structure and directly affect the time series dynamics examined in this study. 
 To ensure model accuracy, 100 independent replications were performed for each model configuration.
 
 Ordinal patterns were extracted to compute entropy and complexity. 
@@ -109,13 +111,13 @@ This research establishes a foundation for applying ordinal pattern analysis to 
 
 %%% AR This figure exceeds the margin.
 \begin{figure}[H]
-	\includegraphics[width=0.9 \textwidth]{New_model_group_plot_n500}
+	\includegraphics[width=0.8 \textwidth]{New_model_group_plot_n500}
 	\caption{$H \times C$ plane for new model $n=500$.}
 	\label{fig:HC new n500}
 \end{figure}
 
 \begin{figure}[H]
-	\includegraphics[width=0.9 \textwidth]{New_model_group_plot_n1000}
+	\includegraphics[width=0.8 \textwidth]{New_model_group_plot_n1000}
 	\caption{$H \times C$ plane for new model $n=1000$.}
 	\label{fig:HC new n1000}
 \end{figure}
