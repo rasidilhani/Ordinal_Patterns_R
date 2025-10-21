@@ -11,6 +11,7 @@
 \usepackage{bm}
 \usepackage{natbib} % or biblatex if you prefer
 \bibliographystyle{apa} % set APA style
+\usepackage{multirow}
 
 \title{Time Series Clustering Using Simulated Data}
 \author{Rasika Dilhani}
@@ -96,40 +97,45 @@ If these constraints are violated, the ARMA model is not stationary or invertibl
 
 To systematically analyze time series structure via entropy and complexity, we define a comprehensive grid of ARMA model configurations. The following models and coefficient settings are considered:
 
-\begin{table}[h!]
+\begin{table}[H]
 	\centering
-	\begin{tabular}{llllll}
+	\begin{tabular}{llrrrr}
 		\toprule
 		\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
 		\midrule
-		AR(1)      & AR1\_M1  & $0.8$   &      &      &      \\
-		& AR1\_M2  & $0.1$   &      &      &      \\
-		& AR1\_M3  & $-0.8$  &      &      &      \\
-		& AR1\_M4  & $-0.1$  &      &      &      \\
-		AR(2)      & AR2\_M1  & $0.1$   & $0.8$  &      &      \\
-		& AR2\_M2  & $-0.8$  & $0.1$  &      &      \\
-		& AR2\_M3  & $0.1$   & $-0.8$ &      &      \\
-		& AR2\_M4  & $-0.8$  & $-0.1$ &      &      \\
-		MA(1)      & MA1\_M1  &       &      & $0.8$  &      \\
-		& MA1\_M2  &       &      & $0.1$  &      \\
-		& MA1\_M3  &       &      & $-0.8$ &      \\
-		& MA1\_M4  &       &      & $-0.1$ &      \\
-		MA(2)      & MA2\_M1  &       &      & $0.1$  & $0.8$  \\
-		& MA2\_M2  &       &      & $-0.8$ & $0.1$  \\
-		& MA2\_M3  &       &      & $0.1$  & $-0.8$ \\
-		& MA2\_M4  &       &      & $-0.8$ & $-0.1$ \\
-		ARMA(1,1)  & ARMA11\_M1 & $0.8$ &      & $0.8$  &      \\
-		& ARMA11\_M2 & $0.1$ &      & $0.1$  &      \\
-		& ARMA11\_M3 & $-0.8$ &     & $-0.8$ &      \\
-		& ARMA11\_M4 & $-0.1$ &     & $-0.1$ &      \\
-		ARMA(2,2)  & ARMA22\_M1 & $0.1$ & $0.8$  & $0.1$  & $0.8$  \\
-		& ARMA22\_M2 & $-0.8$ & $0.1$ & $-0.8$ & $0.1$  \\
-		& ARMA22\_M3 & $0.1$ & $-0.8$ & $0.1$  & $-0.8$ \\
-		& ARMA22\_M4 & $-0.8$ & $-0.1$ & $-0.8$ & $-0.1$ \\
+		\multirow{4}[2]{*}{$\mathrm{AR}(1)$}      & $\mathrm{AR}(1)_{\textrm{M}_1}$  & $0.8$   &      &      &      \\
+		& $\mathrm{AR}(1)_{\textrm{M}_2}$   & $0.1$   &      &      &      \\
+		& $\mathrm{AR}(1)_{\textrm{M}_3}$   & $-0.8$  &      &      &      \\
+		& $\mathrm{AR}(1)_{\textrm{M}_4}$   & $-0.1$  &      &      &      \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{AR}(2)$}      & $\mathrm{AR}(2)_{\textrm{M}_1}$   & $0.1$   & $0.8$  &      &      \\
+		& $\mathrm{AR}(2)_{\textrm{M}_2}$  & $-0.8$  & $0.1$  &      &      \\
+		& $\mathrm{AR}(2)_{\textrm{M}_3}$  & $0.1$   & $-0.8$ &      &      \\
+		& $\mathrm{AR}(2)_{\textrm{M}_4}$  & $-0.8$  & $-0.1$ &      &      \\
+		\midrule
+		\multirow{4}[2]{*}{	$\mathrm{MA}(1)$}      & $\mathrm{MA}(1)_{\textrm{M}_1}$ &       &      & $0.8$  &      \\
+		& $\mathrm{MA}(1)_{\textrm{M}_2}$  &       &      & $0.1$  &      \\
+		& $\mathrm{MA}(1)_{\textrm{M}_3}$  &       &      & $-0.8$ &      \\
+		& $\mathrm{MA}(1)_{\textrm{M}_4}$  &       &      & $-0.1$ &      \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{MA}(2)$}      & $\mathrm{MA}(2)_{\textrm{M}_1}$  &       &      & $0.1$  & $0.8$  \\
+		& $\mathrm{MA}(2)_{\textrm{M}_2}$  &       &      & $-0.8$ & $0.1$  \\
+		& $\mathrm{MA}(2)_{\textrm{M}_3}$  &       &      & $0.1$  & $-0.8$ \\
+		& $\mathrm{MA}(2)_{\textrm{M}_4}$  &       &      & $-0.8$ & $-0.1$ \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{ARMA}(1,1)$}  & $\mathrm{ARMA}(1,1)_{\textrm{M}_1}$ & $0.8$ &      & $0.8$  &      \\
+		& $\mathrm{ARMA}(1,1)_{\textrm{M}_2}$ & $0.1$ &      & $0.1$  &      \\
+		& $\mathrm{ARMA}(1,1)_{\textrm{M}_3}$ & $-0.8$ &     & $-0.8$ &      \\
+		& $\mathrm{ARMA}(1,1)_{\textrm{M}_4}$ & $-0.1$ &     & $-0.1$ &      \\
+		\midrule
+		\multirow{4}[2]{*}{$\mathrm{ARMA}(2,2)$}  & $\mathrm{ARMA}(2,2)_{\textrm{M}_1}$ & $0.1$ & $0.8$  & $0.1$  & $0.8$  \\
+		& $\mathrm{ARMA}(2,2)_{\textrm{M}_2}$ & $-0.8$ & $0.1$ & $-0.8$ & $0.1$  \\
+		& $\mathrm{ARMA}(2,2)_{\textrm{M}_3}$ & $0.1$ & $-0.8$ & $0.1$  & $-0.8$ \\
+		& $\mathrm{ARMA}(2,2)_{\textrm{M}_4}$ & $-0.8$ & $-0.1$ & $-0.8$ & $-0.1$ \\
 		\bottomrule
 	\end{tabular}
-	\caption{Models and parameter sets for AR(1), AR(2), MA(1), MA(2), ARMA(1,1), and ARMA(2,2). Empty cells indicate omitted parameters.}
-\end{table}
+		\caption{Models and parameter sets for AR(1), AR(2), MA(1), MA(2), ARMA(1,1), and ARMA(2,2). Empty cells indicate omitted parameters.}
+	\end{table}
 
 
 For each model type and specified parameterization:
@@ -150,9 +156,9 @@ The simulation design provides systematic coverage of AR, MA, and ARMA structure
 For a more detailed investigation of the results, each process type was analyzed separately with respect to the AR, MA, and ARMA model structures.
 
 
-\section{Results and Discussion}
+\section{Results}
 
-To evaluate the effectiveness of ordinal pattern features for time series clustering, simulation experiments were conducted with ARMA processes across a comprehensive grid of parameters. Specifically, the autoregressive (AR) and moving average (MA) coefficients were varied over the sets:
+To evaluate the effectiveness of ordinal pattern features for time series analysis, simulation experiments were conducted with ARMA processes across a comprehensive grid of parameters. Specifically, the autoregressive (AR) and moving average (MA) coefficients were varied over the sets:
 \[
 \text{AR} \in \{-0.8,\ -0.1,\ 0.8,\ 0.1 \}
 \]
@@ -161,64 +167,137 @@ To evaluate the effectiveness of ordinal pattern features for time series cluste
 \]
 For each combination of AR and MA parameters, a time series was simulated and analyzed using ordinal patterns. The simulation loop systematically covered all grid points, ensuring a variety of dynamic behaviors and noise structures.
 
-Figures~\ref{fig:HC AR(1)} to~\ref{fig:HC ARMA(22)}  display entropy–complexity $(H \times C)$ plane scatter plots derived from simulated data, covering diverse AR and MA parameter combinations and sample sizes.
+\subsection{Summary Statistics}
+
+\begin{table}[H]
+	\centering
+	\caption{Summary Statistics for AR1, MA1, ARMA11 Models}
+	\begin{tabular}{lcccccc}
+		\toprule
+		Model & AR1 Mean & AR1 SD & MA1 Mean & MA1 SD & ARMA11 Mean & ARMA11 SD \\
+		\midrule
+		M1    & 0.0186   & 1.66   & 0.0341   & 1.30   & -0.1553     & 3.02      \\
+		M2    & -0.0437  & 0.99   & -0.0423  & 0.98   & -0.0364     & 1.03      \\
+		M3    & -0.0132  & 1.52   & -0.0043  & 1.26   & -0.0031     & 2.81      \\
+		M4    & -0.0799  & 1.01   & -0.0735  & 0.98   & 0.0108      & 1.04      \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\caption{Summary Statistics for AR2, MA2, ARMA22 Models}
+	\begin{tabular}{lcccccc}
+		\toprule
+		Model & AR2 Mean & AR2 SD & MA2 Mean & MA2 SD & ARMA22 Mean & ARMA22 SD \\
+		\midrule
+		M1    & -0.4445  & 2.05   & -0.0204  & 1.32   & 0.7426      & 3.34      \\
+		M2    & -0.0161  & 2.03   & -0.0048  & 1.28   & -0.0047     & 3.91      \\
+		M3    & -0.0322  & 1.72   & -0.0098  & 1.26   & -0.0075     & 2.63      \\
+		M4    & 0.0158   & 1.51   & 0.0012   & 1.31   & -0.0038     & 2.33      \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsection{Time Series Visualization}
+Visual inspection of time series plots shows expected differences:
+\begin{itemize}
+	\item \textbf{AR Models:} Display persistent oscillatory patterns, with some models M1 and M3 exhibiting greater volatility due to higher AR coefficients. Further, the summary statistics reinforce this, the larger standard deviation is observed for higher order or more persistent model ($\mathrm{AR}(2)_{\textrm{M}_1}$).  
+	\item \textbf{MA Models:} Display short persistent deviation, generally lower variance compare to AR models.
+	\item \textbf{ARMA Models:} Combine AR and MA dynamics, showing both strong persistence and sudden volatility spikes. Summary statistics capture $\mathrm{ARMA}(2,2)_{\textrm{M}_1}$ has both the highest standard deviation and the widest range among all models.  
+\end{itemize}
+
+\subsection{Ordinal Pattern Clustering}
+Ordinal pattern clustering, guided by entropy-complexity features, effectively separates these time series models:
+\begin{itemize}
+	\item AR models form clusters characterized by low entropy, moderate complexity.
+	\item MA models cluster around higher entropy and low complexity.
+	\item ARMA models typically present higher complexity and greater dispersion, reflecting hybrid dynamics.
+\end{itemize}
+
+Figures~\ref{fig:TS AR(1)} to~\ref{fig:TS ARMA(22)}  display time series plots derived from simulated data, covering diverse AR and MA parameter combinations and sample sizes.  %$\mathrm{AR}(1)$ to $\mathrm{ARMA}(2,2)$ 
 
 \begin{figure}[H]
-	\includegraphics[width=0.9 \textwidth]{AR1_combined_analysis}
-	\caption{$H \times C$ plane for AR(1) model}
-	\label{fig:HC AR(1)}
+		\includegraphics[width=0.9 \textwidth]{ar1_time_series_plot}
+		\caption{Time series for $\mathrm{AR}(1)$ model}
+		\label{fig:TS AR(1)}
 \end{figure}	
 
 \begin{figure}[H]
-	\includegraphics[width=0.9 \textwidth]{AR2_combined_analysis}
-	\caption{$H \times C$ plane for AR(2) model}
-	\label{fig:HC AR(2)}
-\end{figure}
+	\includegraphics[width=0.9 \textwidth]{ar2_time_series_plot}
+	\caption{Time series for $\mathrm{AR}(2)$ model}
+	\label{fig:TS AR(2)}
+\end{figure}	
 
 \begin{figure}[H]
-	\includegraphics[width=0.9 \textwidth]{MA1_combined_analysis}
-	\caption{$H \times C$ plane for MA(1) model}
-	\label{fig:HC MA(1)}
-\end{figure}
+	\includegraphics[width=0.9 \textwidth]{ma1_time_series_plot}
+	\caption{Time series for $\mathrm{MA}(1)$ model}
+	\label{fig:TS MA(1)}
+\end{figure}	
 
 \begin{figure}[H]
-	\includegraphics[width=0.9 \textwidth]{MA2_combined_analysis}
-	\caption{$H \times C$ plane for MA(2) model}
-	\label{fig:HC MA(2)}
-\end{figure}			
+	\includegraphics[width=0.9 \textwidth]{ma2_time_series_plot}
+	\caption{Time series for $\mathrm{MA}(2)$ model}
+	\label{fig:TS MA(2)}
+\end{figure}	
+
+\begin{figure}[H]
+	\includegraphics[width=0.9 \textwidth]{arma11_time_series_plot}
+	\caption{Time series for $\mathrm{ARMA}(1,1)$ model}
+	\label{fig:TS ARMA(11)}
+\end{figure}	
+
+\begin{figure}[H]
+	\includegraphics[width=0.9 \textwidth]{arma22_time_series_plot}
+	\caption{Time series for $\mathrm{ARMA}(2,2)$ model}
+	\label{fig:TS ARMA(22)}
+\end{figure}	
+
+%\begin{figure}[H]
+%	\includegraphics[width=0.9 \textwidth]{AR1_combined_analysis}
+%	\caption{$H \times C$ plane for AR(1) model}
+%	\label{fig:HC AR(1)}
+%\end{figure}	
+
+%\begin{figure}[H]
+%	\includegraphics[width=0.9 \textwidth]{AR2_combined_analysis}
+%	\caption{$H \times C$ plane for AR(2) model}
+%	\label{fig:HC AR(2)}
+%\end{figure}
+
+%\begin{figure}[H]
+%	\includegraphics[width=0.9 \textwidth]{MA1_combined_analysis}
+%	\caption{$H \times C$ plane for MA(1) model}
+%	\label{fig:HC MA(1)}
+%\end{figure}
+
+%\begin{figure}[H]
+%	\includegraphics[width=0.9 \textwidth]{MA2_combined_analysis}
+%	\caption{$H \times C$ plane for MA(2) model}
+%	\label{fig:HC MA(2)}
+%\end{figure}			
 	
-\begin{figure}[H]
-	\includegraphics[width=0.9 \textwidth]{ARMA11_combined_analysis}
-	\caption{$H \times C$ plane for ARMA(1,1) model}
-	\label{fig:HC ARMA(11)}
-\end{figure}	
+%\begin{figure}[H]
+%	\includegraphics[width=0.9 \textwidth]{ARMA11_combined_analysis}
+%	\caption{$H \times C$ plane for ARMA(1,1) model}
+%	\label{fig:HC ARMA(11)}
+%\end{figure}	
 
-\begin{figure}[H]
-	\includegraphics[width=0.9 \textwidth]{ARMA22_combined_analysis}
-	\caption{$H \times C$ plane for ARMA(2,2) model}
-	\label{fig:HC ARMA(22)}
-\end{figure}
+%\begin{figure}[H]
+%	\includegraphics[width=0.9 \textwidth]{ARMA22_combined_analysis}
+%	\caption{$H \times C$ plane for ARMA(2,2) model}
+%	\label{fig:HC ARMA(22)}
+%\end{figure}
 
+Further analysis using advanced clustering validation in the entropy–complexity plane is considered to achieve a more rigorous differentiation and assessment of clustering validity.
 
-The results from the entropy–complexity analysis across AR1, AR2, MA1, MA2, ARMA(1,1), and ARMA(2,2) models reveal distinct clustering and spread patterns. These results provide key insights into the structural effects of different time series model classes and parameter variation.
+For a more detailed investigation of the results, each process type was analyzed separately with respect to the AR, MA, and ARMA model structures. A closer examination of the results, as illustrated in Figure~\ref{fig:HC new n1000}, reveals clear differences among the model classes within the entropy–complexity plane.
 
-For the AR1 models, series with stronger positive or negative coefficients exhibit lower entropy and higher complexity. In contrast, smaller coefficients allow greater entropy variation. In all cases, estimates become more precise with larger sample sizes.
-
-AR2 models produce a wider spread in the entropy–complexity plane. This reflects the richer dynamics possible with two autoregressive lags. However, stationary parameter values remain within a consistent range of complexity.
-
-The MA1 and MA2 analyses further demonstrate that moving average structure drives most realizations toward lower complexity. Entropy is also tightly controlled, especially for stronger coefficients. This reveals the smoothing and memory-limiting role of moving average behavior.
-
-The ARMA(1,1) and ARMA(2,2) joint models combine these mechanisms. As a result, they produce denser, but still distinct, groupings in the ($H \times C$) diagram as both AR and MA parameters interact.
-
-Overall, the increase in sample size reduces spread and enhances the reliability of entropy and complexity estimates. This comparative analysis shows how model order and parameter values directly influence the diversity and location of points in the entropy–complexity space. These results support the use of entropy and complexity for both identification and clustering of time series dynamics.
-
-For a more detailed investigation of the results, each process type was analyzed separately with respect to the AR, MA, and ARMA model structures. When we look at the further details of the results, as shown in Figures~\ref{fig:HC new n500} and~\ref{fig:HC new n1000}, clear differences among the model classes can be observed in the entropy–complexity plane.
-
-\begin{figure}[H]
-	\includegraphics[width=0.9 \textwidth]{New_model_group_plot_n500}
-	\caption{$H \times C$ plane for new model n500}
-	\label{fig:HC new n500}
-\end{figure}
+%\begin{figure}[H]
+%	\includegraphics[width=0.9 \textwidth]{New_model_group_plot_n500}
+%	\caption{$H \times C$ plane for new model n500}
+%	\label{fig:HC new n500}
+%\end{figure}
 
 \begin{figure}[H]
 	\includegraphics[width=0.9 \textwidth]{New_model_group_plot_n1000}
@@ -226,8 +305,26 @@ For a more detailed investigation of the results, each process type was analyzed
 	\label{fig:HC new n1000}
 \end{figure}
 
-Distinct clustering patterns were observed among AR, MA, and ARMA models in the entropy–complexity plane. For 
-$n=500$, the data points appeared relatively scattered. In contrast, with $n=1000$, the clusters were tighter and exhibited greater stability. These findings suggest that increasing the sample size enhances the reliability of estimates and improves discrimination between models.
+\section{Discussion}
+The combination of summary statistics and ordinal pattern clustering allows for robust differentiation among AR, MA, and ARMA models. ARMA models, especially higher order, are distinguishable via their increased variance and entropy-complexity characteristics.
+
+The results from the entropy–complexity analysis across $\mathrm{AR}(1), \mathrm{AR}(2)$, $\mathrm{MA}(1), \mathrm{MA}(2),$ $\mathrm{ARMA}(1,1),$ and $\mathrm{ARMA}(2,2)$ models reveal distinct clustering and spread patterns. These results provide key insights into the structural effects of different time series model classes and parameter variation.
+
+For the$\mathrm{AR}(1)$ models, series with stronger positive or negative coefficients exhibit lower entropy and higher complexity. In contrast, smaller coefficients allow greater entropy variation. 
+
+$\mathrm{AR}(2)$ models produce a wider spread in the entropy–complexity plane. This reflects the richer dynamics possible with two autoregressive lags. However, stationary parameter values remain within a consistent range of complexity.
+
+The $\mathrm{MA}(1)$ and $\mathrm{MA}(2)$ analyses further demonstrate that moving average structure drives most realizations toward lower complexity. Entropy is also tightly controlled, especially for stronger coefficients. It shows that moving averages make data smoother but also shorten how long past values affect the present.
+
+The $\mathrm{ARMA}(1,1)$  and $\mathrm{ARMA}(2,2)$ joint models combine these mechanisms. As a result, they produce denser, but still distinct, groupings in the ($H \times C$) diagram as both AR and MA parameters interact.
+
+\section{Conclusion}
+Summary statistics and time series plots provide initial model discrimination. Ordinal pattern clustering (entropy-complexity plane) strongly supports identification and categorization of AR, MA, and ARMA model dynamics.
+
+Overall, this analysis shows how model order and parameter values directly influence the diversity and location of points in the entropy–complexity plane. These results support the use of entropy and complexity for both identification and clustering of time series dynamics.
+
+
+
 	
 %	\bibliography{../BearingFaultDiagnosis}
 	

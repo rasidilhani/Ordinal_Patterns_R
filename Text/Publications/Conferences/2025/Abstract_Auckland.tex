@@ -46,7 +46,7 @@ The primary research focus was on identifying the distinguishing characteristics
 Simulated time series were generated with two series lengths ($n = 500$ and $n = 1000$), using parameter values chosen to satisfy the stationarity and invertibility conditions of the models. 
 %%% ACF The table number does not show in my compiled PDF
 The experimental design included several variants for each AR, MA, and ARMA model type, with each model representing a distinct parameter setting (Table~\ref{table:summary}). 
-For ARMA models, the parameters $\alpha_2$, $\beta_1$, and $\beta_2$ correspond to the autoregressive and moving average coefficients, respectively. 
+For ARMA models, the parameters $\alpha_1, \alpha_2$ correspond to the autoregressive model meanwhile $\beta_1$ and $\beta_2$ correspond to the moving average model.
 These parameters define the model structure and directly affect the time series dynamics examined in this study. 
 To ensure model accuracy, 100 independent replications were performed for each model configuration.
 
@@ -57,7 +57,7 @@ $\mathrm{ARMA}(1,1)$ shows two distinct clusters.
 AR coefficients $-0.8$ and $0.8$ produce lower entropy and higher complexity. 
 Coefficients $0.1$ and $-0.1$ yield higher entropy and lower complexity. 
 $\mathrm{ARMA}(2,2)$ shows overlapping groups across all four models. 
-Clear separation appears by sample size, with larger samples forming more stable clusters. (Figures~\ref{fig:HC new n500} and \ref{fig:HC new n1000}).
+Clear separation appears by sample size, with larger samples forming more stable clusters, as seen in Figures~\ref{fig:HC new n500} and~\ref{fig:HC new n1000}.
 
 %%% ACF Did you do anything related to clustering? 
 The findings highlight the effectiveness of feature-based ordinal pattern analysis of time series, which uses Shannon entropy and complexity to characterize intrinsic differences among models. 
