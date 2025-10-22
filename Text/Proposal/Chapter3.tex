@@ -374,7 +374,7 @@ where:
 \]
 
 \subsection{Other types of Entropy}
-%%% ACF At the end of this section, what do we know about them? Any asymptotic result? Under which conditions?
+%%% ACF At the end of this section, what do we know about them? Any asymptotic result? Under which conditions? Pagraph added 
 
 Moreover, other types of descriptors, such as Rényi entropy~\cite{renyi1961measures}, Tsallis entropy~\cite{tsallis1988possible}, and Fisher information~\cite{frieden2004science}, have been proposed to extract additional information that is not captured by Shannon entropy.
 From these entropy measures, Fisher information has garnered more attention due to its unique properties. Fisher information is defined as the average logarithmic derivative of a continuous probability density function.
@@ -397,7 +397,10 @@ where the re-normalization coefficient is $F_0=4$ \cite{sanchez2009discrete}
 
 Rényi entropy, Tsallis entropy, and Fisher information are alternative statistical measures that reveal specific aspects of time-series structure and variability not captured by Shannon entropy. Rey et al. demonstrated that, when computed from empirical ordinal pattern distributions, these measures become increasingly reliable as sample size grows. Specifically, their sample estimates approach well-defined asymptotic distributions that can be used for statistical inference and hypothesis testing.
 
-For the multinomial model, where ordinal patterns are assumed independent and drawn according to fixed probabilities, the sample entropies and Fisher information converge in distribution as $n$ increases: the central limit theorem applies, yielding asymptotic normality for Rényi and Tsallis entropy estimators, as well as for Fisher information. Explicit formulas for mean and variance are available, and confidence intervals can be constructed accordingly. If the empirical histogram is used, these asymptotic results remain valid under large sample size and mild regularity. In all cases, normality holds for entropy-type measures in the multinomial setting, and specific corrections or other distributions (like chi-squared for quadratic forms) may arise for more complex dependency structures. Thus, under the multinomial and empirical frameworks, these advanced entropy and information measures possess robust, predictable properties that enable their practical use in time-series analysis and statistical hypothesis testing.
+%what do we know about them? Any asymptotic result? Under which conditions? This paragrap explained to the question which you asked
+
+Rényi and Tsallis entropies share well-established asymptotic properties under the multinomial model \cite{Pardo1997, Rey2024, Rey2023}. When ordinal patterns are assumed to be independent and drawn from fixed probabilities, both the sample entropies and the Fisher information converge in distribution as the sample size $n$ increases \cite{Rey2024, Rey2023}. In this setting, the central limit theorem applies, leading to asymptotic normality for the estimators of Rényi and Tsallis entropies, as well as for Fisher information \cite{Bobkov2019, Rey2023}. Explicit expressions for the asymptotic mean and variance are available, allowing for the construction of confidence intervals \cite{Pardo1997, Rey2024}. When the empirical histogram is used instead of true probabilities, these asymptotic results remain valid under large-sample conditions and mild regularity assumptions. Thus, under the multinomial and empirical frameworks, these advanced entropy and information measures possess robust, predictable properties that enable their practical use in time-series analysis and statistical hypothesis testing.
+
 
 
 \section{Case Study of Asymptotic Distribution of the Shannon Entropy under pattern dependence and independence} \label{Sec:CaseStudy} 
