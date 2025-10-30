@@ -1,0 +1,145 @@
+---
+title: "Entropy–Complexity Model Discrimination in Simulated Time Series"
+author: "Rasika Dilhani"
+date: "2025-10-27"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# --- LOAD LIBRARIES ---
+library(dplyr)
+library(ggplot2)
+library(readxl) 
+library(StatOrdPattHxC)
+library(tidyr)
+library(GGally)
+library(ggfortify)
+library(viridis)
+```
+
+# Purpose
+
+The primary aim of this project is to systematically discriminate between simulated time series models and their classes (AR, MA, ARMA) using ordinal pattern–based entropy, complexity, and related features. This approach is motivated by their sensitivity to both linear and nonlinear temporal structures, as established in recent literature [1][2][3].
+
+# Methodology
+
+- **Embedding parameters:** Fixed embedding dimension (`D=3`) and delay (`tau=1`).
+- **Simulation protocol:**
+    - For each family: AR(1), AR(2), MA(1), MA(2), ARMA(1,1), ARMA(2,2).
+    - Four model parameter sets per class (M1–M4).
+    - For each replication:
+        - Simulate a time series (n = 1000, R = 100 replications).
+        - Compute feature set: Shannon, Rényi, Tsallis, Fisher entropies; associated Lamberti- and Fisher statistical complexities; entropy variances; and inter-entropy distances.
+    - Main feature references: Chagas et al. (2022) [1], Rey et al. (2011) [2], Boaretto et al. (2021) [3].
+
+# (H*, C*) Centrality Identification
+
+Following Chagas et al. [1], for each model, the time series whose (H, C) pair is closest to the model-wise median is designated as the central representative, denoted \((H^*, C^*)\).
+
+```{r}
+# --- 1. LOAD DATA ---
+df <- read_excel("HC all results.xlsx")
+df$Model <- as.factor(df$Model)
+cat("Loaded data size:\n")
+print(dim(df))
+print(head(df))
+# --- 2. COMPUTE MEDIAN (H*, C*) FOR EACH ENTROPY/COMPLEXITY + MODEL ---
+summarise_by_median <- function(df, H, C, entropy_type) {
+  df %>%
+    group_by(Model) %>%
+    summarise(
+      H_star = median({{ H }}, na.rm=TRUE),
+      C_star = median({{ C }}, na.rm=TRUE),
+      Entropy_Type = entropy_type,
+      n = dplyr::n(),
+      .groups = 'drop'
+    )
+}
+med_shannon <- summarise_by_median(df, H_Shannon, C_Shannon, "Shannon")
+med_renyi   <- summarise_by_median(df, H_Renyi,   C_Renyi,   "Renyi")
+med_tsallis <- summarise_by_median(df, H_Tsallis, C_Tsallis, "Tsallis")
+med_fisher  <- summarise_by_median(df, H_Fisher,  C_Fisher,  "Fisher")
+medians_all <- bind_rows(med_shannon, med_renyi, med_tsallis, med_fisher)
+cat("\nMedian (H*, C*) points by model and entropy type:\n")
+print(medians_all)
+```
+```{r}
+library(dplyr)
+df <- read_xlsx("HC all results.xlsx")
+central_points <- df %>%
+group_by(Model) %>%
+summarise(
+H_star = median(H_Shannon, na.rm=TRUE),
+C_star = median(C_Shannon, na.rm=TRUE),
+index = which.min((H_Shannon - median(H_Shannon, na.rm=TRUE))^2 +
+(C_Shannon - median(C_Shannon, na.rm=TRUE))^2)
+)
+print(central_points)
+```
+
+
+# Density and Feature Explorations in the HxC Plane
+
+We visualize the (H, C) distributions modelwise with kernel density estimators and highlight \((H^\ast, C^\ast)\) using distinct shapes and custom color palettes. Several color and fill mappings were considered; the final version uses a discrete viridis/light palette for optimal separation.
+
+```{r}
+ggplot(df, aes(x = H_Shannon, y = C_Shannon, color = Model)) +
+geom_point(alpha = 0.4) +
+geom_density_2d_filled(aes(fill=..level..), alpha=.3, show.legend=FALSE) +
+stat_ellipse(level=0.95, linetype="dashed") +
+geom_point(data=central_points, aes(x=H_star, y=C_star, color=Model), shape=8, size=5, stroke=1.5) +
+geom_text(data=central_points, aes(x=H_star, y=C_star, label=Model), fontface="bold", vjust=-1, size=5) +
+scale_color_viridis_d(option="C") +
+scale_fill_viridis_d(option="C") +
+theme_minimal(base_size = 12, base_family = "serif") +
+theme(panel.background=element_rect(fill="white"), plot.background=element_rect(fill="white")) +
+labs(title="Shannon Entropy–Complexity: Density and Central (H*,C*)", x="H (Shannon)", y="C (Shannon)")
+```
+
+# Pairwise Feature Scatter Matrix
+
+# Visualizing the Central Series
+
+If stored, display one representative time series at the (H*, C*) point for each class. Alternative visualizations (e.g., zoomed segments, overlaid quantiles) were considered; the raw series is most interpretable for cluster centrality.
+
+
+# Exploratory and Statistical Data Analysis
+
+To further examine discriminative ability:
+- Pairwise feature scatter, ANOVA/Kruskal–Wallis, PCA, and feature importance.
+- Decision thresholds and visual separation are assessed quantitatively and visually.
+
+```{r}
+# --- 4. PAIRWISE FEATURE SCATTER MATRIX ---
+library(GGally)
+feat_cols <- grep("^(H|C|Var)_", names(df), value=TRUE)
+ggpairs(df, columns=which(names(df) %in% feat_cols), aes(color=Model, alpha=0.6))
+
+pca_res <- prcomp(df[, feat_cols], scale. = TRUE, center = TRUE)
+summary(pca_res)
+library(ggfortify)
+autoplot(pca_res, data=df, colour="Model", loadings=TRUE, loadings.label=TRUE,
+loadings.label.size=4, loadings.colour="black", size=2, alpha=0.7) +
+labs(title="PCA: Entropy–Complexity Feature Space") +
+theme_minimal(base_size = 12, base_family = "serif")
+```   
+
+
+# Results and Discussion
+
+- The models are separable in joint entropy–complexity (H, C) space, with moderate overlap for specific parameter combinations.
+- Modelwise (H*, C*) points are generally well separated except for highly persistent or nearly i.i.d. settings.
+- PCA and random forest analyses confirm feature sensitivity; Rényi and Tsallis dimensions are especially useful in non-Gaussian or nonlinear regimes.
+- Cluster dispersion assessed via ellipses and statistical tests (ANOVA, Kruskal–Wallis) supports robust model identification in most cases.
+- Various contour/ellipse/color fills were explored; discrete viridis and `YlGnBu` suits complex cluster shapes best.
+
+# References
+
+1. Chagas, H.M., Kowalski, A., Soriano, M.C., et al. (2022). "The Entropy-Complexity Causality Plane and Its Application to Time Series Discrimination." *International Statistical Review*, 90(1), 86–119.  
+2. R. A. Rey, et al. (2011). "Statistical complexity and machine learning for time series classification," *Physica A*, 390(21), 3678–3690.  
+3. Boaretto, B.R.R., et al. (2021). "Discriminating chaotic and stochastic time series using permutation entropy and neural networks," *Chaos*, 31(10):103121.
+
+
+
+

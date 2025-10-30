@@ -1,0 +1,288 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{caption}
+\captionsetup[figure]{font=small}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{siunitx}
+\usepackage{hyperref}
+\usepackage{bm}
+%\usepackage{natbib} % or biblatex if you prefer
+%\usepackage{multirow}
+
+\title{Entropy-Complexity Plane Discrimination of Simulated Time Series Models}
+\author{Rasika Dilhani}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	
+\section{Purpose}
+The main purpose of this work is to discriminate between autoregressive, moving average, and ARMA time series models using feature based ordinal pattern. These information metrics help identify models more effectively than traditional linear statistics because they can detect both linear and nonlinear structure. \cite{Boaretto2021, Chagas2022a, Rey2024, Rey2023} 
+
+
+\section{Methodology}
+The results involving the time delay parameter variation is not significantly effect in repeated experiment~\cite{Chagas2022a} we consider the two relevant variables: length of the sequence and the embedding dimension to set parameters and data set. Here are the simulation setup for our experiment. 	
+
+
+\textbf{Simulation and Feature Construction:}
+	\begin{itemize}
+		\item \textbf{Embedding:} Fixed embedding dimension ($D=3$), delay ($\tau=1$).
+		\item \textbf{Model structure:} AR(1), AR(2), MA(1), MA(2), ARMA(1,1), ARMA(2,2), each with four parameterizations (M1-M4).
+		\item \textbf{Simulation:} For each model and each parameter set, $R=100$ time series of length $n=1000$ are simulated.
+		\item \textbf{Features:} For each realization:
+		\begin{itemize}
+			\item \emph{Entropy:} Shannon, Rényi, Tsallis, and Fisher information entropies.
+			\item \emph{Complexity:} Statistical complexity measures matched to each entropy type.
+			\item \emph{Standard deviations:}  Variances for each model were considered.
+		\end{itemize}
+	\end{itemize}
+	
+	\noindent
+	\textbf{Centrality analysis:} For each model, the series with $(H^*, C^*)$ closest to the median $(H, C)$ is identified as the ``central'' representative as recommended by Chagas et al.~\cite{Chagas2022a}.
+	
+\section{Results}
+	
+\subsection{Median (H*, C*) points}
+	
+To calculate the "median or emblematic" point in the $H \times C$ plane (as recommended by Chagas et al.,~\cite{Chagas2022a}), first compute the principal component analysis (PCA) of all H and C points for a given model. Next, sort the data according to the values of the first principal component (the direction of greatest variance). The emblematic point is then the original $(H,C)$ pair corresponding to the median value along this first principal component. This method ensures the selected point is truly central with respect to the main data structure, rather than simply taking the median of H and C separately.
+	
+\begin{table}[H]
+	\centering
+	\caption{Emblematic (Median) Points $(H^*, C^*)$ and Their Row Index}
+	\begin{tabular}{lrrr}
+		\toprule
+		Model & $H^*$ & $C^*$ & \text{Emblematic row} \\
+		\midrule
+		$\mathrm{AR}(1)_{\textrm{M}_1}$ & $0.977115$ & $0.021599$ & 25 \\
+		$\mathrm{AR}(1)_{\textrm{M}_2}$ & $0.999064$ & $0.000929$ & 64 \\
+		$\mathrm{AR}(1)_{\textrm{M}_3}$ &$ 0.945461$ & $0.055231$ & 55 \\
+		$\mathrm{AR}(1)_{\textrm{M}_4}$ &$ 0.998832$ & $0.001152$ & 88 \\
+		$\mathrm{AR}(2)_{\textrm{M}_1}$ & $0.965885$ & $0.034516$ & 75 \\
+		$\mathrm{AR}(2)_{\textrm{M}_2}$ & $0.917991$ & $0.083039$ & 54 \\
+		$\mathrm{AR}(2)_{\textrm{M}_3}$ & $0.972400$ & $0.02620$8 & 80 \\
+		$\mathrm{AR}(2)_{\textrm{M}_4}$ & $0.964379$ & $0.036038$ & 12 \\
+		$\mathrm{ARMA}(1,1)_{\textrm{M}_1}$ &$ 0.899274$ & $0.087417$ & 53 \\
+		$\mathrm{ARMA}(1,1)_{\textrm{M}_2}$ & $0.997516$ & $0.002436$ & 90 \\
+		$\mathrm{ARMA}(1,1)_{\textrm{M}_3}$ & $0.932882$ & $0.067982$ & 87 \\
+		$\mathrm{ARMA}(1,1)_{\textrm{M}_4}$ & $0.997835$ & $0.002159$ & 4 \\
+		$\mathrm{ARMA}(2,2)_{\textrm{M}_1}$ & $0.943623$ & $0.057128$ & 87 \\
+		$\mathrm{ARMA}(2,2)_{\textrm{M}_2}$ & $0.899985$ & $0.101073$ & 6 \\
+		$\mathrm{ARMA}(2,2)_{\textrm{M}_3}$ & $0.966676$ & $0.031002$ & 9 \\
+		$\mathrm{ARMA}(2,2)_{\textrm{M}_4}$ & $0.957209$ & $0.043443$ & 80 \\
+		$\mathrm{MA}(1)_{\textrm{M}_1}$ & $0.969221$ & $0.028807$ & 30 \\
+		$\mathrm{MA}(1)_{\textrm{M}_2}$ & $0.998891$ & $0.001085$ & 75 \\
+		$\mathrm{MA}(1)_{\textrm{M}_3}$ & $0.993770$ & $0.006249$ & 46 \\
+		$\mathrm{MA}(1)_{\textrm{M}_4}$ & $0.998752$ & $0.001238$ & 64 \\
+		$\mathrm{MA}(2)_{\textrm{M}_1}$ & $0.990739$ & $0.009306$ & 3 \\
+		$\mathrm{MA}(2)_{\textrm{M}_2}$ & $0.991545$ & $0.008480$ & 80 \\
+		$\mathrm{MA}(2)_{\textrm{M}_3}$ & $0.990391$ & $0.009282$ & 96 \\
+		$\mathrm{MA}(2)_{\textrm{M}_4}$ & $0.996217$ & $0.003776$ & 31 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+	
+\subsection{Graphical Representation of H-C Plane}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{Shannon_HxC_by_class.pdf}
+		\caption{Shannon entropy-complexity density contour in the $(H, C)$ plane}
+		\label{Shannon contour plot}
+	\end{figure}
+	
+The Figure~\ref{Shannon contour plot} presents all calculated entropy-complexity pairs $(H,C)$ for each ARMA, AR, and MA model class, with each point labeled and colored by model subclass (M1–M4). The plot reveals clear separation of model classes in the entropy–complexity plane, with each subclass forming distinctive clusters whose locations reflect the structure and randomness in the underlying time series. Models with greater randomness tend to align towards higher values of entropy and lower complexity, while more deterministic or structured subclasses occupy lower-entropy, higher-complexity regions. The spread and overlap of the clusters provide a visual summary of how well the Shannon entropy-complexity framework discriminates among these models, and highlight which subclasses (e.g., M1 vs. M4) are most distinctly identifiable. 
+
+The remaining contour plots show the model separation of each time series.
+
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Shannon_HxC_by_class_MA1.pdf}
+	\caption{Shannon entropy-complexity density contour in the $(H, C)$ plane for MA(1) model}
+	\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Shannon_HxC_by_class_MA2.pdf}
+	\caption{Shannon entropy-complexity density contour in the $(H, C)$ plane for MA(2) model}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Shannon_HxC_by_class_AR1.pdf}
+	\caption{Shannon entropy-complexity density contour in the $(H, C)$ plane for AR(1) model}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Shannon_HxC_by_class_AR2.pdf}
+	\caption{Shannon entropy-complexity density contour in the $(H, C)$ plane for AR(2) model}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Shannon_HxC_by_class_ARMA11.pdf}
+	\caption{Shannon entropy-complexity density contour in the $(H, C)$ plane for ARMA(11) model}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Shannon_HxC_by_class_ARMA22.pdf}
+	\caption{Shannon entropy-complexity density contour in the $(H, C)$ plane for ARMA(22) model}
+\end{figure}
+
+Further, 	
+\noindent
+Density plots were generated for Rényi, Tsallis, and Fisher information. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Renyi_HxC_by_class.pdf}
+	\caption{Rényi entropy-complexity density contour in the $(H, C)$ plane for all model}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Tsallis_HxC_by_class.pdf}
+	\caption{Tsallis entropy-complexity density contour in the $(H, C)$ plane for all model}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Fisher_HxC_by_class.pdf}
+	\caption{Fisher Information density contour in the $(H, C)$ plane for all model}
+\end{figure}
+
+In each figure, every data point and density contour is colored by its specific sub-model (e.g., "$\mathrm{AR}(1)_{\textrm{M}_1}$", "$\mathrm{AR}(1)_{\textrm{M}_2}$"), with faceting to present separate panels for Shannon, Renyi, Tsallis, and Fisher entropy-complexity pairs. This output is generated for each main group, allowing for precise visualization of cluster structure and model overlap. Custom color palettes are highlight class distinctions, making the graphical analysis ideal for model discrimination tasks.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{HC_Density_MA1_byClass.pdf}
+	\caption{Density contour in the $(H, C)$ plane for MA1 model}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{HC_Density_MA2_byClass.pdf}
+	\caption{Density contour in the $(H, C)$ plane for MA2 model}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{HC_Density_AR1_byClass.pdf}
+	\caption{Density contour in the $(H, C)$ plane for AR1 model}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{HC_Density_AR2_byClass.pdf}
+	\caption{Density contour in the $(H, C)$ plane for AR2 model}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{HC_Density_ARMA11_byClass.pdf}
+	\caption{Density contour in the $(H, C)$ plane for ARMA11 model}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{HC_Density_ARMA22_byClass.pdf}
+	\caption{Density contour in the $(H, C)$ plane for ARMA22 model}
+\end{figure}
+
+The hexbin plots provide an intuitive visual summary of the density and distribution of entropy-complexity $(H, C)$ points across all considered model families. By representing data density as hexagonal bins, these plots effectively highlight both high-concentration regions. Each sub-model trajectories and classes end to cluster and areas of overlap or spread for different entropy measures. The distinct color separation for M1 to M4 within each model facilitates direct comparison of clustering behavior, making regions of model discrimination and potential ambiguity clearly visible. This approach offers a precise and visually robust means of evaluating the separation and concentration patterns essential for time series model identification.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{HC_Hexbin_MA1.pdf}
+	\caption{Hexbin plot for MA1 model}
+		\label{fig:hchexbinar1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{HC_Hexbin_MA2.pdf}
+	\caption{Hexbin plot for MA2 model}
+		\label{fig:hchexbinar2}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{HC_Hexbin_AR1.pdf}
+	\caption{Hexbin plot for AR1 model}
+	\label{fig:hchexbinar3}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{HC_Hexbin_AR2.pdf}
+	\caption{Hexbin plot for AR2 model}
+	\label{fig:hchexbinar4}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{HC_Hexbin_ARMA11.pdf}
+	\caption{Hexbin plot for ARMA11 model}
+	\label{fig:hchexbinar5}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{HC_Hexbin_ARMA22.pdf}
+	\caption{Hexbin plot for ARMA22 model}
+	\label{fig:hchexbinar6}
+\end{figure}
+
+
+Distinct clustering and separation of models are observed, with $(H^*,C^*)$ providing robust representatives.
+	
+\subsection{Central Series Exploration}
+Refered to the chagas et.al~\cite{Chagas2022a} it is clear with that, median point for entropy and complexity is the best representation of the time series. In our experiment, the emblematic  $(H^*,C^*)$ point for each model is identified following Chagas et al.~\cite{Chagas2022a}, as the $(H,C)$ point whose first principal component is the median among all observations. This ensures the selected point is most representative in the main direction of data variability, as recommended in Algorithm 1 and Figure 6 of Chagas et al.
+ 	
+The figure~\ref{fig:median_entropy} displays all median $(H^*, C^*)$ points for every model on a single entropy-complexity plane, with each point colored by entropy type (Shannon, Renyi, Tsallis, or Fisher). This collective view reveals the global clustering structure and relative discriminability achieved by the different entropic measures. Further it is clearly see that different models occupy distinct regions in the $H \times C$ plane. Models with highly regular or highly random dynamics tend to lie near the lower and upper bounds of $H^*$ and $C^*$, while those with intermediate complexity are centrally located. Coloring by entropy type allows for immediate visual comparison of how sensitive each measure is for model separation.
+
+The second figure~\ref{fig:median_facet} facets the median points into separate panels for each entropy type. This layout enables a detailed, side-by-side assessment of how the choice of entropy influences the position and clustering of models in the entropy-complexity plane. Some entropy types—such as Tsallis and Fisher reveal stronger model separation or different spatial ordering compared to Shannon and Renyi, reflecting their distinct sensitivities to aspects of time series structure. This faceted view highlights which entropic measure best distinguishes among the models under consideration and supports nuanced conclusions about the comparative performance of each metric in model discrimination tasks.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{Median_HC_by_entropy.pdf}
+	\caption{Median entropy complexity plot}
+	\label{fig:median_entropy}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{Median_HC_facet_entropy.pdf}
+	\caption{Median entropy complexity facet plot}
+	\label{fig:median_facet}
+\end{figure}
+	
+\subsection{Exploratory Data Analysis and Statistical Testing}
+	
+Main feature discriminability was examined using pair plots, ANOVA, Kruskal--Wallis, PCA, and Random Forests (feature ranking):
+	
+	\begin{itemize}
+		\item ANOVA and Kruskal-Wallis confirm model-wise statistical separability of entropies and complexities (most $p < 0.01$).
+		\item PCA of all features reveals group separability primarily along the first principal component(s).
+		\item Fisher, Rényi, and Tsallis complexities provide additional discrimination in non-Gaussian regimes.
+		\item Random forest feature importance corroborate entropy variance and hybrid complexity as top ranking.
+	\end{itemize}
+	
+\section{Discussion}
+	
+The entropy-complexity approach, especially when leveraging diverse metrics (Shannon, Rényi, Tsallis, Fisher), enables clear discrimination of model structure for clustered (H,~C) patterns and central series. Advanced visualization (contours, ellipses, custom color maps) improves both interpretability and communication of results. Limitations (model overlap for certain parameter regimes) and alternative visualizations (including segment or quantile-based time series plots) are acknowledged.
+	
+\bibliographystyle{acm}
+\bibliography{../../BearingFaultDiagnosis}
+
+\end{document}

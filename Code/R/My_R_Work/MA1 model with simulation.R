@@ -124,3 +124,74 @@ ggsave(
   arrangeGrob(combined_plot, shared_legend, nrow = 2, heights = c(10, 1)),
   width = 12, height = 10, dpi = 300
 )
+
+#####################################################################################################
+library(StatOrdPattHxC)
+library(dplyr)
+
+# Parameters
+D <- 3
+N <- 1000
+R <- 100
+
+ma1_models <- list(
+  MA1_M1 = list(ma = c(0.8), type = "MA1_M1"),
+  MA1_M2 = list(ma = c(0.1), type = "MA1_M2"),
+  MA1_M3 = list(ma = c(-0.8), type = "MA1_M3"),
+  MA1_M4 = list(ma = c(-0.1), type = "MA1_M4")
+)
+
+Jensen_Shannon <- function(p, q) {
+  m <- 0.5 * (p + q)
+  js <- 0.5 * sum(ifelse(p == 0, 0, p * log((p + 1e-12)/(m + 1e-12)))) +
+    0.5 * sum(ifelse(q == 0, 0, q * log((q + 1e-12)/(m + 1e-12))))
+  return(js)
+}
+
+GeneralizedComplexity <- function(prob, entropy_value) {
+  Pe <- rep(1 / length(prob), length(prob))
+  JS <- Jensen_Shannon(prob, Pe)
+  return(JS * entropy_value)
+}
+
+FisherBasedComplexity <- function(prob, fisher_value) {
+  Pe <- rep(1 / length(prob), length(prob))
+  JS <- Jensen_Shannon(prob, Pe)
+  return(JS * fisher_value)
+}
+
+generate_ma1_data <- function(ma_coef, model_name, n, r_iterations = R) {
+  Output <- NULL
+  for (r in 1:r_iterations) {
+    ts_data <- arima.sim(model = list(ma = ma_coef), n = n)
+    ProbTS <- OPprob(ts_data, emb = D)
+    Hs <- HShannon(ProbTS)
+    Hr <- HRenyi(ProbTS, beta =  1.5)
+    Ht <- HTsallis(ProbTS, beta =  1.5)
+    Hf <- HFisher(ProbTS)
+    C_Shannon <- StatComplexity(ProbTS)
+    C_Renyi   <- GeneralizedComplexity(ProbTS, Hr)
+    C_Tsallis <- GeneralizedComplexity(ProbTS, Ht)
+    C_Fisher  <- FisherBasedComplexity(ProbTS, Hf)
+    Output <- rbind(Output, c(Hs, Hr, Ht, Hf, C_Shannon, C_Renyi, C_Tsallis, C_Fisher, n, model_name))
+  }
+  Output <- as.data.frame(Output, stringsAsFactors = FALSE)
+  names(Output) <- c("H_Shannon", "H_Renyi", "H_Tsallis", "H_Fisher",
+                     "C_Shannon", "C_Renyi", "C_Tsallis", "C_Fisher",
+                     "n", "Model")
+  Output[, 1:8] <- lapply(Output[, 1:8], as.numeric)
+  Output$n <- as.factor(Output$n)
+  return(Output)
+}
+
+all_ma1_data <- data.frame()
+for (i in seq_along(ma1_models)) {
+  model_name <- names(ma1_models)[i]
+  ma_coef <- ma1_models[[i]]$ma
+  temp_data <- generate_ma1_data(ma_coef, model_name, N)
+  all_ma1_data <- rbind(all_ma1_data, temp_data)
+}
+write.csv(all_ma1_data, "MA1_All_Entropy_Complexity_Final.csv", row.names = FALSE)
+
+cat("✅ MA(1) entropy–complexity and complexities saved as 'MA1_All_Entropy_Complexity_Final.csv'\n")
+
