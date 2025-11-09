@@ -26,6 +26,7 @@ variance_data10 <- sigma2q(data10$DE_time, emb = 3)
 
 #####################################################################################
 # number of data in series 100
+# qnorm(1-0.05/2)
 
 data100 <- read_excel("~/GitHub/Ordinal_Patterns_R/Data/hand_calculation_data.xlsx",
                      sheet = "series100")
