@@ -1,0 +1,300 @@
+\documentclass[11pt]{beamer}
+%\usetheme{CambridgeUS}
+\usecolortheme{beaver}
+\usetheme{Madrid}
+\usepackage{amsmath, amssymb, graphicx, booktabs}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{mathptmx}
+\captionsetup[figure]{font=scriptsize,labelfont=bf}
+
+\title[Ordinal Pattern Analysis of Time Series]{Feature-Based Clustering of Time Series \\ Using Ordinal Pattern Analysis}
+\author[M. H. M. R. S. Dilhani et al.]{
+	M.\ H.\ M.\ R.\ S.\ Dilhani\inst{1} \\
+	Alejandro C.\ Frery\inst{1} \\
+	Andrea A.\ Rey\inst{2}}
+\institute[Victoria University of Wellington]{
+	\inst{1}School of Mathematics and Statistics, Victoria University of Wellington, New Zealand\\
+	\inst{2}LIDEC, Universidad Nacional de Hurlingham (UNAHUR), Argentina}
+\date{\today}
+
+\setbeamertemplate{footline}{
+	\leavevmode
+	\hbox{%
+		\begin{beamercolorbox}[wd=.85\paperwidth,ht=2.5ex,dp=1ex,left]{author in head/foot}
+			\usebeamerfont{author in head/foot}\hspace{1em} Time Series Analysis Using Ordinal Patterns
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.15\paperwidth,ht=2.5ex,dp=1ex,right]{date in head/foot}
+			\usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace{1em}
+		\end{beamercolorbox}%
+	}
+	\vskip0pt
+}
+
+\begin{document}
+	%===========================================================
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Outline}
+		\tableofcontents
+	\end{frame}
+	
+	%===========================================================
+	
+	\begin{frame}{Motivation and Background}
+		\small
+		\begin{itemize}
+			\item Time series classification is challenging, especially under stochastic or nonlinear dynamics.
+			
+			\item \alert{Ordinal patterns} capture the order relations among consecutive data points.
+			
+			\item \textbf{Bandt \& Pompe (2002)}~\cite{PhysRevLett.88.174102}: introduced \textbf{Permutation Entropy} by mapping time series into ordinal patterns and computing Shannon entropy aka \textbf{Permutation Entropy}.
+			
+			\item \textbf{Limitation:} Entropy quantifies disorder but cannot distinguish random from structured dynamics.
+			
+			\item \textbf{Extension:} \textbf{López-Ruiz et al. (1995)}~\cite{lopez1995statistical} and \textbf{Lamberti et al. (2004)}~\cite{lamberti2004intensive}, introduced \alert{disequilibrium} and \textbf{Statistical Complexity} as complementary measures.
+			
+			\item The \textbf{Entropy–Complexity Plane} maps time series by entropy $(H)$ and complexity $(C)$, revealing distinct dynamical regimes.
+			
+			\item \textbf{Goal:} Differentiate \textbf{AR}, \textbf{MA}, and \textbf{ARMA} models using these measures.
+		\end{itemize}
+	\end{frame}
+	
+	%-----------------------------------------------------%
+	\begin{frame}{From Time Series to Ordinal Patterns: An Example}
+		\small
+		\begin{itemize}
+			\item \textbf{Example:} Mean monthly humidity in Wellington.
+			\item Original time series:
+			\[
+			77.3,\ 81.0,\ 82.4,\ 81.7,\ 83.6,\ 85.6,\ \dots
+			\]
+		\end{itemize}
+		
+		\begin{figure}[hbt]
+			\centering
+			\includegraphics[width=0.5\textwidth]{humidity graph} 
+			\caption{Mean monthly humidity in Wellington}
+			\label{fig:humidity}
+		\end{figure}
+	\end{frame}
+	
+	%-----------------------------------------------------%
+	\begin{frame}{Transforming into Ordinal Patterns}
+		\small
+		\begin{itemize}
+			\item Choose embedding dimension $D = 3$.
+			\item Slide a window of size $D$ across the series:
+		\end{itemize}
+		
+		\[
+		(77.3, 81.0, 82.4) \rightarrow (1,2,3) = \pi_1
+		\]
+		\[
+		(81.0, 82.4, 81.7) \rightarrow (1,3,2) = \pi_2
+		\]
+		
+		\begin{itemize}
+			\item Continue for all overlapping windows ($n - D + 1$ total).
+			\item Each window represents an \alert{ordinal pattern} describing local order relations.
+		\end{itemize}
+		
+		\begin{center}
+			\includegraphics[width=0.5\textwidth]{frequency histogram} 
+		\end{center}
+	\end{frame}
+		
+	%-----------------------------------------------------%
+	\begin{frame}{Conceptual Framework}
+		\begin{columns}
+			\column{0.55\textwidth}
+			\begin{itemize}
+				\item Transform time series $\{x_t\}$ into \textbf{ordinal patterns}.
+				\item Compute:
+				\begin{itemize}
+					\item Shannon entropy
+					\item Statistical complexity
+					\item Central point using PCA projection
+					\item Confidence Interval for Shannon entropy
+				\end{itemize}
+				\item Plot in the \textbf{Entropy–Complexity ($H \times C$)} plane.
+				\item Use cluster formation to discriminate models.
+			\end{itemize}
+			\column{0.45\textwidth}
+			\includegraphics[width=\linewidth]{New_model_group_plot_n500}
+			\captionof{figure}{Example: Shannon entropy–complexity plane.}
+		\end{columns}
+	\end{frame}
+	
+	%===========================================================
+	\section{Methodology}
+	\begin{frame}{Experimental Design}
+		\begin{itemize}
+			\item Models studied:
+			\begin{itemize}
+				\item $\mathrm{AR}(1)$, $\mathrm{AR}(2)$, $\mathrm{MA}(1)$,  $\mathrm{MA}(2)$, $\mathrm{ARMA}(1,1)$, $\mathrm{ARMA}(2,2)$
+			\end{itemize}
+			\item Each model simulated with 100 independent replications.
+			\item Parameter sets chosen to ensure stationarity and invertibility.
+			\item Series lengths: $n = 500, 1000, 5000, 10000$.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Model Parameter Structure}
+		\centering
+		\scriptsize
+		\begin{tabular}{llrrrr}
+			\toprule
+			Type & Model & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
+			\midrule
+			$\mathrm{AR}(1)$ & $\mathrm{AR}(1)_{\textrm{M}_1}$ & $0.8$ &  &  & \\
+			& $\mathrm{AR}(1)_{\textrm{M}_2}$ & $0.1$ &  &  & \\
+			$\mathrm{MA}(1)$ & $\mathrm{MA}(1)_{\textrm{M}_1}$ &  &  & $0.8$ & \\
+			& $\mathrm{MA}(1)_{\textrm{M}_2}$ &  &  & $0.1$ & \\
+			$\mathrm{ARMA}(1,1)$ & $\mathrm{ARMA}(1,1)_{\textrm{M}_1}$ & $0.8$ &  & $0.8$ & \\
+			& $\mathrm{ARMA}(1,1)_{\textrm{M}_2}$ & $0.1$ &  & $0.1$ & \\
+			\bottomrule
+		\end{tabular}
+		\captionof{table}{Example of parameter sets ensuring diversity.}
+	\end{frame}
+	
+	\begin{frame}{Feature Extraction and Central Points}
+		\begin{itemize}
+			\item For each realization, compute:
+			\begin{itemize}
+				\item Entropy (\(H\)) — randomness
+				\item Complexity (\(C\)) — structure
+			\end{itemize}
+			\item For each model, identify the \textbf{central (median) point} $(H^*, C^*)$ using PCA projection.
+			\item Median ensures the point is the most representative of the model’s behavior, as referred to in Chagas et al.~\cite{Chagas2022a}. .
+		\end{itemize}
+		\begin{figure}[h]
+			\includegraphics[width=0.5\textwidth]{Median_HC_Shannon_Entropy_case1.pdf}
+			\caption{Example of central $(H^*, C^*)$ points.}
+		\end{figure}
+	\end{frame}
+	
+	%===========================================================
+	\section{Results: Case-Based Analysis}
+	\begin{frame}{Case Study Design}
+		\begin{itemize}
+			\item \textbf{Case 1–3:} Positive, negative, and mixed-sign coefficients.
+			\item \textbf{Case 4–6:} Extended experiments with selected extreme and central ARMA models.
+			\item Three sample sizes: $n=1000, n=5000$ and $n=10000$.
+			\item Each case analyzed using:
+			\begin{itemize}
+				\item Scatter plots with confidence intervals
+				\item The central of entropy and complexity point in the plane 
+				\item Heat maps for model classification
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Case 1 — Positive Coefficients}
+		\centering
+		\includegraphics[width=0.7\textwidth]{Combined_4Plots_Case1_n1000.pdf}
+		\captionof{figure}{Entropy–complexity scatter plot and associated time series ($n=1000$) for positive model coefficients.}
+	\end{frame}
+	
+	\begin{frame}{Case 2 — Negative Coefficients}
+		\centering
+		\includegraphics[width=0.7\textwidth]{Combined_4Plots_Case2_n1000.pdf}
+		\captionof{figure}{Entropy–complexity scatter plot and associated time series ($n=1000$) for  negative parameters.}
+	\end{frame}
+	
+	\begin{frame}{Case 3 — Mixed-Sign Coefficients}
+		\centering
+		\includegraphics[width=0.7\textwidth]{Combined_4Plots_Case3.pdf}
+		\captionof{figure}{Entropy–complexity scatter plot and associated time series ($n=1000$) for mixed-sign coefficients.}
+	\end{frame}
+	
+	\begin{frame}{Extended Cases (4–6)}
+		\begin{itemize}
+			\item Focused on three ARMA configurations:
+			\begin{itemize}
+				\item Two extremes far apart in the H–C plane
+				\item One central (median) model
+			\end{itemize}
+			\item Generated 100 replications for $n=5000$ and $n=10000$.
+			\item Shannon entropy used for all extended analyses.
+		\end{itemize}
+		\begin{figure}[H]
+			\includegraphics[width=0.5\textwidth]{Combined_4Plots_Case4_n10000.pdf}
+		\end{figure}
+	%	\includegraphics[width=0.6\textwidth]{Combined_4Plots_Case4_n10000.pdf}
+	\end{frame}
+	
+	%===========================================================
+	\section{Combined Model Visualization}
+	\begin{frame}{Overall Entropy–Complexity Plane}
+		\centering
+		\includegraphics[width=0.8\textwidth]{Combined_HC_CI_Scatter_n5000.pdf}
+		\captionof{figure}{All models combined in the Shannon entropy–complexity plane.}
+	\end{frame}
+	
+	\begin{frame}{Time Series and Model Patterns}
+		\centering
+		\includegraphics[width=0.8\textwidth]{Combined_HC_TimeSeries_n5000.pdf}
+		\captionof{figure}{Representative time series around their central $(H^*, C^*)$ points.}
+	\end{frame}
+	
+	\begin{frame}{Heat Map Classification}
+		\begin{itemize}
+			\item Heat maps depict model density in the $(H, C)$ plane.
+			\item Regions of high density correspond to models with similar complexity–entropy structure.
+			\item Enable qualitative model classification.
+		\end{itemize}
+	\begin{figure}
+		\includegraphics[width=0.6\textwidth]{HC_Heatmap_New_Case1_n5000.pdf}
+	\end{figure}
+	\end{frame}
+	
+	%===========================================================
+	\section{Summary and Conclusion}
+	\begin{frame}{Key Findings}
+		\begin{itemize}
+			\item Ordinal pattern analysis successfully distinguishes AR, MA, and ARMA models.
+			\item Distinct clustering appears across Shannon entropy.
+			\item Central $(H^*, C^*)$ points provide consistent model representation.
+			\item Larger samples yield tighter clusters and improved discrimination.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Conclusion}
+		\begin{block}{Summary}
+			This study demonstrates that combining ordinal pattern analysis with entropy–complexity measures provides a robust framework for model discrimination in simulated time series.
+		\end{block}
+		\begin{itemize}
+			\item Captures both linear and nonlinear dynamics.
+			\item Overlap points reveal intrinsic similarities in model dynamics.
+			\item Extensible to real-world applications such as finance, engineering, biomedical signals.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Future Work}
+		\begin{itemize}
+			\item Apply unsupervised clustering (e.g., k-means, hierarchical) in the H–C plane.
+			\item Extend distinct clustering using other types of entries Rényi, Tsallis, and Fisher Information. 
+			\item Extend analysis to empirical systems.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}[plain]
+		\centering
+		\Huge \textbf{Thank You!} \\
+		\vspace{0.5cm}
+		\small Contact: \href{mailto:rasika.dilhani@vuw.ac.nz}{rasika.dilhani@vuw.ac.nz}
+	\end{frame}
+	
+	\begin{frame}[allowframebreaks]{References}
+		\bibliographystyle{alpha}
+		\bibliography{../../../BearingFaultDiagnosis}
+		
+	\end{frame}
+\end{document}
+

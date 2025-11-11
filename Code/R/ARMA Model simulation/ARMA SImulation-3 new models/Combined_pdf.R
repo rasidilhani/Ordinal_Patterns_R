@@ -6,15 +6,15 @@ library(grid)
 library(gridExtra)
 
 # ---- 1. Define your directory ----
-plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/New ARMA Time series results/New_Case2/New_Caseb Plots"
+plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/Case 3/Plots"
 setwd(plot_dir)
 
 # ---- 2. Define the PDF files to combine ----
 files <- c(
-  "HC_Scatter_with_CI_New_Case2_n5000.pdf",
-  "HC_Scatter_HC_results_5000.pdf",
-  "HC_Heatmap_New_Case2_n5000.pdf",
-  "HC_Central_with_TimeSeries_New_Case2_n5000.pdf"
+  "HC_Scatter_Case 3_Shannon.pdf",
+  "HC_Scatter_CI_Case 3_n1000.pdf",
+  "HC_Heatmap_Case 3_n1000.pdf",
+  "Combined_HC_TS_grid_case3.pdf"
 )
 
 # ---- 3. Check all files exist ----
@@ -35,7 +35,7 @@ grobs <- lapply(imgs, function(im) {
 })
 
 # ---- 6. Arrange 2x2 layout and save as combined PDF ----
-output_file <- file.path(plot_dir, "Combined_4Plots.pdf")
+output_file <- file.path(plot_dir, "Combined_4Plots_Case3.pdf")
 
 pdf(output_file, width = 16, height = 12)
 grid.arrange(
