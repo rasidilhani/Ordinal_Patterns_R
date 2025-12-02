@@ -1,274 +1,916 @@
-# ARMA Time Series Heatmap Analysis
-# Generate density heatmaps for H-C plane by case and sample size
-
+#--------------------------------------------------------
+# Libraries
+#--------------------------------------------------------
 library(readxl)
-library(ggplot2)
-library(StatOrdPattHxC)
-library(viridis)
-library(MASS)
 library(dplyr)
-library(gridExtra)
+library(ggplot2)
+library(stringr)
+library(StatOrdPattHxC)
 
-# Load boundary data
+#--------------------------------------------------------
+# Paths
+#--------------------------------------------------------
+#data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/Entropy_Complexity_Results_all_Models.xlsx"
+data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n5000_n10000/HC_Results_all_Models_n5000_n10000.xlsx"
+output_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n5000_n10000"
+#--------------------------------------------------------
+# Case definitions (models per case)
+#--------------------------------------------------------
+cases <- list(
+  Case1 = c("AR1_M1","AR1_M2","AR2_M1",
+            "MA1_M1","MA1_M2","MA2_M1",
+            "ARMA11_M1","ARMA11_M2","ARMA22_M1"),
+  Case2 = c("AR1_M3","AR1_M4","AR2_M4",
+            "MA1_M3","MA1_M4","MA2_M4",
+            "ARMA11_M3","ARMA11_M4","ARMA22_M4"),
+  Case3 = c("AR2_M2","AR2_M3",
+            "MA2_M2","MA2_M3",
+            "ARMA22_M2","ARMA22_M3")
+)
+
+#--------------------------------------------------------
+# Choose Case and sample size
+#--------------------------------------------------------
+selected_case <- "Case1"
+selected_n    <- 5000
+
+models_case <- cases[[selected_case]]
+
+#--------------------------------------------------------
+# Read only sheets for Case1, n = 5000
+#--------------------------------------------------------
+df_list <- lapply(models_case, function(m) {
+  sheet_name <- paste0(m, "_n", selected_n)
+  message("Reading sheet: ", sheet_name)
+  read_excel(data_path, sheet = sheet_name) |>
+    mutate(Model = m, n = selected_n)
+})
+
+df_case <- bind_rows(df_list) |>
+  rename(
+    H = H_Shannon,
+    C = C_Shannon
+  ) |>
+  filter(is.finite(H), is.finite(C))
+
+#--------------------------------------------------------
+# Classify model type: AR / MA / ARMA
+####-----------------------------------------------
+df_case <- df_case |>
+  mutate(Type = case_when(
+    str_starts(Model, "ARMA") ~ "ARMA",
+    str_starts(Model, "AR")   ~ "AR",
+    str_starts(Model, "MA")   ~ "MA",
+    TRUE                      ~ "Other"
+  ))
+
+df_case$Type <- factor(df_case$Type, levels = c("AR","MA","ARMA","Other"))
+
+##---------------------------------------------------------------
+# Set plotting limits
+##-------------------------------------------------
+H_min <- min(df_case$H) - 0.02
+H_max <- max(df_case$H) + 0.02
+C_min <- min(df_case$C) - 0.02
+C_max <- max(df_case$C) + 0.02
+
+#-----------------------------------------------------
+# Feasible region
+##---------------------------------------------------------
 data("LinfLsup")
+Linf <- subset(LinfLsup, Side == "Lower" & Dimension == "3")
+Lsup <- subset(LinfLsup, Side == "Upper" & Dimension == "3")
 
-# Set data path
-data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results"
+Linf_crop <- Linf |> filter(H >= H_min, H <= H_max)
+Lsup_crop <- Lsup |> filter(H >= H_min, H <= H_max)
 
-# Read all three case files
-case1_file <- file.path(data_path, "case1.xlsx")
-case2_file <- file.path(data_path, "case2.xlsx")
-case3_file <- file.path(data_path, "case3.xlsx")
+##------------------------------------------------------
+# Improved Colors (viridis-inspired)
+##----------------------------------------------------------
+type_cols <- c(
+  "AR"   = "#21918c",
+  "MA"   = "#3182bd",
+  "ARMA" = "#b2182b",
+  "Other" = "grey50"
+)
 
-# Read data
-cat("Reading data files...\n")
-case1_data <- read_excel(case1_file)
-case2_data <- read_excel(case2_file)
-case3_data <- read_excel(case3_file)
+##--------------------------------------------------------------
+# Heatmap with Top 3 Improvements
+#---------------------------------------------------------------------
+p <- ggplot(df_case, aes(H, C)) +
+  
+  # 1. Feasible region boundaries
+  geom_line(data = Linf_crop, aes(H, C),
+            colour = "black", linewidth = 0.8, inherit.aes = FALSE) +
+  geom_line(data = Lsup_crop, aes(H, C),
+            colour = "black", linewidth = 0.8, inherit.aes = FALSE) +
+  
+  # Background points
+  geom_point(alpha = 0.08, size = 0.8, colour = "black") +
+  
+  ###------------------------------------------------------------
+# 2. High-resolution density polygons (bins = 50)
+##----------------------------------------------------------------------
+stat_density_2d(
+  aes(fill = Type, alpha = after_stat(level)),
+  geom = "polygon",
+  contour = TRUE,
+  bins = 15,
+  colour = NA
+) +
+  
+  ##--------------------------------------------------------------
+# 3. Add contour lines on top (improvement #1)
+#-----------------------------------------------------------------
+stat_density_2d(
+  aes(color = Type),
+  contour = TRUE,
+  bins = 10,
+  linewidth = 0.05
+) +
+  
+  # Apply color scales
+  scale_fill_manual(values = type_cols, name = "Model type") +
+  scale_color_manual(values = type_cols, guide = "none") +
+  
+  # Opacity improvement (Option 1)
+  scale_alpha(range = c(0.10, 0.55), guide = "none") +
+  
+  labs(
+    title = paste("Heatmap —", selected_case, "(n =", selected_n, ")"),
+    x = expression(italic(H)),
+    y = expression(italic(C))
+  ) +
+  
+  coord_cartesian(xlim = c(H_min, H_max), ylim = c(C_min, C_max)) +
+  
+  theme_minimal(base_size = 16) +
+  theme(
+    panel.background = element_rect(fill = "white", color = NA),
+    plot.background  = element_rect(fill = "white", color = NA),
+    panel.grid       = element_blank(),
+    legend.position  = "right"
+  )
 
-# Function to create density heatmap
-create_heatmap <- function(data, sample_size, case_name, 
-                           xlim_range = NULL, ylim_range = NULL) {
+#----------------------------------------------------------
+# Print final plot
+#-----------------------------------------------------------
+print(p)
+
+
+
+#----------------------------------------------------------# Save plot to file
+#-----------------------------------------------------------
+output_plot_path <- file.path(
+  "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n5000_n10000",
+  selected_case, "Plots",
+  paste0("HC_Heatmap_", selected_case, "_n", selected_n, ".pdf")
+)
+ggsave(output_plot_path, p, width = 10, height = 8)
+
+
+#-------------------------------------------------------------------------
+# End of example_code_heatmap.R for Case 1
+#
+#-------------------------------------------------------------------------
+# In this script we generate a heatmap of the Entropy-Complexity plane
+# for a selected case (Case2, or Case3) and sample size (n = 5000 or n = 10000).
+# The heatmap visualizes the density of points corresponding to different
+# time series models (AR, MA, ARMA) in the Entropy-Complexity space.
+#--------------------------------------------------------
+# Libraries
+#--------------------------------------------------------
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(StatOrdPattHxC)
+
+#--------------------------------------------------------
+# Paths
+#--------------------------------------------------------
+data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n5000_n10000/HC_Results_all_Models_n5000_n10000.xlsx"
+
+#--------------------------------------------------------
+# Case definitions (models per case)
+#--------------------------------------------------------
+cases <- list(
+  Case1 = c("AR1_M1","AR1_M2","AR2_M1",
+            "MA1_M1","MA1_M2","MA2_M1",
+            "ARMA11_M1","ARMA11_M2","ARMA22_M1"),
+  Case2 = c("AR1_M3","AR1_M4","AR2_M4",
+            "MA1_M3","MA1_M4","MA2_M4",
+            "ARMA11_M3","ARMA11_M4","ARMA22_M4"),
+  Case3 = c("AR2_M2","AR2_M3",
+            "MA2_M2","MA2_M3",
+            "ARMA22_M2","ARMA22_M3")
+)
+
+#--------------------------------------------------------
+# Choose Case and sample size
+#--------------------------------------------------------
+selected_case <- "Case2"
+selected_n    <- 5000
+
+models_case <- cases[[selected_case]]
+
+#--------------------------------------------------------
+# Read Excel sheets
+#--------------------------------------------------------
+df_list <- lapply(models_case, function(m) {
+  sheet_name <- paste0(m, "_n", selected_n)
+  read_excel(data_path, sheet = sheet_name) |>
+    mutate(Model = m)
+})
+
+df_case <- bind_rows(df_list) |>
+  rename(H = H_Shannon, C = C_Shannon) |>
+  filter(is.finite(H), is.finite(C))
+
+#--------------------------------------------------------
+# Classify model type
+#--------------------------------------------------------
+df_case <- df_case |>
+  mutate(Type = case_when(
+    str_starts(Model, "ARMA") ~ "ARMA",
+    str_starts(Model, "AR")   ~ "AR",
+    str_starts(Model, "MA")   ~ "MA",
+    TRUE                      ~ "Other"
+  ))
+
+df_case$Type <- factor(df_case$Type, levels = c("AR","MA","ARMA","Other"))
+
+#--------------------------------------------------------
+# Feasible region (crop to H-range)
+#--------------------------------------------------------
+data("LinfLsup")
+Linf <- subset(LinfLsup, Side == "Lower" & Dimension == 3)
+Lsup <- subset(LinfLsup, Side == "Upper" & Dimension == 3)
+
+H_min <- min(df_case$H)
+H_max <- max(df_case$H)
+
+Linf_crop <- Linf |> filter(H >= H_min, H <= H_max)
+Lsup_crop <- Lsup |> filter(H >= H_min, H <= H_max)
+
+# Boundary polygon (CROPPED)
+boundary_df <- rbind(
+  Linf_crop[, c("H","C")],
+  Lsup_crop[order(Lsup_crop$H, decreasing = TRUE), c("H","C")],
+  Linf_crop[1, c("H","C")]
+)
+boundary_df <- as.data.frame(boundary_df)
+
+#--------------------------------------------------------
+# Dynamic bandwidth for density smoothing
+#--------------------------------------------------------
+Hx <- diff(range(df_case$H))
+Cx <- diff(range(df_case$C))
+
+h_vec <- c(Hx / 5, Cx / 5)   # adaptive smoothing
+
+#--------------------------------------------------------
+# Colors
+#--------------------------------------------------------
+type_cols <- c(
+  "AR"   = "#21918c",
+  "MA"   = "#3182bd",
+  "ARMA" = "#b2182b",
+  "Other" = "grey50"
+)
+
+#--------------------------------------------------------
+# Plot
+#--------------------------------------------------------
+p <- ggplot(df_case, aes(H, C)) +
   
-  # Filter by sample size
-  data_filtered <- data %>% filter(n == sample_size)
+  # Feasible region boundaries
+  geom_line(data = Linf_crop, aes(H, C),
+            colour = "black", linewidth = 0.8) +
+  geom_line(data = Lsup_crop, aes(H, C),
+            colour = "black", linewidth = 0.8) +
   
-  cat(paste("Processing", case_name, "- n =", sample_size, 
-            "- Observations:", nrow(data_filtered), "\n"))
+  # Background points
+  geom_point(alpha = 0.07, size = 0.8, colour = "black") +
   
-  # Use H_Star and C_Star columns (or Entropy/Complexity if different names)
-  if("H_Star" %in% names(data_filtered)) {
-    h_col <- "H_Star"
-    c_col <- "C_Star"
-  } else if("Emblematic_H_Star" %in% names(data_filtered)) {
-    h_col <- "Emblematic_H_Star"
-    c_col <- "C_Star"
-  } else {
-    h_col <- "Entropy"
-    c_col <- "Complexity"
-  }
+  # Density polygons (dynamic smoothing!)
+  stat_density_2d(
+    aes(fill = Type, alpha = after_stat(level)),
+    geom = "polygon",
+    contour = TRUE,
+    bins = 15,
+    colour = NA,
+    h = h_vec      # <<< FIXED FOR ALL CASES
+  ) +
   
-  # Calculate 2D kernel density estimation
-  h_vals <- data_filtered[[h_col]]
-  c_vals <- data_filtered[[c_col]]
+  # Contour lines
+  stat_density_2d(
+    aes(color = Type),
+    contour = TRUE,
+    bins = 10,
+    linewidth = 0.25,
+    h = h_vec      # <<< FIXED FOR ALL CASES
+  ) +
   
-  # Remove any NA values
-  valid_idx <- !is.na(h_vals) & !is.na(c_vals)
-  h_vals <- h_vals[valid_idx]
-  c_vals <- c_vals[valid_idx]
+  scale_fill_manual(values = type_cols, name = "Model type") +
+  scale_color_manual(values = type_cols, guide = "none") +
+  scale_alpha(range = c(0.10, 0.55), guide = "none") +
   
-  if(length(h_vals) < 3) {
-    warning(paste("Not enough data points for", case_name, "n =", sample_size))
-    return(NULL)
-  }
+  labs(
+    title = paste("Heatmap —", selected_case, "(n =", selected_n, ")"),
+    x = expression(italic(H)),
+    y = expression(italic(C))
+  ) +
   
-  # Determine limits
-  if(is.null(xlim_range)) {
-    xlim_range <- range(h_vals, na.rm = TRUE)
-    xlim_range <- c(xlim_range[1] - 0.02, xlim_range[2] + 0.02)
-  }
-  if(is.null(ylim_range)) {
-    ylim_range <- range(c_vals, na.rm = TRUE)
-    ylim_range <- c(max(0, ylim_range[1] - 0.01), ylim_range[2] + 0.01)
-  }
+  coord_cartesian(xlim = c(H_min, H_max),
+                  ylim = c(min(df_case$C)-0.02, max(df_case$C)+0.02)) +
   
-  # Create density estimation
-  tryCatch({
-    kde <- kde2d(h_vals, c_vals, n = 100,
-                 lims = c(xlim_range, ylim_range))
+  theme_minimal(base_size = 16) +
+  theme(
+    panel.grid = element_blank(),
+    legend.position = "right"
+  )
+
+print(p)
+
+# Save plot
+output_plot_path <- file.path(
+  "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n5000_n10000",
+  selected_case, "Plots",
+  paste0("HC_Heatmap_", selected_case, "_n", selected_n, ".pdf")
+)
+ggsave(output_plot_path, p, width = 10, height = 8)
+
+#-------------------------------------------------------------------------
+# End of example_code_heatmap.R for Case 2
+#-------------------------------------------------------------------------
+# In this script we generate a heatmap of the Entropy-Complexity plane
+# for a selected case (Case3) and sample size (n = 5000 or n = 10000).
+# The heatmap visualizes the density of points corresponding to different
+# time series models (AR, MA, ARMA) in the Entropy-Complexity space.
+#--------------------------------------------------------
+# Libraries
+#--------------------------------------------------------
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(StatOrdPattHxC)
+
+#--------------------------------------------------------
+# Paths
+#--------------------------------------------------------
+data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n5000_n10000/HC_Results_all_Models_n5000_n10000.xlsx"
+
+#--------------------------------------------------------
+# Case definitions (models per case)
+#--------------------------------------------------------
+cases <- list(
+  Case1 = c("AR1_M1","AR1_M2","AR2_M1",
+            "MA1_M1","MA1_M2","MA2_M1",
+            "ARMA11_M1","ARMA11_M2","ARMA22_M1"),
+  Case2 = c("AR1_M3","AR1_M4","AR2_M4",
+            "MA1_M3","MA1_M4","MA2_M4",
+            "ARMA11_M3","ARMA11_M4","ARMA22_M4"),
+  Case3 = c("AR2_M2","AR2_M3",
+            "MA2_M2","MA2_M3",
+            "ARMA22_M2","ARMA22_M3")
+)
+
+#--------------------------------------------------------
+# Choose Case and sample size
+#--------------------------------------------------------
+selected_case <- "Case3"
+selected_n    <- 5000
+
+models_case <- cases[[selected_case]]
+
+#--------------------------------------------------------
+# Read Excel sheets
+#--------------------------------------------------------
+df_list <- lapply(models_case, function(m) {
+  sheet_name <- paste0(m, "_n", selected_n)
+  read_excel(data_path, sheet = sheet_name) |>
+    mutate(Model = m)
+})
+
+df_case <- bind_rows(df_list) |>
+  rename(H = H_Shannon, C = C_Shannon) |>
+  filter(is.finite(H), is.finite(C))
+
+#--------------------------------------------------------
+# Classify model type
+#--------------------------------------------------------
+df_case <- df_case |>
+  mutate(Type = case_when(
+    str_starts(Model, "ARMA") ~ "ARMA",
+    str_starts(Model, "AR")   ~ "AR",
+    str_starts(Model, "MA")   ~ "MA",
+    TRUE                      ~ "Other"
+  ))
+
+df_case$Type <- factor(df_case$Type, levels = c("AR","MA","ARMA","Other"))
+
+#--------------------------------------------------------
+# Feasible region (crop to H-range)
+#--------------------------------------------------------
+data("LinfLsup")
+Linf <- subset(LinfLsup, Side == "Lower" & Dimension == 3)
+Lsup <- subset(LinfLsup, Side == "Upper" & Dimension == 3)
+
+H_min <- min(df_case$H)
+H_max <- max(df_case$H)
+
+Linf_crop <- Linf |> filter(H >= H_min, H <= H_max)
+Lsup_crop <- Lsup |> filter(H >= H_min, H <= H_max)
+
+# Boundary polygon (CROPPED)
+boundary_df <- rbind(
+  Linf_crop[, c("H","C")],
+  Lsup_crop[order(Lsup_crop$H, decreasing = TRUE), c("H","C")],
+  Linf_crop[1, c("H","C")]
+)
+boundary_df <- as.data.frame(boundary_df)
+
+#--------------------------------------------------------
+# Dynamic bandwidth for density smoothing
+#--------------------------------------------------------
+Hx <- diff(range(df_case$H))
+Cx <- diff(range(df_case$C))
+
+h_vec <- c(Hx / 5, Cx / 5)   # adaptive smoothing
+
+#--------------------------------------------------------
+# Colors
+#--------------------------------------------------------
+type_cols <- c(
+  "AR"   = "#21918c",
+  "MA"   = "#3182bd",
+  "ARMA" = "#b2182b",
+  "Other" = "grey50"
+)
+
+#--------------------------------------------------------
+# Plot
+#--------------------------------------------------------
+p <- ggplot(df_case, aes(H, C)) +
+  
+  # Feasible region boundaries
+  geom_line(data = Linf_crop, aes(H, C),
+            colour = "black", linewidth = 0.8) +
+  geom_line(data = Lsup_crop, aes(H, C),
+            colour = "black", linewidth = 0.8) +
+  
+  # Background points
+  geom_point(alpha = 0.07, size = 0.8, colour = "black") +
+  
+  # Density polygons (dynamic smoothing!)
+  stat_density_2d(
+    aes(fill = Type, alpha = after_stat(level)),
+    geom = "polygon",
+    contour = TRUE,
+    bins = 15,
+    colour = NA,
+    h = h_vec      # <<< FIXED FOR ALL CASES
+  ) +
+  
+  # Contour lines
+  stat_density_2d(
+    aes(color = Type),
+    contour = TRUE,
+    bins = 10,
+    linewidth = 0.25,
+    h = h_vec      # <<< FIXED FOR ALL CASES
+  ) +
+  
+  scale_fill_manual(values = type_cols, name = "Model type") +
+  scale_color_manual(values = type_cols, guide = "none") +
+  scale_alpha(range = c(0.10, 0.55), guide = "none") +
+  
+  labs(
+    title = paste("Heatmap —", selected_case, "(n =", selected_n, ")"),
+    x = expression(italic(H)),
+    y = expression(italic(C))
+  ) +
+  
+  coord_cartesian(xlim = c(H_min, H_max),
+                  ylim = c(min(df_case$C)-0.02, max(df_case$C)+0.02)) +
+  
+  theme_minimal(base_size = 16) +
+  theme(
+    panel.grid = element_blank(),
+    legend.position = "right"
+  )
+
+print(p)
+
+# Save plot
+output_plot_path <- file.path(
+  "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n5000_n10000",
+  selected_case, "Plots",
+  paste0("HC_Heatmap_", selected_case, "_n", selected_n, ".pdf")
+)
+ggsave(output_plot_path, p, width = 10, height = 8)
+#-------------------------------------------------------------------------
+# End of example_code_heatmap.R for Case 3
+#-------------------------------------------------------------------------
+
+
+# In this script we generate a heatmap of the Entropy-Complexity plane
+# for a selected cases (Case1-3) and sample size (n = 5000 and 10000).
+# The heatmap visualizes the density of points corresponding to different
+# time series models (AR, MA, ARMA) in the Entropy-Complexity space.
+#--------------------------------------------------------
+#--------------------------------------------------------
+# Libraries
+#--------------------------------------------------------
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(StatOrdPattHxC)
+
+#--------------------------------------------------------
+# Paths
+#--------------------------------------------------------
+data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n5000_n10000/HC_Results_all_Models_n5000_n10000.xlsx"
+base_output_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n5000_n10000"
+
+#--------------------------------------------------------
+# Case definitions (models per case)
+#--------------------------------------------------------
+cases <- list(
+  Case1 = c("AR1_M1","AR1_M2","AR2_M1",
+            "MA1_M1","MA1_M2","MA2_M1",
+            "ARMA11_M1","ARMA11_M2","ARMA22_M1"),
+  Case2 = c("AR1_M3","AR1_M4","AR2_M4",
+            "MA1_M3","MA1_M4","MA2_M4",
+            "ARMA11_M3","ARMA11_M4","ARMA22_M4"),
+  Case3 = c("AR2_M2","AR2_M3",
+            "MA2_M2","MA2_M3",
+            "ARMA22_M2","ARMA22_M3")
+)
+
+#--------------------------------------------------------
+# Sample sizes
+#--------------------------------------------------------
+sample_sizes <- c(5000, 10000)
+
+#--------------------------------------------------------
+# Feasible region (Linf / Lsup) for D = 3
+#--------------------------------------------------------
+data("LinfLsup")
+Linf_all <- subset(LinfLsup, Side == "Lower" & Dimension == "3")
+Lsup_all <- subset(LinfLsup, Side == "Upper" & Dimension == "3")
+
+#--------------------------------------------------------
+# Colors
+#--------------------------------------------------------
+type_cols <- c(
+  "AR"   = "#21918c",
+  "MA"   = "#3182bd",
+  "ARMA" = "#b2182b",
+  "Other" = "grey50"
+)
+
+#--------------------------------------------------------
+# Main loops: over cases and sample sizes
+#--------------------------------------------------------
+for (case_name in names(cases)) {
+  
+  models_case <- cases[[case_name]]
+  
+  for (n_val in sample_sizes) {
     
-    # Convert to data frame for ggplot
-    kde_df <- expand.grid(H = kde$x, C = kde$y)
-    kde_df$density <- as.vector(kde$z)
+    message("===== Processing ", case_name, ", n = ", n_val, " =====")
     
-    # Create plot
-    p <- ggplot() +
-      # Add density heatmap
-      geom_tile(data = kde_df, aes(x = H, y = C, fill = density)) +
-      scale_fill_viridis(option = "plasma", name = "Density") +
-      # Add boundary curves
-      geom_line(data = subset(LinfLsup, Side == "Lower" & Dimension == "3"),
-                aes(x = H, y = C), col = "gray30", size = 1, alpha = 0.7) +
-      geom_line(data = subset(LinfLsup, Side == "Upper" & Dimension == "3"),
-                aes(x = H, y = C), col = "gray30", size = 1, alpha = 0.7) +
-      # Add actual data points (optional, semi-transparent)
-      geom_point(data = data_filtered, 
-                 aes_string(x = h_col, y = c_col),
-                 color = "white", alpha = 0.3, size = 0.5) +
-      xlim(xlim_range) +
-      ylim(ylim_range) +
-      xlab(expression(italic(H))) +
-      ylab(expression(italic(C))) +
-      ggtitle(paste(case_name, "- n =", sample_size)) +
-      theme_minimal() +
+    #--------------------------------------------------------
+    # Read Excel sheets for this case & n
+    #--------------------------------------------------------
+    df_list <- lapply(models_case, function(m) {
+      sheet_name <- paste0(m, "_n", n_val)
+      message("Reading sheet: ", sheet_name)
+      read_excel(data_path, sheet = sheet_name) |>
+        mutate(Model = m, n = n_val)
+    })
+    
+    df_case <- bind_rows(df_list) |>
+      rename(
+        H = H_Shannon,
+        C = C_Shannon
+      ) |>
+      filter(is.finite(H), is.finite(C))
+    
+    if (nrow(df_case) == 0) {
+      warning("No data for ", case_name, " n = ", n_val, ", skipping.")
+      next
+    }
+    
+    #--------------------------------------------------------
+    # Classify model type: AR / MA / ARMA
+    #--------------------------------------------------------
+    df_case <- df_case |>
+      mutate(Type = case_when(
+        str_starts(Model, "ARMA") ~ "ARMA",
+        str_starts(Model, "AR")   ~ "AR",
+        str_starts(Model, "MA")   ~ "MA",
+        TRUE                      ~ "Other"
+      ))
+    
+    df_case$Type <- factor(df_case$Type, levels = c("AR","MA","ARMA","Other"))
+    
+    #--------------------------------------------------------
+    # Feasible region (crop to H-range of this case)
+    #--------------------------------------------------------
+    H_min <- min(df_case$H)
+    H_max <- max(df_case$H)
+    C_min <- min(df_case$C)
+    C_max <- max(df_case$C)
+    
+    Linf_crop <- Linf_all |>
+      filter(H >= H_min, H <= H_max)
+    Lsup_crop <- Lsup_all |>
+      filter(H >= H_min, H <= H_max)
+    
+    #--------------------------------------------------------
+    # Dynamic bandwidth for density smoothing
+    #--------------------------------------------------------
+    Hx <- diff(range(df_case$H))
+    Cx <- diff(range(df_case$C))
+    h_vec <- c(Hx / 5, Cx / 5)   # adaptive smoothing
+    
+    #--------------------------------------------------------
+    # Plot
+    #--------------------------------------------------------
+    p <- ggplot(df_case, aes(H, C)) +
+      
+      # Feasible region boundaries
+      geom_line(data = Linf_crop, aes(H, C),
+                colour = "black", linewidth = 0.8) +
+      geom_line(data = Lsup_crop, aes(H, C),
+                colour = "black", linewidth = 0.8) +
+      
+      # Background points
+      geom_point(alpha = 0.07, size = 0.8, colour = "black") +
+      
+      # Density polygons (heatmap-like)
+      stat_density_2d(
+        aes(fill = Type, alpha = after_stat(level)),
+        geom = "polygon",
+        contour = TRUE,
+        bins = 15,
+        colour = NA,
+        h = h_vec
+      ) +
+      
+      # Contour lines
+      stat_density_2d(
+        aes(color = Type),
+        contour = TRUE,
+        bins = 10,
+        linewidth = 0.25,
+        h = h_vec
+      ) +
+      
+      scale_fill_manual(values = type_cols, name = "Model type") +
+      scale_color_manual(values = type_cols, guide = "none") +
+      scale_alpha(range = c(0.10, 0.55), guide = "none") +
+      
+      labs(
+        title = paste("Heatmap —", case_name, "(n =", n_val, ")"),
+        x = expression(italic(H)),
+        y = expression(italic(C))
+      ) +
+      
+      coord_cartesian(
+        xlim = c(H_min, H_max),
+        ylim = c(C_min - 0.02, C_max + 0.02)
+      ) +
+      
+      theme_minimal(base_size = 16) +
       theme(
-        plot.title = element_text(hjust = 0.5, size = 12, face = "bold"),
-        legend.position = "right",
-        panel.grid = element_blank(),
-        panel.border = element_rect(color = "black", fill = NA, size = 1)
+        panel.grid      = element_blank(),
+        legend.position = "right"
       )
     
-    return(p)
+    print(p)
     
-  }, error = function(e) {
-    warning(paste("Error creating density for", case_name, "n =", sample_size, ":", e$message))
-    return(NULL)
-  })
-}
-
-# Function to create contour plot (alternative visualization)
-create_contour_plot <- function(data, sample_size, case_name,
-                                xlim_range = NULL, ylim_range = NULL) {
-  
-  # Filter by sample size
-  data_filtered <- data %>% filter(n == sample_size)
-  
-  # Detect column names
-  if("H_Star" %in% names(data_filtered)) {
-    h_col <- "H_Star"
-    c_col <- "C_Star"
-  } else if("Emblematic_H_Star" %in% names(data_filtered)) {
-    h_col <- "Emblematic_H_Star"
-    c_col <- "C_Star"
-  } else {
-    h_col <- "Entropy"
-    c_col <- "Complexity"
-  }
-  
-  h_vals <- data_filtered[[h_col]]
-  c_vals <- data_filtered[[c_col]]
-  
-  # Remove NA values
-  valid_idx <- !is.na(h_vals) & !is.na(c_vals)
-  h_vals <- h_vals[valid_idx]
-  c_vals <- c_vals[valid_idx]
-  
-  if(length(h_vals) < 3) return(NULL)
-  
-  # Determine limits
-  if(is.null(xlim_range)) {
-    xlim_range <- range(h_vals, na.rm = TRUE)
-    xlim_range <- c(xlim_range[1] - 0.02, xlim_range[2] + 0.02)
-  }
-  if(is.null(ylim_range)) {
-    ylim_range <- range(c_vals, na.rm = TRUE)
-    ylim_range <- c(max(0, ylim_range[1] - 0.01), ylim_range[2] + 0.01)
-  }
-  
-  # Create plot with 2D density contours
-  p <- ggplot(data_filtered, aes_string(x = h_col, y = c_col)) +
-    stat_density_2d(aes(fill = ..level..), geom = "polygon", alpha = 0.7) +
-    scale_fill_viridis(option = "plasma", name = "Density") +
-    # Add boundary curves
-    geom_line(data = subset(LinfLsup, Side == "Lower" & Dimension == "3"),
-              aes(x = H, y = C), col = "gray30", size = 1, alpha = 0.7, inherit.aes = FALSE) +
-    geom_line(data = subset(LinfLsup, Side == "Upper" & Dimension == "3"),
-              aes(x = H, y = C), col = "gray30", size = 1, alpha = 0.7, inherit.aes = FALSE) +
-    geom_point(alpha = 0.4, size = 0.8, color = "white") +
-    xlim(xlim_range) +
-    ylim(ylim_range) +
-    xlab(expression(italic(H))) +
-    ylab(expression(italic(C))) +
-    ggtitle(paste(case_name, "- n =", sample_size)) +
-    theme_minimal() +
-    theme(
-      plot.title = element_text(hjust = 0.5, size = 12, face = "bold"),
-      legend.position = "right",
-      panel.grid = element_blank(),
-      panel.border = element_rect(color = "black", fill = NA, size = 1)
+    #--------------------------------------------------------
+    # Save plot
+    #--------------------------------------------------------
+    case_output_dir <- file.path(base_output_dir, case_name, "Plots")
+    dir.create(case_output_dir, recursive = TRUE, showWarnings = FALSE)
+    
+    output_plot_path <- file.path(
+      case_output_dir,
+      paste0("HC_Heatmap_", case_name, "_n", n_val, ".pdf")
     )
+    
+    ggsave(output_plot_path, p, width = 10, height = 8)
+    message("Saved: ", output_plot_path, "\n")
+  }
+}
+
+message("🎉 All heatmaps completed for all cases and sample sizes!")
+#-------------------------------------------------------------------------
+#End of combined heatmap code
+#-------------------------------------------------------------------
+# In this script we generate heatmaps of the Entropy-Complexity plane
+# for all cases (Case1-3) and sample sizes (n = 5000 and 10000).
+# The heatmaps visualize the density of points corresponding to different
+# time series models (AR, MA, ARMA) in the Entropy-Complexity space.
+#--------------------------------------------------------
+# Libraries
+#--------------------------------------------------------
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(StatOrdPattHxC)
+library(viridis)
+
+#--------------------------------------------------------
+# Paths
+#--------------------------------------------------------
+data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n5000_n10000/HC_Results_all_Models_n5000_n10000.xlsx"
+base_output_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n5000_n10000"
+
+#--------------------------------------------------------
+# Case definitions (models per case)
+#--------------------------------------------------------
+cases <- list(
+  Case1 = c("AR1_M1","AR1_M2","AR2_M1",
+            "MA1_M1","MA1_M2","MA2_M1",
+            "ARMA11_M1","ARMA11_M2","ARMA22_M1"),
+  Case2 = c("AR1_M3","AR1_M4","AR2_M4",
+            "MA1_M3","MA1_M4","MA2_M4",
+            "ARMA11_M3","ARMA11_M4","ARMA22_M4"),
+  Case3 = c("AR2_M2","AR2_M3",
+            "MA2_M2","MA2_M3",
+            "ARMA22_M2","ARMA22_M3")
+)
+
+#--------------------------------------------------------
+# Sample sizes
+#--------------------------------------------------------
+sample_sizes <- c(5000, 10000)
+
+#--------------------------------------------------------
+# Feasible region (Linf / Lsup) for D = 3
+#--------------------------------------------------------
+data("LinfLsup")
+Linf_all <- subset(LinfLsup, Side == "Lower" & Dimension == "3")
+Lsup_all <- subset(LinfLsup, Side == "Upper" & Dimension == "3")
+
+#--------------------------------------------------------
+# Main loops: over cases and sample sizes
+#--------------------------------------------------------
+for (case_name in names(cases)) {
   
-  return(p)
+  models_case <- cases[[case_name]]
+  
+  for (n_val in sample_sizes) {
+    
+    message("===== Processing ", case_name, ", n = ", n_val, " =====")
+    
+    #--------------------------------------------------------
+    # Read Excel sheets for this case & n
+    #--------------------------------------------------------
+    df_list <- lapply(models_case, function(m) {
+      sheet_name <- paste0(m, "_n", n_val)
+      message("  Reading sheet: ", sheet_name)
+      read_excel(data_path, sheet = sheet_name) |>
+        mutate(Model = m, n = n_val)
+    })
+    
+    df_case <- bind_rows(df_list) |>
+      rename(
+        H = H_Shannon,
+        C = C_Shannon
+      ) |>
+      filter(is.finite(H), is.finite(C))
+    
+    if (nrow(df_case) == 0) {
+      warning("No data for ", case_name, " n = ", n_val, ", skipping.")
+      next
+    }
+    
+    #--------------------------------------------------------
+    # Classify Families (AR / MA / ARMA) and fine Types (each model)
+    #--------------------------------------------------------
+    df_case <- df_case |>
+      mutate(
+        Family = case_when(
+          str_starts(Model, "ARMA") ~ "ARMA",
+          str_starts(Model, "AR")   ~ "AR",
+          str_starts(Model, "MA")   ~ "MA",
+          TRUE                      ~ "Other"
+        ),
+        # Fine-grained type: each model in this case is its own "type"
+        Type = factor(Model, levels = models_case)
+      )
+    
+    df_case$Family <- factor(df_case$Family,
+                             levels = c("AR","MA","ARMA","Other"))
+    
+    #--------------------------------------------------------
+    # Feasible region (crop to H-range of this case)
+    #--------------------------------------------------------
+    H_min <- min(df_case$H)
+    H_max <- max(df_case$H)
+    C_min <- min(df_case$C)
+    C_max <- max(df_case$C)
+    
+    Linf_crop <- Linf_all |>
+      filter(H >= H_min, H <= H_max)
+    Lsup_crop <- Lsup_all |>
+      filter(H >= H_min, H <= H_max)
+    
+    #--------------------------------------------------------
+    # Dynamic bandwidth for density smoothing
+    #--------------------------------------------------------
+    Hx <- diff(range(df_case$H))
+    Cx <- diff(range(df_case$C))
+    h_vec <- c(Hx / 5, Cx / 5)   # adaptive smoothing
+    
+    #--------------------------------------------------------
+    # Colors per fine Type (each model gets its own color)
+    #--------------------------------------------------------
+    type_cols <- setNames(
+      viridis(length(models_case)),
+      models_case
+    )
+    
+    #--------------------------------------------------------
+    # Plot
+    #--------------------------------------------------------
+    p <- ggplot(df_case, aes(H, C)) +
+      
+      # Feasible region boundaries
+      geom_line(data = Linf_crop, aes(H, C),
+                colour = "black", linewidth = 0.8) +
+      geom_line(data = Lsup_crop, aes(H, C),
+                colour = "black", linewidth = 0.8) +
+      
+      # Background points
+      geom_point(alpha = 0.07, size = 0.8, colour = "black") +
+      
+      # Density polygons per model Type
+      stat_density_2d(
+        aes(fill = Type, alpha = after_stat(level)),
+        geom = "polygon",
+        contour = TRUE,
+        bins = 15,
+        colour = NA,
+        h = h_vec
+      ) +
+      
+      # Contour lines per model Type
+      stat_density_2d(
+        aes(color = Type),
+        contour = TRUE,
+        bins = 10,
+        linewidth = 0.25,
+        h = h_vec
+      ) +
+      
+      scale_fill_manual(values = type_cols, name = "Model (Type)") +
+      scale_color_manual(values = type_cols, guide = "none") +
+      scale_alpha(range = c(0.10, 0.55), guide = "none") +
+      
+      labs(
+        title = paste("Heatmap by Model Type —", case_name, "(n =", n_val, ")"),
+        x = expression(italic(H)),
+        y = expression(italic(C))
+      ) +
+      
+      coord_cartesian(
+        xlim = c(H_min, H_max),
+        ylim = c(C_min - 0.02, C_max + 0.02)
+      ) +
+      
+      theme_minimal(base_size = 16) +
+      theme(
+        panel.grid      = element_blank(),
+        legend.position = "right"
+      )
+    
+    print(p)
+    
+    #--------------------------------------------------------
+    # Save plot
+    #--------------------------------------------------------
+    case_output_dir <- file.path(base_output_dir, case_name, "Plots")
+    dir.create(case_output_dir, recursive = TRUE, showWarnings = FALSE)
+    
+    output_plot_path <- file.path(
+      case_output_dir,
+      paste0("HC_Heatmap_ModelTypes_", case_name, "_n", n_val, ".pdf")
+    )
+    
+    ggsave(output_plot_path, p, width = 10, height = 8)
+    message("  Saved: ", output_plot_path, "\n")
+  }
 }
 
-# Generate heatmaps for all cases and sample sizes
-cat("\n=== GENERATING HEATMAPS ===\n\n")
-
-# Case 1 heatmaps
-cat("Case 1:\n")
-case1_n500 <- create_heatmap(case1_data, 500, "Case 1")
-case1_n1000 <- create_heatmap(case1_data, 1000, "Case 1")
-
-# Case 2 heatmaps
-cat("\nCase 2:\n")
-case2_n500 <- create_heatmap(case2_data, 500, "Case 2")
-case2_n1000 <- create_heatmap(case2_data, 1000, "Case 2")
-
-# Case 3 heatmaps
-cat("\nCase 3:\n")
-case3_n500 <- create_heatmap(case3_data, 500, "Case 3")
-case3_n1000 <- create_heatmap(case3_data, 1000, "Case 3")
-
-# Save individual heatmaps
-cat("\n=== SAVING INDIVIDUAL HEATMAPS ===\n")
-
-if(!is.null(case1_n500)) {
-  ggsave("Case1_n500_heatmap.pdf", case1_n500, width = 8, height = 6, dpi = 300)
-  ggsave("Case1_n500_heatmap.png", case1_n500, width = 8, height = 6, dpi = 300)
-}
-if(!is.null(case1_n1000)) {
-  ggsave("Case1_n1000_heatmap.pdf", case1_n1000, width = 8, height = 6, dpi = 300)
-  ggsave("Case1_n1000_heatmap.png", case1_n1000, width = 8, height = 6, dpi = 300)
-}
-
-if(!is.null(case2_n500)) {
-  ggsave("Case2_n500_heatmap.pdf", case2_n500, width = 8, height = 6, dpi = 300)
-  ggsave("Case2_n500_heatmap.png", case2_n500, width = 8, height = 6, dpi = 300)
-}
-if(!is.null(case2_n1000)) {
-  ggsave("Case2_n1000_heatmap.pdf", case2_n1000, width = 8, height = 6, dpi = 300)
-  ggsave("Case2_n1000_heatmap.png", case2_n1000, width = 8, height = 6, dpi = 300)
-}
-
-if(!is.null(case3_n500)) {
-  ggsave("Case3_n500_heatmap.pdf", case3_n500, width = 8, height = 6, dpi = 300)
-  ggsave("Case3_n500_heatmap.png", case3_n500, width = 8, height = 6, dpi = 300)
-}
-if(!is.null(case3_n1000)) {
-  ggsave("Case3_n1000_heatmap.pdf", case3_n1000, width = 8, height = 6, dpi = 300)
-  ggsave("Case3_n1000_heatmap.png", case3_n1000, width = 8, height = 6, dpi = 300)
-}
-
-# Create combined plots for each case
-cat("\n=== CREATING COMBINED PLOTS ===\n")
-
-# Combined plot for Case 1
-if(!is.null(case1_n500) && !is.null(case1_n1000)) {
-  case1_combined <- grid.arrange(case1_n500, case1_n1000, ncol = 2,
-                                 top = "Case 1: Entropy-Complexity Density Maps")
-  ggsave("Case1_combined_heatmaps.pdf", case1_combined, width = 14, height = 6, dpi = 300)
-  ggsave("Case1_combined_heatmaps.png", case1_combined, width = 14, height = 6, dpi = 300)
-}
-
-# Combined plot for Case 2
-if(!is.null(case2_n500) && !is.null(case2_n1000)) {
-  case2_combined <- grid.arrange(case2_n500, case2_n1000, ncol = 2,
-                                 top = "Case 2: Entropy-Complexity Density Maps")
-  ggsave("Case2_combined_heatmaps.pdf", case2_combined, width = 14, height = 6, dpi = 300)
-  ggsave("Case2_combined_heatmaps.png", case2_combined, width = 14, height = 6, dpi = 300)
-}
-
-# Combined plot for Case 3
-if(!is.null(case3_n500) && !is.null(case3_n1000)) {
-  case3_combined <- grid.arrange(case3_n500, case3_n1000, ncol = 2,
-                                 top = "Case 3: Entropy-Complexity Density Maps")
-  ggsave("Case3_combined_heatmaps.pdf", case3_combined, width = 14, height = 6, dpi = 300)
-  ggsave("Case3_combined_heatmaps.png", case3_combined, width = 14, height = 6, dpi = 300)
-}
-
-# Create mega combined plot (all 6 heatmaps)
-all_plots <- list(case1_n500, case1_n1000, case2_n500, case2_n1000, case3_n500, case3_n1000)
-all_plots <- all_plots[!sapply(all_plots, is.null)]
-
-if(length(all_plots) == 6) {
-  mega_combined <- grid.arrange(grobs = all_plots, ncol = 2, nrow = 3,
-                                top = "ARMA Time Series: Entropy-Complexity Density Maps")
-  ggsave("All_Cases_Combined_heatmaps.pdf", mega_combined, width = 14, height = 18, dpi = 300)
-  ggsave("All_Cases_Combined_heatmaps.png", mega_combined, width = 14, height = 18, dpi = 300)
-}
-
-cat("\n=== ANALYSIS COMPLETE ===\n")
-cat("Generated files:\n")
-cat("- Individual heatmaps: Case[1-3]_n[500/1000]_heatmap.pdf/png\n")
-cat("- Combined by case: Case[1-3]_combined_heatmaps.pdf/png\n")
-cat("- All combined: All_Cases_Combined_heatmaps.pdf/png\n")
+message("🎉 All heatmaps completed for all cases, sample sizes, and model types!")

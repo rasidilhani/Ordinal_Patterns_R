@@ -9,9 +9,9 @@ library(dplyr)
 library(tidyr)
 
 # --- File Paths ---
-central_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/CentralPoints.xlsx"
-ts_path      <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/TimeSeries_Data_all_Models.xlsx"
-save_path    <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/TimeSeries_by_Case.xlsx"
+central_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/CentralPoints_n1000_n5000.xlsx"
+ts_path      <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/TimeSeries_Data_all_Models_n1000_n5000.xlsx"
+save_path    <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/TimeSeries_by_Case_n1000_n5000.xlsx"
 
 # --- Cases Definition ---
 cases <- list(
@@ -19,7 +19,7 @@ cases <- list(
   Case2 = c("AR1_M3","AR1_M4","AR2_M4","MA1_M3","MA1_M4","MA2_M4","ARMA11_M3","ARMA11_M4","ARMA22_M4"),
   Case3 = c("AR2_M2","AR2_M3","MA2_M2","MA2_M3","ARMA22_M2","ARMA22_M3")
 )
-sample_sizes <- c(500, 1000)
+sample_sizes <- c(1000, 5000)
 
 # --- Function to get time series for a given central point ---
 get_ts <- function(model_name, n_val, emblematic_row) {

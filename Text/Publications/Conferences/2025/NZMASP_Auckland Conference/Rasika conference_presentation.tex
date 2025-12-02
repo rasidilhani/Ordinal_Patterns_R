@@ -19,7 +19,10 @@
 \institute[Victoria University of Wellington]{
 	\inst{1}School of Mathematics and Statistics, Victoria University of Wellington, New Zealand\\
 	\inst{2}LIDEC, Universidad Nacional de Hurlingham (UNAHUR), Argentina}
-\date{\today}
+%\date{\today}
+\date{20 November 2025}
+
+
 
 \setbeamertemplate{footline}{
 	\leavevmode
@@ -50,7 +53,8 @@
 	\begin{frame}{Motivation and Background}
 		\small
 		\begin{itemize}
-			\item Time series clustering is challenging, especially under stochastic or nonlinear dynamics.
+			%\item Time series clustering is challenging, especially under stochastic or nonlinear dynamics.
+			\item Clustering time series is challenging since every series analyzed contains a stochastic component, contributing random variability and increased complexity.
 			
 			\item \alert{Ordinal patterns} capture the order relations among consecutive data points.
 			
@@ -79,7 +83,7 @@
 		
 		\begin{figure}[hbt]
 			\centering
-			\includegraphics[width=0.5\textwidth]{humidity graph} 
+			\includegraphics[width=0.5\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/humidity graph} 
 			\caption{Mean monthly humidity in Wellington}
 			\label{fig:humidity}
 		\end{figure}
@@ -106,7 +110,7 @@
 		\end{itemize}
 		
 		\begin{center}
-			\includegraphics[width=0.5\textwidth]{frequency histogram} 
+			\includegraphics[width=0.5\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/frequency histogram} 
 		\end{center}
 	\end{frame}
 	
@@ -121,13 +125,26 @@
 		\end{block}
 		
 		\begin{block}{Definition: Jensen-Shannon Distance}
-			Given a histogram $\mathbf{p}$ and the reference uniform distribution $\mathbf{u} = (1/k, \ldots, 1/k)$ ($k = D!$), the disequilibrium is calculated as:
+			Given a histogram $\mathbf{p}$ and the reference uniform distribution $\mathbf{u} = (1/k, \ldots, 1/k)$, the disequilibrium is calculated as:
 			\[
 			Q'(\mathbf{p},\mathbf{u}) = \sum_{\ell=1}^k \Big( p_\ell \log\frac{p_\ell}{u_\ell} + u_\ell \log\frac{u_\ell}{p_\ell} \Big).
 			\]
 		\end{block}		
 		
-		\begin{block}{Definition: Statistical Complexity $C$ }
+	\end{frame}
+	
+	
+	
+	%-----------------------------------------------------%
+	\begin{frame}{Disequilibrium and Statistical Complexity}
+		\begin{block}{Disequilibrium}
+			The \textbf{normalized disequilibrium}:
+			\[
+			Q = \frac{Q'}{\max(Q')},
+			\]
+			provides a scale-independent comparison, where $\max(Q')$ is the highest possible value for the given $k$.
+		\end{block}
+			\begin{block}{Definition: Statistical Complexity $(C)$ }
 			\[
 			C = H Q
 			\]
@@ -152,7 +169,7 @@
 				\item Use cluster formation to discriminate models.
 			\end{itemize}
 			\column{0.45\textwidth}
-			\includegraphics[width=\linewidth]{New_model_group_plot_n500}
+			\includegraphics[width=\linewidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/New_model_group_plot_n500}
 			\captionof{figure}{ Entropy–Complexity plane for Sample size $n=500$.}
 		\end{columns}
 	\end{frame}
@@ -202,11 +219,11 @@
 				\item Complexity (\(C\)) — structure
 				\item Confidence Interval(CI) for $H$ and $C$
 			\end{itemize}
-			\item For each model, identify the \textbf{central (median) point} $(H^*, C^*)$ using PCA projection.
-			\item Median ensures the point is the most representative of the model’s behavior, as referred to in Chagas et al.~\cite{Chagas2022a}. 
+			\item For each model, identify the \textbf{central point} $(H^*, C^*)$ using PCA projection.
+			\item Central ensures the point is the most representative of the model’s behavior, as referred to in Chagas et al.~\cite{Chagas2022a}. 
 		\end{itemize}
 		\column{0.45\textwidth}
-		\includegraphics[width=\linewidth]{Median_HC_Shannon_Entropy_case1.pdf}
+		\includegraphics[width=\linewidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Median_HC_Shannon_Entropy_case1.pdf}
 		\captionof{figure}{Example of central $(H^*, C^*)$ points.}
 	    \end{columns}
 	\end{frame}
@@ -217,7 +234,7 @@
 		\begin{itemize}
 			\item \textbf{Case 1–3:} Positive, negative, and mixed-sign coefficients.
 			\item \textbf{Case 4–6:} Extended experiments with selected extreme and central ARMA models.
-			\item Two sample size: $n=500, n=1000$.
+			\item Two sample sizes: $n=500, n=1000$.
 			\item Each case analyzed using:
 			\begin{itemize}
 				\item The density of points in the $H \times C$
@@ -236,19 +253,19 @@
 	
 		\begin{frame}{Case 1 — Positive Coefficients}
 		\centering
-		\includegraphics[width=0.7\textwidth]{Combined3Plots_Case1_n1000.pdf}
+		\includegraphics[width=0.7\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Combined3Plots_Case1_n1000.pdf}
 		\captionof{figure}{Entropy–complexity scatter plot and associated time series ($n=1000$) for positive model coefficients.}
 	\end{frame}
 	
 	\begin{frame}{Case 2 — Negative Coefficients}
 		\centering
-		\includegraphics[width=0.7\textwidth]{Combined3Plots_Case2_n500.pdf}
+		\includegraphics[width=0.7\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Combined3Plots_Case2_n500.pdf}
 		\captionof{figure}{Entropy–complexity scatter plot and associated time series ($n=500$) for  negative parameters.}
 	\end{frame}
 	
 	\begin{frame}{Case 2 — Negative Coefficients}
 		\centering
-		\includegraphics[width=0.7\textwidth]{Combined3Plots_Case2_n1000.pdf}
+		\includegraphics[width=0.7\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Combined3Plots_Case2_n1000.pdf}
 		\captionof{figure}{Entropy–complexity scatter plot and associated time series ($n=1000$) for  negative parameters.}
 	\end{frame}
 	
@@ -257,11 +274,11 @@
 	\begin{columns}[c] % 'c' centers content vertically
 		\column{0.48\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{Combined3Plots_Case3_n500.pdf}
+		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Combined3Plots_Case3_n500.pdf}
 		\captionof{figure}{Entropy–complexity scatter plot and associated time series ($n=500$) for mixed-sign coefficients.}
 		\column{0.48\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{Combined3Plots_Case3_n1000.pdf}
+		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Combined3Plots_Case3_n1000.pdf}
 		\captionof{figure}{Entropy–complexity scatter plot and associated time series ($n=1000$) for mixed-sign coefficients.}
 	\end{columns}
 \end{frame}
@@ -281,11 +298,11 @@
 		\begin{columns}[c]
 			\column{0.48\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{Scatter_Selected_Case1_n1000.pdf}
+			\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Scatter_Selected_Case1_n1000.pdf}
 			\captionof{figure}{Scatter plot for selected models in the entropy–complexity plane for Case 1.}
 			\column{0.48\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{new_centralpoint_timeseries_Case1_n1000.pdf}
+			\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/new_centralpoint_timeseries_Case1_n1000.pdf}
 			\captionof{figure}{Representative time series around their central $(H^*, C^*)$ points.}
 		\end{columns}
 	%	\includegraphics[width=0.6\textwidth]{Combined_4Plots_Case4_n10000.pdf}
@@ -296,11 +313,11 @@
 		\begin{columns}[c]
 			\column{0.48\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{Scatter_Selected_Case2_n1000.pdf}
+			\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Scatter_Selected_Case2_n1000.pdf}
 			\captionof{figure}{Scatter plot for selected models in the entropy–complexity plane for Case 2.}
 			\column{0.48\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{new_centralpoint_timeseries_Case2_n1000.pdf}
+			\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/new_centralpoint_timeseries_Case2_n1000.pdf}
 			\captionof{figure}{Representative time series around their central $(H^*, C^*)$ points.}
 		\end{columns}
 	\end{frame}
@@ -310,11 +327,11 @@
 		\begin{columns}[c]
 			\column{0.48\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{Scatter_Selected_Case3_n1000.pdf}
+			\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Scatter_Selected_Case3_n1000.pdf}
 			\captionof{figure}{Scatter plot for selected models in the entropy–complexity plane for Case 3.}
 			\column{0.48\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{new_centralpoint_timeseries_Case3_n1000.pdf}
+			\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/new_centralpoint_timeseries_Case3_n1000.pdf}
 			\captionof{figure}{Representative time series around their central $(H^*, C^*)$ points.}
 		\end{columns}
 	\end{frame}
@@ -323,7 +340,7 @@
 \section{Combined Model Visualization}
 \begin{frame}{All Models and Patterns}
 		\centering
-		\includegraphics[width=\textwidth]{combined_new_scatterplot.pdf}
+		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/combined_new_scatterplot.pdf}
 		\captionof{figure}{All models combined in the entropy–complexity plane.}
 		\centering
 	\end{frame}
@@ -376,5 +393,6 @@
 		\bibliography{../../../BearingFaultDiagnosis}
 		
 	\end{frame}
+	
 \end{document}
 

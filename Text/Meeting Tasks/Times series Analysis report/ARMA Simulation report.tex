@@ -8,13 +8,21 @@
 \usepackage{caption}
 \captionsetup[figure]{font=small}
 \usepackage{float}
+\usepackage{subcaption}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{siunitx}
 \usepackage{hyperref}
 \usepackage{bm}
-%\usepackage{natbib} % or biblatex if you prefer
+%\usepackage{natbib}
 \usepackage{multirow}
+
+% ---------- PATH MACROS FOR FIGURES ----------
+\newcommand{\baseplotpath}{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/Ordinal_patterns_Features Plots n5000_n10000}
+\newcommand{\caseoneplots}{\baseplotpath/Case1/Plots}
+\newcommand{\casetwoplots}{\baseplotpath/Case2/Plots}
+\newcommand{\casethreeplots}{\baseplotpath/Case3/Plots}
+\newcommand{\combinedplots}{\baseplotpath/Combined plots}
 
 \title{Entropy-Complexity Plane Discrimination of Simulated Time Series Models}
 \author{Rasika Dilhani}
@@ -24,485 +32,714 @@
 	
 	\maketitle
 	
-\section{Purpose}
-Clustering is an unsupervised learning technique that partitions a dataset into groups of similar objects, aiming to reveal underlying but latent structure. 
-The goal of this work is to discriminate between autoregressive (AR), moving average (MA), and ARMA time series models using a feature-based approach built on ordinal pattern analysis.
-Ordinal patterns encode the temporal ordering of values within each time series segment, allowing the extraction of information-theoretic measures such as entropy and complexity.
-These metrics, including permutation entropy, Renyi entropy, Tsallis entropy, and Fisher information, capture both linear and nonlinear dynamics and offer greater sensitivity for model discrimination than traditional linear statistics.
-By mapping each time series to its corresponding feature vector and applying unsupervised clustering, we empirically demonstrate that ordinal pattern information measures effectively distinguish the structure and underlying process of AR, MA, and ARMA models. 
-This approach is robust to noise, applicable across model classes, and leverages recent advances in time series feature extraction.
-We closely follow the feature-based ordinal pattern analysis frameworks established by \cite{Boaretto2021, Chagas2022a, Rey2024, Rey2023}, which inform both our methodology and interpretation of results.
-
-
-\section{Methodology}
-The variation of the time delay parameter is found to have no significant effect in repeated experiments~\cite{Chagas2022a}. 
-Thus, we focus on two key variables for setting parameters and the data set: the length of the sequence and the embedding dimension.
-Below, we describe the simulation setup for our experiment.
-
-\textbf{Simulation and Feature Construction:}
-\begin{itemize}
-	\item \textbf{Embedding:} Fixed embedding dimension ($D=3$) and time delay ($\tau=1$).
-	\item \textbf{Model Structure:} AR(1), AR(2), MA(1), MA(2), ARMA(1,1), ARMA(2,2), each with four parameterizations (M1 to M4) as given in Table~\ref{tab:parameterSetting}.
-	\item \textbf{Simulation:} For each model and parameter set, $R=100$ time series of length $n=1000$ were simulated.
-	\item \textbf{Features:} For each realization, the following were computed:
-	\begin{itemize}
-		\item \emph{Entropy:} Shannon, Rényi, Tsallis entropies, and Fisher information measure.
-		\item \emph{Complexity:} Statistical complexity measures corresponding to each entropy type.
-		\item \emph{Variability:} Variances were also computed for each model to assess stability.
-	\end{itemize}
-\end{itemize}
-
-\noindent
-\textbf{Centrality Analysis:} For each model, the time series whose $(H^*, C^*)$ coordinates are closest to the median $(H, C)$ values is identified as the “central” representative, following the recommendation of Chagas et al.~\cite{Chagas2022a}.
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{llrrrr}
-		\toprule
-		\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
-		\midrule
-		\multirow{4}[2]{*}{$\mathrm{AR}(1)$}      & $\mathrm{AR}(1)_{\textrm{M}_1}$  & $0.8$   &      &      &      \\
-		& $\mathrm{AR}(1)_{\textrm{M}_2}$   & $0.1$   &      &      &      \\
-		& $\mathrm{AR}(1)_{\textrm{M}_3}$   & $-0.8$  &      &      &      \\
-		& $\mathrm{AR}(1)_{\textrm{M}_4}$   & $-0.1$  &      &      &      \\
-		\midrule
-		\multirow{4}[2]{*}{$\mathrm{AR}(2)$}      & $\mathrm{AR}(2)_{\textrm{M}_1}$   & $0.1$   & $0.8$  &      &      \\
-		& $\mathrm{AR}(2)_{\textrm{M}_2}$  & $-0.8$  & $0.1$  &      &      \\
-		& $\mathrm{AR}(2)_{\textrm{M}_3}$  & $0.1$   & $-0.8$ &      &      \\
-		& $\mathrm{AR}(2)_{\textrm{M}_4}$  & $-0.8$  & $-0.1$ &      &      \\
-		\midrule
-		\multirow{4}[2]{*}{	$\mathrm{MA}(1)$}      & $\mathrm{MA}(1)_{\textrm{M}_1}$ &       &      & $0.8$  &      \\
-		& $\mathrm{MA}(1)_{\textrm{M}_2}$  &       &      & $0.1$  &      \\
-		& $\mathrm{MA}(1)_{\textrm{M}_3}$  &       &      & $-0.8$ &      \\
-		& $\mathrm{MA}(1)_{\textrm{M}_4}$  &       &      & $-0.1$ &      \\
-		\midrule
-		\multirow{4}[2]{*}{$\mathrm{MA}(2)$}      & $\mathrm{MA}(2)_{\textrm{M}_1}$  &       &      & $0.1$  & $0.8$  \\
-		& $\mathrm{MA}(2)_{\textrm{M}_2}$  &       &      & $-0.8$ & $0.1$  \\
-		& $\mathrm{MA}(2)_{\textrm{M}_3}$  &       &      & $0.1$  & $-0.8$ \\
-		& $\mathrm{MA}(2)_{\textrm{M}_4}$  &       &      & $-0.8$ & $-0.1$ \\
-		\midrule
-		\multirow{4}[2]{*}{$\mathrm{ARMA}(1,1)$}  & $\mathrm{ARMA}(1,1)_{\textrm{M}_1}$ & $0.8$ &      & $0.8$  &      \\
-		& $\mathrm{ARMA}(1,1)_{\textrm{M}_2}$ & $0.1$ &      & $0.1$  &      \\
-		& $\mathrm{ARMA}(1,1)_{\textrm{M}_3}$ & $-0.8$ &     & $-0.8$ &      \\
-		& $\mathrm{ARMA}(1,1)_{\textrm{M}_4}$ & $-0.1$ &     & $-0.1$ &      \\
-		\midrule
-		\multirow{4}[2]{*}{$\mathrm{ARMA}(2,2)$}  & $\mathrm{ARMA}(2,2)_{\textrm{M}_1}$ & $0.1$ & $0.8$  & $0.1$  & $0.8$  \\
-		& $\mathrm{ARMA}(2,2)_{\textrm{M}_2}$ & $-0.8$ & $0.1$ & $-0.8$ & $0.1$  \\
-		& $\mathrm{ARMA}(2,2)_{\textrm{M}_3}$ & $0.1$ & $-0.8$ & $0.1$  & $-0.8$ \\
-		& $\mathrm{ARMA}(2,2)_{\textrm{M}_4}$ & $-0.8$ & $-0.1$ & $-0.8$ & $-0.1$ \\
-		\bottomrule
-	\end{tabular}
-	\caption{Models and parameter sets for AR(1), AR(2), MA(1), MA(2), ARMA(1,1), and ARMA(2,2). Empty cells indicate omitted parameters.}
-	\label{tab:parameterSetting}
-\end{table}
-
-The model parameterizations are organized into three cases:
-\begin{itemize}
-	\item \textbf{Case 1:} All coefficients are positive as shown in Table~\ref{tab:case1}.
-	\item \textbf{Case 2:} All coefficients are negative as shown in Table~\ref{tab:case2}.
-	\item \textbf{Case 3:} Coefficients include both positive and negative values as shown in Table~\ref{tab:case3}.
-\end{itemize}
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{llrrrr}
-		\toprule
-		\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
-		\midrule
-		\multirow{2}{*}{$\mathrm{AR}(1)$}   
-		& $\mathrm{AR}(1)_{\mathrm{M}_1}$ & 0.8 &        &        &        \\
-		& $\mathrm{AR}(1)_{\mathrm{M}_2}$ & 0.1 &        &        &        \\
-		\midrule
-		\multirow{1}{*}{$\mathrm{AR}(2)$}  
-		& $\mathrm{AR}(2)_{\mathrm{M}_1}$ & 0.1 & 0.8    &        &        \\
-		\midrule
-		\multirow{2}{*}{$\mathrm{MA}(1)$}   
-		& $\mathrm{MA}(1)_{\mathrm{M}_1}$ &      &        & 0.8    &        \\
-		& $\mathrm{MA}(1)_{\mathrm{M}_2}$ &      &        & 0.1    &        \\
-		\midrule
-		\multirow{1}{*}{$\mathrm{MA}(2)$}   
-		& $\mathrm{MA}(2)_{\mathrm{M}_1}$ &      &        & 0.1    & 0.8    \\
-		\midrule
-		\multirow{2}{*}{$\mathrm{ARMA}(1,1)$} 
-		& $\mathrm{ARMA}(1,1)_{\mathrm{M}_1}$ & 0.8 &        & 0.8    &        \\
-		& $\mathrm{ARMA}(1,1)_{\mathrm{M}_2}$ & 0.1 &        & 0.1    &        \\
-		\midrule
-		\multirow{1}{*}{$\mathrm{ARMA}(2,2)$} 
-		& $\mathrm{ARMA}(2,2)_{\mathrm{M}_1}$ & 0.1 & 0.8    & 0.1    & 0.8    \\
-		\bottomrule
-	\end{tabular}
-	\caption{Models and parameter sets for Case 1.}
-	\label{tab:case1}
-\end{table}
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{llrrrr}
-		\toprule
-		\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
-		\midrule
-		\multirow{2}{*}{$\mathrm{AR}(1)$}     
-		& $\mathrm{AR}(1)_{\textrm{M}_3}$   & $-0.8$  &      &      &      \\
-		& $\mathrm{AR}(1)_{\textrm{M}_4}$   & $-0.1$  &      &      &      \\
-		\midrule
-		\multirow{1}{*}{$\mathrm{AR}(2)$}      
-		& $\mathrm{AR}(2)_{\textrm{M}_4}$  & $-0.8$  & $-0.1$ &      &      \\
-		\midrule
-		\multirow{2}{*}{	$\mathrm{MA}(1)$}      
-		& $\mathrm{MA}(1)_{\textrm{M}_3}$  &       &      & $-0.8$ &      \\
-		& $\mathrm{MA}(1)_{\textrm{M}_4}$  &       &      & $-0.1$ &      \\
-		\midrule
-		\multirow{1}{*}{$\mathrm{MA}(2)$}      
-		& $\mathrm{MA}(2)_{\textrm{M}_4}$  &       &      & $-0.8$ & $-0.1$ \\
-		\midrule
-		\multirow{2}{*}{$\mathrm{ARMA}(1,1)$}  
-		& $\mathrm{ARMA}(1,1)_{\textrm{M}_3}$ & $-0.8$ &     & $-0.8$ &      \\
-		& $\mathrm{ARMA}(1,1)_{\textrm{M}_4}$ & $-0.1$ &     & $-0.1$ &      \\
-		\midrule
-		\multirow{1}{*}{$\mathrm{ARMA}(2,2)$}  
-		& $\mathrm{ARMA}(2,2)_{\textrm{M}_4}$ & $-0.8$ & $-0.1$ & $-0.8$ & $-0.1$ \\
-		\bottomrule
-	\end{tabular}
-	\caption{Models and parameter sets for Case 2.}
-	\label{tab:case2}
-\end{table}
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{llrrrr}
-		\toprule
-		\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
-		\midrule
-		\multirow{2}{*}{$\mathrm{AR}(2)$}      
-		& $\mathrm{AR}(2)_{\textrm{M}_2}$  & $-0.8$  & $0.1$  &      &      \\
-		& $\mathrm{AR}(2)_{\textrm{M}_3}$  & $0.1$   & $-0.8$ &      &      \\
-		\midrule
-		\multirow{2}{*}{$\mathrm{MA}(2)$}      
-		& $\mathrm{MA}(2)_{\textrm{M}_2}$  &       &      & $-0.8$ & $0.1$  \\
-		& $\mathrm{MA}(2)_{\textrm{M}_3}$  &       &      & $0.1$  & $-0.8$ \\
-		\midrule
-		\multirow{2}{*}{$\mathrm{ARMA}(2,2)$}  
-		& $\mathrm{ARMA}(2,2)_{\textrm{M}_2}$ & $-0.8$ & $0.1$ & $-0.8$ & $0.1$  \\
-		& $\mathrm{ARMA}(2,2)_{\textrm{M}_3}$ & $0.1$ & $-0.8$ & $0.1$  & $-0.8$ \\
-		\bottomrule
-	\end{tabular}
-	\caption{Models and parameter sets for Case 3.}
-	\label{tab:case3}
-\end{table}
-
-
-\subsection{Concept of Median (H*, C*) points calculation}
+	\section{Purpose}
+	Clustering is an unsupervised learning technique that partitions a dataset into groups of similar objects, aiming to reveal underlying but latent structure. 
+	The goal of this work is to discriminate between autoregressive (AR), moving average (MA), and ARMA time series models using a feature-based approach built on ordinal pattern analysis.
+	Ordinal patterns encode the temporal ordering of values within each time series segment, allowing the extraction of information-theoretic measures such as entropy and complexity.
+	These metrics, including permutation entropy, Renyi entropy, Tsallis entropy, and Fisher information, capture both linear and nonlinear dynamics and offer greater sensitivity for model discrimination than traditional linear statistics.
+	By mapping each time series to its corresponding feature vector and applying unsupervised clustering, we empirically demonstrate that ordinal pattern information measures effectively distinguish the structure and underlying process of AR, MA, and ARMA models. 
+	This approach is robust to noise, applicable across model classes, and leverages recent advances in time series feature extraction.
+	We closely follow the feature-based ordinal pattern analysis frameworks established by \cite{Boaretto2021, Chagas2022a, Rey2024, Rey2023}, which inform both our methodology and interpretation of results.
 	
-To calculate the "median or central" point in the $H \times C$ plane (as recommended by Chagas et al.,~\cite{Chagas2022a}), first compute the principal component analysis (PCA) of all H and C points for a given model. Next, sort the data according to the values of the first principal component (the direction of greatest variance). The emblematic point is then the original $(H,C)$ pair corresponding to the median value along this first principal component. This method ensures the selected point is truly central with respect to the main data structure, rather than simply taking the median of $H$ and $C$ separately.
-
-\section{Results}
-The experimental results were analyzed using three distinct cases. Case 1 considers all positive model parameters, as shown in Table~\ref{tab:case1}. Case 2 uses all negative parameters (see Table~\ref{tab:case2}), and Case 3 consists of mixed positive and negative parameter settings (see Table~\ref{tab:case3}). This case-wise approach was adopted because considering all possible parameter combinations did not provide clear insights into the experimental expectations.
-
-\subsection{Graphical Representation of H-C Plane}
-This section shows the entropy-complexity $(H\times C) $ plane for separate panels Shannon, Rényi, Tsallis, and Fisher information entropy measures and combined plot against their corresponding complexity measures. All three cases discuss separately with outcomes. 
-
-\subsubsection{Case 1}
-The Case 1 presents the distribution of different time series models characterized by positive-valued parameters as shown in the Table~\ref{tab:case1}.
-
-The Figure~\ref{modelShannon1} shows the entropy-complexity $(H\times C) $ plane
-
-  \begin{figure}[H]
-  	\centering
-  	\includegraphics[width=0.8\textwidth]{Shannon_Plane Case1.pdf}
-  	\caption{Shannon entropy in the $(H, C)$ plane Case 1}
-  	\label{modelShannon1}
-  \end{figure}
-  
-
-Figure~\ref{modelcomparison1} presents the entropy-complexity $(H \times C)$ plane as a combined plot for three entropy measures and the Fisher information metric. Distinct clustering of models $\mathrm{AR}(1)$, $\mathrm{AR}(2)$, $\mathrm{MA}(1)$, $\mathrm{MA}(2)$, $\mathrm{ARMA}(1,1)$, and $\mathrm{ARMA}(2,2)$ is observed in each entropy-complexity plane, highlighting the capacity of these feature pairs for robust model discrimination. Variations in cluster shape and position among the different entropy types reflect the unique sensitivities of each entropy measure to the underlying time series dynamics. The figure further confirms that autoregressive, moving average, and ARMA processes can be effectively distinguished when all model parameters are positive, as considered in Case 1.
+	
+	\section{Methodology}
+	The variation of the time delay parameter is found to have no significant effect in repeated experiments~\cite{Chagas2022a}. 
+	Thus, we focus on two key variables for setting parameters and the data set: the length of the sequence and the embedding dimension.
+	Below, we describe the simulation setup for our experiment.
+	
+	\textbf{Simulation and Feature Construction:}
+	\begin{itemize}
+		\item \textbf{Embedding:} Fixed embedding dimension ($D=3$) and time delay ($\tau=1$).
+		\item \textbf{Model Structure:} AR(1), AR(2), MA(1), MA(2), ARMA(1,1), ARMA(2,2), each with four parameterizations (M1 to M4) as given in Table~\ref{tab:parameterSetting}.
+		\item \textbf{Simulation:} For each model and parameter set, $R=100$ time series of length $n=1000, 5000$ and $10000$ were simulated.
+		\item \textbf{Features:} For each realization, the following were computed:
+		\begin{itemize}
+			\item \emph{Entropy:} Shannon, Rényi, Tsallis entropies, and Fisher information measure.
+			\item \emph{Complexity:} Statistical complexity measures corresponding to each entropy type.
+			\item \emph{Variability:} Variances were also computed for each model to assess stability.
+			\item \emph{Confidence Interval:} Confidence Interval for Entropy and Complexity also computed for each model to assess stability.
+		\end{itemize}
+	\end{itemize}
+	
+	\noindent
+	\textbf{Centrality Analysis:} For each model, the time series whose $(H^*, C^*)$ coordinates are closest to the median $(H, C)$ values is identified as the “central” representative, following the recommendation of Chagas et al.~\cite{Chagas2022a}.
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{llrrrr}
+			\toprule
+			\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
+			\midrule
+			\multirow{4}[2]{*}{$\mathrm{AR}(1)$}      & $\mathrm{AR}(1)_{\textrm{M}_1}$  & $0.8$   &      &      &      \\
+			& $\mathrm{AR}(1)_{\textrm{M}_2}$   & $0.1$   &      &      &      \\
+			& $\mathrm{AR}(1)_{\textrm{M}_3}$   & $-0.8$  &      &      &      \\
+			& $\mathrm{AR}(1)_{\textrm{M}_4}$   & $-0.1$  &      &      &      \\
+			\midrule
+			\multirow{4}[2]{*}{$\mathrm{AR}(2)$}      & $\mathrm{AR}(2)_{\textrm{M}_1}$   & $0.1$   & $0.8$  &      &      \\
+			& $\mathrm{AR}(2)_{\textrm{M}_2}$  & $-0.8$  & $0.1$  &      &      \\
+			& $\mathrm{AR}(2)_{\textrm{M}_3}$  & $0.1$   & $-0.8$ &      &      \\
+			& $\mathrm{AR}(2)_{\textrm{M}_4}$  & $-0.8$  & $-0.1$ &      &      \\
+			\midrule
+			\multirow{4}[2]{*}{	$\mathrm{MA}(1)$}      & $\mathrm{MA}(1)_{\textrm{M}_1}$ &       &      & $0.8$  &      \\
+			& $\mathrm{MA}(1)_{\textrm{M}_2}$  &       &      & $0.1$  &      \\
+			& $\mathrm{MA}(1)_{\textrm{M}_3}$  &       &      & $-0.8$ &      \\
+			& $\mathrm{MA}(1)_{\textrm{M}_4}$  &       &      & $-0.1$ &      \\
+			\midrule
+			\multirow{4}[2]{*}{$\mathrm{MA}(2)$}      & $\mathrm{MA}(2)_{\textrm{M}_1}$  &       &      & $0.1$  & $0.8$  \\
+			& $\mathrm{MA}(2)_{\textrm{M}_2}$  &       &      & $-0.8$ & $0.1$  \\
+			& $\mathrm{MA}(2)_{\textrm{M}_3}$  &       &      & $0.1$  & $-0.8$ \\
+			& $\mathrm{MA}(2)_{\textrm{M}_4}$  &       &      & $-0.8$ & $-0.1$ \\
+			\midrule
+			\multirow{4}[2]{*}{$\mathrm{ARMA}(1,1)$}  & $\mathrm{ARMA}(1,1)_{\textrm{M}_1}$ & $0.8$ &      & $0.8$  &      \\
+			& $\mathrm{ARMA}(1,1)_{\textrm{M}_2}$ & $0.1$ &      & $0.1$  &      \\
+			& $\mathrm{ARMA}(1,1)_{\textrm{M}_3}$ & $-0.8$ &     & $-0.8$ &      \\
+			& $\mathrm{ARMA}(1,1)_{\textrm{M}_4}$ & $-0.1$ &     & $-0.1$ &      \\
+			\midrule
+			\multirow{4}[2]{*}{$\mathrm{ARMA}(2,2)$}  & $\mathrm{ARMA}(2,2)_{\textrm{M}_1}$ & $0.1$ & $0.8$  & $0.1$  & $0.8$  \\
+			& $\mathrm{ARMA}(2,2)_{\textrm{M}_2}$ & $-0.8$ & $0.1$ & $-0.8$ & $0.1$  \\
+			& $\mathrm{ARMA}(2,2)_{\textrm{M}_3}$ & $0.1$ & $-0.8$ & $0.1$  & $-0.8$ \\
+			& $\mathrm{ARMA}(2,2)_{\textrm{M}_4}$ & $-0.8$ & $-0.1$ & $-0.8$ & $-0.1$ \\
+			\bottomrule
+		\end{tabular}
+		\caption{Models and parameter sets for AR(1), AR(2), MA(1), MA(2), ARMA(1,1), and ARMA(2,2). Empty cells indicate omitted parameters.}
+		\label{tab:parameterSetting}
+	\end{table}
+	
+	The model parameterizations are organized into three cases:
+	\begin{itemize}
+		\item \textbf{Case 1:} All coefficients are positive as shown in Table~\ref{tab:case1}.
+		\item \textbf{Case 2:} All coefficients are negative as shown in Table~\ref{tab:case2}.
+		\item \textbf{Case 3:} Coefficients include both positive and negative values as shown in Table~\ref{tab:case3}.
+	\end{itemize}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{llrrrr}
+			\toprule
+			\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
+			\midrule
+			\multirow{2}{*}{$\mathrm{AR}(1)$}   
+			& $\mathrm{AR}(1)_{\mathrm{M}_1}$ & 0.8 &        &        &        \\
+			& $\mathrm{AR}(1)_{\mathrm{M}_2}$ & 0.1 &        &        &        \\
+			\midrule
+			\multirow{1}{*}{$\mathrm{AR}(2)$}  
+			& $\mathrm{AR}(2)_{\mathrm{M}_1}$ & 0.1 & 0.8    &        &        \\
+			\midrule
+			\multirow{2}{*}{$\mathrm{MA}(1)$}   
+			& $\mathrm{MA}(1)_{\mathrm{M}_1}$ &      &        & 0.8    &        \\
+			& $\mathrm{MA}(1)_{\mathrm{M}_2}$ &      &        & 0.1    &        \\
+			\midrule
+			\multirow{1}{*}{$\mathrm{MA}(2)$}   
+			& $\mathrm{MA}(2)_{\mathrm{M}_1}$ &      &        & 0.1    & 0.8    \\
+			\midrule
+			\multirow{2}{*}{$\mathrm{ARMA}(1,1)$} 
+			& $\mathrm{ARMA}(1,1)_{\mathrm{M}_1}$ & 0.8 &        & 0.8    &        \\
+			& $\mathrm{ARMA}(1,1)_{\mathrm{M}_2}$ & 0.1 &        & 0.1    &        \\
+			\midrule
+			\multirow{1}{*}{$\mathrm{ARMA}(2,2)$} 
+			& $\mathrm{ARMA}(2,2)_{\mathrm{M}_1}$ & 0.1 & 0.8    & 0.1    & 0.8    \\
+			\bottomrule
+		\end{tabular}
+		\caption{Models and parameter sets for Case 1.}
+		\label{tab:case1}
+	\end{table}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{llrrrr}
+			\toprule
+			\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
+			\midrule
+			\multirow{2}{*}{$\mathrm{AR}(1)$}     
+			& $\mathrm{AR}(1)_{\textrm{M}_3}$   & $-0.8$  &      &      &      \\
+			& $\mathrm{AR}(1)_{\textrm{M}_4}$   & $-0.1$  &      &      &      \\
+			\midrule
+			\multirow{1}{*}{$\mathrm{AR}(2)$}      
+			& $\mathrm{AR}(2)_{\textrm{M}_4}$  & $-0.8$  & $-0.1$ &      &      \\
+			\midrule
+			\multirow{2}{*}{	$\mathrm{MA}(1)$}      
+			& $\mathrm{MA}(1)_{\textrm{M}_3}$  &       &      & $-0.8$ &      \\
+			& $\mathrm{MA}(1)_{\textrm{M}_4}$  &       &      & $-0.1$ &      \\
+			\midrule
+			\multirow{1}{*}{$\mathrm{MA}(2)$}      
+			& $\mathrm{MA}(2)_{\textrm{M}_4}$  &       &      & $-0.8$ & $-0.1$ \\
+			\midrule
+			\multirow{2}{*}{$\mathrm{ARMA}(1,1)$}  
+			& $\mathrm{ARMA}(1,1)_{\textrm{M}_3}$ & $-0.8$ &     & $-0.8$ &      \\
+			& $\mathrm{ARMA}(1,1)_{\textrm{M}_4}$ & $-0.1$ &     & $-0.1$ &      \\
+			\midrule
+			\multirow{1}{*}{$\mathrm{ARMA}(2,2)$}  
+			& $\mathrm{ARMA}(2,2)_{\textrm{M}_4}$ & $-0.8$ & $-0.1$ & $-0.8$ & $-0.1$ \\
+			\bottomrule
+		\end{tabular}
+		\caption{Models and parameter sets for Case 2.}
+		\label{tab:case2}
+	\end{table}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{llrrrr}
+			\toprule
+			\textbf{Type} & \textbf{Model} & $\alpha_1$ & $\alpha_2$ & $\beta_1$ & $\beta_2$ \\
+			\midrule
+			\multirow{2}{*}{$\mathrm{AR}(2)$}      
+			& $\mathrm{AR}(2)_{\textrm{M}_2}$  & $-0.8$  & $0.1$  &      &      \\
+			& $\mathrm{AR}(2)_{\textrm{M}_3}$  & $0.1$   & $-0.8$ &      &      \\
+			\midrule
+			\multirow{2}{*}{$\mathrm{MA}(2)$}      
+			& $\mathrm{MA}(2)_{\textrm{M}_2}$  &       &      & $-0.8$ & $0.1$  \\
+			& $\mathrm{MA}(2)_{\textrm{M}_3}$  &       &      & $0.1$  & $-0.8$ \\
+			\midrule
+			\multirow{2}{*}{$\mathrm{ARMA}(2,2)$}  
+			& $\mathrm{ARMA}(2,2)_{\textrm{M}_2}$ & $-0.8$ & $0.1$ & $-0.8$ & $0.1$  \\
+			& $\mathrm{ARMA}(2,2)_{\textrm{M}_3}$ & $0.1$ & $-0.8$ & $0.1$  & $-0.8$ \\
+			\bottomrule
+		\end{tabular}
+		\caption{Models and parameter sets for Case 3.}
+		\label{tab:case3}
+	\end{table}
+	
+	
+	\subsection{Concept of Central (H*, C*) points calculation}
+	
+	To calculate the "central" point in the $H \times C$ plane (as recommended by Chagas et al.,~\cite{Chagas2022a}), first compute the principal component analysis (PCA) of all H and C points for a given model. Next, sort the data according to the values of the first principal component (the direction of greatest variance). The emblematic point is then the original $(H,C)$ pair corresponding to the median value along this first principal component. This method ensures the selected point is truly central with respect to the main data structure, rather than simply taking the median of $H$ and $C$ separately.
+	
+	\section{Results}
+	The experimental results were analyzed using three distinct cases. Case 1 considers all positive model parameters, as shown in Table~\ref{tab:case1}. Case 2 uses all negative parameters (see Table~\ref{tab:case2}), and Case 3 consists of mixed positive and negative parameter settings (see Table~\ref{tab:case3}). This case-wise approach was adopted because considering all possible parameter combinations did not provide clear insights into the experimental expectations.
+	
+	\subsection{Graphical Representation of H-C Plane}
+	This section shows the entropy-complexity $(H\times C) $ plane for separate panels Shannon, Rényi, Tsallis, and Fisher information entropy measures and combined plot against their corresponding complexity measures. All three cases discuss separately with outcomes. 
+	
+	\subsubsection{Case 1}
+	The Case 1 presents the distribution of different time series models characterized by positive-valued parameters as shown in the Table~\ref{tab:case1}.
+	
+	The Figure~\ref{modelShannon1} shows the entropy-complexity $(H\times C) $ plane
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.8\textwidth]{HC_Comparison Case1.pdf}
-		\caption{Model comparison in the $(H, C)$ plane Case 1}
-		\label{modelcomparison1}
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/Scatter_Shannon_Case1_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/Scatter_Shannon_Case1_n10000}
+		\end{minipage}
+		\caption{Shannon entropy in the $(H, C)$ plane, Case 1, for $n=5000$ (left) and $n=10000$ (right).}
+		\label{modelShannon1}
 	\end{figure}
 	
-\subsubsection{Case 2}
-The Figure~\ref{modelShannon2} shows the entropy-complexity $(H\times C) $ plane for Case 2. It presents the distribution of different time series models characterized by negative-valued parameters as shown in Table~\ref{tab:case2}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Shannon_Plane_case2.pdf}
-	\caption{Shannon entropy in the $(H, C)$ plane Case 2}
-	\label{modelShannon2}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{All_Entropy_Comparison_case2.pdf}
-	\caption{Shannon entropy in the $(H, C)$ plane Case 2}
-	\label{modelcomparison2}
-\end{figure}
-
-\subsubsection{Case 3}
-In this section, we consider the time series models with coefficients taking both positive and negative values to comprehensively analyze their dynamic behaviors.
-It shows clearly three time series models $\mathrm{AR}(2), \mathrm{MA}(2),$ and $\mathrm{ARMA}(2,2)$ shows model seperation.  
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Shannon_Plane_case3.pdf}
-	\caption{Shannon entropy in the $(H, C)$ plane Case 2}
-	\label{modelShannon3}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{All_Entropy_Comparison_case3.pdf}
-	\caption{Shannon entropy in the $(H, C)$ plane Case 2}
-	\label{modelcomparison3}
-\end{figure}
-
 	
-\subsection{Median Series Exploration}
-Refered to the chagas et.al~\cite{Chagas2022a} it is clear with that, median point for entropy and complexity is the best representation of the time series. In our experiment, the emblematic  $(H^*,C^*)$ point for each model is identified and results are showing in Table~\ref{tab:medianPoints}, as the $(H,C)$ point whose first principal component is the median among all observations. This ensures the selected point is most representative in the main direction of data variability, as recommended in Algorithm 1 and Fi gure 6 of Chagas et al.
-\begin{table}[H]
-	\centering
-	\caption{Emblematic (Median) Points $(H^*, C^*)$ and Their Row Index}
-	\begin{tabular}{lrrr}
-		\toprule
-		Model & $H^*$ & $C^*$ & \text{Emblematic row} \\
-		\midrule
-		$\mathrm{AR}(1)_{\textrm{M}_1}$ & $0.977115$ & $0.021599$ & 25 \\
-		$\mathrm{AR}(1)_{\textrm{M}_2}$ & $0.999064$ & $0.000929$ & 64 \\
-		$\mathrm{AR}(1)_{\textrm{M}_3}$ &$ 0.945461$ & $0.055231$ & 55 \\
-		$\mathrm{AR}(1)_{\textrm{M}_4}$ &$ 0.998832$ & $0.001152$ & 88 \\
-		$\mathrm{AR}(2)_{\textrm{M}_1}$ & $0.965885$ & $0.034516$ & 75 \\
-		$\mathrm{AR}(2)_{\textrm{M}_2}$ & $0.917991$ & $0.083039$ & 54 \\
-		$\mathrm{AR}(2)_{\textrm{M}_3}$ & $0.972400$ & $0.02620$8 & 80 \\
-		$\mathrm{AR}(2)_{\textrm{M}_4}$ & $0.964379$ & $0.036038$ & 12 \\
-		$\mathrm{ARMA}(1,1)_{\textrm{M}_1}$ &$ 0.899274$ & $0.087417$ & 53 \\
-		$\mathrm{ARMA}(1,1)_{\textrm{M}_2}$ & $0.997516$ & $0.002436$ & 90 \\
-		$\mathrm{ARMA}(1,1)_{\textrm{M}_3}$ & $0.932882$ & $0.067982$ & 87 \\
-		$\mathrm{ARMA}(1,1)_{\textrm{M}_4}$ & $0.997835$ & $0.002159$ & 4 \\
-		$\mathrm{ARMA}(2,2)_{\textrm{M}_1}$ & $0.943623$ & $0.057128$ & 87 \\
-		$\mathrm{ARMA}(2,2)_{\textrm{M}_2}$ & $0.899985$ & $0.101073$ & 6 \\
-		$\mathrm{ARMA}(2,2)_{\textrm{M}_3}$ & $0.966676$ & $0.031002$ & 9 \\
-		$\mathrm{ARMA}(2,2)_{\textrm{M}_4}$ & $0.957209$ & $0.043443$ & 80 \\
-		$\mathrm{MA}(1)_{\textrm{M}_1}$ & $0.969221$ & $0.028807$ & 30 \\
-		$\mathrm{MA}(1)_{\textrm{M}_2}$ & $0.998891$ & $0.001085$ & 75 \\
-		$\mathrm{MA}(1)_{\textrm{M}_3}$ & $0.993770$ & $0.006249$ & 46 \\
-		$\mathrm{MA}(1)_{\textrm{M}_4}$ & $0.998752$ & $0.001238$ & 64 \\
-		$\mathrm{MA}(2)_{\textrm{M}_1}$ & $0.990739$ & $0.009306$ & 3 \\
-		$\mathrm{MA}(2)_{\textrm{M}_2}$ & $0.991545$ & $0.008480$ & 80 \\
-		$\mathrm{MA}(2)_{\textrm{M}_3}$ & $0.990391$ & $0.009282$ & 96 \\
-		$\mathrm{MA}(2)_{\textrm{M}_4}$ & $0.996217$ & $0.003776$ & 31 \\
-		\bottomrule
-	\end{tabular}
-	\label{tab:medianPoints}
-\end{table}
-
-\subsubsection{Case 1} 	
-The figures~\ref{fig:median_Shannon_entropy_case1} and \ref{fig:median_all_case1} displays all median $(H^*, C^*)$ points for every model on a single entropy-complexity plane, with each point colored by entropy type (Shannon, Renyi, Tsallis, or Fisher). This collective view reveals the global clustering structure and relative discriminability achieved by the different entropic measures. Further it is clearly see that different models occupy distinct regions in the $H \times C$ plane. Models with highly regular or highly random dynamics tend to lie near the lower and upper bounds of $H^*$ and $C^*$, while those with intermediate complexity are centrally located. Coloring by entropy type allows for immediate visual comparison of how sensitive each measure is for model separation.
-
-The Figure~\ref{fig:time_series_case1} provides a comprehensive visualization of the Shannon entropy median points for each time series, together with their associated time series plotted around the $H^* \times C^*$ plane. In this diagram, the central panel displays the $H^*$ (Shannon entropy) and $C^*$ values for each model under investigation. While the surrounding panels illustrate representative time series corresponding to each point. This arrangement emphasizes the model differences of all the time series except $\mathrm{MA}(1)_{\textrm{M}_2}, \mathrm{AR}(1)_{\textrm{M}_2},$ and $\mathrm{ARMA}(11)_{\textrm{M}_2}$. Those time series are overlapping means, it appears as the same type of time series models. 
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Median_HC_Shannon_Entropy_case1.pdf}
-	\caption{Median entropy complexity plot}
-	\label{fig:median_Shannon_entropy_case1}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Median_Comparison_4in1_case1.pdf}
-	\caption{Median entropy complexity group plot}
-	\label{fig:median_all_case1}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_HC_TS_grid_10plots_case1.pdf}
-	\caption{Median entropy complexity group plot for Shannon entropy with associated time series}
-	\label{fig:time_series_case1}
-\end{figure}
-
-\subsubsection{Case 2} 
-When analyzing all time series models with negative coefficients in Case 2, ordinal pattern analysis distinctly reveals similarities and differences in their dynamical behavior. Specifically, the time series generated by the models $\mathrm{MA}(1)_{\textrm{M}_4}$ and $\mathrm{AR}(1)_{\textrm{M}_4}$ display highly similar temporal structures, making them challenging to distinguish based solely on their sequence plots. This similarity is further confirmed in the entropy-complexity ($H^*$–$C^*$) plane, where the median representative points of $\mathrm{MA}(1)_{\textrm{M}_4}$ and $\mathrm{AR}(1)_{\textrm{M}_4}$ overlap, indicating nearly identical complexity and entropy characteristics. In contrast, the median points corresponding to other time series models with negative coefficients are clearly separated in the $H^* \times C^*$ plane, demonstrating distinctive dynamical signatures for each model. The figures~\ref{fig:median_Shannon_entropy_case2},\ref{fig:median_all_case2} and \ref{fig:time_series_case2} it verifies clearly.
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Median_HC_Shannon_Entropy_case2.pdf}
-	\caption{Median entropy complexity plot}
-	\label{fig:median_Shannon_entropy_case2}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Median_Comparison_4in1_case2.pdf}
-	\caption{Median entropy complexity group plot}
-	\label{fig:median_all_case2}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_HC_TS_grid_10plots_case2.pdf}
-	\caption{Median entropy complexity group plot for Shannon entropy with associated time series}
-	\label{fig:time_series_case2}
-\end{figure}
-
-\subsubsection{Case 3}	
-In this section, we analyze time series models whose coefficients include both positive and negative values. This comprehensive consideration allows us to assess model behaviors under varying parameter regimes, thereby providing a more complete understanding of the dynamics captured by the ARMA processes studied.
-The analysis of the plots shown below clearly separates almost all time series models. Notably, the models $\mathrm{MA}(2)_{\textrm{M}_2}$ and $\mathrm{MA}(2)_{\textrm{M}_3}$ exhibit some overlap, indicating similarity in their dynamical behaviors that makes them less distinguishable in the entropy-complexity plane. However, the other models demonstrate clear discrimination, confirming the effectiveness of the entropy-complexity plane in differentiating ARMA processes across varying coefficient regimes.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Median_HC_Shannon_Entropy_case3.pdf}
-	\caption{Median entropy complexity plot}
-	\label{fig:median_Shannon_entropy_case3}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Median_Comparison_4in1_case3.pdf}
-	\caption{Median entropy complexity group plot}
-	\label{fig:median_all_case3}
-\end{figure}
-
-The six time series model with its median point is shown in the Figure~\ref{fig:time_series_case3}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_HC_TS_grid_case3.pdf}
-	\caption{Median entropy complexity group plot for Shannon entropy with associated time series}
-	\label{fig:time_series_case3}
-\end{figure}
-
-In this extended analysis, six case studies were conducted to further validate and explore the behavior of various ARMA model configurations within the $H \times C$ plane. Specifically, three representative ARMA models were selected for each case, two extreme cases positioned far apart in the previously obtained $H \times C$ plane, and one central model located between them. For each selected model, time series data were generated with lengths of 5,000 and 10,000 observations, with 100 independent replications performed for each length to ensure statistical robustness. The Shannon entropy and corresponding statistical complexity were computed for each simulated time series following the same methodology used in the preliminary experiments. Furthermore, a model classification analysis was carried out using heat map representations of the entropy–complexity distributions to visualize and compare model behavior. These heat maps highlight regions of higher density where models exhibit similar dynamical characteristics, enabling clearer differentiation between stochastic and deterministic regimes as well as among AR, MA, and ARMA structures.
-
-The results obtained from these six cases are presented below to confirm and interpret the experimental findings.
-
-New Case 1 and 4 are based on results obtained when considering all positive coefficients in the ARMA models, as described in Table~\ref{tab:case1}. The figures~\ref{fig:time_series_new_case1_n5000}, \ref{fig:time_series_new_case1_n10000}, \ref{fig:time_series_new_case4_n10000}  and~\ref{fig:time_series_new_case4_n10000} display outcomes for sample sizes of $5000$ and $10000$, respectively. In these results, we highlight two extreme cases and the median point for positive-coefficient time series, including $\mathrm{ARMA}(11)_{\textrm{M}_1}$, $\mathrm{AR}(2)_{\textrm{M}_1}$, and $\mathrm{MA}(1)_{\textrm{M}_2}$ for case 1 and $\mathrm{ARMA}(11)_{\textrm{M}_1}$, $\mathrm{ARMA}(22)_{\textrm{M}_1}$, and $\mathrm{MA}(1)_{\textrm{M}_2}$ for case 4. 
-   
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots_Case1_n5000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=5000}
-	\label{fig:time_series_new_case1_n5000}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots_Case1_n10000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=10000}
-	\label{fig:time_series_new_case1_n10000}
-\end{figure}	
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots_Case4_n5000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=5000}
-	\label{fig:time_series_new_case4_n5000}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots_Case4_n10000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=10000}
-	\label{fig:time_series_new_case4_n10000}
-\end{figure}
-
-
-New Case 2 and 5 are based on results obtained when considering all negative coefficients in the ARMA models, as described in Table~\ref{tab:case2}. The figures~\ref{fig:time_series_new_case2_n5000}, \ref{fig:time_series_new_case2_n10000}, \ref{fig:time_series_new_case5_n10000} and~\ref{fig:time_series_new_case5_n10000} display outcomes for sample sizes of $5000$ and $10000$, respectively. In these results, we highlight two extreme cases and the median point for negative-coefficient time series, including $\mathrm{ARMA}(11)_{\textrm{M}_3}$, $\mathrm{AR}(2)_{\textrm{M}_4}$, and $\mathrm{MA}(1)_{\textrm{M}_4}$ for New Case 2 and $\mathrm{ARMA}(11)_{\textrm{M}_3}$, $\mathrm{ARMA}(22)_{\textrm{M}_4}$, and $\mathrm{MA}(1)_{\textrm{M}_4}$ for New Case 5.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots_Case2_n5000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=5000}
-	\label{fig:time_series_new_case2_n5000}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots__Case2_n10000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=10000}
-	\label{fig:time_series_new_case2_n10000}
-\end{figure}	
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots_Case5_n5000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=5000}
-	\label{fig:time_series_new_case5_n5000}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots_Case5_n10000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=10000}
-	\label{fig:time_series_new_case5_n10000}
-\end{figure}
-
-New Case 3 and 6 are based on results obtained when considering all positive and negative coefficients in the ARMA models, as described in Table~\ref{tab:case3}. The figures~\ref{fig:time_series_new_case3_n5000}, \ref{fig:time_series_new_case3_n10000}, \ref{fig:time_series_new_case6_n10000} and~\ref{fig:time_series_new_case6_n10000} display outcomes for sample sizes of $5000$ and $10000$, respectively. In these results, we highlight two extreme cases and the median point for negative-coefficient time series, including $\mathrm{ARMA}(22)_{\textrm{M}_2}$, $\mathrm{AR}(2)_{\textrm{M}_3}$, and $\mathrm{MA}(2)_{\textrm{M}_3}$ for New Case 3 and $\mathrm{ARMA}(22)_{\textrm{M}_2}$, $\mathrm{ARMA}(22)_{\textrm{M}_3}$, and $\mathrm{MA}(2)_{\textrm{M}_2}$ for New Case 6.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots_Case3_n5000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=5000}
-	\label{fig:time_series_new_case3_n5000}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots_Case3_n10000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=10000}
-	\label{fig:time_series_new_case3_n10000}
-\end{figure}	
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots_Case6_n5000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=5000}
-	\label{fig:time_series_new_case6_n5000}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_4Plots_Case6_n10000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=10000}
-	\label{fig:time_series_new_case6_n10000}
-\end{figure}
-
-Moreover, all cases were combined into a single set including all types of coefficients. The resulting combined plots are shown in Figures~\ref{fig:combined_coefficient_n5000} and~\ref{fig:combined_coefficient_n10000}.
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_HC_CI_Scatter_n5000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=10000}
-	\label{fig:combined_coefficient_n5000}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_HC_CI_Scatter_n10000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=10000}
-	\label{fig:combined_coefficient_n10000}
-\end{figure}
-
-Finally, the combined time series plots for all cases, encompassing all coefficient types, are presented as single panels for sample size $n=5000$ in Figures~\ref{fig:combined_coefficient_time_series_n5000}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Combined_HC_TimeSeries_n5000.pdf}
-	\caption{Combined plot for Shannon entropy with associated time series n=10000}
-	\label{fig:combined_coefficient_time_series_n5000}
-\end{figure}
-
+	Figure~\ref{fig:modelcomparison1} presents the entropy-complexity $(H \times C)$ plane as a combined plot for three entropy measures and the Fisher information metric. Distinct clustering of models $\mathrm{AR}(1)$, $\mathrm{AR}(2)$, $\mathrm{MA}(1)$, $\mathrm{MA}(2)$, $\mathrm{ARMA}(1,1)$, and $\mathrm{ARMA}(2,2)$ is observed in each entropy-complexity plane, highlighting the capacity of these feature pairs for robust model discrimination. Variations in cluster shape and position among the different entropy types reflect the unique sensitivities of each entropy measure to the underlying time series dynamics. The figure further confirms that autoregressive, moving average, and ARMA processes can be effectively distinguished when all model parameters are positive, as considered in Case 1.
 	
-\section*{Discussion and Conclusion}
-
-This study demonstrates the effectiveness of ordinal pattern analysis combined with entropy and complexity measures in discriminating between AR, MA, and ARMA time series models. By employing multiple entropy measures including Shannon, Rényi, Tsallis, and Fisher information, and using central $(H^*, C^*)$ points, we capture both linear and nonlinear dynamics across different parameter regimes. The separate investigation of three cases, involving positive, negative, and mixed-sign coefficients, reveals robust model discrimination capabilities of the proposed ordinal patterns feature-based approach, with clear clustering in the entropy–complexity plane. Overlap points in specific models highlight intrinsic similarities in their dynamics. This framework offers a promising tool for time series model characterization and can be extended to more complex or real-world datasets in future research.
-
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/Scatter_Shannon_Case1_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/Scatter_Tsallis_Case1_n10000}
+		\end{subfigure}
+		
+		\vskip\baselineskip
+		
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/Scatter_Renyi_Case1_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/Scatter_Fisher_Case1_n10000}
+		\end{subfigure}
+		
+		\caption{Comparison of each model shown by the four figures.}
+		\label{fig:modelcomparison1}
+	\end{figure}
 	
-\bibliographystyle{acm}
-\bibliography{../../BearingFaultDiagnosis}
-
+	
+	\subsubsection{Case 2}
+	The Figure~\ref{modelShannon2} shows the entropy-complexity $(H\times C) $ plane for Case 2. It presents the distribution of different time series models characterized by negative-valued parameters as shown in Table~\ref{tab:case2}.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/Scatter_Shannon_Case2_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/Scatter_Shannon_Case2_n10000}
+		\end{minipage}
+		\caption{Shannon entropy in the $(H, C)$ plane, Case 2, for $n=5000$ (left) and $n=10000$ (right).}
+		\label{modelShannon2}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/Scatter_Shannon_Case2_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/Scatter_Tsallis_Case2_n10000}
+		\end{subfigure}
+		
+		\vskip\baselineskip
+		
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/Scatter_Renyi_Case2_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/Scatter_Fisher_Case2_n10000}
+		\end{subfigure}
+		
+		\caption{Comparison of each model shown by the four figures.}
+		\label{fig:modelcomparison2}
+	\end{figure}
+	
+	\subsubsection{Case 3}
+	In this section, we consider the time series models with coefficients taking both positive and negative values to comprehensively analyze their dynamic behaviors.
+	It shows clearly three time series models $\mathrm{AR}(2), \mathrm{MA}(2),$ and $\mathrm{ARMA}(2,2)$ shows model separation.  
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/Scatter_Shannon_Case3_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/Scatter_Shannon_Case3_n10000}
+		\end{minipage}
+		\caption{Shannon entropy in the $(H, C)$ plane, Case 3, for $n=5000$ (left) and $n=10000$ (right).}
+		\label{modelShannon3}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/Scatter_Shannon_Case3_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/Scatter_Tsallis_Case3_n10000}
+		\end{subfigure}
+		
+		\vskip\baselineskip
+		
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/Scatter_Renyi_Case3_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/Scatter_Fisher_Case3_n10000}
+		\end{subfigure}
+		
+		\caption{Comparison of each model shown by the four figures.}
+		\label{fig:modelcomparison3}
+	\end{figure}
+	
+	
+	\subsection{Central Series Exploration}
+	Referring to Chagas et al.~\cite{Chagas2022a}, it is clear that the median point for entropy and complexity is the best representation of the time series. In our experiment, the central $(H^*,C^*)$ point for each model is identified, and the results are shown in Table~\ref{tab:medianPoints}. This point corresponds to the $(H,C)$ whose first principal component is the median among all observations. This ensures that the selected point is the most representative in the main direction of data variability, as recommended in Algorithm 1 and Figure 6 of Chagas et al.
+	
+	\begin{table}[H]
+		\centering
+		\caption{Emblematic (Median) Points $(H^*, C^*)$ and Their Row Index}
+		\begin{tabular}{lrrr}
+			\toprule
+			Model & $H^*$ & $C^*$ & \text{Emblematic row} \\
+			\midrule
+			$\mathrm{AR}(1)_{\textrm{M}_1}$ & $0.977115$ & $0.021599$ & 25 \\
+			$\mathrm{AR}(1)_{\textrm{M}_2}$ & $0.999064$ & $0.000929$ & 64 \\
+			$\mathrm{AR}(1)_{\textrm{M}_3}$ & $0.945461$ & $0.055231$ & 55 \\
+			$\mathrm{AR}(1)_{\textrm{M}_4}$ & $0.998832$ & $0.001152$ & 88 \\
+			$\mathrm{AR}(2)_{\textrm{M}_1}$ & $0.965885$ & $0.034516$ & 75 \\
+			$\mathrm{AR}(2)_{\textrm{M}_2}$ & $0.917991$ & $0.083039$ & 54 \\
+			$\mathrm{AR}(2)_{\textrm{M}_3}$ & $0.972400$ & $0.026208$ & 80 \\
+			$\mathrm{AR}(2)_{\textrm{M}_4}$ & $0.964379$ & $0.036038$ & 12 \\
+			$\mathrm{ARMA}(1,1)_{\textrm{M}_1}$ & $0.899274$ & $0.087417$ & 53 \\
+			$\mathrm{ARMA}(1,1)_{\textrm{M}_2}$ & $0.997516$ & $0.002436$ & 90 \\
+			$\mathrm{ARMA}(1,1)_{\textrm{M}_3}$ & $0.932882$ & $0.067982$ & 87 \\
+			$\mathrm{ARMA}(1,1)_{\textrm{M}_4}$ & $0.997835$ & $0.002159$ & 4 \\
+			$\mathrm{ARMA}(2,2)_{\textrm{M}_1}$ & $0.943623$ & $0.057128$ & 87 \\
+			$\mathrm{ARMA}(2,2)_{\textrm{M}_2}$ & $0.899985$ & $0.101073$ & 6 \\
+			$\mathrm{ARMA}(2,2)_{\textrm{M}_3}$ & $0.966676$ & $0.031002$ & 9 \\
+			$\mathrm{ARMA}(2,2)_{\textrm{M}_4}$ & $0.957209$ & $0.043443$ & 80 \\
+			$\mathrm{MA}(1)_{\textrm{M}_1}$ & $0.969221$ & $0.028807$ & 30 \\
+			$\mathrm{MA}(1)_{\textrm{M}_2}$ & $0.998891$ & $0.001085$ & 75 \\
+			$\mathrm{MA}(1)_{\textrm{M}_3}$ & $0.993770$ & $0.006249$ & 46 \\
+			$\mathrm{MA}(1)_{\textrm{M}_4}$ & $0.998752$ & $0.001238$ & 64 \\
+			$\mathrm{MA}(2)_{\textrm{M}_1}$ & $0.990739$ & $0.009306$ & 3 \\
+			$\mathrm{MA}(2)_{\textrm{M}_2}$ & $0.991545$ & $0.008480$ & 80 \\
+			$\mathrm{MA}(2)_{\textrm{M}_3}$ & $0.990391$ & $0.009282$ & 96 \\
+			$\mathrm{MA}(2)_{\textrm{M}_4}$ & $0.996217$ & $0.003776$ & 31 \\
+			\bottomrule
+		\end{tabular}
+		\label{tab:medianPoints}
+	\end{table}
+	
+	\subsubsection{Case 1} 	
+	The figures~\ref{fig:median_Shannon_entropy_case1} and \ref{fig:median_all_case1} display all median $(H^*, C^*)$ points for every model on a single entropy-complexity plane, with each point colored by entropy type (Shannon, Renyi, Tsallis, or Fisher). This collective view reveals the global clustering structure and relative discriminability achieved by the different entropy measures. Further it is clearly seen that different models occupy distinct regions in the $H \times C$ plane. Models with highly regular or highly random dynamics tend to lie near the lower and upper bounds of $H^*$ and $C^*$, while those with intermediate complexity are centrally located. Coloring by entropy type allows for immediate visual comparison of how sensitive each measure is for model separation.
+	
+	The Figure~\ref{fig:time_series_case1} provides a comprehensive visualization of the Shannon entropy median points for each time series, together with their associated time series plotted around the $H^* \times C^*$ plane. In this diagram, the central panel displays the $H^*$ (Shannon entropy) and $C^*$ values for each model under investigation, while the surrounding panels illustrate representative time series corresponding to each point. This arrangement emphasizes the model differences of all the time series except $\mathrm{MA}(1)_{\textrm{M}_2}, \mathrm{AR}(1)_{\textrm{M}_2},$ and $\mathrm{ARMA}(1,1)_{\textrm{M}_2}$. Those time series overlap, meaning they appear as the same type of time series models. 
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/CentralPoints_Shannon_Case1_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/CentralPoints_Shannon_Case1_n10000}
+		\end{minipage}
+		\caption{Median entropy–complexity plot for $n=5000$ (left) and $n=10000$ (right).}
+		\label{fig:median_Shannon_entropy_case1}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/CentralPoints_Shannon_Case1_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/CentralPoints_Tsallis_Case1_n10000}
+		\end{subfigure}
+		
+		\vskip\baselineskip
+		
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/CentralPoints_Renyi_Case1_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/CentralPoints_Fisher_Case1_n10000}
+		\end{subfigure}
+		
+		\caption{Central entropy–complexity group plot.}
+		\label{fig:median_all_case1}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{\caseoneplots/CentralPoints_TimeSeries_Shannon_Case1_n10000}
+		\caption{Entropy–complexity central points plot for Shannon entropy with associated time series.}
+		\label{fig:time_series_case1}
+	\end{figure}
+	
+	\subsubsection{Case 2} 
+	When analyzing all time series models with negative coefficients in Case 2, ordinal pattern analysis distinctly reveals similarities and differences in their dynamical behavior. Specifically, the time series generated by the models $\mathrm{MA}(1)_{\textrm{M}_4}$ and $\mathrm{AR}(1)_{\textrm{M}_4}$ display highly similar temporal structures, making them challenging to distinguish based solely on their sequence plots. This similarity is further confirmed in the entropy-complexity ($H^*$–$C^*$) plane, where the median representative points of $\mathrm{MA}(1)_{\textrm{M}_4}$ and $\mathrm{AR}(1)_{\textrm{M}_4}$ overlap, indicating nearly identical complexity and entropy characteristics. In contrast, the median points corresponding to other time series models with negative coefficients are clearly separated in the $H^* \times C^*$ plane, demonstrating distinctive dynamical signatures for each model. The figures~\ref{fig:median_Shannon_entropy_case2}, \ref{fig:median_all_case2} and \ref{fig:time_series_case2} verify this clearly.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/CentralPoints_Shannon_Case2_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/CentralPoints_Shannon_Case2_n10000}
+		\end{minipage}
+		\caption{Central entropy–complexity plot for $n=5000$ (left) and $n=10000$ (right).}
+		\label{fig:median_Shannon_entropy_case2}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/CentralPoints_Shannon_Case2_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/CentralPoints_Tsallis_Case2_n10000}
+		\end{subfigure}
+		
+		\vskip\baselineskip
+		
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/CentralPoints_Renyi_Case2_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/CentralPoints_Fisher_Case2_n10000}
+		\end{subfigure}
+		
+		\caption{Central entropy–complexity group plot.}
+		\label{fig:median_all_case2}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{\casetwoplots/CentralPoints_TimeSeries_Shannon_Case2_n10000}
+		\caption{Entropy–complexity central points plot for Shannon entropy with associated time series.}
+		\label{fig:time_series_case2}
+	\end{figure}
+	
+	\subsubsection{Case 3}	
+	In this section, we analyze time series models whose coefficients include both positive and negative values. This comprehensive consideration allows us to assess model behaviors under varying parameter regimes, thereby providing a more complete understanding of the dynamics captured by the ARMA processes studied.
+	The analysis of the plots shown below clearly separates almost all time series models. Notably, the models $\mathrm{MA}(2)_{\textrm{M}_2}$ and $\mathrm{MA}(2)_{\textrm{M}_3}$ exhibit some overlap, indicating similarity in their dynamical behaviors that makes them less distinguishable in the entropy–complexity plane. However, the other models demonstrate clear discrimination, confirming the effectiveness of the entropy–complexity plane in differentiating ARMA processes across varying coefficient regimes.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/CentralPoints_Shannon_Case3_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/CentralPoints_Shannon_Case3_n10000}
+		\end{minipage}
+		\caption{Central entropy–complexity plot for $n=5000$ (left) and $n=10000$ (right).}
+		\label{fig:median_Shannon_entropy_case3}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/CentralPoints_Shannon_Case3_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/CentralPoints_Tsallis_Case3_n10000}
+		\end{subfigure}
+		
+		\vskip\baselineskip
+		
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/CentralPoints_Renyi_Case3_n10000}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/CentralPoints_Fisher_Case3_n10000}
+		\end{subfigure}
+		
+		\caption{Central entropy–complexity group plot.}
+		\label{fig:median_all_case3}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{\casethreeplots/CentralPoints_TimeSeries_Shannon_Case3_n10000}
+		\caption{Entropy–complexity central points plot for Shannon entropy with associated time series.}
+		\label{fig:time_series_case3}
+	\end{figure}
+	
+	In this extended analysis, six case studies were conducted to further validate and explore the behavior of various ARMA model configurations within the $H \times C$ plane. Specifically, three representative ARMA models were selected for each case, two extreme cases positioned far apart in the previously obtained $H \times C$ plane, and one central model located between them. For each selected model, time series data were generated with lengths of 5,000 and 10,000 observations, with 100 independent replications performed for each length to ensure statistical robustness. The Shannon entropy and corresponding statistical complexity were computed for each simulated time series following the same methodology used in the preliminary experiments. Furthermore, a model classification analysis was carried out using heat map representations of the entropy–complexity distributions to visualize and compare model behavior. These heat maps highlight regions of higher density where models exhibit similar dynamical characteristics, enabling clearer differentiation between stochastic and deterministic regimes as well as among AR, MA, and ARMA structures.
+	
+	The results obtained from these six cases are presented below to confirm and interpret the experimental findings.
+	
+	New Case 1 is based on results obtained when considering all positive coefficients in the ARMA models, as described in Table~\ref{tab:case1}. The figures~\ref{fig:time_series_new_case1_n5000} and \ref{fig:time_series_new_case1_n10000} display outcomes for sample sizes of $5000$ and $10000$, respectively. In these results, we highlight two extreme cases and the median point for positive-coefficient time series, including $\mathrm{ARMA}(1,1)_{\textrm{M}_1}$, $\mathrm{AR}(2)_{\textrm{M}_1}$, and $\mathrm{MA}(1)_{\textrm{M}_2}$ for new case 1.  
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/Scatter_Selected_Case1_Shannon_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/centralpoint_timeseries_Shannon_Case1_n5000}
+		\end{minipage}
+		\caption{Combined plot for Shannon entropy with associated time series $n=5000$.}
+		\label{fig:time_series_new_case1_n5000}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/Scatter_Selected_Case1_Shannon_n10000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/centralpoint_timeseries_Shannon_Case1_n10000}
+		\end{minipage}
+		\caption{Combined plot for Shannon entropy with associated time series $n=10000$.}
+		\label{fig:time_series_new_case1_n10000}
+	\end{figure}
+	
+	The heat maps were generated to visualize the differences between models, as shown in Figure~\ref{fig:heat_map_new_case1}. The purpose of these plots is to highlight the variation and clustering patterns in the data, providing an intuitive comparison of model behaviors across the entropy–complexity plane.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/HC_Heatmap_Shannon_ModelTypes_Case1_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\caseoneplots/HC_Heatmap_Shannon_ModelTypes_Case1_n10000}
+		\end{minipage}
+		\caption{Heat map for Shannon entropy to discriminate model difference $n=5000$ and $n=10000$.}
+		\label{fig:heat_map_new_case1}
+	\end{figure}
+	
+	
+	New Case 2 is based on results obtained when considering all negative coefficients in the ARMA models, as described in Table~\ref{tab:case2}. The figures~\ref{fig:time_series_new_case2_n5000} and \ref{fig:time_series_new_case2_n10000} display outcomes for sample sizes of $5000$ and $10000$, respectively. In these results, we highlight two extreme cases and the median point for negative-coefficient time series, including $\mathrm{ARMA}(1,1)_{\textrm{M}_3}$, $\mathrm{AR}(2)_{\textrm{M}_4}$, and $\mathrm{MA}(1)_{\textrm{M}_4}$ for New Case 2. 
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/Scatter_Selected_Case2_Shannon_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/centralpoint_timeseries_Shannon_Case2_n5000}
+		\end{minipage}
+		\caption{Combined plot for Shannon entropy with associated time series $n=5000$.}
+		\label{fig:time_series_new_case2_n5000}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/Scatter_Selected_Case2_Shannon_n10000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/centralpoint_timeseries_Shannon_Case2_n10000}
+		\end{minipage}
+		\caption{Combined plot for Shannon entropy with associated time series $n=10000$.}
+		\label{fig:time_series_new_case2_n10000}
+	\end{figure}
+	
+	Heat maps related to this new case 2 are shown in Figure~\ref{fig:heat_map_new_case2}.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/HC_Heatmap_Shannon_ModelTypes_Case2_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casetwoplots/HC_Heatmap_Shannon_ModelTypes_Case2_n10000}
+		\end{minipage}
+		\caption{Heat map for Shannon entropy to discriminate model difference $n=5000$ and $n=10000$.}
+		\label{fig:heat_map_new_case2}
+	\end{figure}
+	
+	New Case 3 is based on results obtained when considering all positive and negative coefficients in the ARMA models, as described in Table~\ref{tab:case3}. The figures~\ref{fig:time_series_new_case3_n5000} and \ref{fig:time_series_new_case3_n10000} display outcomes for sample sizes of $5000$ and $10000$, respectively. In these results, we highlight two extreme cases and the median point for mixed-sign time series, including $\mathrm{ARMA}(2,2)_{\textrm{M}_2}$, $\mathrm{AR}(2)_{\textrm{M}_3}$, and $\mathrm{MA}(2)_{\textrm{M}_3}$ for New Case 3.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/Scatter_Selected_Case3_Shannon_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/centralpoint_timeseries_Shannon_Case3_n5000}
+		\end{minipage}
+		\caption{Combined plot for Shannon entropy with associated time series $n=5000$.}
+		\label{fig:time_series_new_case3_n5000}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/Scatter_Selected_Case3_Shannon_n10000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/centralpoint_timeseries_Shannon_Case3_n10000}
+		\end{minipage}
+		\caption{Combined plot for Shannon entropy with associated time series $n=10000$.}
+		\label{fig:time_series_new_case3_n10000}
+	\end{figure}
+	
+	Heat maps related to this work are shown in Figure~\ref{fig:heat_map_new_case3}.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/HC_Heatmap_Shannon_ModelTypes_Case3_n5000}
+		\end{minipage}\hfill
+		\begin{minipage}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{\casethreeplots/HC_Heatmap_Shannon_ModelTypes_Case3_n10000}
+		\end{minipage}
+		\caption{Heat map for Shannon entropy to discriminate model difference $n=5000$ and $n=10000$.}
+		\label{fig:heat_map_new_case3}
+	\end{figure}
+	
+	Moreover, all cases were combined into a single set including all types of coefficients. The resulting combined plots are shown in Figures~\ref{fig:combined_coefficient1}, \ref{fig:combined_coefficient2}, \ref{fig:combined_coefficient3} and \ref{fig:combined_coefficient4}.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{\combinedplots/combined_scatter_Shannon}
+		\caption{Combined plot for Shannon entropy.}
+		\label{fig:combined_coefficient1}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{\combinedplots/combined_scatter_Renyi}
+		\caption{Combined plot for Renyi entropy.}
+		\label{fig:combined_coefficient2}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{\combinedplots/combined_scatter_Tsallis}
+		\caption{Combined plot for Tsallis entropy.}
+		\label{fig:combined_coefficient3}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{\combinedplots/combined_scatter_Fisher}
+		\caption{Combined plot for Fisher entropy.}
+		\label{fig:combined_coefficient4}
+	\end{figure}
+	
+	
+	Finally, the combined time series plots for all cases, encompassing all coefficient types, are presented as single panels for sample size $n=10000$ in Figure~\ref{fig:combined_coefficient_time_series_n10000}.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{\combinedplots/Combined_Shannon_n10000}
+		\caption{Combined plot for Shannon entropy with associated time series $n=10000$.}
+		\label{fig:combined_coefficient_time_series_n10000}
+	\end{figure}
+	
+	
+	\section*{Discussion and Conclusion}
+	
+	This study shows the effectiveness of ordinal pattern analysis combined with entropy and complexity measures in discriminating between AR, MA, and ARMA time series models. By employing multiple entropy measures including Shannon, Rényi, Tsallis, and Fisher information, and using central $(H^*, C^*)$ points, we capture model dynamics across different parameter regimes. The separate investigation of three cases, involving positive, negative, and mixed-sign coefficients, reveals robust model discrimination capabilities of the proposed ordinal patterns feature-based approach, with clear clustering in the entropy–complexity plane. Overlap points in specific models highlight intrinsic similarities in their dynamics. This framework offers a promising tool for time series model characterization and can be extended to more complex or real-world datasets in future research.
+	
+	\bibliographystyle{acm}
+	\bibliography{../../BearingFaultDiagnosis}
+	
 \end{document}

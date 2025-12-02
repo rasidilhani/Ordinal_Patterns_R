@@ -10,7 +10,8 @@ library(writexl)
 # --- Parameters ---
 set.seed(1234567890, kind = "Mersenne-Twister")
 D <- 3                     # Embedding dimension
-N <- c(500, 1000)          # Sample sizes
+#N <- c(500, 1000)          # Sample sizes
+N <- c(5000, 10000)
 R <- 100                   # Number of replications
 
 # --- Model Definitions ---
@@ -145,7 +146,7 @@ library(dplyr)
 library(stats)
 
 # --- Define file paths ---
-data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/Entropy_Complexity_Results_all_Models.xlsx"
+data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/HC_Results_all_Models_n1000_n5000.xlsx"
 output_path <- data_path  # same file
 
 # --- Load sheet names ---
@@ -185,9 +186,9 @@ get_emblematic_point <- function(df, model_name, n_value) {
   )
 }
 
-# --- Storage lists for n=500 and n=1000 ---
-results_500 <- list()
+# --- Storage lists for n=5000 and n=10000 ---
 results_1000 <- list()
+results_5000 <- list()
 
 # --- Loop through all sheets ---
 for (sheet in all_sheets) {
@@ -209,28 +210,28 @@ for (sheet in all_sheets) {
   em <- get_emblematic_point(df, model_name, n_value)
   
   # Store results
-  if (n_value == 500) results_500[[model_name]] <- em
   if (n_value == 1000) results_1000[[model_name]] <- em
+  if (n_value == 5000) results_5000[[model_name]] <- em
 }
 
 # --- Combine results ---
-df_500 <- bind_rows(results_500)
 df_1000 <- bind_rows(results_1000)
+df_5000 <- bind_rows(results_5000)
 
-if (nrow(df_500) == 0 & nrow(df_1000) == 0) {
+if (nrow(df_1000) == 0 & nrow(df_5000) == 0) {
   cat("\n⚠️ No results were generated. Check sheet naming or n values.\n")
 } else {
   # --- Save to same Excel file ---
   wb <- loadWorkbook(output_path)
   
-  if ("CentralPoints_n500" %in% names(wb)) removeWorksheet(wb, "CentralPoints_n500")
   if ("CentralPoints_n1000" %in% names(wb)) removeWorksheet(wb, "CentralPoints_n1000")
+  if ("CentralPoints_n5000" %in% names(wb)) removeWorksheet(wb, "CentralPoints_n5000")
   
-  addWorksheet(wb, "CentralPoints_n500")
   addWorksheet(wb, "CentralPoints_n1000")
+  addWorksheet(wb, "CentralPoints_n5000")
   
-  writeData(wb, "CentralPoints_n500", df_500)
   writeData(wb, "CentralPoints_n1000", df_1000)
+  writeData(wb, "CentralPoints_n5000", df_5000)
   
   saveWorkbook(wb, output_path, overwrite = TRUE)
   
@@ -250,8 +251,8 @@ library(viridis)
 library(StatOrdPattHxC)
 
 # --- File Paths ---
-data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/Entropy_Complexity_Results_all_Models.xlsx"
-base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results"
+data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/HC_Results_all_Models_n1000_n5000.xlsx"
+base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n1000_n5000"
 
 # --- Load LinfLsup boundaries ---
 data("LinfLsup")
@@ -266,14 +267,14 @@ cases <- list(
   Case3 = c("AR2_M2","AR2_M3","MA2_M2","MA2_M3","ARMA22_M2","ARMA22_M3")
 )
 
-sample_sizes <- c(500, 1000)
+sample_sizes <- c(1000, 5000)
 
 # --- Define Colors and Shapes ---
 model_colors <- c(
   "ARMA11_M1"="#1b9e77","AR2_M1"="#d95f02","MA1_M2"="#7570b3","ARMA11_M3"="#e7298a",
   "AR2_M4"="#66a61e","MA1_M4"="#e6ab02","ARMA22_M2"="#a6761d","AR2_M3"="#666666",
   "MA2_M3"="#1f78b4","ARMA22_M1"="#b15928","ARMA22_M4"="#6a3d9a","MA2_M2"="#33a02c",
-  "ARMA22_M3"="#fb9a99","AR1_M1"="#8dd3c7","AR1_M2"="#ffffb3","ARMA11_M2"="#bebada",
+  "ARMA22_M3"="#fb9a99","AR1_M1"="#8dd3c7","AR1_M2"="red","ARMA11_M2"="#bebada",
   "MA1_M1"="#fb8072","MA2_M1"="#80b1d3","AR1_M3"="#fdb462","AR1_M4"="#b3de69",
   "ARMA11_M4"="#fccde5","MA1_M3"="#d9d9d9","MA2_M4"="#bc80bd","AR2_M2"="#ccebc5"
 )
@@ -358,10 +359,11 @@ library(readxl)
 library(ggplot2)
 library(dplyr)
 library(viridis)
+library(StatOrdPattHxC)   
 
 # --- File Paths ---
-data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/CentralPoints.xlsx"
-base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results"
+data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/HC_Results_all_Models_n1000_n5000.xlsx"
+base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n1000_n5000"
 
 # --- Define Cases ---
 cases <- list(
@@ -376,7 +378,7 @@ model_colors <- c(
   "AR2_M4"="#66a61e","MA1_M4"="#e6ab02","ARMA22_M2"="#a6761d","AR2_M3"="#666666",
   "MA2_M3"="#1f78b4","ARMA22_M1"="#b15928","ARMA22_M4"="#6a3d9a","MA2_M2"="#33a02c",
   "ARMA22_M3"="#fb9a99",
-  "AR1_M1"="#8dd3c7","AR1_M2"="#ffffb3","ARMA11_M2"="#bebada","MA1_M1"="#fb8072",
+  "AR1_M1"="#8dd3c7","AR1_M2"="red","ARMA11_M2"="#bebada","MA1_M1"="#fb8072",
   "MA2_M1"="#80b1d3","AR1_M3"="#fdb462","AR1_M4"="#b3de69","ARMA11_M4"="#fccde5",
   "MA1_M3"="#d9d9d9","MA2_M4"="#bc80bd","AR2_M2"="#ccebc5"
 )
@@ -389,19 +391,26 @@ model_shapes <- c(
   "AR1_M4"=10,"ARMA11_M4"=11,"MA1_M3"=12,"MA2_M4"=13,"AR2_M2"=14
 )
 
+# --- Load LinfLsup boundaries and choose embedding dimension ---
+data("LinfLsup")
+D <- 3   # same as in your second script
+LinfLsup_subset <- subset(LinfLsup, Dimension == as.character(D))
+
 # --- Function to Read and Clean Sheet ---
 read_central <- function(sheet_name){
   df <- read_excel(data_path, sheet = sheet_name)
-  names(df) <- trimws(names(df))           # remove leading/trailing spaces
-  df <- df %>% rename_all(~gsub("\\s+","",.)) # remove internal spaces
+  names(df) <- trimws(names(df))                 # remove leading/trailing spaces
+  df <- df %>% rename_all(~gsub("\\s+","",.))    # remove internal spaces
   return(df)
 }
 
 # --- Loop over Sheets and Cases ---
-sheets <- c("CentralPoints_n500","CentralPoints_n1000")
+sheets <- c("CentralPoints_n1000","CentralPoints_n5000")
 
 for(sheet_name in sheets){
-  n_val <- ifelse(grepl("500", sheet_name), 500, 1000)
+  
+  # infer n from sheet name
+  n_val <- ifelse(grepl("1000", sheet_name), 1000, 5000)
   df <- read_central(sheet_name)
   
   for(case_name in names(cases)){
@@ -415,30 +424,79 @@ for(sheet_name in sheets){
     df_case <- df %>% filter(Model %in% case_models)
     if(nrow(df_case) == 0) next
     
-    # --- Central Points Scatter Plot with CI ---
-    df_ci <- df_case %>% filter(!is.na(SemiLength_H) & SemiLength_H>0 &
-                                  !is.na(SemiLength_C) & SemiLength_C>0)
+    # --- Subset Linf/Lsup to the H*, C* range for this case ---
+    h_range <- range(df_case$H_Star, na.rm = TRUE)
+    c_range <- range(df_case$C_Star, na.rm = TRUE)
     
-    p_central <- ggplot(df_case, aes(H_Star, C_Star, color=Model, shape=Model)) +
-      geom_point(size=4) +
-      geom_errorbarh(data=df_ci, aes(y=C_Star, xmin=H_Star-SemiLength_H, xmax=H_Star+SemiLength_H, color=Model),
-                     height=0.002, linewidth=0.8) +
-      geom_errorbar(data=df_ci, aes(x=H_Star, ymin=C_Star-SemiLength_C, ymax=C_Star+SemiLength_C, color=Model),
-                    width=0.002, linewidth=0.8) +
-      scale_color_manual(values=model_colors) +
-      scale_shape_manual(values=model_shapes) +
-      labs(title=paste0("Central Points with CI (", case_name,", n=", n_val,")"),
-           x=expression(italic(H)*"*"), y=expression(italic(C)*"*")) +
-      theme_minimal(base_family="serif", base_size=13) +
-      theme(legend.position="bottom", legend.title=element_blank())
+    Linf_focus <- LinfLsup_subset %>%
+      filter(H >= min(h_range) - 0.05, H <= max(h_range) + 0.05,
+             C >= min(c_range) - 0.05, C <= max(c_range) + 0.05)
     
-    ggsave(file.path(plot_dir, paste0("CentralPoints_",case_name,"_n",n_val,".pdf")),
-           p_central, width=8, height=6)
+    # --- Central Points with CI: keep only rows with valid CI lengths ---
+    df_ci <- df_case %>%
+      filter(!is.na(SemiLength_H) & SemiLength_H > 0 &
+               !is.na(SemiLength_C) & SemiLength_C > 0)
     
+    # --- Plot with Linf/Lsup boundaries + central points + CI ---
+    p_central <- ggplot() +
+      # boundaries (same style as in your scatter code)
+      geom_line(data = subset(Linf_focus, Side == "Lower"),
+                aes(H, C), linetype = "dashed",
+                color = "gray40", linewidth = 0.6) +
+      geom_line(data = subset(Linf_focus, Side == "Upper"),
+                aes(H, C), linetype = "dashed",
+                color = "gray40", linewidth = 0.6) +
+      # central points
+      geom_point(data = df_case,
+                 aes(H_Star, C_Star, color = Model, shape = Model),
+                 size = 4) +
+      # --- NEW: Label each model next to its point ---
+      geom_text_repel(
+        data = df_case,
+        aes(H_Star, C_Star, label = Model, color = Model),
+        size = 3.5,
+        box.padding = 0.3,
+        point.padding = 0.25,
+        segment.color = "grey40",
+        max.overlaps = Inf
+      ) +
+      # horizontal CI
+      geom_errorbarh(data = df_ci,
+                     aes(y = C_Star,
+                         xmin = H_Star - SemiLength_H,
+                         xmax = H_Star + SemiLength_H,
+                         color = Model),
+                     height = 0.002, linewidth = 0.8) +
+      # vertical CI
+      geom_errorbar(data = df_ci,
+                    aes(x = H_Star,
+                        ymin = C_Star - SemiLength_C,
+                        ymax = C_Star + SemiLength_C,
+                        color = Model),
+                    width = 0.002, linewidth = 0.8) +
+      scale_color_manual(values = model_colors) +
+      scale_shape_manual(values = model_shapes) +
+      labs(title = paste0("Central Points with CI and Boundaries (",
+                          case_name, ", n=", n_val, ")"),
+           x = expression(italic(H)*"*"),
+           y = expression(italic(C)*"*")) +
+      theme_minimal(base_family = "serif", base_size = 13) +
+      theme(
+        legend.position = "bottom",
+        legend.title    = element_blank(),
+        panel.grid.minor = element_blank()
+      )
+    
+    # --- Save Plot ---
+    ggsave(file.path(plot_dir,
+                     paste0("CentralPoints_",
+                            case_name, "_n", n_val, ".pdf")),
+           p_central, width = 8, height = 6)
   }
 }
 
-message("🎉 All central points plots and heatmaps completed!")
+message("🎉 All central points plots completed with Linf–Lsup boundaries!")
+
 
 ###############################################################################
 #In this plotting script, we generate time series plots for the emblematic points of 
@@ -458,8 +516,11 @@ library(stringr)
 library(ggrepel)
 
 
-ts_case_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/TimeSeries_by_Case.xlsx"
-base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results"
+#ts_case_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/TimeSeries_by_Case.xlsx"
+#base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results"
+ts_case_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/TimeSeries_by_Case_n1000_n5000.xlsx"
+base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n1000_n5000"
+
 
 
 cases <- list(
@@ -468,13 +529,13 @@ cases <- list(
   Case3 = "Case3"
 )
 
-sample_sizes <- c(500, 1000)
+sample_sizes <- c(1000, 5000)
 
 model_colors <- c(
   "ARMA11_M1"="#1b9e77","AR2_M1"="#d95f02","MA1_M2"="#7570b3","ARMA11_M3"="#e7298a",
   "AR2_M4"="#66a61e","MA1_M4"="#e6ab02","ARMA22_M2"="#a6761d","AR2_M3"="#666666",
   "MA2_M3"="#1f78b4","ARMA22_M1"="#b15928","ARMA22_M4"="#6a3d9a","MA2_M2"="#33a02c",
-  "ARMA22_M3"="#fb9a99","AR1_M1"="#8dd3c7","AR1_M2"="#ffffb3","ARMA11_M2"="#bebada",
+  "ARMA22_M3"="#fb9a99","AR1_M1"="#8dd3c7","AR1_M2"="red","ARMA11_M2"="#bebada",
   "MA1_M1"="#fb8072","MA2_M1"="#80b1d3","AR1_M3"="#fdb462","AR1_M4"="#b3de69",
   "ARMA11_M4"="#fccde5","MA1_M3"="#d9d9d9","MA2_M4"="#bc80bd","AR2_M2"="#ccebc5"
 )
@@ -604,7 +665,8 @@ plot_case_timeseries <- function(case_name, n_val) {
     
     ggplot(df_ts, aes(x=x, y=y)) +
       geom_line(color=model_colors[name], linewidth=0.5) +
-      scale_x_continuous(breaks=c(0,100,200,300,400,500)) +
+      #scale_x_continuous(breaks=c(0,1000,2000,3000,4000,5000)) +
+      scale_x_continuous(limits=c(min(df_ts$x), max(df_ts$x))) +
       scale_y_continuous(limits=c(min(df_ts$y), max(df_ts$y))) +
       labs(title=name) +
       theme_minimal(base_family="serif", base_size=8) +
@@ -692,8 +754,10 @@ library(StatOrdPattHxC)
 ###############################################################
 # 📁 File paths
 ###############################################################
-ts_case_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/TimeSeries_by_Case.xlsx"
-base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results"
+#ts_case_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/TimeSeries_by_Case_n1000_n5000.xlsx"
+#base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results"
+ts_case_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/TimeSeries_by_Case_n1000_n5000.xlsx"
+base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n1000_n5000"
 
 cases <- list(
   Case1 = "Case1",
@@ -701,7 +765,7 @@ cases <- list(
   Case3 = "Case3"
 )
 
-sample_sizes <- c(500, 1000)
+sample_sizes <- c(1000, 5000)
 
 ###############################################################
 # 🎨 Colors & Shapes
@@ -710,7 +774,7 @@ model_colors <- c(
   "ARMA11_M1"="#1b9e77","AR2_M1"="#d95f02","MA1_M2"="#7570b3","ARMA11_M3"="#e7298a",
   "AR2_M4"="#66a61e","MA1_M4"="#e6ab02","ARMA22_M2"="#a6761d","AR2_M3"="#666666",
   "MA2_M3"="#1f78b4","ARMA22_M1"="#b15928","ARMA22_M4"="#6a3d9a","MA2_M2"="#33a02c",
-  "ARMA22_M3"="#fb9a99","AR1_M1"="#8dd3c7","AR1_M2"="#ffffb3","ARMA11_M2"="#bebada",
+  "ARMA22_M3"="#fb9a99","AR1_M1"="#8dd3c7","AR1_M2"="red","ARMA11_M2"="#bebada",
   "MA1_M1"="#fb8072","MA2_M1"="#80b1d3","AR1_M3"="#fdb462","AR1_M4"="#b3de69",
   "ARMA11_M4"="#fccde5","MA1_M3"="#d9d9d9","MA2_M4"="#bc80bd","AR2_M2"="#ccebc5"
 )
@@ -805,7 +869,7 @@ plot_three_points_with_ts <- function(case_name, n_val) {
     df_ts <- data.frame(x=seq_along(ts_data), y=ts_data)
     ggplot(df_ts, aes(x,y)) +
       geom_line(color=model_colors[model_name], linewidth=0.5) +
-      scale_x_continuous(breaks=c(0,100,200,300,400,500)) +
+      scale_x_continuous(breaks=c(0,1000,2000,3000,4000,5000)) +
       scale_y_continuous(limits=c(min(df_ts$y), max(df_ts$y))) +
       labs(title=paste0(pos_label,": ",model_name)) +
       theme_minimal(base_family="serif", base_size=8) +
@@ -919,9 +983,9 @@ plot_combined_threepoint_scatter <- function() {
     
     # Coefficient class color scheme
     scale_color_manual(values=c(
-      "Positive"="#1b9e77",
-      "Negative"="#d95f02",
-      "Mixed"="#7570b3"
+      "Positive"="darkblue",
+      "Negative"="darkgreen",
+      "Mixed"="orange"
     )) +
     
     scale_shape_manual(values=model_shapes) +
@@ -958,9 +1022,11 @@ library(StatOrdPattHxC)
 ###############################################################
 # 📁 Paths
 ###############################################################
-full_data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/Entropy_Complexity_Results_all_Models.xlsx"
-output_dir     <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results"
+#full_data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results/Entropy_Complexity_Results_all_Models.xlsx"
+#output_dir     <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results"
 
+full_data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/HC_Results_all_Models_n1000_n5000.xlsx"
+output_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n1000_n5000"
 ###############################################################
 # ⭐ Selected Models per Case
 ###############################################################
@@ -970,7 +1036,7 @@ selected_models <- list(
   Case3 = c("ARMA22_M2", "ARMA22_M3", "MA2_M2")
 )
 
-sample_sizes <- c(500, 1000)
+sample_sizes <- c(1000, 5000)
 
 ###############################################################
 # 🎨 Colors & Shapes
@@ -979,7 +1045,7 @@ model_colors <- c(
   "ARMA11_M1"="#1b9e77","AR2_M1"="#d95f02","MA1_M2"="#7570b3","ARMA11_M3"="#e7298a",
   "AR2_M4"="#66a61e","MA1_M4"="#e6ab02","ARMA22_M2"="#a6761d","AR2_M3"="#666666",
   "MA2_M3"="#1f78b4","ARMA22_M1"="#b15928","ARMA22_M4"="#6a3d9a","MA2_M2"="#33a02c",
-  "ARMA22_M3"="#fb9a99","AR1_M1"="#8dd3c7","AR1_M2"="#ffffb3","ARMA11_M2"="#bebada",
+  "ARMA22_M3"="#fb9a99","AR1_M1"="#8dd3c7","AR1_M2"="red","ARMA11_M2"="#bebada",
   "MA1_M1"="#fb8072","MA2_M1"="#80b1d3","AR1_M3"="#fdb462","AR1_M4"="#b3de69",
   "ARMA11_M4"="#fccde5","MA1_M3"="#d9d9d9","MA2_M4"="#bc80bd","AR2_M2"="#ccebc5"
 )
@@ -1074,3 +1140,213 @@ for (case_name in names(selected_models)) {
 }
 
 message("\n🎉 All 6 scatter plots created successfully (legend ON, no repeated labels)!\n")
+
+#----------------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+# In this script we generate a heatmap of the Entropy-Complexity plane
+# for a selected cases (Case1-3) and sample size (n = 5000 and 10000).
+# The heatmap visualizes the density of points corresponding to different
+# time series models (AR, MA, ARMA) in the Entropy-Complexity space.
+#--------------------------------------------------------
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(StatOrdPattHxC)
+
+#--------------------------------------------------------
+# Paths
+#--------------------------------------------------------
+data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/HC_Results_all_Models_n1000_n5000.xlsx"
+base_output_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA plots/ARMA Plots n1000_n5000"
+
+#--------------------------------------------------------
+# Case definitions (models per case)
+#--------------------------------------------------------
+cases <- list(
+  Case1 = c("AR1_M1","AR1_M2","AR2_M1",
+            "MA1_M1","MA1_M2","MA2_M1",
+            "ARMA11_M1","ARMA11_M2","ARMA22_M1"),
+  Case2 = c("AR1_M3","AR1_M4","AR2_M4",
+            "MA1_M3","MA1_M4","MA2_M4",
+            "ARMA11_M3","ARMA11_M4","ARMA22_M4"),
+  Case3 = c("AR2_M2","AR2_M3",
+            "MA2_M2","MA2_M3",
+            "ARMA22_M2","ARMA22_M3")
+)
+
+#--------------------------------------------------------
+# Master color palette per model
+#--------------------------------------------------------
+model_colors <- c(
+  "ARMA11_M1"="#1b9e77","AR2_M1"="#d95f02","MA1_M2"="#7570b3","ARMA11_M3"="#e7298a",
+  "AR2_M4"="#66a61e","MA1_M4"="#e6ab02","ARMA22_M2"="#a6761d","AR2_M3"="#666666",
+  "MA2_M3"="#1f78b4","ARMA22_M1"="#b15928","ARMA22_M4"="#6a3d9a","MA2_M2"="#33a02c",
+  "ARMA22_M3"="#fb9a99","AR1_M1"="#8dd3c7","AR1_M2"="#ff0000","ARMA11_M2"="#bebada",
+  "MA1_M1"="#fb8072","MA2_M1"="#80b1d3","AR1_M3"="#fdb462","AR1_M4"="#b3de69",
+  "ARMA11_M4"="#fccde5","MA1_M3"="#d9d9d9","MA2_M4"="#bc80bd","AR2_M2"="#ccebc5"
+)
+
+#--------------------------------------------------------
+# Sample sizes
+#--------------------------------------------------------
+sample_sizes <- c(1000, 5000)
+
+#--------------------------------------------------------
+# Feasible region (Linf / Lsup) for D = 3
+#--------------------------------------------------------
+data("LinfLsup")
+D <- 3
+Linf_all <- subset(LinfLsup, Side == "Lower" & Dimension == as.character(D))
+Lsup_all <- subset(LinfLsup, Side == "Upper" & Dimension == as.character(D))
+
+#--------------------------------------------------------
+# Main loops: over cases and sample sizes
+#--------------------------------------------------------
+for (case_name in names(cases)) {
+  
+  models_case <- cases[[case_name]]
+  
+  for (n_val in sample_sizes) {
+    
+    message("===== Processing ", case_name, ", n = ", n_val, " =====")
+    
+    #--------------------------------------------------------
+    # Read Excel sheets for this case & n
+    #--------------------------------------------------------
+    df_list <- lapply(models_case, function(m) {
+      sheet_name <- paste0(m, "_n", n_val)
+      message("  Reading sheet: ", sheet_name)
+      read_excel(data_path, sheet = sheet_name) |>
+        mutate(Model = m, n = n_val)
+    })
+    
+    df_case <- bind_rows(df_list) |>
+      dplyr::rename(
+        H = H_Shannon,
+        C = C_Shannon
+      ) |>
+      dplyr::filter(is.finite(H), is.finite(C))
+    
+    if (nrow(df_case) == 0) {
+      warning("No data for ", case_name, " n = ", n_val, ", skipping.")
+      next
+    }
+    
+    #--------------------------------------------------------
+    # Classify Families (AR / MA / ARMA) and fine Types (each model)
+    #--------------------------------------------------------
+    df_case <- df_case |>
+      mutate(
+        Family = case_when(
+          str_starts(Model, "ARMA") ~ "ARMA",
+          str_starts(Model, "AR")   ~ "AR",
+          str_starts(Model, "MA")   ~ "MA",
+          TRUE                      ~ "Other"
+        ),
+        # Fine-grained type: each model in this case is its own "type"
+        Type = factor(Model, levels = models_case)
+      )
+    
+    df_case$Family <- factor(df_case$Family,
+                             levels = c("AR","MA","ARMA","Other"))
+    
+    #--------------------------------------------------------
+    # Feasible region (crop to H-range of this case)
+    #--------------------------------------------------------
+    H_min <- min(df_case$H)
+    H_max <- max(df_case$H)
+    C_min <- min(df_case$C)
+    C_max <- max(df_case$C)
+    
+    Linf_crop <- Linf_all |>
+      dplyr::filter(H >= H_min, H <= H_max)
+    Lsup_crop <- Lsup_all |>
+      dplyr::filter(H >= H_min, H <= H_max)
+    
+    #--------------------------------------------------------
+    # Dynamic bandwidth for density smoothing
+    #--------------------------------------------------------
+    Hx <- diff(range(df_case$H))
+    Cx <- diff(range(df_case$C))
+    h_vec <- c(Hx / 5, Cx / 5)   # adaptive smoothing
+    
+    #--------------------------------------------------------
+    # Colors per fine model Type — use your predefined palette
+    #--------------------------------------------------------
+    type_cols <- model_colors[models_case]
+    
+    #--------------------------------------------------------
+    # Plot
+    #--------------------------------------------------------
+    p <- ggplot(df_case, aes(H, C)) +
+      
+      # Feasible region boundaries
+      geom_line(data = Linf_crop, aes(H, C),
+                colour = "black", linewidth = 0.8) +
+      geom_line(data = Lsup_crop, aes(H, C),
+                colour = "black", linewidth = 0.8) +
+      
+      # Background points
+      geom_point(alpha = 0.07, size = 0.8, colour = "black") +
+      
+      # Density polygons per model Type
+      stat_density_2d(
+        aes(fill = Type, alpha = after_stat(level)),
+        geom = "polygon",
+        contour = TRUE,
+        bins = 10,
+        colour = NA,
+        h = h_vec
+      ) +
+      
+      # Contour lines per model Type
+      stat_density_2d(
+        aes(color = Type),
+        contour = TRUE,
+        bins = 6,
+        linewidth = 0.25,
+        h = h_vec
+      ) +
+      
+      scale_fill_manual(values = type_cols, name = "Model (Type)") +
+      scale_color_manual(values = type_cols, guide = "none") +
+      scale_alpha(range = c(0.10, 0.55), guide = "none") +
+      
+      labs(
+        title = paste("Heatmap by Model Type —", case_name, "(n =", n_val, ")"),
+        x = expression(italic(H)),
+        y = expression(italic(C))
+      ) +
+      
+      coord_cartesian(
+        xlim = c(H_min, H_max),
+        ylim = c(C_min - 0.02, C_max + 0.02)
+      ) +
+      
+      theme_minimal(base_size = 16) +
+      theme(
+        panel.grid      = element_blank(),
+        legend.position = "right"
+      )
+    
+    print(p)
+    
+    #--------------------------------------------------------
+    # Save plot
+    #--------------------------------------------------------
+    case_output_dir <- file.path(base_output_dir, case_name, "Plots")
+    dir.create(case_output_dir, recursive = TRUE, showWarnings = FALSE)
+    
+    output_plot_path <- file.path(
+      case_output_dir,
+      paste0("HC_Heatmap_ModelTypes_", case_name, "_n", n_val, ".pdf")
+    )
+    
+    ggsave(output_plot_path, p, width = 10, height = 8)
+    message("  Saved: ", output_plot_path, "\n")
+  }
+}
+
+message("🎉 All heatmaps completed for all cases, sample sizes, and model types!")
+#---------------------------------------------------------------------------------
