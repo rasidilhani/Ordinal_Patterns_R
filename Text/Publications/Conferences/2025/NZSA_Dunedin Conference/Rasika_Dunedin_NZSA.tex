@@ -76,13 +76,16 @@
 	\begin{frame}{Motivation and Background}
 		\small
 		\begin{itemize}
-			\item Time series clustering is challenging since every series analyzed contains a stochastic component, contributing random variability and increased complexity.
+			\item Time series clustering is challenging because of the infinitely many possible structures they may present.
+			% since every series analyzed contains a stochastic component, contributing random variability and increased complexity.
 			\item \alert{Ordinal patterns} capture the order relations among consecutive data points.
+%			BP introduced OPs and PE
 			\item \textbf{Bandt \& Pompe (2002)}~\cite{PhysRevLett.88.174102}: introduced \textbf{Permutation Entropy}.
-			\item \textbf{Limitation:} Entropy quantifies disorder but cannot distinguish random from structured dynamics.
+			\item \textbf{Limitation:} PE quantifies disorder but cannot distinguish stochastic from deterministic chaotic dynamics.
 			\item \textbf{Extension:} \alert{Statistical Complexity}.
-			\item The \textbf{Entropy–Complexity Plane} maps time series by entropy $(H)$ and complexity $(C)$.
-			\item \textbf{Goal:} Differentiate AR, MA, and ARMA models.
+% 			We can then map a ts into a point in HxC
+			\item The \textbf{Entropy–Complexity Plane} maps time series into entropy $(H)$ and complexity $(C)$.
+			\item \textbf{Goal:} Differentiate AR, MA, and ARMA models % using features from OPs
 		\end{itemize}
 	\end{frame}
 	
@@ -179,7 +182,7 @@
 			\begin{itemize}
 				\item Permutation Entropy
 				\item Statistical Complexity
-				\item Confidence Interval for permutation entropy and complexity
+				\item Confidence Intervals for permutation entropy and complexity
 			\end{itemize}
 			\item Plot in the \textbf{Entropy–Complexity ($H \times C$)} plane.
 			\item Use cluster formation to discriminate models.
@@ -233,7 +236,7 @@
 				\item Confidence Interval(CI) for $H$ and $C$
 			\end{itemize}
 			\item For each model, identify the \textbf{central point} $(H^*, C^*)$ using PCA projection.
-			\item Central ensures the point is the most representative of the model’s behavior, as referred to in Chagas et al.~\cite{Chagas2022a}. 
+			\item Central points correspond to the most representative time series of each model~\cite{Chagas2022a}. 
 		\end{itemize}
 \end{frame}
 
