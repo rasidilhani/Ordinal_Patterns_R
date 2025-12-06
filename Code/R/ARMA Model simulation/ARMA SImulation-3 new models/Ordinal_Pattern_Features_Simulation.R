@@ -2274,34 +2274,34 @@ message("🎉 All extended scatter plots completed — LinfLsup ONLY for Shannon
 #--------------------------------------------------------
 # End of Ordinal Patterns Features Extended Scatter Plot Script
 
+# This script reads time series data and ordinal pattern features from Excel files,
+# and generates combined scatter plots with error bars and time series rings
+# for different entropies and models. All the model configurations, color schemes,
+# and plot settings are defined within the script.
+#--------------------------------------------------------
 ###############################################################
 # 📦 Libraries
 ###############################################################
 library(readxl)
+library(StatOrdPattHxC)
 library(ggplot2)
-library(dplyr)
+library(ggrepel)
 library(gridExtra)
 library(grid)
-library(stringr)
-library(ggrepel)
-library(StatOrdPattHxC)
 
 ###############################################################
-# 📁 File paths
+# 📁 Paths and settings
 ###############################################################
-ts_case_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/Ordinal_patterns_Features n5000_n10000/TimeSeries_by_Case_extended.xlsx"
+ts_case_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_PatternS_R/Data/Ordinal_patterns_Features n5000_n10000/TimeSeries_by_Case_extended.xlsx"
 base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_PatternS_R/Plots/ARMA plots/Ordinal_patterns_Features Plots n5000_n10000"
 
-cases <- list(
-  Case1 = "Case1",
-  Case2 = "Case2",
-  Case3 = "Case3"
-)
-
+cases        <- c("Case1", "Case2", "Case3")
 sample_sizes <- c(5000, 10000)
 
+if (!dir.exists(base_plot_dir)) dir.create(base_plot_dir, recursive = TRUE)
+
 ###############################################################
-# 🎨 Colors & Shapes
+# 🎨 Colors & Shapes (your mapping)
 ###############################################################
 model_colors <- c(
   "ARMA11_M1"="#1b9e77","AR2_M1"="#d95f02","MA1_M2"="#7570b3","ARMA11_M3"="#e7298a",
@@ -2320,600 +2320,248 @@ model_shapes <- c(
 )
 
 ###############################################################
-# 🔧 Helper: clean time series
+# 🔧 Helpers
 ###############################################################
+
 clean_ts <- function(x) {
   x <- gsub("[c()]", "", x)
   x <- gsub("[[:space:]]+", "", x)
   as.numeric(strsplit(x, ",")[[1]])
 }
 
-###############################################################
-# 🔧 Helper: sanitise column names (avoid huge names)
-###############################################################
+harmonise_shannon_names <- function(df) {
+  nms <- names(df)
+  if ("H_Star" %in% nms && !"H_Shannon" %in% nms) {
+    df$H_Shannon <- df$H_Star
+  }
+  if ("C_Star" %in% nms && !"C_Shannon" %in% nms) {
+    df$C_Shannon <- df$C_Star
+  }
+  if ("SemiLength_H" %in% nms && !"SemiLength_H_Shannon" %in% nms) {
+    df$SemiLength_H_Shannon <- df$SemiLength_H
+  }
+  if ("SemiLength_C" %in% nms && !"SemiLength_C_Shannon" %in% nms) {
+    df$SemiLength_C_Shannon <- df$SemiLength_C
+  }
+  df
+}
+
 sanitize_names <- function(df, max_len = 200) {
   nms <- names(df)
-  # truncate very long names
   too_long <- nchar(nms, type = "bytes") > max_len
   nms[too_long] <- substr(nms[too_long], 1, max_len)
-  # make syntactically safe and unique
   nms <- make.names(nms, unique = TRUE)
   names(df) <- nms
   df
 }
 
 ###############################################################
-# 🔧 Entropy configurations
+# 🔧 Linf–Lsup for D = 3 (Shannon)
 ###############################################################
-entropy_configs <- list(
-  Shannon = list(
-    H_col     = "H_Shannon",
-    C_col     = "C_Shannon",
-    semiH_col = "SemiLength_H_Shannon",
-    semiC_col = "SemiLength_C_Shannon",
-    add_bounds = TRUE,
-    xlab = expression(italic(H)[S]),
-    ylab = expression(italic(C)[S])
-  ),
-  Renyi = list(
-    H_col     = "H_Renyi",
-    C_col     = "C_Renyi",
-    semiH_col = "SemiLength_H_Renyi",
-    semiC_col = NULL,
-    add_bounds = FALSE,
-    xlab = expression(italic(H)[R]),
-    ylab = expression(italic(C)[R])
-  ),
-  Tsallis = list(
-    H_col     = "H_Tsallis",
-    C_col     = "C_Tsallis",
-    semiH_col = "SemiLength_H_Tsallis",
-    semiC_col = NULL,
-    add_bounds = FALSE,
-    xlab = expression(italic(H)[T]),
-    ylab = expression(italic(C)[T])
-  ),
-  Fisher = list(
-    H_col     = "H_Fisher",
-    C_col     = "C_Fisher",
-    semiH_col = "SemiLength_H_Fisher",
-    semiC_col = NULL,
-    add_bounds = FALSE,
-    xlab = expression(italic(H)[F]),
-    ylab = expression(italic(C)[F])
-  )
-)
-
-# LinfLsup for Shannon only
 data("LinfLsup")
-D <- 3
-LinfLsup_subset <- subset(LinfLsup, Dimension == as.character(D))
+LinfLsup_D3 <- LinfLsup[LinfLsup$Dimension == "3", ]
 
 ###############################################################
-# 🔧 Helper: harmonise Shannon column names (H_Star → H_Shannon, etc.)
+# ⭐ MAIN FUNCTION
 ###############################################################
-harmonise_shannon_names <- function(df) {
-  if ("H_Star" %in% names(df) && !"H_Shannon" %in% names(df)) {
-    df$H_Shannon <- df$H_Star
-  }
-  if ("C_Star" %in% names(df) && !"C_Shannon" %in% names(df)) {
-    df$C_Shannon <- df$C_Star
-  }
-  if ("SemiLength_H" %in% names(df) && !"SemiLength_H_Shannon" %in% names(df)) {
-    df$SemiLength_H_Shannon <- df$SemiLength_H
-  }
-  if ("SemiLength_C" %in% names(df) && !"SemiLength_C_Shannon" %in% names(df)) {
-    df$SemiLength_C_Shannon <- df$SemiLength_C
-  }
-  df
-}
-
-###############################################################
-# ⭐ 1) 3 selected points + TS panels, for a given ENTROPY
-###############################################################
-plot_three_points_with_ts_entropy <- function(case_name, n_val, ent_name) {
+plot_combined_selected_with_ts <- function(n_val) {
   
-  cfg <- entropy_configs[[ent_name]]
-  H_col    <- cfg$H_col
-  C_col    <- cfg$C_col
-  semiH    <- cfg$semiH_col
-  semiC    <- cfg$semiC_col
+  message(">>> Creating layout like example for n = ", n_val)
+  combined_list <- list()
   
-  message(">>> [", ent_name, "] 3-point plot for ", case_name, " n=", n_val)
-  
-  plot_dir <- file.path(base_plot_dir, case_name, "Plots")
-  if (!dir.exists(plot_dir)) dir.create(plot_dir, recursive = TRUE)
-  
-  df <- read_excel(ts_case_path, sheet = case_name)
-  df <- sanitize_names(df)          # <--- NEW: sanitise names
-  df <- harmonise_shannon_names(df) # ensure Shannon names present
-  df <- df[df$n == n_val, , drop = FALSE]
-  df$Model <- as.character(df$Model)
-  
-  if (nrow(df) < 3) {
-    warning("Not enough models for ", case_name, " n=", n_val)
-    return()
-  }
-  
-  needed <- c("Model", "TimeSeries", H_col, C_col, semiH)
-  missing_cols <- setdiff(needed, names(df))
-  if (length(missing_cols) > 0) {
-    message("⚠️ Skipping ", ent_name, " for ", case_name, " n=", n_val,
-            " — missing columns: ", paste(missing_cols, collapse = ", "))
-    return()
-  }
-  
-  # Build working columns using base indexing
-  df$H_val  <- df[[H_col]]
-  df$C_val  <- df[[C_col]]
-  df$Semi_H <- df[[semiH]]
-  if (!is.null(semiC) && semiC %in% names(df)) {
-    df$Semi_C <- df[[semiC]]
-  } else {
-    df$Semi_C <- NA_real_
-  }
-  
-  df <- df[is.finite(df$H_val) & is.finite(df$C_val), , drop = FALSE]
-  if (nrow(df) < 3) {
-    message("⚠️ Not enough finite points for ", ent_name,
-            " in ", case_name, " n=", n_val)
-    return()
-  }
-  
-  df_sorted <- df[order(df$H_val), ]
-  
-  idx_top    <- 1
-  idx_mid    <- ceiling(nrow(df_sorted) / 2)
-  idx_bottom <- nrow(df_sorted)
-  
-  df_sel <- df_sorted[c(idx_top, idx_mid, idx_bottom), ]
-  df_sel$Position <- factor(c("Top","Middle","Bottom"), levels = c("Top","Middle","Bottom"))
-  
-  # Time series list
-  ts_all <- lapply(df_sel$TimeSeries, clean_ts)
-  names(ts_all) <- df_sel$Model
-  
-  # LinfLsup (Shannon only)
-  if (cfg$add_bounds) {
-    h_range <- range(df_sel$H_val, na.rm = TRUE)
-    c_range <- range(df_sel$C_val, na.rm = TRUE)
+  # 1) select 3 (min/mid/max H) per case
+  for (case_name in cases) {
+    df <- read_excel(ts_case_path, sheet = case_name)
+    df <- sanitize_names(df)
+    df <- harmonise_shannon_names(df)
     
-    Linf_focus <- LinfLsup_subset[
-      LinfLsup_subset$H >= h_range[1] - 0.05 &
-        LinfLsup_subset$H <= h_range[2] + 0.05 &
-        LinfLsup_subset$C >= c_range[1] - 0.05 &
-        LinfLsup_subset$C <= c_range[2] + 0.05,
-    ]
-  } else {
-    Linf_focus <- NULL
+    if (!("n" %in% names(df))) stop("Column 'n' missing in ", case_name)
+    
+    df <- df[df$n == n_val, , drop = FALSE]
+    if (nrow(df) < 3) next
+    
+    needed <- c("Model","TimeSeries",
+                "H_Shannon","C_Shannon",
+                "SemiLength_H_Shannon","SemiLength_C_Shannon")
+    if (length(setdiff(needed, names(df))) > 0) next
+    
+    df$Model  <- as.character(df$Model)
+    df$H_val  <- df$H_Shannon
+    df$C_val  <- df$C_Shannon
+    df$Semi_H <- df$SemiLength_H_Shannon
+    df$Semi_C <- df$SemiLength_C_Shannon
+    
+    df <- df[is.finite(df$H_val) & is.finite(df$C_val), , drop = FALSE]
+    if (nrow(df) < 3) next
+    
+    o <- order(df$H_val)
+    df_sorted <- df[o, ]
+    
+    idx_top    <- 1
+    idx_mid    <- ceiling(nrow(df_sorted) / 2)
+    idx_bottom <- nrow(df_sorted)
+    
+    sel <- df_sorted[c(idx_top, idx_mid, idx_bottom), ]
+    sel$Case <- case_name
+    combined_list[[case_name]] <- sel
   }
   
-  # Central H–C plot
-  p_center <- ggplot() +
-    {
-      if (!is.null(Linf_focus)) {
-        list(
-          geom_line(data = subset(Linf_focus, Side == "Lower"),
-                    aes(H, C), color = "gray40", linetype = "dashed"),
-          geom_line(data = subset(Linf_focus, Side == "Upper"),
-                    aes(H, C), color = "gray40", linetype = "dashed")
-        )
-      } else NULL
-    } +
-    geom_point(data = df_sel,
-               aes(H_val, C_val, color = Model, shape = Model),
-               size = 3) +
-    geom_errorbarh(data = df_sel,
-                   aes(y = C_val,
-                       xmin = H_val - Semi_H,
-                       xmax = H_val + Semi_H,
-                       color = Model),
-                   height = 0.002, linewidth = 0.6) +
-    {
-      if (!all(is.na(df_sel$Semi_C))) {
-        geom_errorbar(
-          data = subset(df_sel, !is.na(Semi_C) & Semi_C > 0),
-          aes(x = H_val,
-              ymin = C_val - Semi_C,
-              ymax = C_val + Semi_C,
-              color = Model),
-          width = 0.002, linewidth = 0.6
-        )
-      } else NULL
-    } +
-    geom_text_repel(
-      data = df_sel,
-      aes(H_val, C_val, label = Model, color = Model),
-      family = "serif", size = 4
-    ) +
-    scale_color_manual(values = model_colors) +
-    scale_shape_manual(values = model_shapes) +
-    labs(
-      title = paste0(ent_name, " – Selected Points (", case_name, ", n=", n_val, ")"),
-      x = cfg$xlab,
-      y = cfg$ylab
-    ) +
-    theme_minimal(base_family = "serif", base_size = 14) +
-    theme(legend.position = "none")
+  if (!length(combined_list)) {
+    warning("No points for n = ", n_val)
+    return(invisible(NULL))
+  }
   
-  # TS panels
-  make_ts_plot <- function(ts_data, model_name, pos_label) {
+  df_all <- do.call(rbind, combined_list)
+  rownames(df_all) <- NULL
+  
+  ## global ascending H
+  df_all <- df_all[order(df_all$H_val), ]
+  rownames(df_all) <- NULL
+  
+  df_all$Model <- factor(df_all$Model, levels = names(model_colors))
+  
+  ts_list <- lapply(df_all$TimeSeries, clean_ts)
+  names(ts_list) <- as.character(df_all$Model)
+  
+  ###########################################################
+  # Build TS ggplots in H-ascending order
+  ###########################################################
+  make_ts_plot <- function(ts_data, model_name, case_name) {
     df_ts <- data.frame(x = seq_along(ts_data), y = ts_data)
     ggplot(df_ts, aes(x, y)) +
-      geom_line(color = model_colors[model_name], linewidth = 0.5) +
-      labs(title = paste0(pos_label, ": ", model_name)) +
+      geom_line(color = model_colors[model_name], linewidth = 0.4) +
+      labs(title = model_name, x = NULL, y = NULL) +
       theme_minimal(base_family = "serif", base_size = 8) +
       theme(
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank()
-      )
-  }
-  
-  ts_plots <- mapply(make_ts_plot, ts_all, names(ts_all), df_sel$Position, SIMPLIFY = FALSE)
-  ts_panel <- arrangeGrob(grobs = ts_plots, ncol = 1)
-  
-  combined <- grid.arrange(p_center, ts_panel, ncol = 2, widths = c(3, 1.7))
-  
-  out_file <- file.path(
-    plot_dir,
-    paste0("centralpoint_timeseries_", ent_name, "_", case_name, "_n", n_val, ".pdf")
-  )
-  ggsave(out_file, combined, width = 14, height = 10)
-  
-  message("✔ Saved: ", out_file)
-}
-
-###############################################################
-# ⭐ 2) Combined scatter plot (3 points × 3 cases = 9) per ENTROPY
-###############################################################
-plot_combined_threepoint_scatter_entropy <- function(ent_name) {
-  
-  cfg   <- entropy_configs[[ent_name]]
-  H_col <- cfg$H_col
-  C_col <- cfg$C_col
-  semiH <- cfg$semiH_col
-  semiC <- cfg$semiC_col
-  
-  message(">>> [", ent_name, "] Creating combined 9-point scatter")
-  
-  combined_points <- list()
-  
-  for (case_name in names(cases)) {
-    df <- read_excel(ts_case_path, sheet = case_name)
-    df <- sanitize_names(df)
-    df <- harmonise_shannon_names(df)
-    df$Model <- as.character(df$Model)
-    
-    needed <- c("Model", H_col, C_col, semiH)
-    missing <- setdiff(needed, names(df))
-    if (length(missing) > 0) {
-      message("⚠️ Skipping ", case_name, " for ", ent_name,
-              " — missing: ", paste(missing, collapse = ", "))
-      next
-    }
-    
-    df$H_val  <- df[[H_col]]
-    df$C_val  <- df[[C_col]]
-    df$Semi_H <- df[[semiH]]
-    if (!is.null(semiC) && semiC %in% names(df)) {
-      df$Semi_C <- df[[semiC]]
-    } else {
-      df$Semi_C <- NA_real_
-    }
-    
-    df <- df[is.finite(df$H_val) & is.finite(df$C_val), , drop = FALSE]
-    if (nrow(df) < 3) next
-    
-    df_sorted <- df[order(df$H_val), ]
-    idx_top    <- 1
-    idx_mid    <- ceiling(nrow(df_sorted) / 2)
-    idx_bottom <- nrow(df_sorted)
-    
-    sel <- df_sorted[c(idx_top, idx_mid, idx_bottom), ]
-    
-    sel$CoefClass <- dplyr::case_when(
-      case_name == "Case1" ~ "Positive",
-      case_name == "Case2" ~ "Negative",
-      case_name == "Case3" ~ "Mixed",
-      TRUE ~ "Other"
-    )
-    sel$Case <- case_name
-    
-    combined_points[[case_name]] <- sel
-  }
-  
-  df_all_sel <- dplyr::bind_rows(combined_points)
-  if (nrow(df_all_sel) == 0) {
-    message("⚠️ No points for combined scatter (", ent_name, ").")
-    return()
-  }
-  
-  if (cfg$add_bounds) {
-    h_range <- range(df_all_sel$H_val, na.rm = TRUE)
-    c_range <- range(df_all_sel$C_val, na.rm = TRUE)
-    
-    Linf_focus <- LinfLsup_subset[
-      LinfLsup_subset$H >= h_range[1] - 0.05 &
-        LinfLsup_subset$H <= h_range[2] + 0.05 &
-        LinfLsup_subset$C >= c_range[1] - 0.05 &
-        LinfLsup_subset$C <= c_range[2] + 0.05,
-    ]
-  } else {
-    Linf_focus <- NULL
-  }
-  
-  p <- ggplot() +
-    {
-      if (!is.null(Linf_focus)) {
-        list(
-          geom_line(data = subset(Linf_focus, Side == "Lower"),
-                    aes(H, C), color = "gray40"),
-          geom_line(data = subset(Linf_focus, Side == "Upper"),
-                    aes(H, C), color = "gray40")
-        )
-      } else NULL
-    } +
-    geom_point(
-      data = df_all_sel,
-      aes(H_val, C_val, color = CoefClass, shape = Model),
-      size = 4, alpha = 0.9
-    ) +
-    geom_errorbarh(
-      data = df_all_sel,
-      aes(y = C_val,
-          xmin = H_val - Semi_H,
-          xmax = H_val + Semi_H,
-          color = CoefClass),
-      height = 0.002, linewidth = 0.7
-    ) +
-    {
-      if (!all(is.na(df_all_sel$Semi_C))) {
-        geom_errorbar(
-          data = subset(df_all_sel, !is.na(Semi_C) & Semi_C > 0),
-          aes(x = H_val,
-              ymin = C_val - Semi_C,
-              ymax = C_val + Semi_C,
-              color = CoefClass),
-          width = 0.002, linewidth = 0.7
-        )
-      } else NULL
-    } +
-    geom_text_repel(
-      data = df_all_sel,
-      aes(H_val, C_val, label = Model, color = CoefClass),
-      family = "serif", size = 4, box.padding = 0.4
-    ) +
-    scale_color_manual(values = c(
-      "Positive" = "darkblue",
-      "Negative" = "darkgreen",
-      "Mixed"    = "orange",
-      "Other"    = "grey40"
-    )) +
-    scale_shape_manual(values = model_shapes) +
-    labs(
-      title = paste0(ent_name, " – Combined H–C Scatter (3 points per Case)"),
-      x = cfg$xlab,
-      y = cfg$ylab,
-      color = "Coefficient Sign",
-      shape = "Model"
-    ) +
-    theme_minimal(base_family = "serif", base_size = 14)
-  
-  out_file <- file.path(base_plot_dir,
-                        paste0("combined_scatter_", ent_name, ".pdf"))
-  ggsave(out_file, p, width = 10, height = 7)
-  message("✔ Saved combined scatter for ", ent_name, ": ", out_file)
-}
-
-###############################################################
-# ⭐ 3) NEW: Combined scatter + 9 TS plots around (per ENTROPY)
-###############################################################
-plot_combined_threepoint_scatter_with_ts_entropy <- function(ent_name) {
-  
-  cfg   <- entropy_configs[[ent_name]]
-  H_col <- cfg$H_col
-  C_col <- cfg$C_col
-  semiH <- cfg$semiH_col
-  semiC <- cfg$semiC_col
-  
-  message(">>> [", ent_name, "] Creating combined 9-point scatter WITH TS ring")
-  
-  combined_points <- list()
-  
-  for (case_name in names(cases)) {
-    df <- read_excel(ts_case_path, sheet = case_name)
-    df <- sanitize_names(df)
-    df <- harmonise_shannon_names(df)
-    df$Model <- as.character(df$Model)
-    
-    needed <- c("Model", "TimeSeries", H_col, C_col, semiH)
-    missing <- setdiff(needed, names(df))
-    if (length(missing) > 0) {
-      message("⚠️ Skipping ", case_name, " for ", ent_name,
-              " (TS-ring) — missing: ", paste(missing, collapse = ", "))
-      next
-    }
-    
-    df$H_val  <- df[[H_col]]
-    df$C_val  <- df[[C_col]]
-    df$Semi_H <- df[[semiH]]
-    if (!is.null(semiC) && semiC %in% names(df)) {
-      df$Semi_C <- df[[semiC]]
-    } else {
-      df$Semi_C <- NA_real_
-    }
-    
-    df <- df[is.finite(df$H_val) & is.finite(df$C_val), , drop = FALSE]
-    if (nrow(df) < 3) next
-    
-    df_sorted <- df[order(df$H_val), ]
-    idx_top    <- 1
-    idx_mid    <- ceiling(nrow(df_sorted) / 2)
-    idx_bottom <- nrow(df_sorted)
-    
-    sel <- df_sorted[c(idx_top, idx_mid, idx_bottom), ]
-    
-    sel$CoefClass <- dplyr::case_when(
-      case_name == "Case1" ~ "Positive",
-      case_name == "Case2" ~ "Negative",
-      case_name == "Case3" ~ "Mixed",
-      TRUE ~ "Other"
-    )
-    sel$Case <- case_name
-    
-    combined_points[[case_name]] <- sel
-  }
-  
-  df_all_sel <- dplyr::bind_rows(combined_points)
-  if (nrow(df_all_sel) == 0) {
-    message("⚠️ No points for combined scatter + TS (", ent_name, ").")
-    return()
-  }
-  
-  # Central combined scatter
-  if (cfg$add_bounds) {
-    h_range <- range(df_all_sel$H_val, na.rm = TRUE)
-    c_range <- range(df_all_sel$C_val, na.rm = TRUE)
-    
-    Linf_focus <- LinfLsup_subset[
-      LinfLsup_subset$H >= h_range[1] - 0.05 &
-        LinfLsup_subset$H <= h_range[2] + 0.05 &
-        LinfLsup_subset$C >= c_range[1] - 0.05 &
-        LinfLsup_subset$C <= c_range[2] + 0.05,
-    ]
-  } else {
-    Linf_focus <- NULL
-  }
-  
-  p_center <- ggplot() +
-    {
-      if (!is.null(Linf_focus)) {
-        list(
-          geom_line(data = subset(Linf_focus, Side == "Lower"),
-                    aes(H, C), color = "gray40"),
-          geom_line(data = subset(Linf_focus, Side == "Upper"),
-                    aes(H, C), color = "gray40")
-        )
-      } else NULL
-    } +
-    geom_point(
-      data = df_all_sel,
-      aes(H_val, C_val, color = CoefClass, shape = Model),
-      size = 4, alpha = 0.9
-    ) +
-    geom_errorbarh(
-      data = df_all_sel,
-      aes(y = C_val,
-          xmin = H_val - Semi_H,
-          xmax = H_val + Semi_H,
-          color = CoefClass),
-      height = 0.002, linewidth = 0.7
-    ) +
-    {
-      if (!all(is.na(df_all_sel$Semi_C))) {
-        geom_errorbar(
-          data = subset(df_all_sel, !is.na(Semi_C) & Semi_C > 0),
-          aes(x = H_val,
-              ymin = C_val - Semi_C,
-              ymax = C_val + Semi_C,
-              color = CoefClass),
-          width = 0.002, linewidth = 0.7
-        )
-      } else NULL
-    } +
-    geom_text_repel(
-      data = df_all_sel,
-      aes(H_val, C_val, label = Model, color = CoefClass),
-      family = "serif", size = 4, box.padding = 0.4
-    ) +
-    scale_color_manual(values = c(
-      "Positive" = "darkblue",
-      "Negative" = "darkgreen",
-      "Mixed"    = "orange",
-      "Other"    = "grey40"
-    )) +
-    scale_shape_manual(values = model_shapes) +
-    labs(
-      title = paste0(ent_name, " – Combined H–C Scatter (3 points per Case)"),
-      x = cfg$xlab,
-      y = cfg$ylab,
-      color = "Coefficient Sign",
-      shape = "Model"
-    ) +
-    theme_minimal(base_family = "serif", base_size = 14) +
-    theme(legend.position = "bottom")
-  
-  # Time series plots for same 9 points
-  df_all_sel <- df_all_sel[order(df_all_sel$Case, df_all_sel$H_val), ]
-  
-  make_ts_plot <- function(ts_string, model_name, case_name) {
-    ts_data <- clean_ts(ts_string)
-    df_ts   <- data.frame(x = seq_along(ts_data), y = ts_data)
-    ggplot(df_ts, aes(x, y)) +
-      geom_line(color = model_colors[model_name], linewidth = 0.5) +
-      labs(title = paste0(case_name, ": ", model_name)) +
-      theme_minimal(base_family = "serif", base_size = 8) +
-      theme(
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank()
+        plot.title   = element_text(hjust = 0.5, size = 8),
+        axis.text.x  = element_text(size = 6),
+        axis.text.y  = element_text(size = 6),
+        panel.grid.major = element_line(linewidth = 0.1),
+        panel.grid.minor = element_blank()
       )
   }
   
   ts_plots <- mapply(
     FUN        = make_ts_plot,
-    ts_string  = df_all_sel$TimeSeries,
-    model_name = df_all_sel$Model,
-    case_name  = df_all_sel$Case,
+    ts_data    = ts_list,
+    model_name = as.character(df_all$Model),
+    case_name  = df_all$Case,
     SIMPLIFY   = FALSE
   )
   
-  # Layout: 9 TS plots around 1 central plot
-  layout_matrix <- rbind(
-    c(1,  2,  3,  4),
-    c(5, 10, 10,  6),
-    c(7, 10, 10,  8),
-    c(9,  0,  0,  0)
-  )
-  
-  grob_list <- c(ts_plots, list(p_center))
-  
-  combined_grob <- gridExtra::grid.arrange(
-    grobs         = grob_list,
-    layout_matrix = layout_matrix
-  )
-  
-  out_file <- file.path(
-    base_plot_dir,
-    paste0("combined_scatter_with_TS_", ent_name, ".pdf")
-  )
-  ggsave(out_file, combined_grob, width = 12, height = 10)
-  
-  message("✔ Saved combined scatter + TS ring for ", ent_name, ": ", out_file)
-}
-
-###############################################################
-# 🔁 RUN: 3-point TS layouts for ALL entropies / cases / n
-###############################################################
-for (ent_name in names(entropy_configs)) {
-  for (case_name in names(cases)) {
-    for (n_val in sample_sizes) {
-      plot_three_points_with_ts_entropy(case_name, n_val, ent_name)
+  # pad up to 9 if needed
+  if (length(ts_plots) < 9) {
+    for (k in (length(ts_plots)+1):9) {
+      ts_plots[[k]] <- ggplot() + theme_void()
     }
   }
+  
+  # assign: top = 1–3, right = 4–6, bottom = 7–9
+  top_row    <- gridExtra::arrangeGrob(ts_plots[[1]], ts_plots[[2]], ts_plots[[3]],
+                                       ncol = 3)
+  right_col  <- gridExtra::arrangeGrob(ts_plots[[4]], ts_plots[[5]], ts_plots[[6]],
+                                       ncol = 1)
+  bottom_row <- gridExtra::arrangeGrob(ts_plots[[7]], ts_plots[[8]], ts_plots[[9]],
+                                       ncol = 3)
+  
+  ###########################################################
+  # Central H–C scatter
+  ###########################################################
+  h_range <- range(df_all$H_val, na.rm = TRUE)
+  c_range <- range(df_all$C_val, na.rm = TRUE)
+  
+  Linf_focus <- LinfLsup_D3[
+    LinfLsup_D3$H >= h_range[1] - 0.05 &
+      LinfLsup_D3$H <= h_range[2] + 0.05 &
+      LinfLsup_D3$C >= c_range[1] - 0.05 &
+      LinfLsup_D3$C <= c_range[2] + 0.05,
+  ]
+  
+  p_center <- ggplot() +
+    geom_line(
+      data = subset(Linf_focus, Side == "Lower"),
+      aes(H, C),
+      color = "grey40", linetype = "dashed", linewidth = 0.4
+    ) +
+    geom_line(
+      data = subset(Linf_focus, Side == "Upper"),
+      aes(H, C),
+      color = "grey40", linetype = "dashed", linewidth = 0.4
+    ) +
+    geom_point(
+      data = df_all,
+      aes(H_val, C_val, color = Model, shape = Model),
+      size = 3
+    ) +
+    geom_errorbarh(
+      data = df_all,
+      aes(y = C_val,
+          xmin = H_val - Semi_H,
+          xmax = H_val + Semi_H,
+          color = Model),
+      height = 0.002
+    ) +
+    geom_errorbar(
+      data = df_all,
+      aes(x = H_val,
+          ymin = C_val - Semi_C,
+          ymax = C_val + Semi_C,
+          color = Model),
+      width = 0.002
+    ) +
+    geom_text_repel(
+      data = df_all,
+      aes(H_val, C_val, label = Model, color = Model),
+      size = 3,
+      family = "serif",
+      box.padding = 0.3,
+      max.overlaps = Inf
+    ) +
+    scale_color_manual(values = model_colors, drop = FALSE) +
+    scale_shape_manual(values = model_shapes, drop = FALSE) +
+    labs(
+      title = paste0("Central Shannon H–C Scatter — n = ", n_val),
+      x = expression(italic(H)[S]),
+      y = expression(italic(C)[S])
+    ) +
+    theme_minimal(base_family = "serif", base_size = 12) +
+    theme(
+      plot.title      = element_text(hjust = 0.5, size = 14),
+      legend.position = "none"
+    )
+  
+  # centre + right column (like your example)
+  mid_row <- gridExtra::arrangeGrob(
+    p_center, right_col,
+    ncol = 2,
+    widths = c(3.2, 1.3)   # adjust these to change relative sizes
+  )
+  
+  # final layout: top / middle / bottom
+  full_plot <- gridExtra::arrangeGrob(
+    top_row,
+    mid_row,
+    bottom_row,
+    ncol    = 1,
+    heights = c(1.2, 3.5, 1.2)  # central band taller; tweak if needed
+  )
+  
+  ###########################################################
+  # Save
+  ###########################################################
+  out_file <- file.path(
+    base_plot_dir,
+    paste0("Shannon_layout_like_example_n", n_val, ".pdf")
+  )
+  ggsave(out_file, full_plot, width = 12, height = 9)
+  message("✔ Saved layout for n = ", n_val, ": ", out_file)
 }
 
 ###############################################################
-# 🔁 RUN: Combined 9-point scatter for ALL entropies
+# 🚀 RUN
 ###############################################################
-for (ent_name in names(entropy_configs)) {
-  plot_combined_threepoint_scatter_entropy(ent_name)
+for (n_val in sample_sizes) {
+  plot_combined_selected_with_ts(n_val)
 }
 
-###############################################################
-# 🔁 RUN: NEW combined scatter + TS ring for ALL entropies
-###############################################################
-for (ent_name in names(entropy_configs)) {
-  plot_combined_threepoint_scatter_with_ts_entropy(ent_name)
-}
-
-message("🎉 All entropy-extended TS + scatter + TS-ring plots generated!")
+message("🎉 All figures created in “top / centre+right / bottom” style!")

@@ -1143,9 +1143,9 @@ message("\n🎉 All 6 scatter plots created successfully (legend ON, no repeated
 
 #----------------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-# In this script we generate a heatmap of the Entropy-Complexity plane
+# In this script we generate a density of the Entropy-Complexity plane
 # for a selected cases (Case1-3) and sample size (n = 5000 and 10000).
-# The heatmap visualizes the density of points corresponding to different
+# The density visualizes the density of points corresponding to different
 # time series models (AR, MA, ARMA) in the Entropy-Complexity space.
 #--------------------------------------------------------
 library(readxl)
@@ -1314,7 +1314,7 @@ for (case_name in names(cases)) {
       scale_alpha(range = c(0.10, 0.55), guide = "none") +
       
       labs(
-        title = paste("Heatmap by Model Type —", case_name, "(n =", n_val, ")"),
+        title = paste("Density plot by Model Type —", case_name, "(n =", n_val, ")"),
         x = expression(italic(H)),
         y = expression(italic(C))
       ) +
@@ -1340,7 +1340,7 @@ for (case_name in names(cases)) {
     
     output_plot_path <- file.path(
       case_output_dir,
-      paste0("HC_Heatmap_ModelTypes_", case_name, "_n", n_val, ".pdf")
+      paste0("HC_Density_ModelTypes_", case_name, "_n", n_val, ".pdf")
     )
     
     ggsave(output_plot_path, p, width = 10, height = 8)
@@ -1348,5 +1348,370 @@ for (case_name in names(cases)) {
   }
 }
 
-message("🎉 All heatmaps completed for all cases, sample sizes, and model types!")
-#---------------------------------------------------------------------------------
+message("🎉 All density plots completed for all cases, sample sizes, and model types!")
+
+#-------------------------------------------------------------------------------------------
+#end of script
+#----------------------------------------------------------------------------------------
+#This script generates 2D histograms of the Entropy-Complexity plane
+#for selected cases (Case1-3) and sample sizes (n = 1000 and 5000).
+#The histograms visualize the distribution of points corresponding to different
+#time series models (AR, MA, ARMA) in the Entropy-Complexity space.
+#_--------------------------------------------------------------------------------
+    library(readxl)
+      library(dplyr)
+      library(ggplot2)
+      library(stringr)
+      library(StatOrdPattHxC)
+      
+      #--------------------------------------------------------
+      # CHOOSE PLOT OPTION HERE
+      #   1 = 2D histogram (all points) + density contours by model type
+      #   2 = 2D histogram faceted by model type (one panel per model)
+      #   3 = BIVARIATE NORMAL ELLIPSES per model type
+      #--------------------------------------------------------
+      plot_option <- 3   # <--- SET THIS TO 3 for bivariate normal model view
+      
+      #--------------------------------------------------------
+      # Paths
+      #--------------------------------------------------------
+      data_path <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/ARMA Time series results n1000_n5000/HC_Results_all_Models_n1000_n5000.xlsx"
+      base_output_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_PatternS_R/Plots/ARMA plots/ARMA Plots n1000_n5000"
+      
+      #--------------------------------------------------------
+      # Case definitions (models per case)
+      #--------------------------------------------------------
+      cases <- list(
+        Case1 = c("AR1_M1","AR1_M2","AR2_M1",
+                  "MA1_M1","MA1_M2","MA2_M1",
+                  "ARMA11_M1","ARMA11_M2","ARMA22_M1"),
+        Case2 = c("AR1_M3","AR1_M4","AR2_M4",
+                  "MA1_M3","MA1_M4","MA2_M4",
+                  "ARMA11_M3","ARMA11_M4","ARMA22_M4"),
+        Case3 = c("AR2_M2","AR2_M3",
+                  "MA2_M2","MA2_M3",
+                  "ARMA22_M2","ARMA22_M3")
+      )
+      
+      #--------------------------------------------------------
+      # Master color palette per model (for contours/ellipses)
+      #--------------------------------------------------------
+      model_colors <- c(
+        "ARMA11_M1"="#1b9e77","AR2_M1"="#d95f02","MA1_M2"="#7570b3","ARMA11_M3"="#e7298a",
+        "AR2_M4"="#66a61e","MA1_M4"="#e6ab02","ARMA22_M2"="#a6761d","AR2_M3"="#666666",
+        "MA2_M3"="#1f78b4","ARMA22_M1"="#b15928","ARMA22_M4"="#6a3d9a","MA2_M2"="#33a02c",
+        "ARMA22_M3"="#fb9a99","AR1_M1"="#8dd3c7","AR1_M2"="#ff0000","ARMA11_M2"="#bebada",
+        "MA1_M1"="#fb8072","MA2_M1"="#80b1d3","AR1_M3"="#fdb462","AR1_M4"="#b3de69",
+        "ARMA11_M4"="#fccde5","MA1_M3"="#d9d9d9","MA2_M4"="#bc80bd","AR2_M2"="#ccebc5"
+      )
+      
+      #--------------------------------------------------------
+      # Sample sizes
+      #--------------------------------------------------------
+      sample_sizes <- c(1000, 5000)
+      
+      #--------------------------------------------------------
+      # Feasible region (Linf / Lsup) for D = 3
+      #--------------------------------------------------------
+      data("LinfLsup")
+      D <- 3
+      Linf_all <- subset(LinfLsup, Side == "Lower" & Dimension == as.character(D))
+      Lsup_all <- subset(LinfLsup, Side == "Upper" & Dimension == as.character(D))
+      
+      #--------------------------------------------------------
+      # Main loops: over cases and sample sizes
+      #--------------------------------------------------------
+      for (case_name in names(cases)) {
+        
+        models_case <- cases[[case_name]]
+        
+        for (n_val in sample_sizes) {
+          
+          message("===== Processing ", case_name, ", n = ", n_val, " =====")
+          
+          #--------------------------------------------------------
+          # Read Excel sheets for this case & n
+          #--------------------------------------------------------
+          df_list <- lapply(models_case, function(m) {
+            sheet_name <- paste0(m, "_n", n_val)
+            message("  Reading sheet: ", sheet_name)
+            read_excel(data_path, sheet = sheet_name) |>
+              mutate(Model = m, n = n_val)
+          })
+          
+          df_case <- bind_rows(df_list) |>
+            dplyr::rename(
+              H = H_Shannon,
+              C = C_Shannon
+            ) |>
+            dplyr::filter(is.finite(H), is.finite(C))
+          
+          if (nrow(df_case) == 0) {
+            warning("No data for ", case_name, " n = ", n_val, ", skipping.")
+            next
+          }
+          
+          #--------------------------------------------------------
+          # Classify Families (AR / MA / ARMA) and fine Types (each model)
+          #--------------------------------------------------------
+          df_case <- df_case |>
+            mutate(
+              Family = case_when(
+                str_starts(Model, "ARMA") ~ "ARMA",
+                str_starts(Model, "AR")   ~ "AR",
+                str_starts(Model, "MA")   ~ "MA",
+                TRUE                      ~ "Other"
+              ),
+              # Fine-grained type: each model in this case is its own "type"
+              Type = factor(Model, levels = models_case)
+            )
+          
+          df_case$Family <- factor(df_case$Family,
+                                   levels = c("AR","MA","ARMA","Other"))
+          
+          #--------------------------------------------------------
+          # Feasible region (crop to H-range of this case)
+          #--------------------------------------------------------
+          H_min <- min(df_case$H)
+          H_max <- max(df_case$H)
+          C_min <- min(df_case$C)
+          C_max <- max(df_case$C)
+          
+          Linf_crop <- Linf_all |>
+            dplyr::filter(H >= H_min, H <= H_max)
+          Lsup_crop <- Lsup_all |>
+            dplyr::filter(H >= H_min, H <= H_max)
+          
+          #--------------------------------------------------------
+          # Dynamic bandwidth for density smoothing (used in Option 1)
+          #--------------------------------------------------------
+          Hx <- diff(range(df_case$H))
+          Cx <- diff(range(df_case$C))
+          h_vec <- c(Hx / 5, Cx / 5)   # adaptive smoothing
+          
+          #--------------------------------------------------------
+          # Colors per fine model Type
+          #--------------------------------------------------------
+          type_cols <- model_colors[models_case]
+          # lighter, semi-transparent versions for ellipse fill in option 3
+          fill_cols <- grDevices::adjustcolor(type_cols, alpha.f = 0.25)
+          
+          #--------------------------------------------------------
+          # PLOT: three options
+          #--------------------------------------------------------
+          if (plot_option == 1) {
+            #======================================================
+            # OPTION 1:
+            # 2D histogram of ALL points + density contours by Type
+            #======================================================
+            
+            p <- ggplot(df_case, aes(H, C)) +
+              
+              # 2D histogram of ALL points
+              stat_bin_2d(
+                bins = 20,
+                aes(fill = after_stat(count))
+              ) +
+              
+              # colour scale for counts
+              scale_fill_viridis_c(
+                option = "magma",
+                trans  = "sqrt",
+                name   = "Count"
+              ) +
+              
+              # Feasible region boundaries
+              geom_line(
+                data        = Linf_crop,
+                aes(H, C),
+                inherit.aes = FALSE,
+                colour      = "black",
+                linewidth   = 0.8
+              ) +
+              geom_line(
+                data        = Lsup_crop,
+                aes(H, C),
+                inherit.aes = FALSE,
+                colour      = "black",
+                linewidth   = 0.8
+              ) +
+              
+              # Density contours per model Type (smooth overlay)
+              stat_density_2d(
+                aes(color = Type),
+                contour   = TRUE,
+                bins      = 15,
+                linewidth = 0.35,
+                h         = h_vec
+              ) +
+              
+              scale_color_manual(values = type_cols, name = "Model (Type)") +
+              
+              labs(
+                title = paste("2D histogram + density —", case_name, "(n =", n_val, ")"),
+                x     = expression(italic(H)),
+                y     = expression(italic(C))
+              ) +
+              
+              coord_cartesian(
+                xlim = c(H_min, H_max),
+                ylim = c(C_min - 0.02, C_max + 0.02)
+              ) +
+              
+              theme_minimal(base_size = 16) +
+              theme(
+                panel.grid      = element_blank(),
+                legend.position = "right"
+              )
+            
+            plot_name_stub <- "HC_2DHistDensity_ModelTypes"
+            
+          } else if (plot_option == 2) {
+            #======================================================
+            # OPTION 2:
+            # 2D histogram FACETED by model Type (one panel/model)
+            #======================================================
+            
+            p <- ggplot(df_case, aes(H, C)) +
+              
+              # 2D histogram within each facet (per Type)
+              stat_bin_2d(
+                bins = 40,
+                aes(fill = after_stat(count))
+              ) +
+              
+              scale_fill_viridis_c(
+                option = "magma",
+                trans  = "sqrt",
+                name   = "Count"
+              ) +
+              
+              # Feasible region boundaries (same in all facets)
+              geom_line(
+                data        = Linf_crop,
+                aes(H, C),
+                inherit.aes = FALSE,
+                colour      = "black",
+                linewidth   = 0.6
+              ) +
+              geom_line(
+                data        = Lsup_crop,
+                aes(H, C),
+                inherit.aes = FALSE,
+                colour      = "black",
+                linewidth   = 0.6
+              ) +
+              
+              facet_wrap(~ Type, ncol = 3) +
+              
+              labs(
+                title = paste("2D histograms by Model Type —", case_name, "(n =", n_val, ")"),
+                x     = expression(italic(H)),
+                y     = expression(italic(C))
+              ) +
+              
+              coord_cartesian(
+                xlim = c(H_min, H_max),
+                ylim = c(C_min - 0.02, C_max + 0.02)
+              ) +
+              
+              theme_minimal(base_size = 14) +
+              theme(
+                panel.grid = element_blank()
+              )
+            
+            plot_name_stub <- "HC_2DHistFacets_ModelTypes"
+            
+          } else if (plot_option == 3) {
+            #======================================================
+            # OPTION 3 (NEW):
+            # BIVARIATE NORMAL ELLIPSES per model Type
+            #
+            # stat_ellipse(type = "norm") fits a bivariate normal
+            # to each group (Type) and draws a constant-density
+            # ellipse (here: 95% level).
+            #======================================================
+            
+            p <- ggplot(df_case, aes(H, C)) +
+              
+              # light scatter (to see the raw clouds)
+              geom_point(
+                aes(color = Type),
+                alpha = 0.15,
+                size  = 0.7
+              ) +
+              
+              # 95% bivariate normal ellipse per model Type
+              stat_ellipse(
+                aes(color = Type, fill = Type),
+                type      = "norm",     # assumes bivariate normal within each Type
+                level     = 0.95,       # 95% ellipse
+                linewidth = 0.9,
+                alpha     = 0.35
+              ) +
+              
+              # Feasible region boundaries
+              geom_line(
+                data        = Linf_crop,
+                aes(H, C),
+                inherit.aes = FALSE,
+                colour      = "black",
+                linewidth   = 0.8
+              ) +
+              geom_line(
+                data        = Lsup_crop,
+                aes(H, C),
+                inherit.aes = FALSE,
+                colour      = "black",
+                linewidth   = 0.8
+              ) +
+              
+              scale_color_manual(values = type_cols, name = "Model (Type)") +
+              scale_fill_manual(values  = fill_cols, guide = "none") +
+              
+              labs(
+                title = paste("Bivariate normal ellipses by Model Type —", case_name, "(n =", n_val, ")"),
+                x     = expression(italic(H)),
+                y     = expression(italic(C))
+              ) +
+              
+              coord_cartesian(
+                xlim = c(H_min, H_max),
+                ylim = c(C_min - 0.02, C_max + 0.02)
+              ) +
+              
+              theme_minimal(base_size = 16) +
+              theme(
+                panel.grid      = element_blank(),
+                legend.position = "right"
+              )
+            
+            plot_name_stub <- "HC_BivNormEllipses_ModelTypes"
+            
+          } else {
+            stop("Unknown plot_option. Use 1, 2, or 3.")
+          }
+          
+          #--------------------------------------------------------
+          # Print plot to device
+          #--------------------------------------------------------
+          print(p)
+          
+          #--------------------------------------------------------
+          # Save plot
+          #--------------------------------------------------------
+          case_output_dir <- file.path(base_output_dir, case_name, "Plots")
+          dir.create(case_output_dir, recursive = TRUE, showWarnings = FALSE)
+          
+          output_plot_path <- file.path(
+            case_output_dir,
+            paste0(plot_name_stub, "_", case_name, "_n", n_val, ".pdf")
+          )
+          
+          ggsave(output_plot_path, p, width = 10, height = 8)
+          message("  Saved: ", output_plot_path, "\n")
+        }
+      }
+      
+      message("🎉 All plots completed for all cases, sample sizes, and model types!")
+      #-------------------------------------------------------------------------------------------

@@ -10,6 +10,9 @@
 \usepackage{mathptmx}
 \captionsetup[figure]{font=scriptsize,labelfont=bf}
 
+% ========== PORTABLE GRAPHICS PATHS ==========
+\graphicspath{{images/}{plots/}{figs/}}  % LaTeX searches these folders automatically
+
 % ============================================================
 % ADD LOGO TO FOOTLINE
 % ============================================================
@@ -42,7 +45,7 @@
 
 % ============================================================
 
-\title[Ordinal Pattern Analysis of Time Series]{Feature-Based Clustering of Time Series \\ Using Ordinal Pattern Analysis}
+\title[Ordinal Pattern Analysis of Time Series]{Feature-Based Clustering of Time Series \\ Using Ordinal Patterns}
 \author[M. H. M. R. S. Dilhani et al.]{
 	M.\ H.\ M.\ R.\ S.\ Dilhani\inst{1} \\
 	Alejandro C.\ Frery\inst{1} \\
@@ -53,7 +56,7 @@
 	\inst{2}LIDEC, Universidad Nacional de Hurlingham (UNAHUR), Argentina
 }
 
-\date{08 December 2025}
+\date{09 December 2025}
 \titlegraphic{%
 	\includegraphics[width=4cm]{Logo Offshore Standard Landscape Reversed RGB.png}\hfill
 	\includegraphics[width=4cm]{NZSA-logo-words-e1505785105112-1.png}%
@@ -65,9 +68,9 @@
 		\titlepage
 	\end{frame}
 	
-	\begin{frame}{Outline}
-		\tableofcontents
-	\end{frame}
+%	\begin{frame}{Outline}
+%		\tableofcontents
+%	\end{frame}
 	
 	% ============================================================
 	% YOUR REMAINING SLIDES — UNCHANGED
@@ -76,15 +79,16 @@
 	\begin{frame}{Motivation and Background}
 		\small
 		\begin{itemize}
-			\item Time series clustering is challenging because of the infinitely many possible structures they may present.
+			%\item Time series clustering is challenging because of the infinitely many possible structures they may present.
 			% since every series analyzed contains a stochastic component, contributing random variability and increased complexity.
+			\item Time series clustering is challenging because each series can have many possible structures, and random fluctuations make it even more complex.
 			\item \alert{Ordinal patterns} capture the order relations among consecutive data points.
 %			BP introduced OPs and PE
-			\item \textbf{Bandt \& Pompe (2002)}~\cite{PhysRevLett.88.174102}: introduced \textbf{Permutation Entropy}.
+			\item \textbf{Bandt \& Pompe (2002)}~\cite{PhysRevLett.88.174102}: introduced \textbf{Ordinal Patterns(OP)} and \textbf{Permutation Entropy(PE)($H$)}.
 			\item \textbf{Limitation:} PE quantifies disorder but cannot distinguish stochastic from deterministic chaotic dynamics.
-			\item \textbf{Extension:} \alert{Statistical Complexity}.
-% 			We can then map a ts into a point in HxC
-			\item The \textbf{Entropy–Complexity Plane} maps time series into entropy $(H)$ and complexity $(C)$.
+			\item \textbf{Extension:} \alert{Statistical Complexity ($C$)}.
+			\item We can then map a time series into a point in $H \times C$ plane.
+%			\item The \textbf{Entropy–Complexity Plane} maps time series into entropy $(H)$ and complexity $(C)$.
 			\item \textbf{Goal:} Differentiate AR, MA, and ARMA models % using features from OPs
 		\end{itemize}
 	\end{frame}
@@ -102,34 +106,55 @@
 	
 	\begin{figure}[hbt]
 		\centering
-		\includegraphics[width=0.5\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/humidity graph} 
+		\includegraphics[width=0.5\textwidth]{humidity graph.pdf} 
 		\caption{Mean monthly humidity in Wellington}
 		\label{fig:humidity}
 	\end{figure}
 \end{frame}
 
 %-----------------------------------------------------%
+%\begin{frame}{Transforming into Ordinal Patterns}
+%	\small
+%	\begin{itemize}
+%		\item Choose embedding dimension $D = 3$.
+%		\item Slide a window of size $D$ across the series:
+%	\end{itemize}
+	
+%	\[
+%	(77.3, 81.0, 82.4) \rightarrow (1,2,3) = \pi_1
+%	\]
+%	\[
+%	(81.0, 82.4, 81.7) \rightarrow (1,3,2) = \pi_2
+%	\]
+	
+%	\begin{itemize}
+%		\item Continue for all overlapping windows ($n - D + 1$ total).
+%		\item Each window represents an \alert{ordinal pattern} describing local order %relations.
+%	\end{itemize}
+	
+%	\begin{center}
+%		\includegraphics[width=0.5\textwidth]{frequency histogram} 
+%	\end{center}
+%\end{frame}
+
 \begin{frame}{Transforming into Ordinal Patterns}
 	\small
-	\begin{itemize}
-		\item Choose embedding dimension $D = 3$.
-		\item Slide a window of size $D$ across the series:
-	\end{itemize}
+\begin{itemize}
+\item For $D=3$, where $D$ is called as \alert{embedding dimension}.
 	
-	\[
-	(77.3, 81.0, 82.4) \rightarrow (1,2,3) = \pi_1
-	\]
-	\[
-	(81.0, 82.4, 81.7) \rightarrow (1,3,2) = \pi_2
-	\]
+\item The first window (77.3, 81.0, 82.4) $\rightarrow$ Pattern: (1,2,3) $\rightarrow \pi^1$.
 	
-	\begin{itemize}
-		\item Continue for all overlapping windows ($n - D + 1$ total).
-		\item Each window represents an \alert{ordinal pattern} describing local order relations.
-	\end{itemize}
+\item Next window (81.0, 82.4, 81.7) $\rightarrow$ Pattern: (1,3,2) $\rightarrow \pi^2$.
+			
+\item Continue for all overlapping windows ($n - D + 1$ total), where $n$ represents the series length.
+\item Count the frequency of each ordinal pattern.\\
+\item There are $3!=6$ possible patterns: (1,2,3), (1,3,2), (2,1,3), (2,3,1), (3,1,2), (3,2,1).\\
+\item 	The histogram shows the proportion $(p(\pi^\ell))$ of each pattern in the time series.
+\item Each window represents an \alert{ordinal pattern} describing local order relations.
+\end{itemize}
 	
 	\begin{center}
-		\includegraphics[width=0.5\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/frequency histogram} 
+		\includegraphics[width=0.5\textwidth]{frequency histogram} 
 	\end{center}
 \end{frame}
 
@@ -138,38 +163,48 @@
 	
 	\begin{block}{Definition: Permutation Entropy ($H$)}
 		\[
-		H(\mathbf{p}) = -\dfrac{1}{\log k} \sum_{i=1}^{k} p(\pi^i) \log p(\pi^i),
+		H(\mathbf{p}) = -\dfrac{1}{\log k} \sum_{\ell=1}^{k} p(\pi^\ell) \log p(\pi^\ell),
 		\]
-		where $k=D!$ and $p(\pi^i)$ is the proportion of pattern $\pi^i$.
+		where $k=D!$ and $p(\pi^\ell)$ is the proportion of pattern $\pi^\ell$.
 	\end{block}
 	
-	\begin{block}{Definition: Jensen-Shannon Distance}
-		Given a histogram $\mathbf{p}$ and the reference uniform distribution $\mathbf{u} = (1/k, \ldots, 1/k)$, the disequilibrium is calculated as:
-		\[
-		Q'(\mathbf{p},\mathbf{u}) = \sum_{\ell=1}^k \Big( p_\ell \log\frac{p_\ell}{u_\ell} + u_\ell \log\frac{u_\ell}{p_\ell} \Big).
-		\]
+	\begin{block}{Definition: Normalized Disequilibrium}
+		Given a histogram $\mathbf{p}$ and the reference uniform distribution $\mathbf{u} = (1/k, \ldots, 1/k)$, the normalized disequilibrium is calculated as:
+			\[
+		Q = \frac{Q'}{\max(Q')},
+	\]
+	
+where $	Q'(\mathbf{p},\mathbf{u}) = \sum_{\ell=1}^k \Big( p_\ell \log\frac{p_\ell}{u_\ell} + u_\ell \log\frac{u_\ell}{p_\ell} \Big)$ and $\max(Q')$ is the highest possible value for the given $k$.
+
 	\end{block}		
+
+\begin{block}{Definition: Statistical Complexity $(C)$ }
+	\[
+	C = H Q
+	\]
+	where $H$ is normalized entropy and $Q$ is normalized disequilibrium.
+\end{block}
 	
 \end{frame}
 
 
 
 %-----------------------------------------------------%
-\begin{frame}{Disequilibrium and Statistical Complexity}
-	\begin{block}{Disequilibrium}
-		The \textbf{normalized disequilibrium}:
-		\[
-		Q = \frac{Q'}{\max(Q')},
-		\]
-		provides a scale-independent comparison, where $\max(Q')$ is the highest possible value for the given $k$.
-	\end{block}
-	\begin{block}{Definition: Statistical Complexity $(C)$ }
-		\[
-		C = H Q
-		\]
-		where $H$ is normalized entropy and $Q$ is normalized disequilibrium.
-	\end{block}
-\end{frame}
+%\begin{frame}{Statistical Complexity}
+%	\begin{block}{Disequilibrium}
+%		The \textbf{normalized disequilibrium}:
+%		\[
+%		Q = \frac{Q'}{\max(Q')},
+%		\]
+%		provides a scale-independent comparison, where $\max(Q')$ is the highest possible value for the given $k$.
+%	\end{block}
+%	\begin{block}{Definition: Statistical Complexity $(C)$ }
+%		\[
+%		C = H Q
+%		\]
+%		where $H$ is normalized entropy and $Q$ is normalized disequilibrium.
+%	\end{block}
+%\end{frame}
 
 %-----------------------------------------------------%
 \begin{frame}
@@ -177,18 +212,18 @@
 	\begin{columns}
 		\column{0.55\textwidth}
 		\begin{itemize}
-			\item Transform time series $\{x_t\}$ into \textbf{ordinal patterns}.
+			\item Transform time series $\{x_t\}$ into ordinal patterns.
 			\item Compute:
 			\begin{itemize}
 				\item Permutation Entropy
 				\item Statistical Complexity
-				\item Confidence Intervals for permutation entropy and complexity
+				\item Confidence Intervals for PE and $C$
 			\end{itemize}
-			\item Plot in the \textbf{Entropy–Complexity ($H \times C$)} plane.
-			\item Use cluster formation to discriminate models.
+			\item Plot in the Entropy–Complexity ($H \times C$) plane.
+			\item Visually analyze clusters to discriminate models.
 		\end{itemize}
 		\column{0.45\textwidth}
-		\includegraphics[width=\linewidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/New_model_group_plot_n1000}
+		\includegraphics[width=\linewidth]{New_model_group_plot_n1000}
 		\captionof{figure}{ Entropy–Complexity plane for Sample size $n=1000$.}
 	\end{columns}
 \end{frame}
@@ -250,7 +285,7 @@
 		\begin{itemize}
 			\item The density of points in the $H \times C$
 			\item Scatter plots with confidence intervals for $H$ and $C$ 
-			\item Heat maps for model classification
+			\item Visual model discrimination
 		\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -260,68 +295,69 @@
 		\begin{columns}[c] % 'c' centers content vertically
 		\column{0.48\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Scatter_Case1_n1000.pdf}
+		\includegraphics[width=\textwidth]{Scatter_Case1_n1000.pdf}
 	%\captionof{figure}{Entropy–complexity scatter plot ($n=1000$) for positive model coefficients.}
 		\column{0.48\textwidth}
 	\centering
-	\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Scatter_Case1_n5000.pdf}
+	\includegraphics[width=\textwidth]{Scatter_Case1_n5000.pdf}
 	%\captionof{figure}{Entropy–complexity scatter plot ($n=5000$) for positive model coefficients.}
 	\end{columns}
 	\captionof{figure}{Entropy–complexity scatter plot ($n=1000$ and $n=5000$) for positive model coefficients.}
 \end{frame}
 
-\begin{frame}{Case 1 — Positive Coefficients cont\dots}
-	\begin{columns}[c] % 'c' centers content vertically
-		\column{0.48\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/CentralPoints_TimeSeries_Case1_n5000.pdf}
-		%\captionof{figure}{Entropy–complexity scatter plot ($n=1000$) for positive model coefficients.}
-		\column{0.48\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/HC_Heatmap_ModelTypes_Case1_n5000.pdf}
-		%\captionof{figure}{Entropy–complexity scatter plot ($n=5000$) for positive model coefficients.}
-	\end{columns}
-	\captionof{figure}{Entropy–complexity central points and associated time series ($n=5000$) and heat map for positive model coefficients.}
-\end{frame}
 
 %\begin{frame}{Case 1 — Positive Coefficients cont\dots}
-	%\begin{columns}[c] % 'c' centers content vertically
-	%	\column{0.48\textwidth}
-	%	\centering
-	%	\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/HC_Heatmap_ModelTypes_Case1_n1000.pdf}
+%	\begin{columns}[c] % 'c' centers content vertically
+%		\column{0.48\textwidth}
+%		\centering
+%		\includegraphics[width=\textwidth]{CentralPoints_TimeSeries_Case1_n5000.pdf}
 		%\captionof{figure}{Entropy–complexity scatter plot ($n=1000$) for positive model coefficients.}
-	%	\column{0.48\textwidth}
-	%	\centering
-	%	\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/HC_Heatmap_ModelTypes_Case1_n5000.pdf}
+%		\column{0.48\textwidth}
+%		\centering
+%		\includegraphics[width=\textwidth]{HC_Heatmap_ModelTypes_Case1_n5000.pdf}
 		%\captionof{figure}{Entropy–complexity scatter plot ($n=5000$) for positive model coefficients.}
-	%\end{columns}
-	%\captionof{figure}{Entropy–complexity central points ($n=1000, n=5000$) for positive model coefficients.}
+%	\end{columns}
+%	\captionof{figure}{Entropy–complexity central points and associated time series ($n=5000$) and heat map for positive model coefficients.}
 %\end{frame}
+
+\begin{frame}{Case 1 — Positive Coefficients cont\dots}
+%	\begin{columns}[c] % 'c' centers content vertically
+%		\column{0.48\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{CentralPoints_TimeSeries_Case1_n5000.pdf}
+		%\captionof{figure}{Entropy–complexity scatter plot ($n=1000$) for positive model coefficients.}
+%		\column{0.48\textwidth}
+%		\centering
+%		\includegraphics[width=\textwidth]{HC_Heatmap_ModelTypes_Case1_n5000.pdf}
+		%\captionof{figure}{Entropy–complexity scatter plot ($n=5000$) for positive model coefficients.}
+%	\end{columns}
+	\captionof{figure}{Entropy–complexity central points and associated time series ($n=5000$) and heat map for positive model coefficients.}
+\end{frame}
 
 %-----------------------------------------------------%
 \begin{frame}{Case 2 — Negative Coefficients}
 \begin{columns}[c] % 'c' centers content vertically
 	\column{0.48\textwidth}
 	\centering
-	\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Scatter_Case2_n1000.pdf}
+	\includegraphics[width=\textwidth]{Scatter_Case2_n1000.pdf}
 	\column{0.48\textwidth}
 	\centering
-	\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Scatter_Case2_n5000.pdf}
+	\includegraphics[width=\textwidth]{Scatter_Case2_n5000.pdf}
 \end{columns}
 \captionof{figure}{Entropy–complexity scatter plot ($n=1000$ and $n=5000$) for negative model coefficients.}
 \end{frame}
 
 \begin{frame}{Case 2 — Negative Coefficients cont\dots}
-	\begin{columns}[c] % 'c' centers content vertically
-		\column{0.48\textwidth}
+%	\begin{columns}[c] % 'c' centers content vertically
+%		\column{0.48\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/CentralPoints_TimeSeries_Case2_n5000.pdf}
+		\includegraphics[width=0.8\textwidth]{CentralPoints_TimeSeries_Case2_n5000.pdf}
 		%\captionof{figure}{Entropy–complexity scatter plot ($n=1000$) for positive model coefficients.}
-		\column{0.48\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/HC_Heatmap_ModelTypes_Case2_n5000.pdf}
+%		\column{0.48\textwidth}
+%		\centering
+%		\includegraphics[width=\textwidth]{HC_Heatmap_ModelTypes_Case2_n5000.pdf}
 		%\captionof{figure}{Entropy–complexity scatter plot ($n=5000$) for positive model coefficients.}
-	\end{columns}
+%	\end{columns}
 	\captionof{figure}{Entropy–complexity central points and associated time series ($n=5000$) and heat map for negative model coefficients.}
 \end{frame}
 
@@ -330,26 +366,26 @@
 	\begin{columns}[c] % 'c' centers content vertically
 		\column{0.48\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Scatter_Case3_n1000.pdf}
+		\includegraphics[width=\textwidth]{Scatter_Case3_n1000.pdf}
 		\column{0.48\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/Scatter_Case3_n5000.pdf}
+		\includegraphics[width=\textwidth]{Scatter_Case3_n5000.pdf}
 	\end{columns}
 	\captionof{figure}{Entropy–complexity scatter plot ($n=1000$ and $n=5000$) for mixed model coefficients.}
 \end{frame}
 
 
 \begin{frame}{Case 3 — Mixed-Sign Coefficients  cont\dots}
-	\begin{columns}[c] % 'c' centers content vertically
-		\column{0.48\textwidth}
+%	\begin{columns}[c] % 'c' centers content vertically
+%		\column{0.48\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/CentralPoints_TimeSeries_Case3_n5000.pdf}
+		\includegraphics[width=0.8\textwidth]{CentralPoints_TimeSeries_Case3_n5000.pdf}
 		%\captionof{figure}{Entropy–complexity scatter plot ($n=1000$) for positive model coefficients.}
-		\column{0.48\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/HC_Heatmap_ModelTypes_Case3_n5000.pdf}
+%		\column{0.48\textwidth}
+%		\centering
+%		\includegraphics[width=\textwidth]{HC_Heatmap_ModelTypes_Case3_n5000.pdf}
 		%\captionof{figure}{Entropy–complexity scatter plot ($n=5000$) for positive model coefficients.}
-	\end{columns}
+%	\end{columns}
 	\captionof{figure}{Entropy–complexity central points and associated time series ($n=5000$) and heat map for mixed model coefficients.}
 \end{frame}
 
@@ -358,7 +394,7 @@
 \section{Combined Model Visualization}
 \begin{frame}{Combined Model Visualization}
 	\centering
-	\includegraphics[width=\textwidth]{C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/Auckland & Dunedin Conference related plots/combined_new_scatterplot.pdf}
+	\includegraphics[width=\textwidth]{combined_new_scatterplot.pdf}
 	\captionof{figure}{All models combined in the entropy–complexity plane.}
 	\centering
 \end{frame}
@@ -376,26 +412,26 @@
 \end{frame}
 
 %-----------------------------------------------------%
-\begin{frame}{Conclusion}
-	\begin{block}{Summary}
-		This study reveals that combining ordinal pattern analysis with entropy–complexity measures provides a robust framework for model discrimination in simulated time series.
-	\end{block}
-	\begin{itemize}
-		\item Captures both linear and nonlinear relationship between the entropy and complexity.
-		\item Overlap points reveal intrinsic similarities in model dynamics.
-		\item Extensible to real-world applications such as finance, engineering, biomedical signals.
-	\end{itemize}
-\end{frame}
+%\begin{frame}{Conclusion}
+%	\begin{block}{Summary}
+%		This study reveals that combining ordinal pattern analysis with entropy–complexity measures provides a robust framework for model discrimination in simulated time series.
+%	\end{block}
+%	\begin{itemize}
+%		\item Captures both linear and nonlinear relationship between the entropy and complexity.
+%		\item Overlap points reveal intrinsic similarities in model dynamics.
+%		\item Extensible to real-world applications such as finance, engineering, biomedical signals.
+%	\end{itemize}
+%\end{frame}
 
 %-----------------------------------------------------%
-\begin{frame}{Future Work}
-	\begin{itemize}
-		\item Apply unsupervised clustering (e.g., k-means, hierarchical) in the $H–C$ plane.
-		\item Extend analysis by increasing sample size
-		\item Extend distinct clustering using other types of entropies Rényi, Tsallis, and Fisher Information. 
-		\item Extend analysis to empirical systems.
-	\end{itemize}
-\end{frame}
+%\begin{frame}{Future Work}
+%	\begin{itemize}
+%		\item Apply unsupervised clustering (e.g., k-means, hierarchical) in the $H–C$ plane.
+%		\item Extend analysis by increasing sample size
+%		\item Extend distinct clustering using other types of entropies Rényi, Tsallis, and Fisher Information. 
+%		\item Extend analysis to empirical systems.
+%	\end{itemize}
+%\end{frame}
 
 %-----------------------------------------------------%
 \begin{frame}[plain]
