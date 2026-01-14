@@ -15,8 +15,8 @@ library(writexl)
 #-----------------------------
 set.seed(1234567890, kind = "Mersenne-Twister")
 
-D    <- 3                 # Embedding dimension
-N    <- c(5000, 10000)    # Sample sizes
+D    <- 4                 # Embedding dimension
+N    <- c(1000, 5000)    # Sample sizes
 R    <- 100               # Number of replications
 BETA <- 1.5               # Parameter for Rényi / Tsallis
 
@@ -149,25 +149,25 @@ generate_model_data <- function(model, n, D, R, beta = BETA) {
     # Shannon complexity variance (distance-based)
     # (as in your previous system)
     #-----------------------------
-    Var_HI <- suppressWarnings(asymptoticVarHShannonMultinomial(ProbTS, n - 2))
+    Var_HI <- suppressWarnings(asymptoticVarHShannonMultinomial(ProbTS, n - (D-1)))
     a_ratio <- Var_HS / Var_HI
-    Var_CI  <- suppressWarnings(varC(ProbTS, n - 2))
+    Var_CI  <- suppressWarnings(varC(ProbTS, n - (D-1)))
     Var_CS  <- a_ratio * Var_CI   # distance-based variance for C_Shannon
     
     #-----------------------------
     # Semi-lengths for entropies & Shannon complexity
     #-----------------------------
     Semi_HS <- ifelse(!is.finite(Var_HS) | Var_HS <= 0, NA,
-                      sqrt(Var_HS) / sqrt(n - 3) * z_alpha)
+                      sqrt(Var_HS) / sqrt(n - (D-1)) * z_alpha)
     Semi_HR <- ifelse(!is.finite(Var_HR) | Var_HR <= 0, NA,
-                      sqrt(Var_HR) / sqrt(n - 3) * z_alpha)
+                      sqrt(Var_HR) / sqrt(n - (D-1)) * z_alpha)
     Semi_HT <- ifelse(!is.finite(Var_HT) | Var_HT <= 0, NA,
-                      sqrt(Var_HT) / sqrt(n - 3) * z_alpha)
+                      sqrt(Var_HT) / sqrt(n - (D-1)) * z_alpha)
     Semi_HF <- ifelse(!is.finite(Var_HF) | Var_HF <= 0, NA,
-                      sqrt(Var_HF) / sqrt(n - 3) * z_alpha)
+                      sqrt(Var_HF) / sqrt(n - (D-1)) * z_alpha)
     
     Semi_CS <- ifelse(!is.finite(Var_CS) | Var_CS <= 0, NA,
-                      sqrt(Var_CS) / sqrt(n - 3) * z_alpha)
+                      sqrt(Var_CS) / sqrt(n - (D-1)) * z_alpha)
     
     #-----------------------------
     # Store summary row
@@ -249,8 +249,8 @@ for (n_val in N) {
 # Save Results to Excel
 #======================================================================
 
-summary_path <- "HC_Results_all_Models_extended_entropies.xlsx"
-ts_path      <- "TimeSeries_Data_all_Models_extended.xlsx"
+summary_path <- "HC_Results_all_Models_extended_entropies_D4.xlsx"
+ts_path      <- "TimeSeries_Data_all_Models_extended_D4.xlsx"
 
 write_xlsx(all_summary,    path = summary_path)
 write_xlsx(all_timeseries, path = ts_path)
@@ -269,6 +269,8 @@ library(readxl)
 library(openxlsx)
 library(dplyr)
 library(stats)
+
+D <- 4  # Embedding dimension (should match simulation)
 
 # --- Define file paths ---
 data_path   <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Data/Ordinal_patterns_Features n5000_n10000/HC_Results_all_Models_extended_entropies.xlsx"
@@ -329,7 +331,7 @@ get_emblematic_point <- function(df, model_name, n_value) {
   z_alpha <- qnorm(1 - 0.05 / 2)
   semi_fun <- function(v) {
     ifelse(is.finite(v) & v > 0,
-           sqrt(v) / sqrt(n_value - 3) * z_alpha,
+           sqrt(v) / sqrt(n_value - (D-1)) * z_alpha,
            NA_real_)
   }
   
@@ -460,7 +462,7 @@ base_plot_dir <- "C:/Users/UserA1/Documents/GitHub/Ordinal_Patterns_R/Plots/ARMA
 data("LinfLsup")
 
 # --- Embedding Dimension ---
-D <- 3  # You can adjust this if needed
+D <- 4  # You can adjust this if needed
 
 # --- Cases ---
 cases <- list(
@@ -700,7 +702,7 @@ model_shapes <- c(
 
 # --- Load LinfLsup boundaries (USED ONLY for Shannon) ---
 data("LinfLsup")
-D <- 3
+D <- 4
 LinfLsup_subset <- subset(LinfLsup, Dimension == as.character(D))
 
 # --- Read and harmonize central points sheet ---
@@ -906,7 +908,7 @@ model_shapes <- c(
 
 # --- LinfLsup: ONLY for Shannon H–C plane ---
 data("LinfLsup")
-D <- 3
+D <- 4
 LinfLsup_subset <- subset(LinfLsup, Dimension == as.character(D))
 
 ###############################################################
@@ -1206,7 +1208,7 @@ entropy_configs <- list(
 # 🔺 Feasible region (for Shannon)
 ###############################################################
 data("LinfLsup")
-LinfLsup_D3 <- subset(LinfLsup, Dimension == "3")
+LinfLsup_D4 <- subset(LinfLsup, Dimension == "4")
 
 ###############################################################
 # ⭐ FUNCTION — Plot Selected Points for Each Case × n × entropy
@@ -1262,7 +1264,7 @@ plot_selected_scatter <- function(case_name, n_val) {
     
     # --- Feasible region crop (only for Shannon) ---
     if (isTRUE(cfg$add_bounds)) {
-      Linf_focus <- LinfLsup_D3 %>%
+      Linf_focus <- LinfLsup_D4 %>%
         filter(
           H >= min(df_ent$H) - 0.05,
           H <= max(df_ent$H) + 0.05,
@@ -1427,7 +1429,7 @@ entropy_configs <- list(
 
 # LinfLsup for Shannon only
 data("LinfLsup")
-D <- 3
+D <- 4
 LinfLsup_subset <- subset(LinfLsup, Dimension == as.character(D))
 
 ###############################################################
@@ -1824,7 +1826,7 @@ sample_sizes <- c(5000, 10000)
 #   👉 Will be used ONLY for Shannon heatmaps
 #--------------------------------------------------------
 data("LinfLsup")
-D <- 3
+D <- 4
 Linf_all <- subset(LinfLsup, Side == "Lower" & Dimension == as.character(D))
 Lsup_all <- subset(LinfLsup, Side == "Upper" & Dimension == as.character(D))
 
@@ -2092,7 +2094,7 @@ model_shapes <- c(
 
 # --- Load LinfLsup boundaries (USED ONLY for Shannon) ---
 data("LinfLsup")
-D <- 3
+D <- 4
 LinfLsup_subset <- subset(LinfLsup, Dimension == as.character(D))
 
 # --- Read and harmonize central points sheet ---

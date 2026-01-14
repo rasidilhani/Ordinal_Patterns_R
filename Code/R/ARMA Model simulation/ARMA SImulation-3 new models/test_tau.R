@@ -1,0 +1,23 @@
+library(StatOrdPattHxC)
+library(dplyr)
+library(writexl)
+library(ggplot2)
+
+set.seed(1234567890, kind = "Mersenne-Twister")
+model <- list(ar = c(-0.8, 0.1), ma = c(-0.8, 0.1), type = "ARMA22_M2")
+ts_data <- arima.sim(model = model, n = 100)
+#print(ts_data)
+OP_sequences <- OPseq(ts_data, emb = 5, lag = 1)
+print(OP_sequences)
+pattern_counts <- table(OP_sequences)
+print(pattern_counts)
+total_patterns <- length(OP_sequences)
+print(total_patterns)
+ProbTS <- as.numeric(pattern_counts / total_patterns)
+print(ProbTS)
+Hs <- HShannon(ProbTS)
+print(Hs)
+Cs <- StatComplexity(ProbTS)
+print(Cs)
+
+
