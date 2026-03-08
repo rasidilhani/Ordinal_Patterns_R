@@ -11,7 +11,7 @@ library(writexl)
 set.seed(1234567890, kind = "Mersenne-Twister")
 D <- 3                     # Embedding dimension
 #N <- c(500, 1000)          # Sample sizes
-N <- c(5000, 10000)
+N <- c(1000, 5000)
 R <- 100                   # Number of replications
 
 # --- Model Definitions ---
@@ -77,9 +77,9 @@ generate_model_data <- function(model, n, D, R) {
     
     # Semi-lengths: NA if variance <= 0
     SemiLengthH <- ifelse(!is.finite(Var_HD) | Var_HD <= 0, NA,
-                          sqrt(Var_HD) / sqrt(n - 3) * qnorm(1 - 0.05 / 2))
+                          sqrt(Var_HD) / sqrt(n - 2) * qnorm(1 - 0.05 / 2))
     SemiLengthC <- ifelse(!is.finite(Var_CD) | Var_CD <= 0, NA,
-                          sqrt(Var_CD) / sqrt(n - 3) * qnorm(1 - 0.05 / 2))
+                          sqrt(Var_CD) / sqrt(n - 2) * qnorm(1 - 0.05 / 2))
     
     results[[r]] <- data.frame(
       Model = model$type,
@@ -170,8 +170,8 @@ get_emblematic_point <- function(df, model_name, n_value) {
   varC <- df$Var_C[median_index]
   
   # --- SemiLength: keep NA if variance < 0 ---
-  SemiLength_H <- ifelse(varH >= 0, sqrt(varH) / sqrt(n_value - 3) * qnorm(1 - 0.05/2), NA)
-  SemiLength_C <- ifelse(varC >= 0, sqrt(varC) / sqrt(n_value - 3) * qnorm(1 - 0.05/2), NA)
+  SemiLength_H <- ifelse(varH >= 0, sqrt(varH) / sqrt(n_value - 2) * qnorm(1 - 0.05/2), NA)
+  SemiLength_C <- ifelse(varC >= 0, sqrt(varC) / sqrt(n_value - 2) * qnorm(1 - 0.05/2), NA)
   
   tibble(
     Model = model_name,
