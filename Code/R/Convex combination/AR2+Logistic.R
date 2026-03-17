@@ -34,7 +34,7 @@ weights <- seq(0.1, 0.9, by = 0.1)
 pure <- bind_rows(get_HC(x_ar, "AR(2)"), get_HC(y, "Logistic"))
 
 mix  <- bind_rows(lapply(weights, function(w) {
-  get_HC(w * x_ar + (1 - w) * y, paste0("Mix (w=", w, ")"))
+  get_HC(w * x_ar + (1 - w) * y, paste0("AR2+Logistic (w=", w, ")"))
 }))
 
 results_df <- rbind(pure, mix)
@@ -52,7 +52,7 @@ ggplot() +
   scale_color_manual(values = c(
     "AR(2)"    = "darkred",
     "Logistic" = "blue",
-    setNames(viridis::viridis(9), paste0("Mix (w=", weights, ")"))
+    setNames(viridis::viridis(9), paste0("AR2+Logistic (w=", weights, ")"))
   )) +
   labs(
     x     = expression(italic(H)),
@@ -105,7 +105,7 @@ results_df <- bind_rows(lapply(1:R, function(i) {
   x_ar <- ar2(n)
   pure <- bind_rows(get_HC(x_ar, "AR(2)"), get_HC(y, "Logistic"))
   mix  <- bind_rows(lapply(weights, function(w) {
-    get_HC(w * x_ar + (1 - w) * y, paste0("Mix (w=", w, ")"))
+    get_HC(w * x_ar + (1 - w) * y, paste0("AR2+Logistic (w=", w, ")"))
   }))
   mutate(rbind(pure, mix), Rep = i)
 }))
@@ -123,7 +123,7 @@ ggplot() +
   scale_color_manual(values = c(
     "AR(2)"    = "darkred",
     "Logistic" = "blue",
-    setNames(viridis::viridis(9), paste0("Mix (w=", weights, ")"))
+    setNames(viridis::viridis(9), paste0("AR2+Logistic (w=", weights, ")"))
   )) +
   labs(
     x     = expression(italic(H)),

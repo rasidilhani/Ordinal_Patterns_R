@@ -49,8 +49,8 @@ for (i in seq_along(alpha_values)){
   
   C_variance_D <- ratio*C_variance_M
   
-  semi_H <- sqrt(H_variance_D/(n-D+1))*qnorm(1-0.05)/2
-  semi_C <- sqrt(C_variance_D/(n-D+1))*qnorm(1-0.05)/2
+  semi_H <- sqrt(H_variance_D/(n-D+1))*qnorm(1-0.05/2)
+  semi_C <- sqrt(C_variance_D/(n-D+1))*qnorm(1-0.05/2)
   
   results_1 <-rbind(results_1, data.frame(alpha,
                                           Entropy,
@@ -77,8 +77,8 @@ for (i in seq_along(alpha_values)){
   
   C_variance_D <- ratio*C_variance_M
   
-  semi_H <- sqrt(H_variance_D/(n-D+1))*qnorm(1-0.05)/2
-  semi_C <- sqrt(C_variance_D/(n-D+1))*qnorm(1-0.05)/2
+  semi_H <- sqrt(H_variance_D/(n-D+1))*qnorm(1-0.05/2)
+  semi_C <- sqrt(C_variance_D/(n-D+1))*qnorm(1-0.05/2)
   
   results_2 <-rbind(results_2, data.frame(alpha,
                                           Entropy,

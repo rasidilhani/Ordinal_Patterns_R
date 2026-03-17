@@ -34,7 +34,7 @@ weights <- seq(0.1, 0.9, by = 0.1)
 pure <- bind_rows(get_HC(x_ma, "MA(2)"), get_HC(y, "Logistic"))
 
 mix  <- bind_rows(lapply(weights, function(w) {
-  get_HC(w * x_ma + (1 - w) * y, paste0("Mix (w=", w, ")"))
+  get_HC(w * x_ma + (1 - w) * y, paste0("MA2+Logistic (w=", w, ")"))
 }))
 
 results_df <- rbind(pure, mix)
@@ -52,7 +52,7 @@ ggplot() +
   scale_color_manual(values = c(
     "MA(2)"    = "tomato",
     "Logistic" = "blue",
-    setNames(viridis::viridis(9), paste0("Mix (w=", weights, ")"))
+    setNames(viridis::viridis(9), paste0("MA2+Logistic (w=", weights, ")"))
   )) +
   labs(
     x     = expression(italic(H)),
@@ -105,7 +105,7 @@ results_df <- bind_rows(lapply(1:R, function(i) {
   x_ma <- ma2(n)
   pure <- bind_rows(get_HC(x_ma, "MA(2)"), get_HC(y, "Logistic"))
   mix  <- bind_rows(lapply(weights, function(w) {
-    get_HC(w * x_ma + (1 - w) * y, paste0("Mix (w=", w, ")"))
+    get_HC(w * x_ma + (1 - w) * y, paste0("MA2+Logistic (w=", w, ")"))
   }))
   mutate(rbind(pure, mix), Rep = i)
 }))
@@ -123,7 +123,7 @@ ggplot() +
   scale_color_manual(values = c(
     "MA(2)"    = "tomato",
     "Logistic" = "blue",
-    setNames(viridis::viridis(9), paste0("Mix (w=", weights, ")"))
+    setNames(viridis::viridis(9), paste0("MA2+Logistic (w=", weights, ")"))
   )) +
   labs(
     x     = expression(italic(H)),

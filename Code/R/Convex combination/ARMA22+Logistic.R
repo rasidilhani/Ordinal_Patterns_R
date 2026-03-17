@@ -6,12 +6,12 @@ D         <- 4
 n         <- 1000
 r         <- 3.8
 arma_list <- list(ar = c(-0.8, 0.1), ma = c(-0.8, 0.1))
-
 set.seed(1234567890, kind = "Mersenne-Twister")
 
 # ── Functions ─────────────────────────────────────────────────────────────────
 normalize <- function(x) (x - min(x)) / (max(x) - min(x))
-arma      <- function(n) as.numeric(normalize(arima.sim(model = arma_list, n)))
+
+arma <- function(n) as.numeric(normalize(arima.sim(model = arma_list, n)))
 
 logistic <- function(r, n) {
   a    <- numeric(n)
@@ -31,10 +31,13 @@ y       <- logistic(r, n)
 weights <- seq(0.1, 0.9, by = 0.1)
 
 # ── HC values ─────────────────────────────────────────────────────────────────
-pure <- bind_rows(get_HC(x, "ARMA(2,2)"), get_HC(y, "Logistic"))
+pure <- bind_rows(
+  get_HC(x, "ARMA(2,2)"),
+  get_HC(y, "Logistic")
+)
 
-mix  <- bind_rows(lapply(weights, function(w) {
-  get_HC(w * x + (1 - w) * y, paste0("Mix (w=", w, ")"))
+mix <- bind_rows(lapply(weights, function(w) {
+  get_HC(w * x + (1 - w) * y, paste0("ARMA+Logistic(w=", w, ")"))
 }))
 
 results_df <- rbind(pure, mix)
@@ -52,17 +55,20 @@ ggplot() +
   scale_color_manual(values = c(
     "ARMA(2,2)" = "red",
     "Logistic"  = "blue",
-    setNames(viridis::viridis(9), paste0("Mix (w=", weights, ")"))
+    setNames(viridis::viridis(9), paste0("ARMA+Logistic(w=", weights, ")"))
   )) +
   labs(
     x     = expression(italic(H)),
     y     = expression(italic(C)),
-    title = paste0("HC Plane — ARMA(2,2) + Logistic (D = ", D, ")"),
+    title = paste0("HC - Plane ARMA(2,2) + Logistic (D = ", D, ")"),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
   theme(plot.title = element_text(hjust = 0.5))
 # ------------------End of the code----------------------
+#------------------------------------------------------------------
+
+
 
 # ARMA22+Sine with 50 replications
 
@@ -103,7 +109,7 @@ results_df <- bind_rows(lapply(1:R, function(i) {
   x    <- arma(n)
   pure <- bind_rows(get_HC(x, "ARMA(2,2)"), get_HC(y, "Logistic"))
   mix  <- bind_rows(lapply(weights, function(w) {
-    get_HC(w * x + (1 - w) * y, paste0("Mix (w=", w, ")"))
+    get_HC(w * x + (1 - w) * y, paste0("ARMA+Logistic(w=", w, ")"))
   }))
   mutate(rbind(pure, mix), Rep = i)
 }))
@@ -121,7 +127,7 @@ ggplot() +
   scale_color_manual(values = c(
     "ARMA(2,2)" = "red",
     "Logistic"  = "blue",
-    setNames(viridis::viridis(9), paste0("Mix (w=", weights, ")"))
+    setNames(viridis::viridis(9), paste0("ARMA+Logistic(w=", weights, ")"))
   )) +
   labs(
     x     = expression(italic(H)),

@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  HC Plane + Time Series Thumbnails
-#  37 Models: Pure (ARMA22, AR2, MA2, Logistic, Sine) + Mixtures
+#  24 Models: Pure (ARMA22, AR2, MA2, Logistic, Sine) + Mixtures
 # ══════════════════════════════════════════════════════════════════════════════
 library(tidyverse)
 library(StatOrdPattHxC)
@@ -37,7 +37,7 @@ x_ma2  <- gen_ma2(n)
 x_sin  <- gen_sine(n, f)
 x_log  <- gen_logistic(n, r)
 
-# ── Build full series list (37 models) ────────────────────────────────────────
+# ── Build full series list (24 models) ────────────────────────────────────────
 series_list <- list(
   # Pure
   "ARMA(2,2)"            = x_arma,
@@ -586,3 +586,251 @@ print(p)
 ggsave("HC_scatter_only.pdf", p, width = 10, height = 8, device = cairo_pdf)
 ggsave("HC_scatter_only.png", p, width = 10, height = 8, dpi = 200)
 message("✓ Saved HC_scatter_only.pdf/.png")
+
+#End of the code%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#--------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+
+
+# 50 Replications
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  HC Plane — 50 Replications, Semi-transparent Cloud
+#  37 Models: ARMA(2,2), AR(2), MA(2), Logistic, Sine + Mixtures
+# ══════════════════════════════════════════════════════════════════════════════
+library(tidyverse)
+library(StatOrdPattHxC)
+library(ggrepel)
+
+# ── Parameters ────────────────────────────────────────────────────────────────
+D          <- 4
+n          <- 1000
+f          <- 0.04
+r          <- 3.8
+n_rep      <- 50
+set.seed(1234567890, kind = "Mersenne-Twister")
+arma22_model <- list(ar = c(-0.8, 0.1), ma = c(-0.8, 0.1))
+ar2_model    <- list(ar = c(-0.8, 0.1), ma = NULL)
+ma2_model    <- list(ar = NULL,         ma = c(-0.8, 0.1))
+
+# ── Helper functions ──────────────────────────────────────────────────────────
+normalize    <- function(x) (x - min(x)) / (max(x) - min(x))
+gen_arma22   <- function(n) as.numeric(normalize(arima.sim(model = arma22_model, n = n)))
+gen_ar2      <- function(n) as.numeric(normalize(arima.sim(model = ar2_model,    n = n)))
+gen_ma2      <- function(n) as.numeric(normalize(arima.sim(model = ma2_model,    n = n)))
+gen_sine     <- function(n, f) as.numeric(normalize(sin(2 * pi * f * 1:n)))
+gen_logistic <- function(n, r, x0 = 0.5) {
+  x <- numeric(n); x[1] <- x0
+  for (i in 2:n) x[i] <- r * x[i-1] * (1 - x[i-1])
+  as.numeric(x)
+}
+
+get_HC <- function(series, label) {
+  prob <- OPprob(series, D)
+  data.frame(H = HShannon(prob), C = StatComplexity(prob),
+             Model = label, stringsAsFactors = FALSE)
+}
+
+# ── Run 50 replications ───────────────────────────────────────────────────────
+all_reps <- vector("list", n_rep)
+
+for (i in seq_len(n_rep)) {
+  
+  # Pure signals
+  x_arma <- gen_arma22(n)
+  x_ar2  <- gen_ar2(n)
+  x_ma2  <- gen_ma2(n)
+  x_sin  <- gen_sine(n, f)      # deterministic but normalized — same each rep
+  x_log  <- gen_logistic(n, r)  # deterministic — same each rep
+  
+  series_list <- list(
+    "ARMA(2,2)"            = x_arma,
+    "AR(2)"                = x_ar2,
+    "MA(2)"                = x_ma2,
+    "Logistic"             = x_log,
+    "Sine"                 = x_sin,
+    # ARMA + Logistic
+    "ARMA+Logistic(w=0.1)" = 0.1*x_arma + 0.9*x_log,
+    "ARMA+Logistic(w=0.2)" = 0.2*x_arma + 0.8*x_log,
+    "ARMA+Logistic(w=0.4)" = 0.4*x_arma + 0.6*x_log,
+    "ARMA+Logistic(w=0.7)" = 0.7*x_arma + 0.3*x_log,
+    "ARMA+Logistic(w=0.9)" = 0.9*x_arma + 0.1*x_log,
+    # ARMA + Sine
+    "ARMA+Sine(w=0.1)"     = 0.1*x_arma + 0.9*x_sin,
+    "ARMA+Sine(w=0.2)"     = 0.2*x_arma + 0.8*x_sin,
+    "ARMA+Sine(w=0.3)"     = 0.3*x_arma + 0.7*x_sin,
+    "ARMA+Sine(w=0.4)"     = 0.4*x_arma + 0.6*x_sin,
+    "ARMA+Sine(w=0.7)"     = 0.7*x_arma + 0.3*x_sin,
+    "ARMA+Sine(w=0.9)"     = 0.9*x_arma + 0.1*x_sin,
+    # AR2 + Logistic
+    "AR2+Logistic(w=0.2)"  = 0.2*x_ar2  + 0.8*x_log,
+    "AR2+Logistic(w=0.3)"  = 0.3*x_ar2  + 0.7*x_log,
+    "AR2+Logistic(w=0.4)"  = 0.4*x_ar2  + 0.6*x_log,
+    "AR2+Logistic(w=0.7)"  = 0.7*x_ar2  + 0.3*x_log,
+    "AR2+Logistic(w=0.8)"  = 0.8*x_ar2  + 0.2*x_log,
+    "AR2+Logistic(w=0.9)"  = 0.9*x_ar2  + 0.1*x_log,
+    # AR2 + Sine
+    "AR2+Sine(w=0.2)"      = 0.2*x_ar2  + 0.8*x_sin,
+    "AR2+Sine(w=0.3)"      = 0.3*x_ar2  + 0.7*x_sin,
+    "AR2+Sine(w=0.4)"      = 0.4*x_ar2  + 0.6*x_sin,
+    "AR2+Sine(w=0.7)"      = 0.7*x_ar2  + 0.3*x_sin,
+    # MA2 + Logistic
+    "MA2+Logistic(w=0.1)"  = 0.1*x_ma2  + 0.9*x_log,
+    "MA2+Logistic(w=0.2)"  = 0.2*x_ma2  + 0.8*x_log,
+    "MA2+Logistic(w=0.3)"  = 0.3*x_ma2  + 0.7*x_log,
+    "MA2+Logistic(w=0.4)"  = 0.4*x_ma2  + 0.6*x_log,
+    "MA2+Logistic(w=0.5)"  = 0.5*x_ma2  + 0.5*x_log,
+    "MA2+Logistic(w=0.7)"  = 0.7*x_ma2  + 0.3*x_log,
+    # MA2 + Sine
+    "MA2+Sine(w=0.1)"      = 0.1*x_ma2  + 0.9*x_sin,
+    "MA2+Sine(w=0.2)"      = 0.2*x_ma2  + 0.8*x_sin,
+    "MA2+Sine(w=0.3)"      = 0.3*x_ma2  + 0.7*x_sin,
+    "MA2+Sine(w=0.4)"      = 0.4*x_ma2  + 0.6*x_sin,
+    "MA2+Sine(w=0.5)"      = 0.5*x_ma2  + 0.5*x_sin
+  )
+  
+  rep_df <- bind_rows(mapply(get_HC, series_list, names(series_list),
+                             SIMPLIFY = FALSE))
+  rep_df$rep <- i
+  all_reps[[i]] <- rep_df
+}
+
+results_df <- bind_rows(all_reps)
+
+# ── Group classification ──────────────────────────────────────────────────────
+results_df <- results_df %>%
+  mutate(Group = case_when(
+    Model %in% c("ARMA(2,2)","AR(2)","MA(2)","Logistic","Sine") ~ "Pure",
+    str_detect(Model, "ARMA\\+Logistic") ~ "ARMA+Logistic",
+    str_detect(Model, "ARMA\\+Sine")     ~ "ARMA+Sine",
+    str_detect(Model, "AR2\\+Logistic")  ~ "AR2+Logistic",
+    str_detect(Model, "AR2\\+Sine")      ~ "AR2+Sine",
+    str_detect(Model, "MA2\\+Logistic")  ~ "MA2+Logistic",
+    str_detect(Model, "MA2\\+Sine")      ~ "MA2+Sine"
+  ))
+
+# ── Mean H, C per model (for path lines and pure labels) ─────────────────────
+mean_df <- results_df %>%
+  group_by(Model, Group) %>%
+  summarise(H = mean(H), C = mean(C), .groups = "drop")
+
+# ── Color palette ─────────────────────────────────────────────────────────────
+model_colors <- c(
+  "ARMA(2,2)" = "black",
+  "AR(2)"     = "tomato",
+  "MA(2)"     = "navy",
+  "Logistic"  = "dodgerblue",
+  "Sine"      = "forestgreen",
+  setNames(colorRampPalette(c("#F5C48A","#E07B39"))(5),
+           c("ARMA+Logistic(w=0.1)","ARMA+Logistic(w=0.2)",
+             "ARMA+Logistic(w=0.4)","ARMA+Logistic(w=0.7)",
+             "ARMA+Logistic(w=0.9)")),
+  setNames(colorRampPalette(c("#A8D8EA","#3B9AB2"))(6),
+           c("ARMA+Sine(w=0.1)","ARMA+Sine(w=0.2)","ARMA+Sine(w=0.3)",
+             "ARMA+Sine(w=0.4)","ARMA+Sine(w=0.7)","ARMA+Sine(w=0.9)")),
+  setNames(colorRampPalette(c("#F7E08A","#D4A017"))(6),
+           c("AR2+Logistic(w=0.2)","AR2+Logistic(w=0.3)","AR2+Logistic(w=0.4)",
+             "AR2+Logistic(w=0.7)","AR2+Logistic(w=0.8)","AR2+Logistic(w=0.9)")),
+  setNames(colorRampPalette(c("#C8EDD8","#7EC8A4"))(4),
+           c("AR2+Sine(w=0.2)","AR2+Sine(w=0.3)",
+             "AR2+Sine(w=0.4)","AR2+Sine(w=0.7)")),
+  setNames(colorRampPalette(c("#F5AAAA","#C0392B"))(6),
+           c("MA2+Logistic(w=0.1)","MA2+Logistic(w=0.2)","MA2+Logistic(w=0.3)",
+             "MA2+Logistic(w=0.4)","MA2+Logistic(w=0.5)","MA2+Logistic(w=0.7)")),
+  setNames(colorRampPalette(c("#D9B8E8","#8E44AD"))(5),
+           c("MA2+Sine(w=0.1)","MA2+Sine(w=0.2)","MA2+Sine(w=0.3)",
+             "MA2+Sine(w=0.4)","MA2+Sine(w=0.5)"))
+)
+
+# ── HC Bounds ─────────────────────────────────────────────────────────────────
+data("LinfLsup")
+bounds <- filter(LinfLsup, Dimension == as.character(D))
+
+# ── Path lines through mean positions per group ───────────────────────────────
+path_mean_df <- mean_df %>%
+  filter(Group != "Pure") %>%
+  mutate(w = as.numeric(str_extract(Model, "0\\.\\d+"))) %>%
+  arrange(Group, w)
+
+group_path_colors <- c(
+  "ARMA+Logistic" = "#E07B39",
+  "ARMA+Sine"     = "#3B9AB2",
+  "AR2+Logistic"  = "#D4A017",
+  "AR2+Sine"      = "#7EC8A4",
+  "MA2+Logistic"  = "#C0392B",
+  "MA2+Sine"      = "#8E44AD"
+)
+
+# ── Plot ──────────────────────────────────────────────────────────────────────
+p <- ggplot() +
+  # HC boundary
+  geom_line(data = bounds,
+            aes(x = H, y = C, group = Side),
+            color = "grey55", linetype = "dashed", linewidth = 0.5) +
+  # Dotted path through mean positions
+  geom_path(data = path_mean_df,
+            aes(x = H, y = C, group = Group, color = Group),
+            linewidth = 0.5, linetype = "dotted") +
+  scale_color_manual(name = "Mixture path",
+                     values = group_path_colors,
+                     guide  = guide_legend(order = 2,
+                                           override.aes = list(linewidth = 1))) +
+  # ── 50 replicated cloud points ──────────────────────────────────────────────
+  ggnewscale::new_scale_color() +
+  # mixture cloud (smaller, more transparent)
+  geom_point(data  = filter(results_df, Group != "Pure"),
+             aes(x = H, y = C, color = Model),
+             shape = 16, size = 1.2, alpha = 0.25) +
+  # pure model cloud (slightly larger)
+  geom_point(data  = filter(results_df, Group == "Pure"),
+             aes(x = H, y = C, color = Model),
+             shape = 16, size = 1.8, alpha = 0.30) +
+  # mean point for each model on top (solid, full opacity)
+  geom_point(data  = filter(mean_df, Group != "Pure"),
+             aes(x = H, y = C, color = Model),
+             shape = 16, size = 2.5, alpha = 1) +
+  geom_point(data  = filter(mean_df, Group == "Pure"),
+             aes(x = H, y = C, color = Model),
+             shape = 18, size = 5, alpha = 1) +
+  scale_color_manual(name   = "Model",
+                     values = model_colors,
+                     guide  = guide_legend(order = 1, nrow = 5,
+                                           override.aes = list(size  = 3,
+                                                               shape = 16,
+                                                               alpha = 1))) +
+  # Pure model labels at mean position
+  geom_label_repel(
+    data          = filter(mean_df, Group == "Pure"),
+    aes(x = H, y = C, label = Model),
+    color         = "grey20",
+    size          = 3,
+    family        = "serif",
+    fontface      = "bold",
+    box.padding   = 0.5,
+    label.padding = 0.2,
+    show.legend   = FALSE
+  ) +
+  labs(
+    x        = expression(italic(H)),
+    y        = expression(italic(C)),
+    title    = paste0("HC Plane  —  D = ", D,
+                      "  (", n_rep, " replications)"),
+    subtitle = "Convex combination model  ·  clouds = 50 replicates  ·  solid = mean"
+  ) +
+  theme_bw(base_size = 12, base_family = "serif") +
+  theme(
+    plot.title       = element_text(hjust = 0.5, face = "bold", size = 14),
+    plot.subtitle    = element_text(hjust = 0.5, color = "grey40", size = 10),
+    legend.position  = "bottom",
+    legend.box       = "vertical",
+    legend.key.size  = unit(0.5, "lines"),
+    legend.text      = element_text(size = 7),
+    legend.title     = element_text(size = 8, face = "bold"),
+    panel.grid.minor = element_blank()
+  )
+
+print(p)
+
+ggsave("HC_50reps_cloud.pdf", p, width = 10, height = 8, device = cairo_pdf)
+ggsave("HC_50reps_cloud.png", p, width = 10, height = 8, dpi = 200)
+message("✓ Saved HC_50reps_cloud.pdf/.png")

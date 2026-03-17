@@ -145,7 +145,7 @@ HC_all <- bind_rows(
   map(weights, function(w) {
     mix <- w * x + (1 - w) * z
     hc  <- get_HC(mix)
-    mutate(hc, Model = paste0("Mix ", w))
+    mutate(hc, Model = paste0("ARMA+Sine(w=", w, ")"))
   })
 )
 
@@ -161,12 +161,12 @@ ggplot() +
   scale_color_manual(values = c(
     "ARMA(2,2)"    = "red",
     "Sine"         = "blue",
-    setNames(viridis::viridis(9), paste0("Mix ", weights))
+    setNames(viridis::viridis(9), paste0("ARMA+Sine(w=", weights, ")"))
   )) +
   labs(
     x     = expression(italic(H)),
     y     = expression(italic(C)),
-    title = paste0("HC Plane for ARMA(2,2), Sine and Mixed model  (D = ", D, ")"),
+    title = paste0("HC Plane - ARMA(2,2) + Sine (D = ", D, ")"),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
@@ -219,7 +219,7 @@ HC_all <- map(1:reps, function(rep) {
   HC_mix <- map(weights, function(w) {
     mix   <- w * x + (1 - w) * z
     hc    <- get_HC(mix)
-    mutate(hc, Model = paste0("Mix ", w))
+    mutate(hc, Model = paste0("ARMA+Sine(w=", w, ")"))
   })
   
   hc_rep <- bind_rows(HC_x, HC_z, HC_mix)
@@ -241,12 +241,12 @@ ggplot() +
   scale_color_manual(values = c(
     "ARMA(2,2)" = "red",
     "Sine"      = "blue",
-    setNames(viridis::viridis(9), paste0("Mix ", weights))
+    setNames(viridis::viridis(9), paste0("ARMA+Sine(w=", weights, ")"))
   )) +
   labs(
     x     = expression(italic(H)),
     y     = expression(italic(C)),
-    title = paste0("HC Plane — ", reps, " replications (D = ", D, ")"),
+    title = paste0("HC Plane — ARMA(2,2) + Sine ", reps, " replications (D = ", D, ")"),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +

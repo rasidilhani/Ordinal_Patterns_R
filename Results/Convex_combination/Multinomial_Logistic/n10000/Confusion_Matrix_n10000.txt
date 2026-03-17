@@ -1,0 +1,86 @@
+Confusion Matrix and Statistics
+
+                     Reference
+Prediction            ARMA(2,2) AR(2) MA(2) Logistic Sine ARMA+Sine(w=0.1) ARMA+Sine(w=0.2) ARMA+Sine(w=0.3) AR2+Logistic(w=0.1)
+  ARMA(2,2)                  50     0     0        0    0                0                0                0                   0
+  AR(2)                       0    50     0        0    0                0                0                0                   0
+  MA(2)                       0     0    50        0    0                0                0                0                   0
+  Logistic                    0     0     0       50    0                0                0                0                   0
+  Sine                        0     0     0        0   50                0                0                0                   0
+  ARMA+Sine(w=0.1)            0     0     0        0    0               50                0                0                   0
+  ARMA+Sine(w=0.2)            0     0     0        0    0                0               50                0                   0
+  ARMA+Sine(w=0.3)            0     0     0        0    0                0                0               50                   0
+  AR2+Logistic(w=0.1)         0     0     0        0    0                0                0                0                  50
+  AR2+Sine(w=0.8)             0     0     0        0    0                0                0                0                   0
+  MA2+Logistic(w=0.2)         0     0     0        0    0                0                0                0                   0
+  MA2+Logistic(w=0.7)         0     0     0        0    0                0                0                0                   0
+  MA2+Sine(w=0.4)             0     0     0        0    0                0                0                0                   0
+  MA2+Sine(w=0.6)             0     0     0        0    0                0                0                0                   0
+  MA2+Sine(w=0.8)             0     0     0        0    0                0                0                0                   0
+                     Reference
+Prediction            AR2+Sine(w=0.8) MA2+Logistic(w=0.2) MA2+Logistic(w=0.7) MA2+Sine(w=0.4) MA2+Sine(w=0.6) MA2+Sine(w=0.8)
+  ARMA(2,2)                         0                   0                   0               0               0               0
+  AR(2)                             0                   0                   0               0               0               0
+  MA(2)                             0                   0                   0               0               0               0
+  Logistic                          0                   0                   0               0               0               0
+  Sine                              0                   0                   0               0               0               0
+  ARMA+Sine(w=0.1)                  0                   0                   0               0               0               0
+  ARMA+Sine(w=0.2)                  0                   0                   0               0               0               0
+  ARMA+Sine(w=0.3)                  0                   0                   0               0               0               0
+  AR2+Logistic(w=0.1)               0                   0                   0               0               0               0
+  AR2+Sine(w=0.8)                  50                   0                   0               0               0               0
+  MA2+Logistic(w=0.2)               0                  50                   0               0               0               0
+  MA2+Logistic(w=0.7)               0                   0                  50               0               0               0
+  MA2+Sine(w=0.4)                   0                   0                   0              50               0               0
+  MA2+Sine(w=0.6)                   0                   0                   0               0              50               0
+  MA2+Sine(w=0.8)                   0                   0                   0               0               0              50
+
+Overall Statistics
+                                     
+               Accuracy : 1          
+                 95% CI : (0.9951, 1)
+    No Information Rate : 0.0667     
+    P-Value [Acc > NIR] : < 2.2e-16  
+                                     
+                  Kappa : 1          
+                                     
+ Mcnemar's Test P-Value : NA         
+
+Statistics by Class:
+
+                     Class: ARMA(2,2) Class: AR(2) Class: MA(2) Class: Logistic Class: Sine Class: ARMA+Sine(w=0.1)
+Sensitivity                   1.00000      1.00000      1.00000         1.00000     1.00000                 1.00000
+Specificity                   1.00000      1.00000      1.00000         1.00000     1.00000                 1.00000
+Pos Pred Value                1.00000      1.00000      1.00000         1.00000     1.00000                 1.00000
+Neg Pred Value                1.00000      1.00000      1.00000         1.00000     1.00000                 1.00000
+Prevalence                    0.06667      0.06667      0.06667         0.06667     0.06667                 0.06667
+Detection Rate                0.06667      0.06667      0.06667         0.06667     0.06667                 0.06667
+Detection Prevalence          0.06667      0.06667      0.06667         0.06667     0.06667                 0.06667
+Balanced Accuracy             1.00000      1.00000      1.00000         1.00000     1.00000                 1.00000
+                     Class: ARMA+Sine(w=0.2) Class: ARMA+Sine(w=0.3) Class: AR2+Logistic(w=0.1) Class: AR2+Sine(w=0.8)
+Sensitivity                          1.00000                 1.00000                    1.00000                1.00000
+Specificity                          1.00000                 1.00000                    1.00000                1.00000
+Pos Pred Value                       1.00000                 1.00000                    1.00000                1.00000
+Neg Pred Value                       1.00000                 1.00000                    1.00000                1.00000
+Prevalence                           0.06667                 0.06667                    0.06667                0.06667
+Detection Rate                       0.06667                 0.06667                    0.06667                0.06667
+Detection Prevalence                 0.06667                 0.06667                    0.06667                0.06667
+Balanced Accuracy                    1.00000                 1.00000                    1.00000                1.00000
+                     Class: MA2+Logistic(w=0.2) Class: MA2+Logistic(w=0.7) Class: MA2+Sine(w=0.4) Class: MA2+Sine(w=0.6)
+Sensitivity                             1.00000                    1.00000                1.00000                1.00000
+Specificity                             1.00000                    1.00000                1.00000                1.00000
+Pos Pred Value                          1.00000                    1.00000                1.00000                1.00000
+Neg Pred Value                          1.00000                    1.00000                1.00000                1.00000
+Prevalence                              0.06667                    0.06667                0.06667                0.06667
+Detection Rate                          0.06667                    0.06667                0.06667                0.06667
+Detection Prevalence                    0.06667                    0.06667                0.06667                0.06667
+Balanced Accuracy                       1.00000                    1.00000                1.00000                1.00000
+                     Class: MA2+Sine(w=0.8)
+Sensitivity                         1.00000
+Specificity                         1.00000
+Pos Pred Value                      1.00000
+Neg Pred Value                      1.00000
+Prevalence                          0.06667
+Detection Rate                      0.06667
+Detection Prevalence                0.06667
+Balanced Accuracy                   1.00000
