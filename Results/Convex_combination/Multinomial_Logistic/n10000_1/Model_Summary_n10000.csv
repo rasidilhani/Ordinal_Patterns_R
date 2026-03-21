@@ -1,0 +1,2 @@
+"Sample_Size","Observations","Classes","AIC","LR_Statistic","DF","P_Value","McFadden_R2","Accuracy","Kappa"
+10000,750,15,280.000159545927,4062.07514210737,126,0,0.99999996072305,1,1
