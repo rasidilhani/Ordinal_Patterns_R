@@ -31,7 +31,16 @@
 	\maketitle
 	
 \section{Purpose}
-In this study ordinal pattern features are used to analyse simulated time series data generated from deterministic sine, ARMA, AR, MA, and logistic map models. The purpose of this study is to explore additional points in the entropy–complexity $(H \times C)$ plane that were not identified in our previous experiments. In the earlier experimental design, the resulting points were mostly concentrated near the right-hand corner of the HC plane (Figure~\ref{fig:HC_plane} shows it clearly), which made them difficult to use effectively for time series clustering. Therefore, we broaden the experimental design in order to generate $H \times C$ points that are more widely distributed across the plane. This approach allows for improved visualization and a better representation of entropy and complexity values throughout the plane.
+In this study ordinal pattern features are used to analyse simulated time series data generated from deterministic sine, ARMA, AR, MA, and logistic map models. 
+%%% ACF The logistic map is also deterministic. It will read better as "two deterministic signals (sine and logistic map) and a stochastic model (ARMA, including two particular cases, namely AR and MA).
+The purpose of this study is to explore additional points in the entropy–complexity $(H \times C)$ plane that were not identified in our previous experiments. 
+%%% ACF "identified", or "observed"?
+In the earlier experimental design, the resulting points were mostly concentrated near the right-hand corner of the HC plane 
+%%% ACF We don't know what this "HC plane" is. Please follow the notation you have already defined.
+(Figure~\ref{fig:HC_plane} shows it clearly), which made them difficult to use effectively for time series clustering. 
+%%% ACF Why such concentration makes it difficult to use the points "for time series clustering"? Where does the difficulty lie?
+Therefore, we broaden the experimental design in order to generate $H \times C$ points that are more widely distributed across the plane. 
+This approach allows for improved visualization and a better representation of entropy and complexity values throughout the plane.
 
 \begin{figure}[H]
 	\centering
@@ -47,16 +56,28 @@ In this study ordinal pattern features are used to analyse simulated time series
 	\label{fig:HC_plane}
 \end{figure}
 
-Once a sufficiently wide coverage of points in the $H \times C$ plane is obtained, these data will be used to further compute additional entropy and complexity related features. In particular, measures such as R\'enyi entropy, Tsallis entropy, and Fisher information will be calculated. These features will then be used to construct a multinomial logistic model in order to evaluate their ability to distinguish between different time series models. Model validation will be performed to identify the most informative features.
+Once a sufficiently wide coverage of points in the $H \times C$ plane is obtained, these data will be used to further compute additional entropy and complexity related features. 
+In particular, measures such as R\'enyi entropy, Tsallis entropy, and Fisher information will be calculated. 
+These features will then be used to construct a multinomial logistic model in order to evaluate their ability to distinguish between different time series models. 
+%%% ACF The multinomial model is a possibility among many
+Model validation will be performed to identify the most informative features.
 
-Finally, the validated features will be used for time series clustering. In the clustering stage, we aim to investigate how different model classes can be differentiated using ordinal pattern based features. Visual inspection of the HC plane will also be used to support the interpretation of the clustering results. 
+Finally, the validated features will be used for time series clustering. 
+In the clustering stage, we aim to investigate how different model classes can be differentiated using ordinal pattern based features. 
+Visual inspection of the HC plane will also be used to support the interpretation of the clustering results. 
 %In addition, silhouette coefficients will be calculated to assess the quality of the clustering obtained using the K-means algorithm.  
 	
 \section{Methodology}
 
-In this experiment, we consider stochastic, deterministic, and chaotic functions. We then couple these models to examine how the points are displayed in the $H \times C$ plane. Below, we describe the simulation setup for our experiment.
+In this experiment, we consider stochastic, deterministic, and chaotic functions. 
+%%% ACF Are chaotic a third category, or they belong to one of the others?
+We then couple these models to examine how the points are displayed in the $H \times C$ plane. 
+Below, we describe the simulation setup for our experiment.
 
 \textbf{Simulation and Feature Construction:}
+%%% ACF Make this a subsection, and write a gentle introduction to what will be done. Speak about the values the time index takes. State that the sine and logistic functions will be defined in the following
+%%% ACF This study will be part of your thesis. You may assume that the ordinal patterns have already been defined. In your thesis, you will have to define the MA, AR, and ARMA models
+%%% ACF Do you need to mention the replications here? 
 \begin{itemize}
 	\item \textbf{Embedding:} A fixed embedding dimension ($D = 4$) and time delay ($\tau = 1$) are used.
 	\item \textbf{Model structure:} $\mathrm{AR}(2), \, \mathrm{MA}(2), \, \mathrm{ARMA}(2,2),$ a sine function $(f(t))$, and the logistic map $(L_t)$ are considered.
@@ -64,11 +85,17 @@ In this experiment, we consider stochastic, deterministic, and chaotic functions
 	\item \textbf{Features:} For each realization, the following quantities are computed:
 	\begin{itemize}
 		\item \emph{Entropy:} Shannon entropy.
-		\item \emph{Complexity:} Statistical complexity measures corresponding to Shannon entropy.
+		\item \emph{Complexity:} Statistical complexity measures 
+		%%% ACF Why "measures" in plural?
+		corresponding to Shannon entropy.
 	\end{itemize}
 \end{itemize}
 
-In addition to this setup, we will compute R\'enyi and Tsallis entropies and the Fisher information measure, as well as the associated statistical complexity measures for each entropy type. Moreover, variances will be computed for each model to assess the stability of the features. Confidence intervals for entropy and complexity will also be computed for each model to further assess stability. Once we have examined the spread of the points in the $H \times C$ plane, we will proceed with model validation and time series clustering.
+In addition to this setup, we will compute R\'enyi and Tsallis entropies and the Fisher information measure, as well as the associated statistical complexity measures for each entropy type. 
+Moreover, variances will be computed for each model to assess the stability of the features. 
+%%% ACF What is "stability" in this sentence?
+Confidence intervals for entropy and complexity will also be computed for each model to further assess stability. 
+Once we have examined the spread of the points in the $H \times C$ plane, we will proceed with model validation and time series clustering.
 
 The parameters for these models are summarized in Table~\ref{tab:parameters}. 
 The experimental setup includes the following components:
@@ -103,18 +130,20 @@ The experimental setup includes the following components:
 	L_t = r L_{t-1}(1 - L_{t-1}),
 	\]
 	where \(r = 3.8\) is used in the experimental setup, with initial value \(L_0 = 0.5\).
+	%%% ACF Did you discard initial values?
 	
 	\item A sine function defined as
 	\[
 	f(t) = \sin(2\pi f t),
 	\]
 \end{enumerate}
-
+%%% ACF Do not leave a blank line in cases like this; please refer to the LaTeX documentation
 where \(f\) and \(t\) denote the frequency and time, respectively. 
 For the experimental setup, the frequency is set to \(f = 0.05\).
 
 We then construct convex combinations of these components, mirroring the simulation design:
-
+%%% ACF What do you mean by this "mirroring"? 
+%%% ACF Do not leave a blank line in cases like this; please refer to the LaTeX documentation
 \begin{enumerate}
 	\setcounter{enumi}{3}
 	\item Convex combinations of the $\mathrm{ARMA}(2,2)$ process with the logistic map and sine function:
@@ -152,12 +181,14 @@ All simulations are generated using the \texttt{Mersenne\_Twister} pseudorandom 
 
 
 \section{Results and Discussion}
+
 The results were obtained based on our experimental setup as follows. 
 \begin{enumerate}
 	\item Convex combinations of the $\mathrm{ARMA}(2,2)$ process with the logistic map and sine function.
 	\item Convex combinations of the $\mathrm{AR}(2)$ process with the logistic map and sine function.
 	\item Convex combinations of the $\mathrm{MA}(2)$ process with the logistic map and sine function.
 	\item All models combined together. 
+	%%% ACF The last item is unclear
 \end{enumerate}
 
 The Figure~\ref{fig:ARMALogistic} shows the results obtained using $\mathrm{ARMA}(2,2)$ with Logistic function. Scatter plot for convex combination  with 50 replication is shown in Figure~\ref{fig:ARMALogistic_50Rep}  
@@ -168,7 +199,9 @@ The Figure~\ref{fig:ARMALogistic} shows the results obtained using $\mathrm{ARMA
 	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
 	\label{fig:ARMALogistic}
 \end{figure}
-
+%%% ACF The typography does not match: D and w should be in math mode (emulated by the italic family), as previously requested.
+%%% ACF What information do you intend to convey with this varying dashes sizes?
+%%% ACF Also, I had suggested to annotate a few interesting points (w=0, w=1, and a couple more) with the "annotate" ggplot2 layer
 
 \begin{figure}[H]
 	\centering
@@ -176,6 +209,7 @@ The Figure~\ref{fig:ARMALogistic} shows the results obtained using $\mathrm{ARMA
 	\caption{Scatter plot for convex combination model with 50 replications,  embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
 	\label{fig:ARMALogistic_50Rep}
 \end{figure}
+%%% ACF All the replications from all the values of w render a confusing plot. Select few cases of w such that something useful is seen
 
 \begin{table}[H]
 	\centering
@@ -201,9 +235,17 @@ The Figure~\ref{fig:ARMALogistic} shows the results obtained using $\mathrm{ARMA
 \end{table}
 
 
-Referring to the Figure~\ref{fig:ARMALogistic}, in the $H \times C$ plane, the points corresponding to the $\mathrm{ARMA}(2,2)$  and logistic model (convex combinations) mainly lie on the right-hand side of the plot, indicating relatively high entropy and moderate to low complexity. The Table~\ref{tab:arma-logistic} shows the convex combination model starts at $w = 0$, which corresponds to the pure logistic process with low entropy ($0.594$) and high complexity($0.348$). As $w$ increases from $0$ to $0.3$, the complexity decreases further, while the entropy remains relatively high. For larger weights, an interesting pattern emerges: the mixtures with $w = 0.4$ and $w = 0.9$ exhibit entropy and complexity values closer to those of the pure $\mathrm{ARMA}(2,2)$ model ($w=1$), and their entropy even exceeds that of the pure $\mathrm{ARMA}(2,2)$ model. The points corresponding to intermediate weights $w = 0.5, 0.6, 0.7$, and $0.8$ show consecutively higher entropy and lower complexity. This behaviour illustrates how the choice of weight in the convex combination substantially affects the entropy-complexity characteristics of the ARMA + Logistic model.  
+Referring to the Figure~\ref{fig:ARMALogistic}, in the $H \times C$ plane, the points corresponding to the $\mathrm{ARMA}(2,2)$  and logistic model (convex combinations) mainly lie on the right-hand side of the plot, indicating relatively high entropy and moderate to low complexity. 
+The Table~\ref{tab:arma-logistic} shows the convex combination model starts at $w = 0$, which corresponds to the pure logistic process with low entropy ($0.594$) and high complexity ($0.348$). 
+As $w$ increases from $0$ to $0.3$, the complexity decreases further, while the entropy remains relatively high. 
+For larger weights, an interesting pattern emerges: the mixtures with $w = 0.4$ and $w = 0.9$ exhibit entropy and complexity values closer to those of the pure $\mathrm{ARMA}(2,2)$ model ($w=1$), and their entropy even exceeds that of the pure $\mathrm{ARMA}(2,2)$ model. 
+The points corresponding to intermediate weights $w = 0.5, 0.6, 0.7$, and $0.8$ show consecutively higher entropy and lower complexity. 
+This behaviour illustrates how the choice of weight in the convex combination substantially affects the entropy-complexity characteristics of the ARMA + Logistic model.
+%%% ACF Have you thought of possible explanations?
 
-Following this we make another convex combination model $\mathrm{ARMA}(2,2)$ with deterministic sine function. The Figure~\ref{fig:ARMASine} shows the results obtained using $\mathrm{ARMA}(2,2)$ with Sine function. Scatter plot for convex combination  with 50 replication is shown in Figure~\ref{fig:ARMASine_50Rep}.
+Following this, we make another convex combination model $\mathrm{ARMA}(2,2)$ with deterministic sine function. 
+The Figure~\ref{fig:ARMASine} shows the results obtained using $\mathrm{ARMA}(2,2)$ with Sine function. 
+Scatter plot for convex combination  with 50 replication is shown in Figure~\ref{fig:ARMASine_50Rep}.
 
 \begin{figure}[H]
 	\centering
@@ -257,7 +299,7 @@ In addition to these convex combination models, from Figure~\ref{fig:AR2Logistic
 	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
 	\label{fig:AR2Logistic}
 \end{figure}
-
+%%% ACF The "inflexion" is interesting. Have you considered exploring it in depth?
 
 \begin{figure}[H]
 	\centering
@@ -314,7 +356,12 @@ In addition to these convex combination models, from Figure~\ref{fig:AR2Logistic
 	\label{fig:MA2Sine_50Rep}
 \end{figure}
 
-These figures follow the same pattern described above, with entropy and complexity values exhibiting distinct behaviour at weights $w = 0.5$ and $w = 0.9$. Therefore, we selected the $H \times C$ plane, which effectively captures all the points across the entropy-complexity space when combining all models together (Figure~\ref{fig:AllModels}). However, it is difficult to distinguish individual convex combinations in this crowded view (as it shows 9 weights points from each model, for example, AR(2)+Sine show 9 entropy and complexity points in the plane), so we decided not to include all models in this experimental design. Instead, we chose to focus on combinations involving the MA(2), Sine, and Logistic convex combination models for further investigation.
+These figures follow the same pattern described above, with entropy and complexity values exhibiting distinct behaviour at weights $w = 0.5$ and $w = 0.9$. 
+Therefore, we selected the $H \times C$ plane, 
+%%% ACF Did you select the HxC plane at this point of the study? I didn't understand.
+which effectively captures all the points across the entropy-complexity space when combining all models together (Figure~\ref{fig:AllModels}). 
+However, it is difficult to distinguish individual convex combinations in this crowded view (as it shows 9 weights points from each model, for example, AR(2)+Sine show 9 entropy and complexity points in the plane), so we decided not to include all models in this experimental design. 
+Instead, we chose to focus on combinations involving the MA(2), Sine, and Logistic convex combination models for further investigation.
 
 \begin{figure}[H]
 	\centering
@@ -322,6 +369,7 @@ These figures follow the same pattern described above, with entropy and complexi
 	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
 	\label{fig:AllModels}
 \end{figure}
+%%% ACF Why the sudden change of plot format? The figure is not informative because we don't know what it shows.
 
 The results in Table~\ref{tab:ma2-mixtures} demonstrate a clear structure in the $H \times C$ plane for the new experimental setup. The points spread nicely across the $H \times C$ plane and are readily distinguishable. The dataset includes points with both high entropy and low complexity (e.g., MA(2) at $H = 0.972$, $C = 0.035$) as well as low entropy and high complexity (e.g., Logistic map at $H = 0.594$, $C = 0.348$).
 
@@ -335,6 +383,7 @@ Notably, the entropy ranges from a maximum of $H = 0.991$ for the MA2+Sine conve
 	\begin{tabular}{lcc}
 		\toprule
 		\textbf{Model} & \textbf{H (Entropy)} & \textbf{C (Complexity)} \\
+		%%% ACF Please, respect the typography!
 		\midrule
 		MA(2)          & 0.972 & 0.035 \\
 		Sine           & 0.391 & 0.284 \\
@@ -364,6 +413,7 @@ Notably, the entropy ranges from a maximum of $H = 0.991$ for the MA2+Sine conve
 \end{table}
 
 It is clear with the Figure~\ref{fig:ThreeModels} and data points are spread around the $H \times C$ plane as described in the Table~\ref{tab:ma2-mixtures}.
+%%% ACF What does this sentence add to the discussion?
 
 \begin{figure}[H]
 	\centering
@@ -379,6 +429,7 @@ The future experimental setup will be based on these simulation results. We adop
 	\caption{Entropy and Complexity values for simulated time series models.}
 	\label{tab:hc_models}
 	\small
+	%%% ACF Why do we see all those decimal places? Do we need them?
 	\begin{tabular}{lcc}
 		\toprule
 		\textbf{Model} & \textbf{H (Entropy)} & \textbf{C (Complexity)} \\
@@ -451,10 +502,11 @@ We can summarize our experimental setup based on the simulation results as follo
 For any stochastic model $\{X_t^{(S)}\}$ and deterministic model $\{X_t^{(D)}\}$, 
 we define a convex combination
 \[
+%%% ACF Avoid forcing spacing in math mode; let LaTeX make the choice
 X_t(w) \;=\; w\,X_t^{(S)} + (1-w)\,X_t^{(D)}, 
 \qquad 0 \le w \le 1,
 \]
-where weight values ($w$) can controls the relative contribution of the stochastic and deterministic components.
+where weight values ($w$) control the relative contribution of the stochastic and deterministic components.
 
 
 In our experiments, $X_t^{(S)} \in \{\mathrm{ARMA}(2,2), \mathrm{AR}(2), \mathrm{MA}(2)\}$ 
@@ -473,7 +525,6 @@ In contrast, the MA(2)+Sine combinations yield comparatively low entropy and low
 
 \section{Future work}
 As shown in Figure~\ref{fig:HCScatter}, some entropy and complexity points overlap, making them difficult to distinguish. Therefore, we can exclude these overlapping combinations from our future experimental design. The final experimental setup will be based on this refined selection. 
-
 
 	\bibliographystyle{acm}
 	\bibliography{../../BearingFaultDiagnosis}
