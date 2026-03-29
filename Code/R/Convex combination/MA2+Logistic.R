@@ -34,7 +34,7 @@ weights <- seq(0.1, 0.9, by = 0.1)
 pure <- bind_rows(get_HC(x_ma, "MA(2)"), get_HC(y, "Logistic"))
 
 mix  <- bind_rows(lapply(weights, function(w) {
-  get_HC(w * x_ma + (1 - w) * y, paste0("MA2+Logistic (w=", w, ")"))
+  get_HC(w * x_ma + (1 - w) * y, paste0("MA2+Logistic(w=", w, ")"))
 }))
 
 results_df <- rbind(pure, mix)
@@ -43,21 +43,49 @@ results_df <- rbind(pure, mix)
 data("LinfLsup")
 bounds <- filter(LinfLsup, Dimension == as.character(D))
 
+# ── Legend labels ─────────────────────────────────────────────────────────────
+legend_labels <- c(
+  "MA(2)" = expression(italic(MA)(2)),
+  "Logistic" = expression(Logistic),
+  setNames(
+    lapply(weights, function(w)
+      bquote(italic(MA)(2) + Logistic ~ "(" * italic(w) == .(w) * ")")
+    ),
+    paste0("MA2+Logistic(w=", weights, ")")
+  )
+)
+
 # ── Plot ──────────────────────────────────────────────────────────────────────
 ggplot() +
-  geom_line(data = bounds, aes(x = H, y = C, group = Side),
-            color = "grey60", linetype = "dashed") +
-  geom_point(data = results_df, aes(x = H, y = C, color = Model),
-             size = 2) +
-  scale_color_manual(values = c(
-    "MA(2)"    = "tomato",
-    "Logistic" = "blue",
-    setNames(viridis::viridis(9), paste0("MA2+Logistic (w=", weights, ")"))
-  )) +
+  geom_line(
+    data = bounds,
+    aes(x = H, y = C, group = Side),
+    color = "grey60", linetype = "solid"
+  ) +
+  geom_point(
+    data = results_df,
+    aes(x = H, y = C, color = Model),
+    size = 2
+  ) +
+  scale_color_manual(
+    values = c(
+      "MA(2)" = "tomato",
+      "Logistic" = "blue",
+      setNames(
+        viridis::viridis(length(weights)),
+        paste0("MA2+Logistic(w=", weights, ")")
+      )
+    ),
+    breaks = names(legend_labels),
+    labels = legend_labels
+  ) +
   labs(
-    x     = expression(italic(H)),
-    y     = expression(italic(C)),
-    title = paste0("HC Plane — MA(2) + Logistic (D = ", D, ")"),
+    x = expression(italic(H)),
+    y = expression(italic(C)),
+    title = bquote(
+      "HC Plane — " * italic(MA)(2) *
+        " + Logistic (" * italic(D) == .(D) * ")"
+    ),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
@@ -105,7 +133,7 @@ results_df <- bind_rows(lapply(1:R, function(i) {
   x_ma <- ma2(n)
   pure <- bind_rows(get_HC(x_ma, "MA(2)"), get_HC(y, "Logistic"))
   mix  <- bind_rows(lapply(weights, function(w) {
-    get_HC(w * x_ma + (1 - w) * y, paste0("MA2+Logistic (w=", w, ")"))
+    get_HC(w * x_ma + (1 - w) * y, paste0("MA2+Logistic(w=", w, ")"))
   }))
   mutate(rbind(pure, mix), Rep = i)
 }))
@@ -114,21 +142,49 @@ results_df <- bind_rows(lapply(1:R, function(i) {
 data("LinfLsup")
 bounds <- filter(LinfLsup, Dimension == as.character(D))
 
+# ── Legend labels ─────────────────────────────────────────────────────────────
+legend_labels <- c(
+  "MA(2)" = expression(italic(MA)(2)),
+  "Logistic" = expression(Logistic),
+  setNames(
+    lapply(weights, function(w)
+      bquote(italic(MA)(2) + Logistic ~ "(" * italic(w) == .(w) * ")")
+    ),
+    paste0("MA2+Logistic(w=", weights, ")")
+  )
+)
+
 # ── Plot ──────────────────────────────────────────────────────────────────────
 ggplot() +
-  geom_line(data = bounds, aes(x = H, y = C, group = Side),
-            color = "grey60", linetype = "dashed") +
-  geom_point(data = results_df, aes(x = H, y = C, color = Model),
-             size = 1.5, alpha = 0.5) +
-  scale_color_manual(values = c(
-    "MA(2)"    = "tomato",
-    "Logistic" = "blue",
-    setNames(viridis::viridis(9), paste0("MA2+Logistic (w=", weights, ")"))
-  )) +
+  geom_line(
+    data = bounds,
+    aes(x = H, y = C, group = Side),
+    color = "grey60", linetype = "solid"
+  ) +
+  geom_point(
+    data = results_df,
+    aes(x = H, y = C, color = Model),
+    size = 1.5, alpha = 0.5
+  ) +
+  scale_color_manual(
+    values = c(
+      "MA(2)" = "tomato",
+      "Logistic" = "blue",
+      setNames(
+        viridis::viridis(length(weights)),
+        paste0("MA2+Logistic(w=", weights, ")")
+      )
+    ),
+    breaks = names(legend_labels),
+    labels = legend_labels
+  ) +
   labs(
-    x     = expression(italic(H)),
-    y     = expression(italic(C)),
-    title = paste0("HC Plane — MA(2) + Logistic (", R, " reps, D = ", D, ")"),
+    x = expression(italic(H)),
+    y = expression(italic(C)),
+    title = bquote(
+      "HC Plane — " * italic(MA)(2) *
+        " + Logistic (" * .(R) * " reps, " * italic(D) == .(D) * ")"
+    ),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +

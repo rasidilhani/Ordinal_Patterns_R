@@ -107,7 +107,7 @@ all_colors <- c(pure_colors, pair_colors)
 # ── Plot ──────────────────────────────────────────────────────────────────────
 ggplot() +
   geom_line(data = bounds, aes(x = H, y = C, group = Side),
-            color = "grey60", linetype = "dashed") +
+            color = "grey60", linetype = "solid") +
   geom_point(data = results_df, aes(x = H, y = C, color = PairGroup),
              size = 2, alpha = 0.7) +
   scale_color_manual(values = all_colors) +
@@ -243,3 +243,9 @@ ggplot() +
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
   theme(plot.title = element_text(hjust = 0.5))
+
+# End of the replication code for all models___________________________________________
+
+#=======================================================================
+#=====================================================================
+

@@ -28,7 +28,7 @@ weights <- seq(0.1, 0.9, by = 0.1)
 pure <- bind_rows(get_HC(x_ma, "MA(2)"), get_HC(z, "Sine"))
 
 mix  <- bind_rows(lapply(weights, function(w) {
-  get_HC(w * x_ma + (1 - w) * z, paste0("MA2+Sine (w=", w, ")"))
+  get_HC(w * x_ma + (1 - w) * z, paste0("MA2+Sine(w=", w, ")"))
 }))
 
 results_df <- rbind(pure, mix)
@@ -37,21 +37,42 @@ results_df <- rbind(pure, mix)
 data("LinfLsup")
 bounds <- filter(LinfLsup, Dimension == as.character(D))
 
+# ── Legend labels ─────────────────────────────────────────────────────────────
+legend_labels <- c(
+  "MA(2)" = expression(italic(MA)(2)),
+  "Sine"  = expression(plain(Sine)),
+  setNames(
+    lapply(weights, function(w)
+      bquote(italic(MA)(2) + Sine ~ "(" * italic(w) == .(w) * ")")
+    ),
+    paste0("MA2+Sine(w=", weights, ")")
+  )
+)
+
 # ── Plot ──────────────────────────────────────────────────────────────────────
 ggplot() +
   geom_line(data = bounds, aes(x = H, y = C, group = Side),
-            color = "grey60", linetype = "dashed") +
+            color = "grey60", linetype = "solid") +
   geom_point(data = results_df, aes(x = H, y = C, color = Model),
              size = 2) +
   scale_color_manual(values = c(
     "MA(2)" = "tomato",
     "Sine"  = "green",
-    setNames(viridis::viridis(9), paste0("MA2+Sine (w=", weights, ")"))
-  )) +
+    setNames(
+      viridis::viridis(length(weights)),
+      paste0("MA2+Sine(w=", weights, ")")
+    )
+  ),
+  breaks = names(legend_labels),
+  labels = legend_labels
+    ) +
   labs(
     x     = expression(italic(H)),
     y     = expression(italic(C)),
-    title = paste0("HC Plane — MA(2) + Sine (D = ", D, ")"),
+    title = bquote(
+      "HC Plane — " * italic(MA)(2) *
+        " + Sine (" * italic(D) == .(D) * ")"
+    ),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
@@ -93,7 +114,7 @@ results_df <- bind_rows(lapply(1:R, function(i) {
   x_ma <- ma2(n)
   pure <- bind_rows(get_HC(x_ma, "MA(2)"), get_HC(z, "Sine"))
   mix  <- bind_rows(lapply(weights, function(w) {
-    get_HC(w * x_ma + (1 - w) * z, paste0("MA2+Sine (w=", w, ")"))
+    get_HC(w * x_ma + (1 - w) * z, paste0("MA2+Sine(w=", w, ")"))
   }))
   mutate(rbind(pure, mix), Rep = i)
 }))
@@ -102,21 +123,42 @@ results_df <- bind_rows(lapply(1:R, function(i) {
 data("LinfLsup")
 bounds <- filter(LinfLsup, Dimension == as.character(D))
 
+# ── Legend labels ─────────────────────────────────────────────────────────────
+legend_labels <- c(
+  "MA(2)" = expression(italic(MA)(2)),
+  "Sine"  = expression(plain(Sine)),
+  setNames(
+    lapply(weights, function(w)
+      bquote(italic(MA)(2) + Sine ~ "(" * italic(w) == .(w) * ")")
+    ),
+    paste0("MA2+Sine(w=", weights, ")")
+  )
+)
+
 # ── Plot ──────────────────────────────────────────────────────────────────────
 ggplot() +
   geom_line(data = bounds, aes(x = H, y = C, group = Side),
-            color = "grey60", linetype = "dashed") +
+            color = "grey60", linetype = "solid") +
   geom_point(data = results_df, aes(x = H, y = C, color = Model),
              size = 1.5, alpha = 0.5) +
   scale_color_manual(values = c(
     "MA(2)" = "tomato",
     "Sine"  = "green",
-    setNames(viridis::viridis(9), paste0("MA2+Sine (w=", weights, ")"))
-  )) +
+    setNames(
+      viridis::viridis(length(weights)),
+      paste0("MA2+Sine(w=", weights, ")")
+    )
+  ),
+  breaks = names(legend_labels),
+  labels = legend_labels
+  ) +
   labs(
     x     = expression(italic(H)),
     y     = expression(italic(C)),
-    title = paste0("HC Plane — MA(2) + Sine (", R, " reps, D = ", D, ")"),
+    title = bquote(
+      "HC Plane — " * italic(MA)(2) *
+        " + Sine (" * .(R) * " reps, " * italic(D) == .(D) * ")"
+    ),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +

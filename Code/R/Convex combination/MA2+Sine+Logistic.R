@@ -107,7 +107,7 @@ p <- ggplot() +
   # HC boundary curves
   geom_line(data = bounds,
             aes(x = H, y = C, group = Side),
-            color = "grey55", linetype = "dashed", linewidth = 0.5) +
+            color = "grey55", linetype = "solid", linewidth = 0.5) +
   # mixture paths (lines connecting mix points for each pair)
   geom_path(data = filter(results_df, Group == "MA2+Sine") %>%
               arrange(as.numeric(str_extract(Model, "0\\.\\d+"))),
@@ -266,7 +266,7 @@ bounds <- filter(LinfLsup, Dimension == as.character(D))
 
 hc_main <- ggplot() +
   geom_line(data = bounds, aes(x = H, y = C, group = Side),
-            color = "grey55", linetype = "dashed", linewidth = 0.5) +
+            color = "grey55", linetype = "solid", linewidth = 0.5) +
   geom_path(data = filter(results_df, Group == "MA2+Sine") %>%
               arrange(as.numeric(str_extract(Model, "0\\.\\d+"))),
             aes(x = H, y = C), color = "steelblue",
@@ -390,7 +390,7 @@ message("✓ Saved HC_plane_with_thumbnails.pdf/.png")
 op_plot <- ggplot(op_df, aes(x = Pattern, y = Prob, fill = Model)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.8),
            width = 0.75) +
-  geom_hline(yintercept = 1/factorial(D), linetype = "dashed",
+  geom_hline(yintercept = 1/factorial(D), linetype = "solid",
              color = "grey40", linewidth = 0.5) +
   annotate("text", x = 24.5, y = 1/factorial(D) + 0.002,
            label = "Uniform", size = 2.8, hjust = 1,

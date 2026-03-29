@@ -48,7 +48,9 @@ logistic <- function(n, r) {
   return(x)
 }
 
-sine <- function(n, f) as.numeric(sin(2 * pi * f * 1:n))
+sine <- function(n, f){
+  as.numeric(normalize(sin(2 * pi * f * 1:n)))
+} 
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  COMPLEXITY FUNCTIONS (normalized Jensen-Shannon)

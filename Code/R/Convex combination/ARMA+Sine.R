@@ -153,20 +153,34 @@ HC_all <- bind_rows(
 data("LinfLsup")
 bounds <- LinfLsup |> filter(Dimension == as.character(D))
 
+# ── Legend labels ─────────────────────────────────────────────────────────────
+legend_labels <- c(
+  "ARMA(2,2)" = expression(italic(ARMA)(2*","*2)),
+  "Sine"  = "Sine",
+  setNames(
+    lapply(weights, function(w)
+      bquote(italic(ARMA) + Sine ~ (italic(w) == .(w)))
+    ),
+    paste0("ARMA+Sine(w=", weights, ")")
+  )
+)
+
 # ── Plot ──────────────────────────────────────────────────────────────────────
 ggplot() +
   geom_line(data = bounds, aes(x = H, y = C, group = Side),
-            color = "grey60", linetype = "dashed") +
+            color = "grey60", linetype = "solid") +
   geom_point(data = HC_all, aes(x = H, y = C, color = Model), size = 2) +
   scale_color_manual(values = c(
     "ARMA(2,2)"    = "red",
     "Sine"         = "blue",
     setNames(viridis::viridis(9), paste0("ARMA+Sine(w=", weights, ")"))
-  )) +
+  ),
+  labels = legend_labels
+  ) +
   labs(
     x     = expression(italic(H)),
     y     = expression(italic(C)),
-    title = paste0("HC Plane - ARMA(2,2) + Sine (D = ", D, ")"),
+    title = bquote(HC-Plane ~ italic(ARMA)(2*","*2) + Sine ~ (italic(D) == .(D))),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
@@ -232,23 +246,52 @@ HC_all <- bind_rows(HC_all)
 data("LinfLsup")
 bounds <- filter(LinfLsup, Dimension == as.character(D))
 
-# ── Plot ──────────────────────────────────────────────────────────────────────
+# ── Legend labels ─────────────────────────────────────────────────────────────
+legend_labels <- c(
+  "ARMA(2,2)" = expression(italic(ARMA)(2*","*2)),
+  "Sine"  = "Sine",
+  setNames(
+    lapply(weights, function(w)
+      bquote(italic(ARMA) + Sine ~ (italic(w) == .(w)))
+    ),
+    paste0("ARMA+Sine(w=", weights, ")")
+  )
+)
+
+
 ggplot() +
-  geom_line(data = bounds, aes(x = H, y = C, group = Side),
-            color = "grey60", linetype = "dashed") +
-  geom_point(data = HC_all, aes(x = H, y = C, color = Model),
-             size = 1.5, alpha = 0.5) +
-  scale_color_manual(values = c(
-    "ARMA(2,2)" = "red",
-    "Sine"      = "blue",
-    setNames(viridis::viridis(9), paste0("ARMA+Sine(w=", weights, ")"))
-  )) +
+  geom_line(
+    data = bounds,
+    aes(x = H, y = C, group = Side),
+    color = "grey60", linetype = "solid"
+  ) +
+  geom_point(
+    data = HC_all,
+    aes(x = H, y = C, color = Model),
+    size = 1.5, alpha = 0.5
+  ) +
+  scale_color_manual(
+    values = c(
+      "ARMA(2,2)" = "red",
+      "Sine"      = "blue",
+      setNames(
+        viridis::viridis(length(weights)),
+        paste0("ARMA+Sine(w=", weights, ")")
+      )
+    ),
+    breaks = names(legend_labels),
+    labels = legend_labels
+  ) +
   labs(
-    x     = expression(italic(H)),
-    y     = expression(italic(C)),
-    title = paste0("HC Plane — ARMA(2,2) + Sine ", reps, " replications (D = ", D, ")"),
+    x = expression(italic(H)),
+    y = expression(italic(C)),
+    
+    title = bquote(
+      "HC Plane — " * italic(ARMA)(2,2) *
+        " + Sine (" * .(reps) * " reps, " *
+        italic(D) == .(D) * ")"
+    ),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
   theme(plot.title = element_text(hjust = 0.5))
-

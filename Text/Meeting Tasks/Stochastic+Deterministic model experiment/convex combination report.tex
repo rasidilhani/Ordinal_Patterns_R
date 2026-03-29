@@ -31,13 +31,23 @@
 	\maketitle
 	
 \section{Purpose}
-In this study ordinal pattern features are used to analyse simulated time series data generated from deterministic sine, ARMA, AR, MA, and logistic map models. 
+In this study ordinal pattern features are used to analyse simulated time series data generated from two deterministic signals (sine,logistic map), and a stochastic model  (ARMA, including two particular cases, namely AR and MA). 
 %%% ACF The logistic map is also deterministic. It will read better as "two deterministic signals (sine and logistic map) and a stochastic model (ARMA, including two particular cases, namely AR and MA).
-The purpose of this study is to explore additional points in the entropy–complexity $(H \times C)$ plane that were not identified in our previous experiments. 
+The purpose of this study is to explore additional points in the entropy–complexity $(H \times C)$ plane that were not observed in our previous experiments. 
 %%% ACF "identified", or "observed"?
+
+In this work, the term $(H \times C)$ plane refers to the two–dimensional space in which each time series is represented by its entropy $H$ and statistical complexity $C$.  
+For a given probability distribution $\mathbf{p}$ obtained from ordinal patterns, we compute an entropy measure $H(\mathbf{p})$ (such as Shannon, R\'enyi or Tsallis entropy) and a complexity measure $C(\mathbf{p})$ formed by combining $H(\mathbf{p})$ with a disequilibrium term that quantifies the distance between $\mathbf{p}$ and the uniform distribution.  
+Each time series is then mapped to a point $(H(\mathbf{p}),\, C(\mathbf{p}))$; the collection of these points forms the $H \times C$ plane.
+
 In the earlier experimental design, the resulting points were mostly concentrated near the right-hand corner of the HC plane 
 %%% ACF We don't know what this "HC plane" is. Please follow the notation you have already defined.
 (Figure~\ref{fig:HC_plane} shows it clearly), which made them difficult to use effectively for time series clustering. 
+This happens because in our simulations, most models produce ordinal-pattern distributions that are close to uniform. 
+As a consequence, the entropy $H$ approaches its maximum value and the disequilibrium term $Q$ approaches zero.  
+Since $C = H Q$, the statistical complexity collapses to values near zero.  
+This causes nearly all model classes to map into a narrow region of the $H \times C$ plane, reducing the spread of points and greatly diminishing class separability.  
+
 %%% ACF Why such concentration makes it difficult to use the points "for time series clustering"? Where does the difficulty lie?
 Therefore, we broaden the experimental design in order to generate $H \times C$ points that are more widely distributed across the plane. 
 This approach allows for improved visualization and a better representation of entropy and complexity values throughout the plane.
@@ -58,50 +68,139 @@ This approach allows for improved visualization and a better representation of e
 
 Once a sufficiently wide coverage of points in the $H \times C$ plane is obtained, these data will be used to further compute additional entropy and complexity related features. 
 In particular, measures such as R\'enyi entropy, Tsallis entropy, and Fisher information will be calculated. 
-These features will then be used to construct a multinomial logistic model in order to evaluate their ability to distinguish between different time series models. 
+These features will then be analysed to examine how effectively they capture differences between the underlying time series models.
 %%% ACF The multinomial model is a possibility among many
 Model validation will be performed to identify the most informative features.
 
-Finally, the validated features will be used for time series clustering. 
+Finally, these features will be used for time series clustering. 
 In the clustering stage, we aim to investigate how different model classes can be differentiated using ordinal pattern based features. 
-Visual inspection of the HC plane will also be used to support the interpretation of the clustering results. 
-%In addition, silhouette coefficients will be calculated to assess the quality of the clustering obtained using the K-means algorithm.  
+Visual inspection of the $H \times C$ plane will also be used to support the interpretation of the clustering results. 
+
 	
 \section{Methodology}
 
-In this experiment, we consider stochastic, deterministic, and chaotic functions. 
+In this experiment, we consider two deterministic signals (sine,logistic map), and a stochastic model  (ARMA, including two particular cases, namely AR and MA).  
 %%% ACF Are chaotic a third category, or they belong to one of the others?
 We then couple these models to examine how the points are displayed in the $H \times C$ plane. 
 Below, we describe the simulation setup for our experiment.
 
-\textbf{Simulation and Feature Construction:}
-%%% ACF Make this a subsection, and write a gentle introduction to what will be done. Speak about the values the time index takes. State that the sine and logistic functions will be defined in the following
-%%% ACF This study will be part of your thesis. You may assume that the ordinal patterns have already been defined. In your thesis, you will have to define the MA, AR, and ARMA models
-%%% ACF Do you need to mention the replications here? 
+\subsection{Simulation and Feature Construction}
+%%% ACF Make this a subsection, and write a gentle introduction to what will be done. 
+%%% ACF Speak about the values the time index takes. 
+%%% ACF State that the sine and logistic functions will be defined in the following.
+%%% ACF This study will be part of your thesis. You may assume that the ordinal patterns have already been defined. 
+%%% ACF In your thesis, you will have to define the MA, AR, and ARMA models.
+%%% ACF Do you need to mention the replications here?
+
+In this simulation study, we aim to generate a diverse collection of time series from both deterministic and stochastic process in order to investigate how ordinal-pattern based features behave across different dynamical regimes.  
+The time index takes integer values $t = 1,2,\ldots,n$, and all time series share the same embedding dimension $D = 4$ with time delay $\tau = 1$.  
+Two deterministic signals (the sine function and the logistic map) are included, and several linear stochastic models such as $\mathrm{AR}$, $\mathrm{MA}$, and $\mathrm{ARMA}$ are also used.  
+Definitions for these models are included below as part of this subsection.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ARMA DESCRIPTION 
+% This part I already included into my previous report.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The base random model for sampling is the normal distribution 
+\[
+\mathbf{X}=(X_1,X_2,\dots,X_n), \qquad X_i \sim N(\mu, \sigma^2),
+\]
+where the mean parameter varies as $\mu \in \{-1, 0, 1\}$. 
+To introduce stochastic structure, we simulate autoregressive moving average ($\mathrm{ARMA}$) models, which are a central class of models for stationary processes.
+
+\paragraph{Backward Shift (Lag) Operator.}
+The backward shift (lag) operator $\mathbf{B}$ is defined by $\mathbf{B}x_t = x_{t-1}$, and more generally $\mathbf{B}^n x_t = x_{t-n}$.  
+This compact notation is convenient for describing linear time series models.
+
+\paragraph{ARMA Model Specification.}
+Let $\{x_t\}$ denote a real-valued time series.  
+An ARMA($p,q$) model is defined by
+\begin{equation}
+	x_t = \alpha_1 x_{t-1} + \cdots + \alpha_p x_{t-p} 
+	+ w_t + \beta_1 w_{t-1} + \cdots + \beta_q w_{t-q},
+	\label{eq:arma}
+\end{equation}
+where $\{w_t\}$ is a white-noise sequence.  
+Using the lag operator, this becomes:
+\begin{equation}
+	\theta_p(\mathbf{B}) x_t = \phi_q(\mathbf{B}) w_t,
+	\label{eq:arma_polynomial}
+\end{equation}
+with 
+\[
+\theta_p(\mathbf{B}) = 1 - \alpha_1 \mathbf{B} - \cdots - \alpha_p \mathbf{B}^p, 
+\qquad
+\phi_q(\mathbf{B}) = 1 + \beta_1 \mathbf{B} + \cdots + \beta_q \mathbf{B}^q.
+\]
+
+\paragraph{Parameter Constraints.}
+Stationarity requires the roots of the AR polynomial to lie outside the unit circle, and invertibility requires the same for the MA polynomial.
+
+\begin{itemize}
+	\item \textbf{AR part (stationarity):}
+	\begin{itemize}
+		\item \textbf{AR(1):} $-1 < \phi_1 < 1$.
+		\item \textbf{AR(2):} all conditions must hold:
+		\[
+		-1 < \phi_2 < 1, \qquad \phi_1 + \phi_2 < 1, \qquad \phi_2 - \phi_1 < 1.
+		\]
+		\item \textbf{AR($p \geq 3$):} all roots of $1 - \phi_1 x - \cdots - \phi_p x^p = 0$ lie outside the unit circle.
+	\end{itemize}
+	
+	\item \textbf{MA part (invertibility):}
+	\begin{itemize}
+		\item \textbf{MA(1):} $-1 < \theta_1 < 1$.
+		\item \textbf{MA(2):} all conditions must hold:
+		\[
+		-1 < \theta_2 < 1,\quad \theta_1 + \theta_2 < 1,\quad \theta_2 - \theta_1 < 1.
+		\]
+	\end{itemize}
+\end{itemize}
+
+Violating these constraints leads to non-stationary processes, which are unsuitable for modelling or inference.
+
+\bigskip
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% SIMULATION SETTINGS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The general simulation setup is as follows:
+
 \begin{itemize}
 	\item \textbf{Embedding:} A fixed embedding dimension ($D = 4$) and time delay ($\tau = 1$) are used.
-	\item \textbf{Model structure:} $\mathrm{AR}(2), \, \mathrm{MA}(2), \, \mathrm{ARMA}(2,2),$ a sine function $(f(t))$, and the logistic map $(L_t)$ are considered.
+	\item \textbf{Model structure:} 
+	$\mathrm{AR}(2)$, $\mathrm{MA}(2)$, $\mathrm{ARMA}(2,2)$, a sine function $f(t)$, and the logistic map $L_t$.
 	\item \textbf{Simulation:} For each model and parameter set, $R = 50$ time series of length $n = 1000$ are simulated.
-	\item \textbf{Features:} For each realization, the following quantities are computed:
+	\item \textbf{Features:} For each realization, we compute:
 	\begin{itemize}
 		\item \emph{Entropy:} Shannon entropy.
-		\item \emph{Complexity:} Statistical complexity measures 
+		\item \emph{Complexity:} Statistical complexity measure 
 		%%% ACF Why "measures" in plural?
 		corresponding to Shannon entropy.
 	\end{itemize}
 \end{itemize}
 
-In addition to this setup, we will compute R\'enyi and Tsallis entropies and the Fisher information measure, as well as the associated statistical complexity measures for each entropy type. 
-Moreover, variances will be computed for each model to assess the stability of the features. 
-%%% ACF What is "stability" in this sentence?
-Confidence intervals for entropy and complexity will also be computed for each model to further assess stability. 
-Once we have examined the spread of the points in the $H \times C$ plane, we will proceed with model validation and time series clustering.
+In addition, we compute R\'enyi and Tsallis entropies and the Fisher information, along with their associated statistical complexity measures.  
+Moreover, variances are computed for each model to assess the stability of the features. This highlights that feature selection is the most important part of our research for time series clustering. As we know, when the variance is low, the model classes are more stable, which affects the model accuracy. However, we do not know the exact pattern until we see the results. As part of our experiment to choose the best features, we decided to calculate the variance, which can be used during the clustering process.
 
-The parameters for these models are summarized in Table~\ref{tab:parameters}. 
-The experimental setup includes the following components:
+%%% ACF What is "stability" in this sentence? 
+%Feature selection is the most important part of our research for time series clustering. As we know, when variance is low, we have stable model classes, which affects the model accuracy. In here, stability refers to describing it. We can check that how the variance affects assessing time series clutering.   
+Confidence intervals for entropy and complexity are also computed.
+
+Once we have examined the spread of the points in the $H \times C$ plane, we proceed with model validation and time series clustering.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% PARAMETERS AND MODELS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The parameters for the baseline stochastic models are given in Table~\ref{tab:parameters}.  
+The experimental setup includes:
 
 \begin{enumerate}
-	\item Three $\mathrm{ARMA}$ type models:
+	\item Three $\mathrm{ARMA}$-type models:
 	\begin{itemize}
 		\item $X_{\text{ARMA}} = \mathrm{ARMA}(2,2)$
 		\item $X_{\text{AR}}   = \mathrm{AR}(2)$
@@ -125,60 +224,59 @@ The experimental setup includes the following components:
 		\end{tabular}
 	\end{table}
 	
-	\item A logistic map model defined as
+	\item Logistic map:
 	\[
-	L_t = r L_{t-1}(1 - L_{t-1}),
+	L_t = r L_{t-1}(1 - L_{t-1}), \qquad r = 3.8,\quad L_0 = 0.5.
 	\]
-	where \(r = 3.8\) is used in the experimental setup, with initial value \(L_0 = 0.5\).
-	%%% ACF Did you discard initial values?
+	%%% ACF Did you discard initial values? no, I have't use burn in process with this experimental set up. 
 	
-	\item A sine function defined as
+	\item Sine function:
 	\[
-	f(t) = \sin(2\pi f t),
+	f(t) = \sin(2\pi f t), \qquad f = 0.05.
 	\]
 \end{enumerate}
-%%% ACF Do not leave a blank line in cases like this; please refer to the LaTeX documentation
-where \(f\) and \(t\) denote the frequency and time, respectively. 
-For the experimental setup, the frequency is set to \(f = 0.05\).
 
-We then construct convex combinations of these components, mirroring the simulation design:
-%%% ACF What do you mean by this "mirroring"? 
-%%% ACF Do not leave a blank line in cases like this; please refer to the LaTeX documentation
+%%% ACF Do not leave a blank line in cases like this; see LaTeX documentation.
+
+We also construct convex combinations mirroring the simulation design, i.e the convex combinations are constructed using the same mixing proportions and same functional structure that were used when generating the simulated data:
+%%% ACF What do you mean by this "mirroring"? I want to tell in here that the convex combinations are constructed using the same mixing proportions and same functional structure that were used when generating the simulated data. For example, X^{\text{(ARMA+Logistic)}}_t(w) = w\, X_{\text{ARMA},t} + (1 - w)\, L_t, where only the weight w varies. The form of the combination remains identical to that used in the simulation setup. 
+
+% A clear statement that the two components are “normalised” to [0, 1] by a simple linear transformation before being merged with the convex combination.
+
+The convex combination model was set up after normalizing both the stochastic models and the sine function. As the logistic map is already normalized to the interval $[0, 1]$, we applied the same normalization to the stochastic models and sine component to keep model consistency. This ensures that both components are scaled to the range $[0, 1]$ by a simple linear transformation before being combined in the convex mixture.
+ 
+
 \begin{enumerate}
 	\setcounter{enumi}{3}
-	\item Convex combinations of the $\mathrm{ARMA}(2,2)$ process with the logistic map and sine function:
+	
+	\item ARMA(2,2) mixed with deterministic signals:
 	\[
 	X^{\text{(ARMA+Logistic)}}_t(w) = w\, X_{\text{ARMA},t} + (1 - w)\, L_t,
 	\]
 	\[
-	X^{\text{(ARMA+Sine)}}_t(w)     = w\, X_{\text{ARMA},t} + (1 - w)\, f(t),
+	X^{\text{(ARMA+Sine)}}_t(w) = w\, X_{\text{ARMA},t} + (1 - w)\, f(t).
 	\]
-	where \(w \in \{0.1, 0.2, \ldots, 0.9\}\).
 	
-	\item Convex combinations of the $\mathrm{AR}(2)$ process with the logistic map and sine function:
+	\item AR(2) mixed with logistic and sine:
 	\[
 	X^{\text{(AR2+Logistic)}}_t(w) = w\, X_{\text{AR},t} + (1 - w)\, L_t,
 	\]
 	\[
-	X^{\text{(AR2+Sine)}}_t(w)     = w\, X_{\text{AR},t} + (1 - w)\, f(t).
+	X^{\text{(AR2+Sine)}}_t(w) = w\, X_{\text{AR},t} + (1 - w)\, f(t).
 	\]
 	
-	\item Convex combinations of the $\mathrm{MA}(2)$ process with the logistic map and sine function:
+	\item MA(2) mixed with logistic and sine:
 	\[
 	X^{\text{(MA2+Logistic)}}_t(w) = w\, X_{\text{MA},t} + (1 - w)\, L_t,
 	\]
 	\[
-	X^{\text{(MA2+Sine)}}_t(w)     = w\, X_{\text{MA},t} + (1 - w)\, f(t),
+	X^{\text{(MA2+Sine)}}_t(w) = w\, X_{\text{MA},t} + (1 - w)\, f(t).
 	\]
-	again with \(w \in \{0.1, 0.2, \ldots, 0.9\}\).
 \end{enumerate}
 
-For each model and each weight value of \(w\), we simulate time series of length \(n = 1000\) and compute the corresponding entropy and complexity measures.
+For each $w \in \{0.1,0.2,\dots,0.9\}$, we simulate time series of length $n=1000$ and compute all entropy and complexity measures.
 
-
-The experimental setup uses an embedding dimension of \(D = 4\). 
-All simulations are generated using the \texttt{Mersenne\_Twister} pseudorandom number generator.
-
+The experimental setup uses an embedding dimension of $D = 4$ throughout, and all simulations are generated using the \texttt{Mersenne\_Twister} pseudorandom number generator.
 
 \section{Results and Discussion}
 
@@ -187,11 +285,12 @@ The results were obtained based on our experimental setup as follows.
 	\item Convex combinations of the $\mathrm{ARMA}(2,2)$ process with the logistic map and sine function.
 	\item Convex combinations of the $\mathrm{AR}(2)$ process with the logistic map and sine function.
 	\item Convex combinations of the $\mathrm{MA}(2)$ process with the logistic map and sine function.
-	\item All models combined together. 
+	%\item All convex combination results for $(1-3)$ are represented in the $H \times C$ plane.
 	%%% ACF The last item is unclear
+	\item The stochastic component riding the sine function.
 \end{enumerate}
 
-The Figure~\ref{fig:ARMALogistic} shows the results obtained using $\mathrm{ARMA}(2,2)$ with Logistic function. Scatter plot for convex combination  with 50 replication is shown in Figure~\ref{fig:ARMALogistic_50Rep}  
+The Figure~\ref{fig:ARMALogistic} shows the results obtained using $\mathrm{ARMA}(2,2)$ with Logistic function. Scatter plot for convex combination  with 50 replication is shown in Figure~\ref{fig:ARMALogistic_50Rep}.   
 
 \begin{figure}[H]
 	\centering
@@ -205,11 +304,12 @@ The Figure~\ref{fig:ARMALogistic} shows the results obtained using $\mathrm{ARMA
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{\convexBase/ARMA+Logistic_50Rep}
+	\includegraphics[width=\textwidth]{\convexBase/ARMA+Logistic_50Rep_1}
 	\caption{Scatter plot for convex combination model with 50 replications,  embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
 	\label{fig:ARMALogistic_50Rep}
 \end{figure}
 %%% ACF All the replications from all the values of w render a confusing plot. Select few cases of w such that something useful is seen
+When examining Figure~\ref{fig:ARMALogistic}, we observe single points in the $H \times C$ plane without exploring the repetition values of the models. If the points were to repeat across multiple runs, they would overlap and become indistinguishable. Therefore, to clearly represent all points in the $H \times C$ plane, we selected a few representative values of $w$ that provide useful separation.
 
 \begin{table}[H]
 	\centering
@@ -242,6 +342,10 @@ For larger weights, an interesting pattern emerges: the mixtures with $w = 0.4$ 
 The points corresponding to intermediate weights $w = 0.5, 0.6, 0.7$, and $0.8$ show consecutively higher entropy and lower complexity. 
 This behaviour illustrates how the choice of weight in the convex combination substantially affects the entropy-complexity characteristics of the ARMA + Logistic model.
 %%% ACF Have you thought of possible explanations?
+Further, we can simply explain this behaviour how the two parts of the model interact. When the weight $w$ is small, the logistic map has a stronger influence. This produces structured but chaotic patterns, which lead to lower entropy and higher complexity because the ordinal patterns are not evenly distributed. As $w$ increases, the ARMA component becomes more influential and introduces more randomness into the series. This added randomness makes the ordinal patterns more evenly distributed, which increases entropy and reduces complexity. 
+
+For medium and large values of $w$, the ARMA component dominates, so the results become similar to those of the pure $\mathrm{ARMA}(2,2)$ model, and in some cases even show higher entropy. Overall, changing the weight allows the model to smoothly move between deterministic and random behaviour, producing a wide range of entropy-complexity values.
+
 
 Following this, we make another convex combination model $\mathrm{ARMA}(2,2)$ with deterministic sine function. 
 The Figure~\ref{fig:ARMASine} shows the results obtained using $\mathrm{ARMA}(2,2)$ with Sine function. 
@@ -266,7 +370,7 @@ This convex model gives entropy and complexity measures as shown in the Table~\r
 
 \begin{table}[H]
 	\centering
-	\caption{Representative entropy--complexity values for $\mathrm{ARMA}(2,2)$--Sine mixtures}
+	\caption{Representative entropy-complexity values for $\mathrm{ARMA}(2,2)$-Sine mixtures}
 	\label{tab:arma-sine}
 	\begin{tabular}{lcc}
 		\toprule
@@ -357,19 +461,31 @@ In addition to these convex combination models, from Figure~\ref{fig:AR2Logistic
 \end{figure}
 
 These figures follow the same pattern described above, with entropy and complexity values exhibiting distinct behaviour at weights $w = 0.5$ and $w = 0.9$. 
-Therefore, we selected the $H \times C$ plane, 
+%Therefore, we consider the $H \times C$ plane, 
 %%% ACF Did you select the HxC plane at this point of the study? I didn't understand.
-which effectively captures all the points across the entropy-complexity space when combining all models together (Figure~\ref{fig:AllModels}). 
-However, it is difficult to distinguish individual convex combinations in this crowded view (as it shows 9 weights points from each model, for example, AR(2)+Sine show 9 entropy and complexity points in the plane), so we decided not to include all models in this experimental design. 
-Instead, we chose to focus on combinations involving the MA(2), Sine, and Logistic convex combination models for further investigation.
+%which effectively captures the points that see the stochastic component riding the sine function. Figure~\ref{fig:stochastic_TS} shows the stochastic models ARMA22, AR2 and MA2 time series varies based on the weight values and how it reach to pure sine model ($w=0$) and change to stochastic model ($w=1$). Also, Figure~\ref{fig:stochastic} shows the how the $H \times C$ plane shows that change. 
+
+Therefore, at this stage of the study, we analyze the dynamics in the $H \times C$ plane, which provides a compact information theoretic representation of how the stochastic component gradually rides on top of the underlying sine function (sinusoidal signal). The $H \times C$ plane is also considered here to describe the transition from deterministic to stochastic dynamics using entropy and complexity.
+
+Figure~\ref{fig:stochastic_TS} illustrates this transition in the time domain for the stochastic models $\mathrm{ARMA}(2,2)$, $\mathrm{AR}(2)$, and $\mathrm{MA}(2)$. As the mixing parameter $w$ varies, the signals evolve continuously from the pure sinusoidal case ($w=0$) to the corresponding purely stochastic process ($w=1$).
+
+The same evolution is captured in an information theoretic way in Figure~\ref{fig:stochastic}, where the trajectories in the $H \times C$ plane reflect how an increasing stochastic contribution modifies the entropy and complexity of the signals. This demonstrates that the $H \times C$ plane effectively encodes the riding behaviour observed in the time series representations.
+
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{\convexBase/AllModels}
-	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
-	\label{fig:AllModels}
+	\includegraphics[width=\textwidth]{\convexBase/stochastic+sine+TS}
+	\caption{Time‑series plot of the convex combination model illustrating stochastic components riding a sinusoidal signal, with embedding dimension  $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\label{fig:stochastic_TS}
 \end{figure}
 %%% ACF Why the sudden change of plot format? The figure is not informative because we don't know what it shows.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{\convexBase/stochastic+sine}
+	\caption{Entropy–complexity scatter plot of the convex combination model capturing the information theoretic signature of stochastic components riding a sinusoidal signal, with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\label{fig:stochastic}
+\end{figure}
 
 The results in Table~\ref{tab:ma2-mixtures} demonstrate a clear structure in the $H \times C$ plane for the new experimental setup. The points spread nicely across the $H \times C$ plane and are readily distinguishable. The dataset includes points with both high entropy and low complexity (e.g., MA(2) at $H = 0.972$, $C = 0.035$) as well as low entropy and high complexity (e.g., Logistic map at $H = 0.594$, $C = 0.348$).
 
@@ -412,7 +528,9 @@ Notably, the entropy ranges from a maximum of $H = 0.991$ for the MA2+Sine conve
 	\end{tabular}
 \end{table}
 
-It is clear with the Figure~\ref{fig:ThreeModels} and data points are spread around the $H \times C$ plane as described in the Table~\ref{tab:ma2-mixtures}.
+Figure~\ref{fig:ThreeModels} shows that the data points are not confined to a single region of the $H \times C$ plane but instead form extended trajectories whose locations depend on the mixing parameter $w$. This spread shows the transition from deterministic to stochastic behaviour as $w$ increases. Intermediate values represent the stochastic noise following the underlying repeating wave pattern of the sine function.
+The quantitative values shown in Table~\ref{tab:ma2-mixtures} confirm this behaviour by showing systematic changes in entropy and complexity across the mixtures. Together, the figure and table demonstrate that the $H \times C$ plane captures not only the presence of stochasticity but also how different stochastic models ride the deterministic functions.
+
 %%% ACF What does this sentence add to the discussion?
 
 \begin{figure}[H]
@@ -435,55 +553,55 @@ The future experimental setup will be based on these simulation results. We adop
 		\textbf{Model} & \textbf{H (Entropy)} & \textbf{C (Complexity)} \\
 		\midrule
 		
-		ARMA(2,2) & 0.8993783 & 0.12490600 \\
-		AR(2) & 0.9616821 & 0.04878726 \\
-		MA(2) & 0.9760429 & 0.03092143 \\
-		Logistic & 0.7422328 & 0.29230169 \\
-		Sine & 0.3913538 & 0.28425599 \\
+		ARMA(2,2) & 0.899 & 0.124 \\
+		AR(2) & 0.961 & 0.048 \\
+		MA(2) & 0.976 & 0.030 \\
+		Logistic & 0.742 & 0.292 \\
+		Sine & 0.391 & 0.284 \\
 		
 		\midrule
-		ARMA+Logistic(w=0.1) & 0.7674692 & 0.26767468 \\
-		ARMA+Logistic(w=0.2) & 0.8095423 & 0.22313552 \\
-		ARMA+Logistic(w=0.4) & 0.8851289 & 0.14663422 \\
-		ARMA+Logistic(w=0.7) & 0.9862352 & 0.01797356 \\
-		ARMA+Logistic(w=0.9) & 0.9236793 & 0.09509173 \\
+		ARMA+Logistic(w=0.1) & 0.767 & 0.267 \\
+		ARMA+Logistic(w=0.2) & 0.809 & 0.223 \\
+		ARMA+Logistic(w=0.4) & 0.885 & 0.146 \\
+		ARMA+Logistic(w=0.7) & 0.986 & 0.017 \\
+		ARMA+Logistic(w=0.9) & 0.923 & 0.095 \\
 		
 		\midrule
-		ARMA+Sine(w=0.1) & 0.4484795 & 0.27481052 \\
-		ARMA+Sine(w=0.2) & 0.5658237 & 0.26877572 \\
-		ARMA+Sine(w=0.3) & 0.7250210 & 0.22208325 \\
-		ARMA+Sine(w=0.4) & 0.8195294 & 0.17747148 \\
-		ARMA+Sine(w=0.7) & 0.8961243 & 0.12527093 \\
-		ARMA+Sine(w=0.9) & 0.8956125 & 0.12827562 \\
+		ARMA+Sine(w=0.1) & 0.448 & 0.274 \\
+		ARMA+Sine(w=0.2) & 0.565 & 0.268 \\
+		ARMA+Sine(w=0.3) & 0.725 & 0.222 \\
+		ARMA+Sine(w=0.4) & 0.819 & 0.177 \\
+		ARMA+Sine(w=0.7) & 0.896 & 0.125 \\
+		ARMA+Sine(w=0.9) & 0.895 & 0.128 \\
 		
 		\midrule
-		AR2+Logistic(w=0.2) & 0.8132889 & 0.21879192 \\
-		AR2+Logistic(w=0.3) & 0.8582879 & 0.17358643 \\
-		AR2+Logistic(w=0.4) & 0.8910653 & 0.13631995 \\
-		AR2+Logistic(w=0.7) & 0.9816001 & 0.02422982 \\
-		AR2+Logistic(w=0.8) & 0.9769657 & 0.03031588 \\
-		AR2+Logistic(w=0.9) & 0.9623328 & 0.04858689 \\
+		AR2+Logistic(w=0.2) & 0.813 & 0.218 \\
+		AR2+Logistic(w=0.3) & 0.858 & 0.173 \\
+		AR2+Logistic(w=0.4) & 0.891 & 0.136 \\
+		AR2+Logistic(w=0.7) & 0.981 & 0.024 \\
+		AR2+Logistic(w=0.8) & 0.976 & 0.030 \\
+		AR2+Logistic(w=0.9) & 0.962 & 0.048 \\
 		
 		\midrule
-		AR2+Sine(w=0.2) & 0.5705273 & 0.26396296 \\
-		AR2+Sine(w=0.3) & 0.7133602 & 0.22249293 \\
-		AR2+Sine(w=0.4) & 0.8445838 & 0.15108954 \\
-		AR2+Sine(w=0.7) & 0.9516522 & 0.06039158 \\
+		AR2+Sine(w=0.2) & 0.570 & 0.263 \\
+		AR2+Sine(w=0.3) & 0.713 & 0.222 \\
+		AR2+Sine(w=0.4) & 0.844 & 0.151 \\
+		AR2+Sine(w=0.7) & 0.951 & 0.060 \\
 		
 		\midrule
-		MA2+Logistic(w=0.1) & 0.7759295 & 0.25462025 \\
-		MA2+Logistic(w=0.2) & 0.8309979 & 0.20119958 \\
-		MA2+Logistic(w=0.3) & 0.8713929 & 0.15833114 \\
-		MA2+Logistic(w=0.4) & 0.9064925 & 0.11892669 \\
-		MA2+Logistic(w=0.5) & 0.9498924 & 0.06464961 \\
-		MA2+Logistic(w=0.7) & 0.9903786 & 0.01274909 \\
+		MA2+Logistic(w=0.1) & 0.775 & 0.254 \\
+		MA2+Logistic(w=0.2) & 0.830 & 0.201 \\
+		MA2+Logistic(w=0.3) & 0.871 & 0.158 \\
+		MA2+Logistic(w=0.4) & 0.906 & 0.118 \\
+		MA2+Logistic(w=0.5) & 0.949 & 0.064 \\
+		MA2+Logistic(w=0.7) & 0.990 & 0.012 \\
 		
 		\midrule
-		MA2+Sine(w=0.1) & 0.4965979 & 0.26996937 \\
-		MA2+Sine(w=0.2) & 0.6860130 & 0.23842479 \\
-		MA2+Sine(w=0.3) & 0.8520771 & 0.15411065 \\
-		MA2+Sine(w=0.4) & 0.9360690 & 0.07548932 \\
-		MA2+Sine(w=0.5) & 0.9804243 & 0.02500202 \\
+		MA2+Sine(w=0.1) & 0.496 & 0.269 \\
+		MA2+Sine(w=0.2) & 0.686 & 0.238 \\
+		MA2+Sine(w=0.3) & 0.852 & 0.154 \\
+		MA2+Sine(w=0.4) & 0.936 & 0.075 \\
+		MA2+Sine(w=0.5) & 0.980 & 0.025 \\
 		
 		\bottomrule
 	\end{tabular}
@@ -503,7 +621,7 @@ For any stochastic model $\{X_t^{(S)}\}$ and deterministic model $\{X_t^{(D)}\}$
 we define a convex combination
 \[
 %%% ACF Avoid forcing spacing in math mode; let LaTeX make the choice
-X_t(w) \;=\; w\,X_t^{(S)} + (1-w)\,X_t^{(D)}, 
+X_t(w) = w X_t^{(S)} + (1-w) X_t^{(D)}, 
 \qquad 0 \le w \le 1,
 \]
 where weight values ($w$) control the relative contribution of the stochastic and deterministic components.

@@ -13,6 +13,7 @@ library(StatOrdPattHxC)
 # ══════════════════════════════════════════════════════════════════════════════
 D            <- 4
 sample_sizes <- c(1000,10000)
+#sample_sizes <- 1000
 
 hc_data_path <- here("Data", "Convex_combination", "D4_Data", "HC_Results_D4.xlsx")
 output_dir   <- here("Results", "Convex_combination")
