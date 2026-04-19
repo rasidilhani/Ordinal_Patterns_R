@@ -16,7 +16,7 @@ normalize <- function(x) (x - min(x)) / (max(x) - min(x))
 
 ar2  <- function(n) as.numeric(normalize(arima.sim(model = ar2_list,  n)))
 
-sine <- function(n, f) as.numeric(sin(2 * pi * f * 1:n))
+sine <- function(n, f) as.numeric(normalize(sin(2 * pi * f * 1:n)))
 
 # ── Weights ──────────────────────────────────────────────
 weights <- seq(0.1, 0.9, by = 0.1)
@@ -81,7 +81,7 @@ normalize <- function(x) (x - min(x)) / (max(x) - min(x))
 
 ma2  <- function(n) as.numeric(normalize(arima.sim(model = ma2_list,  n)))
 
-sine <- function(n, f) as.numeric(sin(2 * pi * f * 1:n))
+sine <- function(n, f) as.numeric(normalize(sin(2 * pi * f * 1:n)))
 
 # ── Weights ──────────────────────────────────────────────
 weights <- seq(0.1, 0.9, by = 0.1)
@@ -151,7 +151,7 @@ logistic <- function(r, n) {
   a
 }
 
-sine <- function(n, f) as.numeric(sin(2 * pi * f * 1:n))
+sine <- function(n, f) as.numeric(normalize(sin(2 * pi * f * 1:n)))
 
 # ── Weights ──────────────────────────────────────────────
 weights <- seq(0.1, 0.9, by = 0.1)
@@ -226,7 +226,7 @@ logistic <- function(r, n) {
   a
 }
 
-sine <- function(n, f) as.numeric(sin(2 * pi * f * 1:n))
+sine <- function(n, f) as.numeric(normalize(sin(2 * pi * f * 1:n)))
 
 # ── Weights ──────────────────────────────────────────────
 weights <- seq(0.1, 0.9, by = 0.1)
@@ -292,7 +292,7 @@ ar2  <- function(n) normalize(arima.sim(model = ar2_list,  n))
 ma2  <- function(n) normalize(arima.sim(model = ma2_list,  n))
 arma <- function(n) normalize(arima.sim(model = arma_list, n))
 
-sine <- function(n, f) normalize(sin(2 * pi * f * (1:n)))
+sine <- function(n, f) as.numeric(normalize(sin(2 * pi * f * (1:n))))
 
 t <- 1:n
 z <- sine(n, f)
@@ -448,7 +448,7 @@ ggplot() +
   ) +
   facet_wrap(~ Family, ncol = 3) +
   scale_color_viridis_c(
-    name = expression(italic(w))   # ✅ EXACTLY like the time‑series plot
+    name = expression(italic(w))   
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
   labs(

@@ -47,15 +47,21 @@ bounds <- filter(LinfLsup, Dimension == as.character(D))
 
 # ── Legend labels ─────────────────────────────────────────────────────────────
 legend_labels <- c(
-  "AR(2)" = expression(italic(AR)(2)),
-  "Logistic" = expression(Logistic),
+  "AR(2)" = "AR(2)",
+  "Logistic" = "Logistic",
   setNames(
     lapply(weights, function(w)
-      bquote(italic(AR)(2) + Logistic ~ "(" * italic(w) == .(w) * ")")
+      bquote(AR(2) + Logistic ~ "(" * italic(w) == .(w) * ")")
     ),
     paste0("AR2+Logistic(w=", weights, ")")
   )
 )
+
+# ── Output path ───────────────────────────────────────────────────────────────
+output_dir  <- file.path("Results", "Convex_combination")
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+output_file <- file.path(output_dir, "AR2+Logistic.pdf")
+
 
 # ── Plot ──────────────────────────────────────────────────────────────────────
 ggplot() +
@@ -83,14 +89,15 @@ ggplot() +
   labs(
     x = expression(italic(H)),
     y = expression(italic(C)),
-    title = bquote(
-      "HC Plane — " * italic(AR)(2) *
-        " + Logistic (" * italic(D) == .(D) * ")"
-    ),
+  #  title = bquote(
+   #   italic(H) %*% italic(C) ~ "Plane," ~ AR(2) + Logistic ~
+  #      (italic(D) == .(D))
+  #  ),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5, size = 12))
+ggsave(output_file, width = 8, height = 5, dpi = 300)
 
 #End of the code 
 #------------------------------------------------------------------------------
@@ -127,7 +134,8 @@ get_HC <- function(series, label) {
 
 # ── Fixed signal ──────────────────────────────────────────────────────────────
 y       <- logistic(r, n)
-weights <- seq(0.1, 0.9, by = 0.1)
+#weights <- seq(0.1, 0.9, by = 0.1)
+weights <- c(0.1, 0.3, 0.5, 0.6)
 
 # ── 50 Replications ───────────────────────────────────────────────────────────
 results_df <- bind_rows(lapply(1:R, function(i) {
@@ -139,7 +147,6 @@ results_df <- bind_rows(lapply(1:R, function(i) {
   )
   
   mix <- bind_rows(lapply(weights, function(w) {
-    # ✅ CHANGED HERE: consistent model name
     get_HC(
       w * x_ar + (1 - w) * y,
       paste0("AR2+Logistic(w=", w, ")")
@@ -154,15 +161,20 @@ data("LinfLsup")
 bounds <- filter(LinfLsup, Dimension == as.character(D))
 
 legend_labels <- c(
-  "AR(2)" = expression(italic(AR)(2)),
-  "Logistic" = expression(Logistic),
+  "AR(2)" = "AR(2)",
+  "Logistic" = "Logistic",
   setNames(
     lapply(weights, function(w)
-      bquote(italic(AR)(2) + Logistic ~ "(" * italic(w) == .(w) * ")")
+      bquote(AR(2) + Logistic ~ "(" * italic(w) == .(w) * ")")
     ),
     paste0("AR2+Logistic(w=", weights, ")")
   )
 )
+
+# ── Output path ───────────────────────────────────────────────────────────────
+output_dir  <- file.path("Results", "Convex_combination")
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+output_file <- file.path(output_dir, "AR2+Logistic_50Rep.pdf")
 
 # ── Plot ──────────────────────────────────────────────────────────────────────
 ggplot() +
@@ -193,11 +205,12 @@ ggplot() +
   labs(
     x = expression(italic(H)),
     y = expression(italic(C)),
-    title = bquote(
-      "HC Plane — " * italic(AR)(2) *
-        " + Logistic (" * .(R) * " reps, " * italic(D) == .(D) * ")"
-    ),
+   # title = bquote(
+  #    italic(H) %*% italic(C) ~ "Plane," ~ AR(2) + Logistic ~
+  #      (.(R) ~ "reps," ~ italic(D) == .(D))
+  #  ),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5, size = 12))
+ggsave(output_file, width = 8, height = 5, dpi = 300)

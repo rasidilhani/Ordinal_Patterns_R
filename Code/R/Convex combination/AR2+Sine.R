@@ -12,7 +12,8 @@ set.seed(1234567890, kind = "Mersenne-Twister")
 # ── Functions ─────────────────────────────────────────────────────────────────
 normalize <- function(x) (x - min(x)) / (max(x) - min(x))
 ar2       <- function(n) as.numeric(normalize(arima.sim(model = ar2_list, n)))
-sine      <- function(n, f) as.numeric(sin(2 * pi * f * 1:n))
+#sine      <- function(n, f) as.numeric(sin(2 * pi * f * 1:n))
+sine <- function(n, f) as.numeric(normalize(sin(2 * pi * f * 1:n)))
 
 get_HC <- function(series, label) {
   prob <- OPprob(series, D)
@@ -39,15 +40,20 @@ bounds <- filter(LinfLsup, Dimension == as.character(D))
 
 # ── Legend labels ─────────────────────────────────────────────────────────────
 legend_labels <- c(
-  "AR(2)" = expression(italic(AR)(2)),
-  "Sine"  = expression(plain(Sine)),
+  "AR(2)" = "AR(2)",
+  "Sine"  = "Sine",
   setNames(
     lapply(weights, function(w)
-      bquote(italic(AR)(2) + Sine ~ "(" * italic(w) == .(w) * ")")
+      bquote(AR(2) + Sine ~ "(" * italic(w) == .(w) * ")")
     ),
     paste0("AR2+Sine(w=", weights, ")")
   )
 )
+
+# ── Output path ───────────────────────────────────────────────────────────────
+output_dir  <- file.path("Results", "Convex_combination")
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+output_file <- file.path(output_dir, "AR2+Sine.pdf")
 
 
 # ── Plot ──────────────────────────────────────────────────────────────────────
@@ -77,14 +83,15 @@ ggplot() +
   labs(
     x     = expression(italic(H)),
     y     = expression(italic(C)),
-    title = bquote(
-      "HC Plane — " * italic(AR)(2) *
-        " + Sine (" * italic(D) == .(D) * ")"
-    ),
+   # title = bquote(
+    #  italic(H) %*% italic(C) ~ "Plane," ~ AR(2) + Sine ~
+    #    (italic(D) == .(D))
+    #),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5, size = 12))
+ggsave(output_file, width = 8, height = 5, dpi = 300)
 
 # End of the code
 #------------------------------------------------------------------------------------
@@ -106,7 +113,7 @@ set.seed(1234567890)
 # ── Functions ─────────────────────────────────────────────────────────────────
 normalize <- function(x) (x - min(x)) / (max(x) - min(x))
 ar2       <- function(n) as.numeric(normalize(arima.sim(model = ar2_list, n)))
-sine      <- function(n, f) as.numeric(sin(2 * pi * f * 1:n))
+sine <- function(n, f) as.numeric(normalize(sin(2 * pi * f * 1:n)))
 
 get_HC <- function(series, label) {
   prob <- OPprob(series, D)
@@ -142,17 +149,22 @@ bounds <- filter(LinfLsup, Dimension == as.character(D))
 
 # ── Math‑mode legend labels (✅ FINAL) ─────────────────────────────────────────
 legend_labels <- c(
-  "AR(2)" = expression(italic(AR)(2)),
-  "Sine"  = expression(plain(Sine)),
+  "AR(2)" = "AR(2)",
+  "Sine"  = "Sine",
   setNames(
     lapply(weights, function(w)
-      bquote(italic(AR)(2) + Sine ~ "(" * italic(w) == .(w) * ")")
+      bquote(AR(2) + Sine ~ "(" * italic(w) == .(w) * ")")
     ),
     paste0("AR2+Sine(w=", weights, ")")
   )
 )
 
-# ── Plot (✅ FINAL) ────────────────────────────────────────────────────────────
+# ── Output path ───────────────────────────────────────────────────────────────
+output_dir  <- file.path("Results", "Convex_combination")
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+output_file <- file.path(output_dir, "AR2+Sine_50Rep.pdf")
+
+# ── Plot ────────────────────────────────────────────────────────────
 ggplot() +
   geom_line(
     data = bounds,
@@ -181,11 +193,12 @@ ggplot() +
   labs(
     x = expression(italic(H)),
     y = expression(italic(C)),
-    title = bquote(
-      "HC Plane — " * italic(AR)(2) *
-        " + Sine (" * .(R) * " reps, " * italic(D) == .(D) * ")"
-    ),
+    #title = bquote(
+    #  italic(H) %*% italic(C) ~ "Plane," ~ AR(2) + Sine ~
+     #   (.(R) ~ "reps," ~ italic(D) == .(D))
+   # ),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5, size = 12))
+ggsave(output_file, width = 8, height = 5, dpi = 300)

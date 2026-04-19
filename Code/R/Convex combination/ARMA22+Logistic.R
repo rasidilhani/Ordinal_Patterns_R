@@ -48,15 +48,20 @@ bounds <- filter(LinfLsup, Dimension == as.character(D))
 
 # ── Legend labels ─────────────────────────────────────────────────────────────
 legend_labels <- c(
-  "ARMA(2,2)" = expression(italic(ARMA)(2*","*2)),
+  "ARMA(2,2)" = "ARMA(2,2)",
   "Logistic"  = "Logistic",
   setNames(
     lapply(weights, function(w)
-      bquote(italic(ARMA) + Logistic ~ (italic(w) == .(w)))
+      bquote(ARMA + Logistic ~ (italic(w) == .(w)))
     ),
     paste0("ARMA+Logistic(w=", weights, ")")
   )
 )
+
+# ── Output path ───────────────────────────────────────────────────────────────
+output_dir  <- file.path("Results", "Convex_combination")
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+output_file <- file.path(output_dir, "ARMA+Logistic.pdf")
 
 # ── Plot ──────────────────────────────────────────────────────────────────────
 ggplot() +
@@ -75,12 +80,13 @@ ggplot() +
   labs(
     x     = expression(italic(H)),
     y     = expression(italic(C)),
-    title = bquote(HC - Plane ~ italic(ARMA)(2*","*2) + Logistic ~ (italic(D) == .(D))),
+    #title = bquote(italic(H) %*% italic(C) ~ "Plane," ~ ARMA(2*","*2) + Logistic ~ (italic(D) == .(D))),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5, size = 12))
 
+ggsave(output_file, width = 8, height = 5, dpi = 300)
 
 
 
@@ -222,11 +228,11 @@ bounds <- filter(LinfLsup, Dimension == as.character(D))
 
 # ── Legend labels ─────────────────────────────────────────────────────────────  # <-- CHANGED BLOCK
 legend_labels <- c(
-  "ARMA(2,2)" = expression(italic(ARMA)(2*","*2)),
+  "ARMA(2,2)" = "ARMA(2,2)",
   "Logistic"  = "Logistic",
   setNames(
     lapply(weights, function(w)
-      bquote(italic(ARMA) + Logistic ~ (italic(w) == .(w)))
+      bquote(ARMA + Logistic ~ (italic(w) == .(w)))
     ),
     paste0("ARMA+Logistic(w=", weights, ")")
   )
@@ -238,6 +244,12 @@ legend_cols <- c(
   setNames(viridis::viridis(length(weights)),
            paste0("ARMA+Logistic(w=", weights, ")"))
 )
+
+# ── Output path ───────────────────────────────────────────────────────────────
+output_dir  <- file.path("Results", "Convex_combination")
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+output_file <- file.path(output_dir, "ARMA+Logistic_50Rep_1.pdf")
+
 # ── Plot ──────────────────────────────────────────────────────────────────────
 ggplot() +
   geom_line(data = bounds, aes(x = H, y = C, group = Side),
@@ -248,8 +260,10 @@ ggplot() +
   labs(
     x = expression(italic(H)),
     y = expression(italic(C)),
-    title = bquote(HC ~ Plane ~ italic(ARMA)(2*","*2) + Logistic ~ (.(R) ~ reps*"," ~ italic(D) == .(D))),  # <-- CHANGED
+    #title = bquote(italic(H) %*% italic(C) ~ "Plane," ~ ARMA(2*","*2) + Logistic ~ (.(R) ~ "reps," ~ italic(D) == .(D))),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5, size = 12))
+
+ggsave(output_file, width = 8, height = 5, dpi = 300)

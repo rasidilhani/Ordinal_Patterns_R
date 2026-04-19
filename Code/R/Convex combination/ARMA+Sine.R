@@ -108,37 +108,25 @@ p
 
 library(tidyverse)
 library(StatOrdPattHxC)
-
 # ── Parameters ────────────────────────────────────────────────────────────────
 D         <- 4
 n         <- 1000
 f         <- 0.04
 arma_list <- list(ar = c(-0.8, 0.1), ma = c(-0.8, 0.1))
-
 set.seed(1234567890, kind = "Mersenne-Twister")
-
 # ── Functions ─────────────────────────────────────────────────────────────────
-arma <- function(n) {
-  ts_data <- arima.sim(model = arma_list, n)
-  as.numeric((ts_data - min(ts_data)) / (max(ts_data) - min(ts_data)))
-}
-
-sine <- function(n, f) {
-  as.numeric(sin(2 * pi * f * 1:n))
-}
-
+normalize <- function(x) (x - min(x)) / (max(x) - min(x))
+arma <- function(n) as.numeric(normalize(arima.sim(model = arma_list, n)))
+sine <- function(n, f) as.numeric(normalize(sin(2 * pi * f * 1:n)))
 get_HC <- function(series) {
   prob <- OPprob(series, D)
   tibble(H = HShannon(prob), C = StatComplexity(prob))
 }
-
 # ── Signals ───────────────────────────────────────────────────────────────────
 x <- arma(n)
 z <- sine(n, f)
-
 # ── HC values ─────────────────────────────────────────────────────────────────
 weights <- seq(0.1, 0.9, by = 0.1)
-
 HC_all <- bind_rows(
   mutate(get_HC(x), Model = "ARMA(2,2)"),
   mutate(get_HC(z), Model = "Sine"),
@@ -148,43 +136,49 @@ HC_all <- bind_rows(
     mutate(hc, Model = paste0("ARMA+Sine(w=", w, ")"))
   })
 )
-
 # ── Bounds ────────────────────────────────────────────────────────────────────
 data("LinfLsup")
 bounds <- LinfLsup |> filter(Dimension == as.character(D))
 
 # ── Legend labels ─────────────────────────────────────────────────────────────
 legend_labels <- c(
-  "ARMA(2,2)" = expression(italic(ARMA)(2*","*2)),
-  "Sine"  = "Sine",
+  "ARMA(2,2)" = "ARMA(2,2)",
+  "Sine"      = "Sine",
   setNames(
     lapply(weights, function(w)
-      bquote(italic(ARMA) + Sine ~ (italic(w) == .(w)))
+      bquote(ARMA + Sine ~ (italic(w) == .(w)))
     ),
     paste0("ARMA+Sine(w=", weights, ")")
   )
 )
+# ── Output path ───────────────────────────────────────────────────────────────
+output_dir  <- file.path("Results", "Convex_combination")
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+output_file <- file.path(output_dir, "ARMA+Sine.pdf")
 
 # ── Plot ──────────────────────────────────────────────────────────────────────
 ggplot() +
   geom_line(data = bounds, aes(x = H, y = C, group = Side),
             color = "grey60", linetype = "solid") +
   geom_point(data = HC_all, aes(x = H, y = C, color = Model), size = 2) +
-  scale_color_manual(values = c(
-    "ARMA(2,2)"    = "red",
-    "Sine"         = "blue",
-    setNames(viridis::viridis(9), paste0("ARMA+Sine(w=", weights, ")"))
-  ),
-  labels = legend_labels
+  scale_color_manual(
+    values = c(
+      "ARMA(2,2)" = "red",
+      "Sine"      = "blue",
+      setNames(viridis::viridis(9), paste0("ARMA+Sine(w=", weights, ")"))
+    ),
+    labels = legend_labels
   ) +
   labs(
     x     = expression(italic(H)),
     y     = expression(italic(C)),
-    title = bquote(HC-Plane ~ italic(ARMA)(2*","*2) + Sine ~ (italic(D) == .(D))),
+    #title = bquote(italic(H) %*% italic(C) ~ "Plane," ~ ARMA(2*","*2) + Sine ~ (italic(D) == .(D))),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
   theme(plot.title = element_text(hjust = 0.5))
+
+ggsave(output_file, width = 8, height = 5, dpi = 300)
 
 # End of the code
 #------------------------------------------------------------------------------
@@ -206,14 +200,13 @@ arma_list <- list(ar = c(-0.8, 0.1), ma = c(-0.8, 0.1))
 set.seed(1234567890, kind = "Mersenne-Twister")
 
 # ── Functions ─────────────────────────────────────────────────────────────────
+normalize <- function(x) (x - min(x)) / (max(x) - min(x))
 arma <- function(n) {
   ts_data <- arima.sim(model = arma_list, n)
   as.numeric((ts_data - min(ts_data)) / (max(ts_data) - min(ts_data)))
 }
 
-sine <- function(n, f) {
-  as.numeric(sin(2 * pi * f * 1:n))
-}
+sine <- function(n, f) as.numeric(normalize(sin(2 * pi * f * 1:n)))
 
 get_HC <- function(series) {
   prob <- OPprob(series, D)
@@ -248,16 +241,21 @@ bounds <- filter(LinfLsup, Dimension == as.character(D))
 
 # ── Legend labels ─────────────────────────────────────────────────────────────
 legend_labels <- c(
-  "ARMA(2,2)" = expression(italic(ARMA)(2*","*2)),
-  "Sine"  = "Sine",
+  "ARMA(2,2)" = "ARMA(2,2)",
+  "Sine"      = "Sine",
   setNames(
     lapply(weights, function(w)
-      bquote(italic(ARMA) + Sine ~ (italic(w) == .(w)))
+      bquote(ARMA + Sine ~ (italic(w) == .(w)))
     ),
     paste0("ARMA+Sine(w=", weights, ")")
   )
 )
+# ── Output path ───────────────────────────────────────────────────────────────
+output_dir  <- file.path("Results", "Convex_combination")
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+output_file <- file.path(output_dir, "ARMA+Sine_50Rep.pdf")
 
+# ── Plot ─────────────────────────────────────────────────────────────────────
 
 ggplot() +
   geom_line(
@@ -286,12 +284,12 @@ ggplot() +
     x = expression(italic(H)),
     y = expression(italic(C)),
     
-    title = bquote(
-      "HC Plane — " * italic(ARMA)(2,2) *
-        " + Sine (" * .(reps) * " reps, " *
-        italic(D) == .(D) * ")"
-    ),
+    #title = bquote(
+    #  italic(H) %*% italic(C) ~ "Plane," ~ ARMA(2*","*2) + Sine ~
+     #   (.(reps) ~ "reps," ~ italic(D) == .(D))
+   # ),
     color = "Model"
   ) +
   theme_bw(base_size = 11, base_family = "serif") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5, size = 12))
+ggsave(output_file, width = 8, height = 5, dpi = 300)

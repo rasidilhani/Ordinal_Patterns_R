@@ -17,6 +17,7 @@
 %\usepackage{natbib}
 \usepackage{multirow}
 \usepackage{makecell}
+\usepackage{rotating}
 
 % ---------- PATH MACROS FOR FIGURES ----------
 % convex combination plots
@@ -33,17 +34,15 @@
 \section{Purpose}
 In this study ordinal pattern features are used to analyse simulated time series data generated from two deterministic signals (sine, and logistic map), and a stochastic model (ARMA, including two particular cases, namely AR and MA). 
 %%% ACF The logistic map is also deterministic. It will read better as "two deterministic signals (sine and logistic map) and a stochastic model (ARMA, including two particular cases, namely AR and MA).
-The purpose of this study is to explore additional points in the entropy–complexity $(H \times C)$ plane that were not observed in our previous experiments. 
+The purpose of this study is to explore additional points in the entropy complexity $(H \times C)$ plane that were not observed in our previous experiments. 
 %%% ACF "identified", or "observed"?
 
-In this work, the term $(H \times C)$ plane refers to the two–dimensional space in which each time series is represented by its entropy $H$ and statistical complexity $C$.
-For a given probability distribution $\mathbf{p}$ obtained from ordinal patterns, we compute an entropy measure $H(\mathbf{p})$ (such as Shannon, R\'enyi or Tsallis entropy) and a complexity measure $C(\mathbf{p})$ formed by combining $H(\mathbf{p})$ with a disequilibrium term that quantifies the distance between $\mathbf{p}$ and the uniform distribution.  
-Each time series is then mapped to a point $(H(\mathbf{p}),\, C(\mathbf{p}))$; the collection of these points forms the $H \times C$ plane.
+In this work, the term $(H \times C)$ plane refers to the two-dimensional space in which each time series is represented through the entropy and statistical complexity computed from its ordinal pattern distribution. Following the Bandt and Pompe approach~\cite{PhysRevLett.88.174102}, the time series is transformed into ordinal patterns that captures the order relations among consecutive values. And then the resulting histogram of patterns defines a probability distribution $\widehat{\mathbf{p}}$. From this distribution, we compute an entropy measure $H(\widehat{\mathbf{p}})$, such as Shannon entropy, also known as permutation entropy, which quantifies the disorder in the ordinal structure of the data. A few years later of Bandt and Pompe, Lamberti et al.~\cite{lamberti2004intensive} and Rosso et al.~\cite{Rosso2007} suggested to complement the Shannon entropy by an additional complexity measure $C(\widehat{\mathbf{p}})$  computed from $\widehat{\mathbf{p}}$, which provides an important additional piece of information of a probability distribution, not already carried by the entropy. Hence, instead solely looking at a time series' Shannon entropy, the pair of entropy and complexity is used to summarize the essential time series dynamics. Here, it is important to note that the range of possible entropy complexity pairs is compact and can be bounded by two curves that is defined in Martin et al.~\cite{Martin2006}. We motivates to plot the actual entropy complexity pair within this region, that is to visualize the actual time series dynamics relative to all possible entropy complexity pairs. The resulting graphical tool, a two-dimensional diagram, is called the entropy-cpmplexity plane or $H \times C$ plane.    
 
-In the earlier experimental design, the resulting points were mostly concentrated near the right-hand corner of the HC plane 
+In the earlier experimental design, the resulting points were mostly concentrated near the right hand corner of the $H \times C$ plane 
 %%% ACF We don't know what this "HC plane" is. Please follow the notation you have already defined.
 (Figure~\ref{fig:HC_plane} shows it clearly), which made them difficult to use effectively for time series clustering. 
-This happens because in our simulations, most models produce ordinal-pattern distributions that are close to uniform. 
+This happens because in our simulations, most models produce ordinal pattern distributions that are close to uniform. 
 As a consequence, the entropy $H$ approaches its maximum value and the disequilibrium term $Q$ approaches zero.  
 Since $C = H Q$, the statistical complexity collapses to values near zero.  
 This causes nearly all model classes to map into a narrow region of the $H \times C$ plane, reducing the spread of points and greatly diminishing class separability.  
@@ -62,7 +61,7 @@ This approach allows for improved visualization and a better representation of e
 		\centering
 		\includegraphics[width=\textwidth]{\convexBase/Full Boundary Scatter_Shannon_Case2_n5000}
 	\end{minipage}
-	\caption{Entropy–complexity plane for Shannon entropy.}
+	\caption{$H \times C$ plane for Shannon entropy.}
 	\label{fig:HC_plane}
 \end{figure}
 
@@ -92,7 +91,7 @@ Below, we describe the simulation setup for our experiment.
 %%% ACF In your thesis, you will have to define the MA, AR, and ARMA models.
 %%% ACF Do you need to mention the replications here?
 
-In this simulation study, we aim to generate a diverse collection of time series from both deterministic and stochastic process in order to investigate how ordinal-pattern based features behave across different dynamical regimes.  
+In this simulation study, we aim to generate a diverse collection of time series from both deterministic and stochastic process in order to investigate how ordinal pattern based features behave across different dynamical regimes.  
 The time index takes integer values $t = 1,2,\ldots,n$, and all time series share the same embedding dimension $D = 4$ with time delay $\tau = 1$.  
 Two deterministic signals (the sine function and the logistic map) are included, and several linear stochastic models such as $\mathrm{AR}$, $\mathrm{MA}$, and $\mathrm{ARMA}$ are also used.  
 Definitions for these models are included below as part of this subsection.
@@ -115,14 +114,14 @@ The backward shift (lag) operator $\mathbf{B}$ is defined by $\mathbf{B}x_t = x_
 This compact notation is convenient for describing linear time series models.
 
 \paragraph{ARMA Model Specification.}
-Let $\{x_t\}$ denote a real-valued time series.  
+Let $\{x_t\}$ denote a real valued time series.  
 An ARMA($p,q$) model is defined by
 \begin{equation}
 	x_t = \alpha_1 x_{t-1} + \cdots + \alpha_p x_{t-p} 
 	+ w_t + \beta_1 w_{t-1} + \cdots + \beta_q w_{t-q},
 	\label{eq:arma}
 \end{equation}
-where $\{w_t\}$ is a white-noise sequence.  
+where $\{w_t\}$ is a white noise sequence.  
 Using the lag operator, this becomes:
 \begin{equation}
 	\theta_p(\mathbf{B}) x_t = \phi_q(\mathbf{B}) w_t,
@@ -159,7 +158,7 @@ Stationarity requires the roots of the AR polynomial to lie outside the unit cir
 	\end{itemize}
 \end{itemize}
 
-Violating these constraints leads to non-stationary processes, which are unsuitable for modelling or inference.
+Violating these constraints leads to non stationary processes, which are unsuitable for modelling or inference.
 
 \bigskip
 
@@ -184,10 +183,9 @@ The general simulation setup is as follows:
 \end{itemize}
 
 In addition, we compute R\'enyi and Tsallis entropies and the Fisher information, along with their associated statistical complexity measures.  
-Moreover, variances are computed for each model to assess the stability of the features. This highlights that feature selection is the most important part of our research for time series clustering. As we know, when the variance is low, the model classes are more stable, which affects the model accuracy. However, we do not know the exact pattern until we see the results. As part of our experiment to choose the best features, we decided to calculate the variance, which can be used during the clustering process.
+Moreover, variances are computed for each model to assess the variability of the features. This highlights that feature selection is the most important part of our research for time series clustering. As we know, when the variance is low, the model classes are more stable, which affects the model accuracy. However, we do not know the exact pattern until we see the results. As part of our experiment to choose the best features, we decided to calculate the variance, which can be used during the clustering process.
 
 %%% ACF What is "stability" in this sentence? 
-%Feature selection is the most important part of our research for time series clustering. As we know, when variance is low, we have stable model classes, which affects the model accuracy. In here, stability refers to describing it. We can check that how the variance affects assessing time series clutering.   
 Confidence intervals for entropy and complexity are also computed.
 
 Once we have examined the spread of the points in the $H \times C$ plane, we proceed with model validation and time series clustering.
@@ -238,7 +236,8 @@ The experimental setup includes:
 
 %%% ACF Do not leave a blank line in cases like this; see LaTeX documentation.
 
-We also construct convex combinations mirroring the simulation design, i.e the convex combinations are constructed using the same mixing proportions and same functional structure that were used when generating the simulated data:
+We also construct convex combinations of the signals, where each combined series is formed by mixing the deterministic models with the stochastic models using the same weight values used in the simulations.
+
 %%% ACF What do you mean by this "mirroring"? I want to tell in here that the convex combinations are constructed using the same mixing proportions and same functional structure that were used when generating the simulated data. For example, X^{\text{(ARMA+Logistic)}}_t(w) = w\, X_{\text{ARMA},t} + (1 - w)\, L_t, where only the weight w varies. The form of the combination remains identical to that used in the simulation setup. 
 
 % A clear statement that the two components are “normalised” to [0, 1] by a simple linear transformation before being merged with the convex combination.
@@ -295,7 +294,7 @@ The Figure~\ref{fig:ARMALogistic} shows the results obtained using $\mathrm{ARMA
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/ARMA+Logistic}
-	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the convex combination of $\mathrm{ARMA}(2,2)$ and Logistic map using sequences of length $1000$.}
 	\label{fig:ARMALogistic}
 \end{figure}
 %%% ACF The typography does not match: D and w should be in math mode (emulated by the italic family), as previously requested.
@@ -305,7 +304,7 @@ The Figure~\ref{fig:ARMALogistic} shows the results obtained using $\mathrm{ARMA
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/ARMA+Logistic_50Rep_1}
-	\caption{Scatter plot for convex combination model with 50 replications,  embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the convex combination of $\mathrm{ARMA}(2,2)$ and Logistic map with 50 replications using sequences of length $1000$.}
 	\label{fig:ARMALogistic_50Rep}
 \end{figure}
 %%% ACF All the replications from all the values of w render a confusing plot. Select few cases of w such that something useful is seen
@@ -313,48 +312,48 @@ When examining Figure~\ref{fig:ARMALogistic}, we observe single points in the $H
 
 \begin{table}[H]
 	\centering
-	\caption{Representative entropy and complexity values for $\mathrm{ARMA}(2,2)$-Logistic mixtures}
+	\caption{Representative entropy and complexity values for $\mathrm{ARMA}(2,2)$ and Logistic mixtures}
 	\label{tab:arma-logistic}
 	\begin{tabular}{lcc}
 		\toprule
 		\textbf{Model} & \textbf{$H$ (Entropy)} & \textbf{$C$ (Complexity)} \\
 		\midrule
-		ARMA(2,2)      & 0.782 & 0.230 \\
+		$\mathrm{ARMA}(2,2)$      & 0.782 & 0.230 \\
 		Logistic       & 0.594 & 0.348 \\
-		ARMA+Logistic ($w=0.1$)  & 0.640 & 0.322 \\
-		ARMA+Logistic ($w=0.2$)  & 0.690 & 0.295 \\
-		ARMA+Logistic ($w=0.3$)  & 0.747 & 0.260 \\
-		ARMA+Logistic ($w=0.4$)  & 0.801 & 0.221 \\
-		ARMA+Logistic ($w=0.5$)  & 0.856 & 0.166 \\
-		ARMA+Logistic ($w=0.6$)  & 0.885 & 0.133 \\
-		ARMA+Logistic ($w=0.7$)  & 0.872 & 0.148 \\
-		ARMA+Logistic ($w=0.8$)  & 0.844 & 0.176 \\
-		ARMA+Logistic ($w=0.9$)  & 0.796 & 0.219 \\
+		$\mathrm{ARMA}$+Logistic ($w=0.1$)  & 0.640 & 0.322 \\
+		$\mathrm{ARMA}$+Logistic ($w=0.2$)  & 0.690 & 0.295 \\
+		$\mathrm{ARMA}$+Logistic ($w=0.3$)  & 0.747 & 0.260 \\
+		$\mathrm{ARMA}$+Logistic ($w=0.4$)  & 0.801 & 0.221 \\
+		$\mathrm{ARMA}$+Logistic ($w=0.5$)  & 0.856 & 0.166 \\
+		$\mathrm{ARMA}$+Logistic ($w=0.6$)  & 0.885 & 0.133 \\
+		$\mathrm{ARMA}$+Logistic ($w=0.7$)  & 0.872 & 0.148 \\
+		$\mathrm{ARMA}$+Logistic ($w=0.8$)  & 0.844 & 0.176 \\
+		$\mathrm{ARMA}$+Logistic ($w=0.9$)  & 0.796 & 0.219 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-
-Referring to the Figure~\ref{fig:ARMALogistic}, in the $H \times C$ plane, the points corresponding to the $\mathrm{ARMA}(2,2)$  and logistic model (convex combinations) mainly lie on the right-hand side of the plot, indicating relatively high entropy and moderate to low complexity. 
+Referring to the Figure~\ref{fig:ARMALogistic}, in the $H \times C$ plane, the points corresponding to the $\mathrm{ARMA}(2,2)$  and logistic model (convex combinations) mainly lie on the right hand side of the plot, indicating relatively high entropy and moderate to low complexity. 
 The Table~\ref{tab:arma-logistic} shows the convex combination model starts at $w = 0$, which corresponds to the pure logistic process with low entropy ($0.594$) and high complexity ($0.348$). 
 As $w$ increases from $0$ to $0.3$, the complexity decreases further, while the entropy remains relatively high. 
 For larger weights, an interesting pattern emerges: the mixtures with $w = 0.4$ and $w = 0.9$ exhibit entropy and complexity values closer to those of the pure $\mathrm{ARMA}(2,2)$ model ($w=1$), and their entropy even exceeds that of the pure $\mathrm{ARMA}(2,2)$ model. 
 The points corresponding to intermediate weights $w = 0.5, 0.6, 0.7$, and $0.8$ show consecutively higher entropy and lower complexity. 
-This behaviour illustrates how the choice of weight in the convex combination substantially affects the entropy-complexity characteristics of the ARMA + Logistic model.
-%%% ACF Have you thought of possible explanations?
-Further, we can simply explain this behaviour how the two parts of the model interact. When the weight $w$ is small, the logistic map has a stronger influence. This produces structured but chaotic patterns, which lead to lower entropy and higher complexity because the ordinal patterns are not evenly distributed. As $w$ increases, the ARMA component becomes more influential and introduces more randomness into the series. This added randomness makes the ordinal patterns more evenly distributed, which increases entropy and reduces complexity. 
+This behaviour shows that the choice of weight in the convex combination strongly affects the $H \times C$ characteristics of the combined $\mathrm{ARMA}$ and Logistic model.
 
-For medium and large values of $w$, the ARMA component dominates, so the results become similar to those of the pure $\mathrm{ARMA}(2,2)$ model, and in some cases even show higher entropy. Overall, changing the weight allows the model to smoothly move between deterministic and random behaviour, producing a wide range of entropy-complexity values.
+%%% ACF Have you thought of possible explanations?
+Further, we can simply explain this behaviour how the two parts of the model interact. When the weight $w$ is small, the logistic map has a stronger influence. This produces structured but chaotic patterns, which lead to lower entropy and higher complexity because the ordinal patterns are not evenly distributed. As $w$ increases, the $\mathrm{ARMA}$ component becomes more influential and introduces more randomness into the series. This added randomness makes the ordinal patterns more evenly distributed, which increases entropy and reduces complexity. 
+
+For medium and large values of $w$, the $\mathrm{ARMA}$ component dominates, so the results become similar to those of the pure $\mathrm{ARMA}(2,2)$ model, and in some cases even show higher entropy. Overall, changing the weight allows the model to smoothly move between deterministic and random behaviour, producing a wide range of $H \times C$ values.
 
 
 Following this, we make another convex combination model $\mathrm{ARMA}(2,2)$ with deterministic sine function. 
 The Figure~\ref{fig:ARMASine} shows the results obtained using $\mathrm{ARMA}(2,2)$ with Sine function. 
-Scatter plot for convex combination  with 50 replication is shown in Figure~\ref{fig:ARMASine_50Rep}.
+Scatter plot for convex combination  with $50$ replication is shown in Figure~\ref{fig:ARMASine_50Rep}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/ARMA+Sine}
-	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the convex combination of $\mathrm{ARMA}(2,2)$ and Sine function using sequences of length $1000$.}
 	\label{fig:ARMASine}
 \end{figure}
 
@@ -362,7 +361,7 @@ Scatter plot for convex combination  with 50 replication is shown in Figure~\ref
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/ARMA+Sine_50Rep}
-	\caption{Scatter plot for convex combination model with 50 replications,  embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the convex combination of $\mathrm{ARMA}(2,2)$ and Sine function with 50 replications using sequences of length $1000$.}
 	\label{fig:ARMASine_50Rep}
 \end{figure}
 
@@ -370,7 +369,7 @@ This convex model gives entropy and complexity measures as shown in the Table~\r
 
 \begin{table}[H]
 	\centering
-	\caption{Representative entropy-complexity values for $\mathrm{ARMA}(2,2)$-Sine mixtures}
+	\caption{Representative $H \times C$ values for $\mathrm{ARMA}(2,2)$ and Sine mixtures}
 	\label{tab:arma-sine}
 	\begin{tabular}{lcc}
 		\toprule
@@ -378,29 +377,29 @@ This convex model gives entropy and complexity measures as shown in the Table~\r
 		\midrule
 		$\mathrm{ARMA}(2,2)$      & 0.782 & 0.230 \\
 		Sine           & 0.391 & 0.284 \\
-		ARMA+Sine $(w=0.1)$    & 0.444 & 0.278 \\
-		ARMA+Sine $(w=0.2)$    & 0.539 & 0.270 \\
-		ARMA+Sine $(w=0.3)$    & 0.652 & 0.248 \\
-		ARMA+Sine $(w=0.4)$    & 0.737 & 0.230 \\
-		ARMA+Sine $(w=0.5)$    & 0.803 & 0.206 \\
-		ARMA+Sine $(w=0.6)$    & 0.841 & 0.181 \\
-		ARMA+Sine $(w=0.7)$    & 0.854 & 0.162 \\
-		ARMA+Sine $(w=0.8)$    & 0.856 & 0.159 \\
-		ARMA+Sine $(w=0.9)$    & 0.828 & 0.191 \\
+		$\mathrm{ARMA}$+Sine($w=0.1$) & 0.527 & 0.270 \\
+		$\mathrm{ARMA}$+Sine($w=0.2$) & 0.678 & 0.241 \\
+		$\mathrm{ARMA}$+Sine($w=0.3$) & 0.784 & 0.214 \\
+		$\mathrm{ARMA}$+Sine($w=0.4$) & 0.835 & 0.185 \\
+		$\mathrm{ARMA}$+Sine($w=0.5$) & 0.854 & 0.167 \\
+		$\mathrm{ARMA}$+Sine($w=0.6$) & 0.855 & 0.160 \\
+		$\mathrm{ARMA}$+Sine($w=0.7$) & 0.857 & 0.160 \\
+		$\mathrm{ARMA}$+Sine($w=0.8$) & 0.834 & 0.184 \\
+		$\mathrm{ARMA}$+Sine($w=0.9$) & 0.793 & 0.220 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-Table~\ref{tab:arma-sine} shows that the pure sine model ($w = 0$) has the highest complexity ($C = 0.284$) and the lowest entropy ($H = 0.391$). As the weight $w$ increases, the entropy also increases. Notably, at $w = 0.4$, the complexity ($C = 0.230$) matches that of the pure $\mathrm{ARM}A(2,2)$ model ($w = 1$), while the entropy ($H = 0.737$) is substantially higher than that of the pure ARMA model ($H = 0.782$).
+Table~\ref{tab:arma-sine} shows that the pure sine model ($w = 0$) has the highest complexity ($C = 0.284$) and the lowest entropy ($H = 0.391$). As the weight $w$ increases, the entropy also increases. Notably, at $w = 0.9$, the complexity ($C = 0.220$) closes that of the pure $\mathrm{ARM}A(2,2)$ model ($w = 1$), while the entropy ($H = 0.793$) is substantially higher than that of the pure ARMA model ($H = 0.782$).
 
-A change in pattern begins at $w = 0.5$, where the entropy ($H = 0.803$) is lower than at $w = 0.9$ ($H = 0.828$), but the complexity ($C = 0.206$) is higher than at $w = 0.9$ ($C = 0.191$). From $w = 0.6$ to $w = 0.8$, the entropy continues to increase (from $H = 0.841$ to $H = 0.856$), while the complexity decreases (from $C = 0.181$ to $C = 0.159$). This results also confirm with the Figure~\ref{fig:ARMASine}.
+A change in pattern begins at $w = 0.4$, where the entropy ($H = 0.835$) is greater than at $w = 0.9$ ($H = 0.793$), while the complexity ($C = 0.185$) is lower than at $w = 0.9$ ($C = 0.220$). From $w = 0.1$ to $w = 0.7$, the entropy continues to increase, from $H = 0.527$ to $H = 0.857$, while the complexity decreases, from $C = 0.270$ to $C = 0.160$. Entropy starts to decrease  at weight values $w = 0.8$ and $w = 0.9$ ($H = 0.834$ and $H = 0.793$) whereas complexity increases from $0.184$ to $0.220$ . This results also confirm with the Figure~\ref{fig:ARMASine}.
 
 In addition to these convex combination models, from Figure~\ref{fig:AR2Logistic}  to Figure~\ref{fig:MA2Sine_50Rep} shows the results obtained using AR(2), MA(2) mixing with Logistic map and Sine function. 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/AR2+Logistic}
-	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the convex combination of $\mathrm{AR}(2)$ and Logistic map using sequences of length $1000$.}
 	\label{fig:AR2Logistic}
 \end{figure}
 %%% ACF The "inflexion" is interesting. Have you considered exploring it in depth?
@@ -408,14 +407,14 @@ In addition to these convex combination models, from Figure~\ref{fig:AR2Logistic
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/AR2+Logistic_50Rep}
-	\caption{Scatter plot for convex combination model with 50 replications,  embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the selected convex combination of $\mathrm{AR}(2)$ and Logistic map with 50 replications using sequences of length $1000$.}
 	\label{fig:AR2Logistic_50Rep}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/AR2+Sine}
-	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the convex combination of $\mathrm{AR}(2)$ and Sine function using sequences of length $1000$.}
 	\label{fig:AR2Sine}
 \end{figure}
 
@@ -423,7 +422,7 @@ In addition to these convex combination models, from Figure~\ref{fig:AR2Logistic
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/AR2+Sine_50Rep}
-	\caption{Scatter plot for convex combination model with 50 replications,  embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the selected convex combination of $\mathrm{AR}(2)$ and Sine function with 50 replications using sequences of length $1000$.}
 	\label{fig:AR2Sine_50Rep}
 \end{figure}
 
@@ -431,7 +430,7 @@ In addition to these convex combination models, from Figure~\ref{fig:AR2Logistic
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/MA2+Logistic}
-	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the convex combination of $\mathrm{MA}(2)$ and Logistic map using sequences of length $1000$.}
 	\label{fig:MA2Logistic}
 \end{figure}
 
@@ -439,7 +438,7 @@ In addition to these convex combination models, from Figure~\ref{fig:AR2Logistic
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/MA2+Logistic_50Rep}
-	\caption{Scatter plot for convex combination model with 50 replications,  embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the selected convex combination of $\mathrm{MA}(2)$ and Logistic map with 50 replications using sequences of length $1000$.}
 	\label{fig:MA2Logistic_50Rep}
 \end{figure}
 
@@ -448,7 +447,7 @@ In addition to these convex combination models, from Figure~\ref{fig:AR2Logistic
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/MA2+Sine}
-	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the convex combination of $\mathrm{MA}(2)$ and Sine function using sequences of length $1000$.}
 	\label{fig:MA2Sine}
 \end{figure}
 
@@ -456,7 +455,7 @@ In addition to these convex combination models, from Figure~\ref{fig:AR2Logistic
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/MA2+Sine_50Rep}
-	\caption{Scatter plot for convex combination model with 50 replications,  embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\caption{Scatter plot of the $H \times C$ plane for the selected convex combination of $\mathrm{MA}(2)$ and Sine function with 50 replications using sequences of length $1000$.}
 	\label{fig:MA2Sine_50Rep}
 \end{figure}
 
@@ -465,154 +464,211 @@ These figures follow the same pattern described above, with entropy and complexi
 %%% ACF Did you select the HxC plane at this point of the study? I didn't understand.
 %which effectively captures the points that see the stochastic component riding the sine function. Figure~\ref{fig:stochastic_TS} shows the stochastic models ARMA22, AR2 and MA2 time series varies based on the weight values and how it reach to pure sine model ($w=0$) and change to stochastic model ($w=1$). Also, Figure~\ref{fig:stochastic} shows the how the $H \times C$ plane shows that change. 
 
-Therefore, at this stage of the study, we analyze the dynamics in the $H \times C$ plane, which provides a compact information theoretic representation of how the stochastic component gradually rides on top of the underlying sine function (sinusoidal signal). The $H \times C$ plane is also considered here to describe the transition from deterministic to stochastic dynamics using entropy and complexity.
+Therefore, at this stage of the study, we analyze the dynamics in the $H \times C$ plane, which provides how the stochastic component gradually rides on top of the underlying sine function. The $H \times C$ plane is also considered here to describe the transition from  stochastic dynamics to deterministic using entropy and complexity.
 
-Figure~\ref{fig:stochastic_TS} illustrates this transition in the time domain for the stochastic models $\mathrm{ARMA}(2,2)$, $\mathrm{AR}(2)$, and $\mathrm{MA}(2)$. As the mixing parameter $w$ varies, the signals evolve continuously from the pure sinusoidal case ($w=0$) to the corresponding purely stochastic process ($w=1$).
-
-The same evolution is captured in an information theoretic way in Figure~\ref{fig:stochastic}, where the trajectories in the $H \times C$ plane reflect how an increasing stochastic contribution modifies the entropy and complexity of the signals. This demonstrates that the $H \times C$ plane effectively encodes the riding behaviour observed in the time series representations.
+Building on this idea, we examine convex combinations of $\mathrm{ARMA}(2,2)$, $\mathrm{AR}(2)$, and $\mathrm{MA}(2)$ processes with a sine function. The goal is to show how the stochastic component gradually modifies the periodic structure. The convex combinations are defined by a weight parameter $w$, where $w=0$ gives the pure sine wave and $w=1$ gives the stochastic model. As $w$ increases, the points in the $H \times C$ plane move along clear paths. These paths show how each stochastic model rides the sine function. For small $w$, the points stay near the low entropy and relatively high complexity region of the sine wave. For larger $w$, the points move toward the higher entropy region that reflects the structure of the $\mathrm{AR}$, $\mathrm{MA}$, or $\mathrm{ARMA}$ model. This movement shows a gradual transition from deterministic to stochastic behavior. It also shows that each model leaves a distinct signature in the combined signal. Figures~\ref{fig:ARMA_TS}, \ref{fig:AR_TS}, and \ref{fig:MA_TS} illustrate this transition in the time domain for the three stochastic models.
 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{\convexBase/stochastic+sine+TS}
-	\caption{Time‑series plot of the convex combination model illustrating stochastic components riding a sinusoidal signal, with embedding dimension  $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
-	\label{fig:stochastic_TS}
+	\includegraphics[width=\textwidth]{\convexBase/HC_plane_ARMA_Sine_surrounding}
+	\caption{Time series plot of the convex combination model illustrating $\mathrm{ARMA}(2,2)$ riding a Sine function, with embedding dimension  $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\label{fig:ARMA_TS}
 \end{figure}
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{\convexBase/HC_plane_ARMA_Sine_surrounding_1}
+%	\caption{Time series plot of the convex combination model illustrating $\mathrm{ARMA}(2,2)$ riding a Sine function, with embedding dimension  $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+%	\label{fig:ARMA_TS_1}
+%\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{\convexBase/HC_plane_AR2_Sine_surrounding}
+	\caption{Time series plot of the convex combination model illustrating $\mathrm{AR}(2)$ riding a Sine function, with embedding dimension  $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\label{fig:AR_TS}
+\end{figure}
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{\convexBase/HC_plane_AR2_Sine_surrounding_1}
+%	\caption{Time series plot of the convex combination model illustrating $\mathrm{AR}(2)$ riding a Sine function, with embedding dimension  $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+%	\label{fig:AR_TS_1}
+%\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{\convexBase/HC_plane_MA2_Sine_surrounding}
+	\caption{Time series plot of the convex combination model illustrating $\mathrm{MA}(2)$ riding a Sine function, with embedding dimension  $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+	\label{fig:MA_TS}
+\end{figure}
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{\convexBase/HC_plane_MA2_Sine_surrounding_1}
+%	\caption{Time series plot of the convex combination model illustrating $\mathrm{MA}(2)$ riding a Sine function, with embedding dimension  $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+%	\label{fig:MA_TS_1}
+%\end{figure}
+
+The above three Figures~\ref{fig:ARMA_TS}, \ref{fig:AR_TS}, and \ref{fig:MA_TS} are summarized in Figures~\ref{fig:TS_arma_sine}, \ref{fig:TS_ar_sine}, and \ref{fig:TS_ma_sine}. These figures show how the stochastic models ride the sine function.
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{\convexBase/TS_ARMA_Sine}
+%	\caption{Time series plot of the convex combination model illustrating stochastic ARMA riding a Sine wave.}
+%	\label{fig:TS_arma_sine}
+%\end{figure}
+
+\begin{sidewaysfigure}
+	\centering
+	\includegraphics[width=\textwidth]{\convexBase/TS_ARMA_Sine}
+	\caption{Time series plot of the convex combination model illustrating stochastic ARMA riding a Sine wave.}
+	\label{fig:TS_arma_sine}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+	\centering
+	\includegraphics[width=\textwidth]{\convexBase/TS_AR2_Sine}
+	\caption{Time series plot of the convex combination model illustrating stochastic AR riding a Sine wave.}
+	\label{fig:TS_ar_sine}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+	\centering
+	\includegraphics[width=\textwidth]{\convexBase/TS_MA2_Sine}
+	\caption{Time series plot of the convex combination model illustrating stochastic MA riding a Sine wave.}
+	\label{fig:TS_ma_sine}
+\end{sidewaysfigure}
 %%% ACF Why the sudden change of plot format? The figure is not informative because we don't know what it shows.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{\convexBase/stochastic+sine}
-	\caption{Entropy–complexity scatter plot of the convex combination model capturing the information theoretic signature of stochastic components riding a sinusoidal signal, with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
-	\label{fig:stochastic}
-\end{figure}
 
-The results in Table~\ref{tab:ma2-mixtures} demonstrate a clear structure in the $H \times C$ plane for the new experimental setup. The points spread nicely across the $H \times C$ plane and are readily distinguishable. The dataset includes points with both high entropy and low complexity (e.g., MA(2) at $H = 0.972$, $C = 0.035$) as well as low entropy and high complexity (e.g., Logistic map at $H = 0.594$, $C = 0.348$).
+%The results in Table~\ref{tab:ma2-mixtures} demonstrate a clear structure in the $H \times C$ plane for the new experimental setup. The points spread nicely across the $H \times C$ plane and are readily distinguishable. The dataset includes points with both high entropy and low complexity (e.g., MA(2) at $H = 0.972$, $C = 0.035$) as well as low entropy and high complexity (e.g., Logistic map at $H = 0.594$, $C = 0.348$).
 
-Notably, the entropy ranges from a maximum of $H = 0.991$ for the MA2+Sine convex combination at $w = 0.6$ down to $H = 0.391$ for the pure sine function ($w = 0$). Similarly, the complexity ranges from a minimum of $C = 0.011$ for MA2+Sine ($w = 0.6$) to a maximum of $C = 0.348$ for the logistic map.
+%Notably, the entropy ranges from a maximum of $H = 0.991$ for the MA2+Sine convex combination at $w = 0.6$ down to $H = 0.391$ for the pure sine function ($w = 0$). Similarly, the complexity ranges from a minimum of $C = 0.011$ for MA2+Sine ($w = 0.6$) to a maximum of $C = 0.348$ for the logistic map.
  
-\begin{table}[H]
-	\centering
-	\caption{Representative entropy and complexity values for MA(2), sine, logistic, and their convex combinations}
-	\label{tab:ma2-mixtures}
-	\small  % Makes font smaller to fit
-	\begin{tabular}{lcc}
-		\toprule
-		\textbf{Model} & \textbf{H (Entropy)} & \textbf{C (Complexity)} \\
-		%%% ACF Please, respect the typography!
-		\midrule
-		MA(2)          & 0.972 & 0.035 \\
-		Sine           & 0.391 & 0.284 \\
-		Logistic       & 0.594 & 0.348 \\
-		\midrule
-		MA2+Sine ($w=0.1$) & 0.505 & 0.270 \\
-		MA2+Sine ($w=0.2$) & 0.697 & 0.234 \\
-		MA2+Sine ($w=0.3$) & 0.847 & 0.154 \\
-		MA2+Sine ($w=0.4$) & 0.938 & 0.075 \\
-		MA2+Sine ($w=0.5$) & 0.983 & 0.021 \\
-		MA2+Sine ($w=0.6$) & 0.991 & 0.011 \\
-		MA2+Sine ($w=0.7$) & 0.986 & 0.019 \\
-		MA2+Sine ($w=0.8$) & 0.979 & 0.027 \\
-		MA2+Sine ($w=0.9$) & 0.973 & 0.035 \\
-		\midrule
-		MA2+Log ($w=0.1$) & 0.652 & 0.317 \\
-		MA2+Log ($w=0.2$) & 0.723 & 0.274 \\
-		MA2+Log ($w=0.3$) & 0.779 & 0.236 \\
-		MA2+Log ($w=0.4$) & 0.838 & 0.184 \\
-		MA2+Log ($w=0.5$) & 0.899 & 0.123 \\
-		MA2+Log ($w=0.6$) & 0.946 & 0.067 \\
-		MA2+Log ($w=0.7$) & 0.967 & 0.043 \\
-		MA2+Log ($w=0.8$) & 0.976 & 0.031 \\
-		MA2+Log ($w=0.9$) & 0.977 & 0.030 \\
-		\bottomrule
-	\end{tabular}
-\end{table}
+%\begin{table}[H]
+%	\centering
+%	\caption{Representative entropy and complexity values for MA(2), sine, logistic, and their convex combinations}
+%	\label{tab:ma2-mixtures}
+%	\small  % Makes font smaller to fit
+%	\begin{tabular}{lcc}
+%		\toprule
+%		\textbf{Model} & \textbf{H (Entropy)} & \textbf{C (Complexity)} \\
+%		%%% ACF Please, respect the typography!
+%		\midrule
+%		MA(2)          & 0.972 & 0.035 \\
+%		Sine           & 0.391 & 0.284 \\
+%		Logistic       & 0.594 & 0.348 \\
+%		\midrule
+%		MA2+Sine ($w=0.1$) & 0.505 & 0.270 \\
+%		MA2+Sine ($w=0.2$) & 0.697 & 0.234 \\
+%		MA2+Sine ($w=0.3$) & 0.847 & 0.154 \\
+%		MA2+Sine ($w=0.4$) & 0.938 & 0.075 \\
+%		MA2+Sine ($w=0.5$) & 0.983 & 0.021 \\
+%		MA2+Sine ($w=0.6$) & 0.991 & 0.011 \\
+%		MA2+Sine ($w=0.7$) & 0.986 & 0.019 \\
+%		MA2+Sine ($w=0.8$) & 0.979 & 0.027 \\
+%		MA2+Sine ($w=0.9$) & 0.973 & 0.035 \\
+%		\midrule
+%		MA2+Log ($w=0.1$) & 0.652 & 0.317 \\
+%		MA2+Log ($w=0.2$) & 0.723 & 0.274 \\
+%		MA2+Log ($w=0.3$) & 0.779 & 0.236 \\
+%		MA2+Log ($w=0.4$) & 0.838 & 0.184 \\
+%		MA2+Log ($w=0.5$) & 0.899 & 0.123 \\
+%		MA2+Log ($w=0.6$) & 0.946 & 0.067 \\
+%		MA2+Log ($w=0.7$) & 0.967 & 0.043 \\
+%		MA2+Log ($w=0.8$) & 0.976 & 0.031 \\
+%		MA2+Log ($w=0.9$) & 0.977 & 0.030 \\
+%		\bottomrule
+%	\end{tabular}
+%\end{table}
 
-Figure~\ref{fig:ThreeModels} shows that the data points are not confined to a single region of the $H \times C$ plane but instead form extended trajectories whose locations depend on the mixing parameter $w$. This spread shows the transition from deterministic to stochastic behaviour as $w$ increases. Intermediate values represent the stochastic noise following the underlying repeating wave pattern of the sine function.
-The quantitative values shown in Table~\ref{tab:ma2-mixtures} confirm this behaviour by showing systematic changes in entropy and complexity across the mixtures. Together, the figure and table demonstrate that the $H \times C$ plane captures not only the presence of stochasticity but also how different stochastic models ride the deterministic functions.
+%Figure~\ref{fig:ThreeModels} shows that the data points are not confined to a single region of the $H \times C$ plane but instead form extended trajectories whose locations depend on the mixing parameter $w$. This spread shows the transition from deterministic to stochastic behaviour as $w$ increases. Intermediate values represent the stochastic noise following the underlying repeating wave pattern of the sine function.
+%The quantitative values shown in Table~\ref{tab:ma2-mixtures} confirm this behaviour by showing systematic changes in entropy and complexity across the mixtures. Together, the figure and table demonstrate that the $H \times C$ plane captures not only the presence of stochasticity but also how different stochastic models ride the deterministic functions.
 
 %%% ACF What does this sentence add to the discussion?
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{\convexBase/MA2+Sine+Logistic}
-	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
-	\label{fig:ThreeModels}
-\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{\convexBase/MA2+Sine+Logistic}
+%	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+%	\label{fig:ThreeModels}
+%\end{figure}
 
-The future experimental setup will be based on these simulation results. We adopt the new simulation configuration shown in the table, which explores a comprehensive range of convex combinations across different time series models and weight values, enabling clear separation of points in the $H \times C$ plane.
+The future experimental setup will be based on these simulation results, which explores a comprehensive range of convex combinations across different time series models and weight values, enabling clear separation of points in the $H \times C$ plane.
 
-\begin{table}[H]
-	\centering
-	\caption{Entropy and Complexity values for simulated time series models.}
-	\label{tab:hc_models}
-	\small
+%\begin{table}[H]
+%	\centering
+%	\caption{Entropy and Complexity values for simulated time series models.}
+%	\label{tab:hc_models}
+%	\small
 	%%% ACF Why do we see all those decimal places? Do we need them?
-	\begin{tabular}{lcc}
-		\toprule
-		\textbf{Model} & \textbf{H (Entropy)} & \textbf{C (Complexity)} \\
-		\midrule
+%	\begin{tabular}{lcc}
+%		\toprule
+%		\textbf{Model} & \textbf{H (Entropy)} & \textbf{C (Complexity)} \\
+%		\midrule
 		
-		ARMA(2,2) & 0.899 & 0.124 \\
-		AR(2) & 0.961 & 0.048 \\
-		MA(2) & 0.976 & 0.030 \\
-		Logistic & 0.742 & 0.292 \\
-		Sine & 0.391 & 0.284 \\
+%		ARMA(2,2) & 0.899 & 0.124 \\
+%		AR(2) & 0.961 & 0.048 \\
+%		MA(2) & 0.976 & 0.030 \\
+%		Logistic & 0.742 & 0.292 \\
+%		Sine & 0.391 & 0.284 \\
 		
-		\midrule
-		ARMA+Logistic(w=0.1) & 0.767 & 0.267 \\
-		ARMA+Logistic(w=0.2) & 0.809 & 0.223 \\
-		ARMA+Logistic(w=0.4) & 0.885 & 0.146 \\
-		ARMA+Logistic(w=0.7) & 0.986 & 0.017 \\
-		ARMA+Logistic(w=0.9) & 0.923 & 0.095 \\
+%		\midrule
+%		ARMA+Logistic(w=0.1) & 0.767 & 0.267 \\
+%		ARMA+Logistic(w=0.2) & 0.809 & 0.223 \\
+%		ARMA+Logistic(w=0.4) & 0.885 & 0.146 \\
+%		ARMA+Logistic(w=0.7) & 0.986 & 0.017 \\
+%		ARMA+Logistic(w=0.9) & 0.923 & 0.095 \\
 		
-		\midrule
-		ARMA+Sine(w=0.1) & 0.448 & 0.274 \\
-		ARMA+Sine(w=0.2) & 0.565 & 0.268 \\
-		ARMA+Sine(w=0.3) & 0.725 & 0.222 \\
-		ARMA+Sine(w=0.4) & 0.819 & 0.177 \\
-		ARMA+Sine(w=0.7) & 0.896 & 0.125 \\
-		ARMA+Sine(w=0.9) & 0.895 & 0.128 \\
+%		\midrule
+%		ARMA+Sine(w=0.1) & 0.448 & 0.274 \\
+%		ARMA+Sine(w=0.2) & 0.565 & 0.268 \\
+%		ARMA+Sine(w=0.3) & 0.725 & 0.222 \\
+%		ARMA+Sine(w=0.4) & 0.819 & 0.177 \\
+%		ARMA+Sine(w=0.7) & 0.896 & 0.125 \\
+%		ARMA+Sine(w=0.9) & 0.895 & 0.128 \\
 		
-		\midrule
-		AR2+Logistic(w=0.2) & 0.813 & 0.218 \\
-		AR2+Logistic(w=0.3) & 0.858 & 0.173 \\
-		AR2+Logistic(w=0.4) & 0.891 & 0.136 \\
-		AR2+Logistic(w=0.7) & 0.981 & 0.024 \\
-		AR2+Logistic(w=0.8) & 0.976 & 0.030 \\
-		AR2+Logistic(w=0.9) & 0.962 & 0.048 \\
+%		\midrule
+%		AR2+Logistic(w=0.2) & 0.813 & 0.218 \\
+%		AR2+Logistic(w=0.3) & 0.858 & 0.173 \\
+%		AR2+Logistic(w=0.4) & 0.891 & 0.136 \\
+%		AR2+Logistic(w=0.7) & 0.981 & 0.024 \\
+%		AR2+Logistic(w=0.8) & 0.976 & 0.030 \\
+%		AR2+Logistic(w=0.9) & 0.962 & 0.048 \\
 		
-		\midrule
-		AR2+Sine(w=0.2) & 0.570 & 0.263 \\
-		AR2+Sine(w=0.3) & 0.713 & 0.222 \\
-		AR2+Sine(w=0.4) & 0.844 & 0.151 \\
-		AR2+Sine(w=0.7) & 0.951 & 0.060 \\
+%		\midrule
+%		AR2+Sine(w=0.2) & 0.570 & 0.263 \\
+%		AR2+Sine(w=0.3) & 0.713 & 0.222 \\
+%		AR2+Sine(w=0.4) & 0.844 & 0.151 \\
+%		AR2+Sine(w=0.7) & 0.951 & 0.060 \\
 		
-		\midrule
-		MA2+Logistic(w=0.1) & 0.775 & 0.254 \\
-		MA2+Logistic(w=0.2) & 0.830 & 0.201 \\
-		MA2+Logistic(w=0.3) & 0.871 & 0.158 \\
-		MA2+Logistic(w=0.4) & 0.906 & 0.118 \\
-		MA2+Logistic(w=0.5) & 0.949 & 0.064 \\
-		MA2+Logistic(w=0.7) & 0.990 & 0.012 \\
+%		\midrule
+%		MA2+Logistic(w=0.1) & 0.775 & 0.254 \\
+%		MA2+Logistic(w=0.2) & 0.830 & 0.201 \\
+%		MA2+Logistic(w=0.3) & 0.871 & 0.158 \\
+%		MA2+Logistic(w=0.4) & 0.906 & 0.118 \\
+%		MA2+Logistic(w=0.5) & 0.949 & 0.064 \\
+%		MA2+Logistic(w=0.7) & 0.990 & 0.012 \\
 		
-		\midrule
-		MA2+Sine(w=0.1) & 0.496 & 0.269 \\
-		MA2+Sine(w=0.2) & 0.686 & 0.238 \\
-		MA2+Sine(w=0.3) & 0.852 & 0.154 \\
-		MA2+Sine(w=0.4) & 0.936 & 0.075 \\
-		MA2+Sine(w=0.5) & 0.980 & 0.025 \\
+%		\midrule
+%		MA2+Sine(w=0.1) & 0.496 & 0.269 \\
+%		MA2+Sine(w=0.2) & 0.686 & 0.238 \\
+%		MA2+Sine(w=0.3) & 0.852 & 0.154 \\
+%		MA2+Sine(w=0.4) & 0.936 & 0.075 \\
+%		MA2+Sine(w=0.5) & 0.980 & 0.025 \\
 		
-		\bottomrule
-	\end{tabular}
-\end{table}
+%		\bottomrule
+%	\end{tabular}
+%\end{table}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{\convexBase/HC_scatter}
-	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
-	\label{fig:HCScatter}
-\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{\convexBase/HC_scatter}
+%	\caption{Scatter plot for convex combination model with embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $1000$.}
+%	\label{fig:HCScatter}
+%\end{figure}
 
 \section{Conclusion}
 We can summarize our experimental setup based on the simulation results as follows.
@@ -638,11 +694,15 @@ traces out a trajectory in the  $H \times C$ plane as the weight $(w)$ moves fro
 
 The behaviour at $w = 0.9$ is consistent with this interpretation, since $w$ is very close to $1$, the process is almost purely stochastic, and the corresponding entropy and complexity values lie near those of the underlying stochastic model. Small deviations at $w = 0.9$ can therefore be viewed as finite sample effects rather than a different regime.
 
-In contrast, the MA(2)+Sine combinations yield comparatively low entropy and low complexity for certain weights, indicating that this particular pairing produces trajectories that remain close to the stochastic corner of the $H \times C$ plane. This motivates selecting a subset of models and weights whose trajectories jointly provide good coverage of the $H \times C$ plane, while remaining well separated from each other.
+In contrast, the $\mathrm{MA}(2)$ and Sine combinations yield comparatively low entropy and low complexity for certain weights, indicating that this particular pairing produces trajectories that remain close to the stochastic corner of the $H \times C$ plane. This motivates selecting a subset of models and weights whose trajectories jointly provide good coverage of the $H \times C$ plane, while remaining well separated from each other.
 
 
 \section{Future work}
-As shown in Figure~\ref{fig:HCScatter}, some entropy and complexity points overlap, making them difficult to distinguish. Therefore, we can exclude these overlapping combinations from our future experimental design. The final experimental setup will be based on this refined selection. 
+The results presented above reveal that certain entropy and complexity combinations overlap in the $H \times C$ plane, indicating that the corresponding convex combinations exhibit similar dynamical behaviour. Since these combinations provide the same structural information, careful consideration is required when selecting the final experimental design, and therefore some of the convex combination models can be excluded from the final selection.
+
+The refined set of convex combinations will serve as the foundation for the subsequent time series clustering experiments. Specifically, the simulation results will guide the feature selection process, where entropy and statistical complexity derived from the $H \times C$ plane will be used as discriminative features for clustering. The goal is to retain only those convex combinations that occupy distinct and well-separated regions in the $H \times C$ plane, ensuring that the selected features capture meaningfully different dynamical behaviours for the clustering analysis.
+
+
 
 	\bibliographystyle{acm}
 	\bibliography{../../BearingFaultDiagnosis}
