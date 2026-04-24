@@ -37,10 +37,19 @@ In this study ordinal pattern features are used to analyse simulated time series
 The purpose of this study is to explore additional points in the entropy complexity $(H \times C)$ plane that were not observed in our previous experiments. 
 %%% ACF "identified", or "observed"?
 
-In this work, the term $(H \times C)$ plane refers to the two-dimensional space in which each time series is represented through the entropy and statistical complexity computed from its ordinal pattern distribution. Following the Bandt and Pompe approach~\cite{PhysRevLett.88.174102}, the time series is transformed into ordinal patterns that captures the order relations among consecutive values. And then the resulting histogram of patterns defines a probability distribution $\widehat{\mathbf{p}}$. From this distribution, we compute an entropy measure $H(\widehat{\mathbf{p}})$, such as Shannon entropy, also known as permutation entropy, which quantifies the disorder in the ordinal structure of the data. A few years later of Bandt and Pompe, Lamberti et al.~\cite{lamberti2004intensive} and Rosso et al.~\cite{Rosso2007} suggested to complement the Shannon entropy by an additional complexity measure $C(\widehat{\mathbf{p}})$  computed from $\widehat{\mathbf{p}}$, which provides an important additional piece of information of a probability distribution, not already carried by the entropy. Hence, instead solely looking at a time series' Shannon entropy, the pair of entropy and complexity is used to summarize the essential time series dynamics. Here, it is important to note that the range of possible entropy complexity pairs is compact and can be bounded by two curves that is defined in Martin et al.~\cite{Martin2006}. We motivates to plot the actual entropy complexity pair within this region, that is to visualize the actual time series dynamics relative to all possible entropy complexity pairs. The resulting graphical tool, a two-dimensional diagram, is called the entropy-cpmplexity plane or $H \times C$ plane.    
+%%% ACF I don't think you need parenthesis in "the term $(H \times C)$ plane". 
+In this work, the term $(H \times C)$ plane refers to the two-dimensional space in which each time series is represented through the entropy and statistical complexity computed from its ordinal pattern distribution. 
+Following the Bandt and Pompe approach~\cite{PhysRevLett.88.174102}, the time series is transformed into ordinal patterns that captures the order relations among consecutive values. 
+And then the resulting histogram of patterns defines a probability distribution $\widehat{\mathbf{p}}$. 
+From this distribution, we compute an entropy measure $H(\widehat{\mathbf{p}})$, such as Shannon entropy, also known as permutation entropy, which quantifies the disorder in the ordinal structure of the data. A few years later of Bandt and Pompe, Lamberti et al.~\cite{lamberti2004intensive} and Rosso et al.~\cite{Rosso2007} suggested to complement the Shannon entropy by an additional complexity measure $C(\widehat{\mathbf{p}})$  computed from $\widehat{\mathbf{p}}$, which provides an important additional piece of information of a probability distribution, not already carried by the entropy. Hence, instead solely looking at a time series' Shannon entropy, the pair of entropy and complexity is used to summarize the essential time series dynamics. Here, it is important to note that the range of possible entropy complexity pairs is compact and can be bounded by two curves that is defined in Martin et al.~\cite{Martin2006}. 
+%%% ACF The verb in the sentence below is wrong, and the meaning is unclear
+We motivates to plot the actual entropy complexity pair within this region, that is to visualize the actual time series dynamics relative to all possible entropy complexity pairs. 
+%%% ACF Please *always* run Grammarly or any other spelling/grammar tool to identify and correct typos, as "cpmplexity" below
+The resulting graphical tool, a two-dimensional diagram, is called the entropy-cpmplexity plane or $H \times C$ plane.    
 
 In the earlier experimental design, the resulting points were mostly concentrated near the right hand corner of the $H \times C$ plane 
 %%% ACF We don't know what this "HC plane" is. Please follow the notation you have already defined.
+%%% ACF Avoid qualifying your work, as in "clearly" below
 (Figure~\ref{fig:HC_plane} shows it clearly), which made them difficult to use effectively for time series clustering. 
 This happens because in our simulations, most models produce ordinal pattern distributions that are close to uniform. 
 As a consequence, the entropy $H$ approaches its maximum value and the disequilibrium term $Q$ approaches zero.  
@@ -78,7 +87,7 @@ Visual inspection of the $H \times C$ plane will also be used to support the int
 	
 \section{Methodology}
 
-In this experiment, we consider two deterministic signals (sine,logistic map), and a stochastic model  (ARMA, including two particular cases, namely AR and MA).  
+In this experiment, we consider two deterministic signals (sine and logistic map), and a stochastic model  (ARMA, including two particular cases, namely AR and MA).  
 %%% ACF Are chaotic a third category, or they belong to one of the others?
 We then couple these models to examine how the points are displayed in the $H \times C$ plane. 
 Below, we describe the simulation setup for our experiment.
@@ -106,7 +115,8 @@ The base random model for sampling is the normal distribution
 \[
 \mathbf{X}=(X_1,X_2,\dots,X_n), \qquad X_i \sim N(\mu, \sigma^2),
 \]
-where the mean parameter varies as $\mu \in \{-1, 0, 1\}$. 
+where the mean parameter varies as $\mu \in \{-1, 0, 1\}$.
+%%% ACF Does the mean (or the scale) affect the BP symbolisation? 
 To introduce stochastic structure, we simulate autoregressive moving average ($\mathrm{ARMA}$) models, which are a central class of models for stationary processes.
 
 \paragraph{Backward Shift (Lag) Operator.}
@@ -114,6 +124,7 @@ The backward shift (lag) operator $\mathbf{B}$ is defined by $\mathbf{B}x_t = x_
 This compact notation is convenient for describing linear time series models.
 
 \paragraph{ARMA Model Specification.}
+%%% ACF You used capital X above and a vector. Now, lowercase x and a set. What is the correct choice?
 Let $\{x_t\}$ denote a real valued time series.  
 An ARMA($p,q$) model is defined by
 \begin{equation}
@@ -134,6 +145,7 @@ with
 \phi_q(\mathbf{B}) = 1 + \beta_1 \mathbf{B} + \cdots + \beta_q \mathbf{B}^q.
 \]
 
+%%% ACF Please be sure that you understand these concepts because you use them
 \paragraph{Parameter Constraints.}
 Stationarity requires the roots of the AR polynomial to lie outside the unit circle, and invertibility requires the same for the MA polynomial.
 
@@ -227,7 +239,8 @@ The experimental setup includes:
 	L_t = r L_{t-1}(1 - L_{t-1}), \qquad r = 3.8,\quad L_0 = 0.5.
 	\]
 	%%% ACF Did you discard initial values? no, I have't use burn in process with this experimental set up. 
-	
+
+%%% ACF You used f with two different meanings in the same equation
 	\item Sine function:
 	\[
 	f(t) = \sin(2\pi f t), \qquad f = 0.05.
@@ -286,6 +299,7 @@ The results were obtained based on our experimental setup as follows.
 	\item Convex combinations of the $\mathrm{MA}(2)$ process with the logistic map and sine function.
 	%\item All convex combination results for $(1-3)$ are represented in the $H \times C$ plane.
 	%%% ACF The last item is unclear
+	%%% ACF I used "to ride" informally in our conversation; use a technical term
 	\item The stochastic component riding the sine function.
 \end{enumerate}
 
@@ -466,9 +480,10 @@ These figures follow the same pattern described above, with entropy and complexi
 
 Therefore, at this stage of the study, we analyze the dynamics in the $H \times C$ plane, which provides how the stochastic component gradually rides on top of the underlying sine function. The $H \times C$ plane is also considered here to describe the transition from  stochastic dynamics to deterministic using entropy and complexity.
 
+%%% ACF "Building on this idea" often appears in LLMs' responses. Do you need this? How does the sentence read without it?
 Building on this idea, we examine convex combinations of $\mathrm{ARMA}(2,2)$, $\mathrm{AR}(2)$, and $\mathrm{MA}(2)$ processes with a sine function. The goal is to show how the stochastic component gradually modifies the periodic structure. The convex combinations are defined by a weight parameter $w$, where $w=0$ gives the pure sine wave and $w=1$ gives the stochastic model. As $w$ increases, the points in the $H \times C$ plane move along clear paths. These paths show how each stochastic model rides the sine function. For small $w$, the points stay near the low entropy and relatively high complexity region of the sine wave. For larger $w$, the points move toward the higher entropy region that reflects the structure of the $\mathrm{AR}$, $\mathrm{MA}$, or $\mathrm{ARMA}$ model. This movement shows a gradual transition from deterministic to stochastic behavior. It also shows that each model leaves a distinct signature in the combined signal. Figures~\ref{fig:ARMA_TS}, \ref{fig:AR_TS}, and \ref{fig:MA_TS} illustrate this transition in the time domain for the three stochastic models.
 
-
+%%% ACF Once more, make typography consistent; you have defined w as italic, but here is normal.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/HC_plane_ARMA_Sine_surrounding}
