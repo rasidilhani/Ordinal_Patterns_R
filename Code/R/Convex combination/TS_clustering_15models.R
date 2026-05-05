@@ -115,7 +115,9 @@ p_box_normal <- ggplot(hc_long, aes(x = Feature, y = Value)) +
   geom_boxplot(aes(color = Feature), notch = TRUE) +
   facet_wrap(~ Class, scales = "free_y") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1),
+  theme(
+    text = element_text(family = "serif"), 
+    axis.text.x = element_text(angle = 90, hjust = 1),
         legend.position = "none") +
   labs(title = "Feature Variability by Class",
        x = "Feature", y = "Value")
@@ -130,7 +132,9 @@ p_box_log <- ggplot(hc_long, aes(x = Feature, y = Value)) +
   scale_y_log10() +
   facet_wrap(~ Class, scales = "free_y") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1),
+  theme(
+    text = element_text(family = "serif"), 
+    axis.text.x = element_text(angle = 90, hjust = 1),
         legend.position = "none") +
   labs(title = "Feature Variability by Class (Log Scale)",
        x = "Feature", y = "log10(Value)")
@@ -145,7 +149,8 @@ ggsave(file.path(output_dir, "Boxplots_LogScale.pdf"),
 # ══════════════════════════════════════════════════════════════════════════════
 cor_matrix <- cor(hc_data[, features], use="complete.obs")
 
-p2 <- ggcorrplot(cor_matrix, method="circle", type="lower", lab=TRUE)
+p2 <- ggcorrplot(cor_matrix, method = "circle", type = "lower", lab = TRUE) +
+  theme(text = element_text(family = "serif"))
 p2
 ggsave(file.path(output_dir, "Correlation.pdf"), p2, width=10, height=10)
 write_xlsx(as.data.frame(cor_matrix), file.path(output_dir, "Correlation.xlsx"))
@@ -158,6 +163,7 @@ p3 <- ggplot(hc_data, aes(H_Shannon, C_Shannon, color=Class, shape=Class)) +
   scale_color_manual(values=model_colors) +
   scale_shape_manual(values=model_shapes) +
   theme_bw() +
+  theme(text = element_text(family = "serif"))
   labs(title="Shannon Entropy–Complexity Plane")
 p3
 
@@ -187,6 +193,7 @@ p4 <- ggplot(data.frame(k=k_values, WSS=wss_scores), aes(k,WSS)) +
   geom_line() + geom_point() +
   geom_vline(xintercept = optimal_k, linetype="dashed", color="red") +
   theme_bw() +
+  theme(text = element_text(family = "serif"))
   labs(title="Elbow Method", subtitle=paste("Optimal k =", optimal_k))
 p4
 ggsave(file.path(output_dir, "Elbow.pdf"), p4, width=10, height=6)
@@ -197,6 +204,7 @@ p5 <- ggplot(data.frame(k=k_values, Sil=sil_scores), aes(k,Sil)) +
   geom_point(data=data.frame(k=optimal_k, Sil=max(sil_scores)),
              aes(k,Sil), color="red", size=4) +
   theme_bw() +
+  theme(text = element_text(family = "serif"))
   labs(title="Silhouette Scores", subtitle=paste("Optimal k =", optimal_k))
 p5
 ggsave(file.path(output_dir, "Silhouette.pdf"), p5, width=10, height=6)
@@ -223,7 +231,8 @@ p_cluster_size <- ggplot(cluster_sizes, aes(x = Cluster, y = Size, fill = Cluste
   scale_fill_manual(values = my_colors) +
   geom_text(aes(label = Size), vjust = -0.5, size = 4) +
   labs(title = "Cluster Sizes", x = "Cluster", y = "Count") +
-  theme_bw()
+  theme_bw()+
+  theme(text = element_text(family = "serif"))
 
 p_cluster_size
 
@@ -251,7 +260,9 @@ p_heatmap <- ggplot(heatmap_long, aes(x = Feature, y = Cluster, fill = MeanValue
   labs(title = "Cluster Heatmap of Feature Means",
        x = "Feature", y = "Cluster") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  theme(
+    text = element_text(family = "serif"),
+    axis.text.x = element_text(angle = 90, hjust = 1))
 
 p_heatmap
 
@@ -297,7 +308,10 @@ p_heatmap <- ggplot(heatmap_long,
        y = "Cluster",
        fill = "Z-Score") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  theme(
+    text = element_text(family = "serif"),
+    axis.text.x = element_text(angle = 90, hjust = 1))
+
 
 p_heatmap
 
@@ -336,6 +350,7 @@ pca_df <- data.frame(PC1=pca_result$x[,1],
 p6 <- ggplot(pca_df, aes(PC1,PC2,color=Cluster)) +
   geom_point(alpha=0.6) +
   theme_bw() +
+  theme(text = element_text(family = "serif"))
   labs(title=paste("K-means clustering (k =", optimal_k, ")"))
 p6
 ggsave(file.path(output_dir, "PCA_Clusters.pdf"), p6, width=10, height=8)
@@ -345,6 +360,7 @@ p7 <- ggplot(pca_df, aes(PC1,PC2,color=Class)) +
   geom_point(alpha=0.6) +
   scale_color_manual(values=model_colors) +
   theme_bw() +
+  theme(text = element_text(family = "serif"))
   labs(title="True Classes (PCA projection)")
 p7
 ggsave(file.path(output_dir, "PCA_Classes.pdf"), p7, width=12, height=8)
@@ -381,7 +397,8 @@ pA <- ggplot() +
   geom_point(data = cent_final, aes(PC1, PC2), color = "red", size = 4, shape = 17) +
   labs(title = "Cluster Centres: Initial vs Final",
        subtitle = "Blue = Initial, Red = Final") +
-  theme_bw()
+  theme_bw()+
+  theme(text = element_text(family = "serif"))
 pA
 ggsave(file.path(output_dir, "PCA_Centres_Initial_Final.pdf"),
        pA, width = 10, height = 8)
@@ -392,7 +409,8 @@ pB <- ggplot() +
   labs(title = "Movement of Cluster Centres in PCA Space",
        subtitle = "Initial → Iteration 1 → Final") +
   scale_color_manual(values = c("Initial"="blue", "Iteration 1"="orange", "Final"="red")) +
-  theme_bw()
+  theme_bw()+
+  theme(text = element_text(family = "serif"))
 pB
 
 ggsave(file.path(output_dir, "PCA_Centre_Movement.pdf"),

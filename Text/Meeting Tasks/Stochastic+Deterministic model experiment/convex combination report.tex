@@ -38,19 +38,21 @@ The purpose of this study is to explore additional points in the entropy complex
 %%% ACF "identified", or "observed"?
 
 %%% ACF I don't think you need parenthesis in "the term $(H \times C)$ plane". 
-In this work, the term $(H \times C)$ plane refers to the two-dimensional space in which each time series is represented through the entropy and statistical complexity computed from its ordinal pattern distribution. 
+In this work, the term $H \times C$ plane refers to the two-dimensional space in which each time series is represented through the entropy and statistical complexity computed from its ordinal pattern distribution. 
 Following the Bandt and Pompe approach~\cite{PhysRevLett.88.174102}, the time series is transformed into ordinal patterns that captures the order relations among consecutive values. 
 And then the resulting histogram of patterns defines a probability distribution $\widehat{\mathbf{p}}$. 
 From this distribution, we compute an entropy measure $H(\widehat{\mathbf{p}})$, such as Shannon entropy, also known as permutation entropy, which quantifies the disorder in the ordinal structure of the data. A few years later of Bandt and Pompe, Lamberti et al.~\cite{lamberti2004intensive} and Rosso et al.~\cite{Rosso2007} suggested to complement the Shannon entropy by an additional complexity measure $C(\widehat{\mathbf{p}})$  computed from $\widehat{\mathbf{p}}$, which provides an important additional piece of information of a probability distribution, not already carried by the entropy. Hence, instead solely looking at a time series' Shannon entropy, the pair of entropy and complexity is used to summarize the essential time series dynamics. Here, it is important to note that the range of possible entropy complexity pairs is compact and can be bounded by two curves that is defined in Martin et al.~\cite{Martin2006}. 
 %%% ACF The verb in the sentence below is wrong, and the meaning is unclear
-We motivates to plot the actual entropy complexity pair within this region, that is to visualize the actual time series dynamics relative to all possible entropy complexity pairs. 
+This motivates us to plot the actual entropy complexity pair within this region, that is, to visualize the time series dynamics relative to all possible entropy complexity pairs.
+
+ 
 %%% ACF Please *always* run Grammarly or any other spelling/grammar tool to identify and correct typos, as "cpmplexity" below
-The resulting graphical tool, a two-dimensional diagram, is called the entropy-cpmplexity plane or $H \times C$ plane.    
+The resulting graphical tool, a two-dimensional diagram, is called the entropy-complexity plane or $H \times C$ plane.    
 
 In the earlier experimental design, the resulting points were mostly concentrated near the right hand corner of the $H \times C$ plane 
 %%% ACF We don't know what this "HC plane" is. Please follow the notation you have already defined.
 %%% ACF Avoid qualifying your work, as in "clearly" below
-(Figure~\ref{fig:HC_plane} shows it clearly), which made them difficult to use effectively for time series clustering. 
+(Figure~\ref{fig:HC_plane}), which made them difficult to use effectively for time series clustering. 
 This happens because in our simulations, most models produce ordinal pattern distributions that are close to uniform. 
 As a consequence, the entropy $H$ approaches its maximum value and the disequilibrium term $Q$ approaches zero.  
 Since $C = H Q$, the statistical complexity collapses to values near zero.  
@@ -113,10 +115,10 @@ Definitions for these models are included below as part of this subsection.
 
 The base random model for sampling is the normal distribution 
 \[
-\mathbf{X}=(X_1,X_2,\dots,X_n), \qquad X_i \sim N(\mu, \sigma^2),
+\mathbf{x}=(x_1,x_2,\dots,x_n), \qquad x_i \sim N(\mu, \sigma^2),
 \]
 where the mean parameter varies as $\mu \in \{-1, 0, 1\}$.
-%%% ACF Does the mean (or the scale) affect the BP symbolisation? 
+%%% ACF Does the mean (or the scale) affect the BP symbolisation? no
 To introduce stochastic structure, we simulate autoregressive moving average ($\mathrm{ARMA}$) models, which are a central class of models for stationary processes.
 
 \paragraph{Backward Shift (Lag) Operator.}
@@ -124,53 +126,46 @@ The backward shift (lag) operator $\mathbf{B}$ is defined by $\mathbf{B}x_t = x_
 This compact notation is convenient for describing linear time series models.
 
 \paragraph{ARMA Model Specification.}
-%%% ACF You used capital X above and a vector. Now, lowercase x and a set. What is the correct choice?
-Let $\{x_t\}$ denote a real valued time series.  
+Let $\{x_t\}$ denote a real-valued time series.  
 An ARMA($p,q$) model is defined by
 \begin{equation}
-	x_t = \alpha_1 x_{t-1} + \cdots + \alpha_p x_{t-p} 
-	+ w_t + \beta_1 w_{t-1} + \cdots + \beta_q w_{t-q},
+	x_t = \phi_1 x_{t-1} + \cdots + \phi_p x_{t-p} 
+	+ w_t + \theta_1 w_{t-1} + \cdots + \theta_q w_{t-q},
 	\label{eq:arma}
 \end{equation}
 where $\{w_t\}$ is a white noise sequence.  
-Using the lag operator, this becomes:
+
+Using the lag operator, this can be written as
 \begin{equation}
-	\theta_p(\mathbf{B}) x_t = \phi_q(\mathbf{B}) w_t,
+	\phi_p(\mathbf{B}) x_t = \theta_q(\mathbf{B}) w_t,
 	\label{eq:arma_polynomial}
 \end{equation}
-with 
+where
 \[
-\theta_p(\mathbf{B}) = 1 - \alpha_1 \mathbf{B} - \cdots - \alpha_p \mathbf{B}^p, 
+\phi_p(\mathbf{B}) = 1 - \phi_1 \mathbf{B} - \cdots - \phi_p \mathbf{B}^p, 
 \qquad
-\phi_q(\mathbf{B}) = 1 + \beta_1 \mathbf{B} + \cdots + \beta_q \mathbf{B}^q.
+\theta_q(\mathbf{B}) = 1 + \theta_1 \mathbf{B} + \cdots + \theta_q \mathbf{B}^q.
 \]
 
-%%% ACF Please be sure that you understand these concepts because you use them
 \paragraph{Parameter Constraints.}
-Stationarity requires the roots of the AR polynomial to lie outside the unit circle, and invertibility requires the same for the MA polynomial.
+The ARMA($p,q$) model is assumed to satisfy stationarity and invertibility conditions. 
+Stationarity ensures that the statistical properties of the process (such as mean and variance) do not change over time, 
+while invertibility ensures that the model can be uniquely represented in terms of the white noise process.
 
-\begin{itemize}
-	\item \textbf{AR part (stationarity):}
-	\begin{itemize}
-		\item \textbf{AR(1):} $-1 < \phi_1 < 1$.
-		\item \textbf{AR(2):} all conditions must hold:
-		\[
-		-1 < \phi_2 < 1, \qquad \phi_1 + \phi_2 < 1, \qquad \phi_2 - \phi_1 < 1.
-		\]
-		\item \textbf{AR($p \geq 3$):} all roots of $1 - \phi_1 x - \cdots - \phi_p x^p = 0$ lie outside the unit circle.
-	\end{itemize}
-	
-	\item \textbf{MA part (invertibility):}
-	\begin{itemize}
-		\item \textbf{MA(1):} $-1 < \theta_1 < 1$.
-		\item \textbf{MA(2):} all conditions must hold:
-		\[
-		-1 < \theta_2 < 1,\quad \theta_1 + \theta_2 < 1,\quad \theta_2 - \theta_1 < 1.
-		\]
-	\end{itemize}
+\begin{itemize} \item \textbf{AR part (stationarity):} 
+	\begin{itemize} 
+		\item \textbf{AR(1):} $-1 < \phi_1 < 1$. 
+		\item \textbf{AR(2):} all conditions must hold: \[ -1 < \phi_2 < 1, \qquad \phi_1 + \phi_2 < 1, \qquad \phi_2 - \phi_1 < 1. \] 
+		\item \textbf{AR($p \geq 3$):} all roots of $1 - \phi_1 x - \cdots - \phi_p x^p = 0$ lie outside the unit circle. 
+	\end{itemize} 
+	\item \textbf{MA part (invertibility):} 
+	\begin{itemize} 
+		\item \textbf{MA(1):} $-1 < \theta_1 < 1$. 
+		\item \textbf{MA(2):} all conditions must hold: \[ -1 < \theta_2 < 1,\quad \theta_1 + \theta_2 < 1,\quad \theta_2 - \theta_1 < 1. \] 
+	\end{itemize} 
 \end{itemize}
 
-Violating these constraints leads to non stationary processes, which are unsuitable for modelling or inference.
+Violating these conditions leads to non-stationary or non-identifiable models, which are unsuitable for reliable modelling and inference.
 
 \bigskip
 
@@ -317,7 +312,7 @@ The Figure~\ref{fig:ARMALogistic} shows the results obtained using $\mathrm{ARMA
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{\convexBase/ARMA+Logistic_50Rep_1}
+	\includegraphics[width=\textwidth]{\convexBase/ARMA+Logistic_50Rep}
 	\caption{Scatter plot of the $H \times C$ plane for the convex combination of $\mathrm{ARMA}(2,2)$ and Logistic map with 50 replications using sequences of length $1000$.}
 	\label{fig:ARMALogistic_50Rep}
 \end{figure}

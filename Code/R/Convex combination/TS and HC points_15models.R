@@ -139,9 +139,9 @@ hc_data_ci <- hc_data %>%
 
 p_hc <- ggplot() +
   geom_line(data = boundary_lower, aes(x = H, y = C),
-            color = "gray50", linetype = "dashed", linewidth = 1.0, alpha = 0.8) +
+            color = "gray50", linetype = "solid", linewidth = 1.0, alpha = 0.8) +
   geom_line(data = boundary_upper, aes(x = H, y = C),
-            color = "gray50", linetype = "dashed", linewidth = 1.0, alpha = 0.8) +
+            color = "gray50", linetype = "solid", linewidth = 1.0, alpha = 0.8) +
   geom_errorbarh(data = hc_data_ci %>% filter(has_H_error),
                  aes(y = C_val, xmin = H_val - Semi_H, xmax = H_val + Semi_H,
                      color = Model),
@@ -165,8 +165,8 @@ p_hc <- ggplot() +
   scale_x_continuous(limits = c(0, 1),   breaks = seq(0, 1,   0.25)) +
   scale_y_continuous(limits = c(0, 0.5), breaks = seq(0, 0.5, 0.1)) +
   labs(
-    title    = paste0("Shannon HC Plane  (D = ", D, ",  n = ", n_val,
-                      ",  Rep = ", rep_id, ")"),
+    #title    = paste0("Shannon HC Plane  (D = ", D, ",  n = ", n_val,
+    #                  ",  Rep = ", rep_id, ")"),
     x        = expression(italic(H)[Shannon]),
     y        = expression(italic(C)[Shannon]),
     color    = "Model",
@@ -219,7 +219,7 @@ make_ts_plot <- function(col_name, model_label) {
     labs(title = model_label, x = NULL, y = NULL) +
     theme_bw(base_family = "serif", base_size = 8) +
     theme(
-      plot.title       = element_text(size = 7, face = "bold", hjust = 0.5,
+     plot.title       = element_text(size = 7, face = "bold", hjust = 0.5,
                                       color = col),
       axis.text        = element_text(size = 6),
       panel.grid.minor = element_blank(),

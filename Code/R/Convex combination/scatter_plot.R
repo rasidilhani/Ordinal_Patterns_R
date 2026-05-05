@@ -84,6 +84,24 @@ model_shapes <- c(
            c("MA2+Sine(w=0.4)", "MA2+Sine(w=0.6)", "MA2+Sine(w=0.8)"))
 )
 
+model_labels <- c(
+  "ARMA(2,2)"           = "ARMA(2,2)",
+  "AR(2)"               = "AR(2)",
+  "MA(2)"               = "MA(2)",
+  "Logistic"            = "Logistic",
+  "Sine"                = "Sine",
+  "ARMA+Sine(w=0.1)"    = "ARMA+Sine~(italic(w)==0.1)",
+  "ARMA+Sine(w=0.2)"    = "ARMA+Sine~(italic(w)==0.2)",
+  "ARMA+Sine(w=0.3)"    = "ARMA+Sine~(italic(w)==0.3)",
+  "AR2+Logistic(w=0.1)" = "AR(2)+Logistic~(italic(w)==0.1)",
+  "AR2+Sine(w=0.8)"     = "AR(2)+Sine~(italic(w)==0.8)",
+  "MA2+Logistic(w=0.2)" = "MA(2)+Logistic~(italic(w)==0.2)",
+  "MA2+Logistic(w=0.7)" = "MA(2)+Logistic~(italic(w)==0.7)",
+  "MA2+Sine(w=0.4)"     = "MA(2)+Sine~(italic(w)==0.4)",
+  "MA2+Sine(w=0.6)"     = "MA(2)+Sine~(italic(w)==0.6)",
+  "MA2+Sine(w=0.8)"     = "MA(2)+Sine~(italic(w)==0.8)"
+)
+
 # ══════════════════════════════════════════════════════════════════════════════
 #  LOAD DATA
 # ══════════════════════════════════════════════════════════════════════════════
@@ -222,10 +240,10 @@ for (n_val in sample_sizes) {
     if (cfg$add_bounds) {
       p <- p +
         geom_line(data = boundary_lower, aes(x = H, y = C),
-                  color = "gray50", linetype = "dashed",
+                  color = "gray50", linetype = "solid",
                   linewidth = 1.0, alpha = 0.8) +
         geom_line(data = boundary_upper, aes(x = H, y = C),
-                  color = "gray50", linetype = "dashed",
+                  color = "gray50", linetype = "solid",
                   linewidth = 1.0, alpha = 0.8)
     }
     
@@ -262,7 +280,8 @@ for (n_val in sample_sizes) {
       ) +
       geom_label_repel(
         data          = plot_data %>% filter(Rep == 1, Model %in% pure_models),
-        aes(x = H_val, y = C_val, label = Model, color = Model),
+        aes(x = H_val, y = C_val, label = model_labels[as.character(Model)], color = Model),
+        parse         = TRUE,
         size          = 3,
         family        = "serif",
         fontface      = "bold",
@@ -272,16 +291,23 @@ for (n_val in sample_sizes) {
       ) +
       scale_color_manual(
         values = model_colors,
+        labels = parse(text = model_labels[levels(plot_data$Model)]),
         name   = "Model",
         guide  = guide_legend(override.aes = list(size = 4, alpha = 1,
                                                   stroke = 1.5))
       ) +
-      scale_shape_manual(values = model_shapes, guide = "none") +
+      scale_shape_manual(
+        values = model_shapes,
+        labels = parse(text = model_labels[levels(plot_data$Model)]),
+        #guide  = guide_legend(
+        #  title = "Model",
+        # override.aes = list(size = 4, alpha = 1, stroke = 1.5)
+        guide = "none") +
       labs(
-        title    = cfg$title,
-        subtitle = paste0("D = ", D, ",  n = ", n_val,
-                          "  (", max(plot_data$Rep, na.rm = TRUE),
-                          " replications)"),
+        #title    = cfg$title,
+        # subtitle = paste0("D = ", D, ",  n = ", n_val,
+        #                   "  (", max(plot_data$Rep, na.rm = TRUE),
+        #                  " replications)"),
         x = cfg$xlab,
         y = cfg$ylab
       ) +

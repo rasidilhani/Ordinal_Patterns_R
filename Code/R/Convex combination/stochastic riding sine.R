@@ -583,7 +583,7 @@ make_combined_ts_plot <- function(ts_df, model_colors, stoch_label, title_expr) 
       title = title_expr,
       x     = expression(italic(t)),
       y     = "Value",
-      color = expression(italic(w))
+      color = expression(italic(w) == "weight")
     ) +
     theme_bw(base_size = 10, base_family = "serif") +
     theme(
