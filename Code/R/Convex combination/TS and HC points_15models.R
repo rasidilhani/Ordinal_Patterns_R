@@ -64,19 +64,26 @@ col_to_model <- c(
 #  COLORS AND SHAPES
 # ══════════════════════════════════════════════════════════════════════════════
 model_colors <- c(
-  "ARMA(2,2)" = "black",
-  "AR(2)"     = "tomato",
-  "MA(2)"     = "navy",
-  "Logistic"  = "dodgerblue",
-  "Sine"      = "forestgreen",
-  setNames(colorRampPalette(c("#A8D8EA", "#3B9AB2"))(3),
-           c("ARMA+Sine(w=0.1)", "ARMA+Sine(w=0.2)", "ARMA+Sine(w=0.3)")),
-  "AR2+Logistic(w=0.1)" = "#D4A017",
-  "AR2+Sine(w=0.8)"     = "#7EC8A4",
-  setNames(colorRampPalette(c("#F5AAAA", "#C0392B"))(2),
-           c("MA2+Logistic(w=0.2)", "MA2+Logistic(w=0.7)")),
-  setNames(colorRampPalette(c("#D9B8E8", "#8E44AD"))(3),
-           c("MA2+Sine(w=0.4)", "MA2+Sine(w=0.6)", "MA2+Sine(w=0.8)"))
+  "ARMA(2,2)" = "#000000",   # black
+  "AR(2)"     = "#E41A1C",   # red
+  "MA(2)"     = "navy",   # navy blue
+  "Logistic"  = "dodgerblue",   # blue
+  "Sine"      = "forestgreen",   # green
+  
+  "ARMA+Sine(w=0.1)" = "#FF7F00",  # orange
+  "ARMA+Sine(w=0.2)" = "#B15928",  # brown
+  "ARMA+Sine(w=0.3)" = "#F781BF",  # pink
+  
+  "AR2+Logistic(w=0.1)" = "#999999",  # grey
+  
+  "AR2+Sine(w=0.8)" = "#66C2A5",  # turquoise
+  
+  "MA2+Logistic(w=0.2)" = "#D95F02",  # dark orange
+  "MA2+Logistic(w=0.7)" = "#7570B3",  # purple
+  
+  "MA2+Sine(w=0.4)" = "#1B9E77",  # teal
+  "MA2+Sine(w=0.6)" = "#E7298A",  # magenta
+  "MA2+Sine(w=0.8)" = "#A6761D"   # mustard
 )
 
 model_shapes <- c(
@@ -163,7 +170,7 @@ p_hc <- ggplot() +
   scale_color_manual(values = model_colors) +
   scale_shape_manual(values = model_shapes) +
   scale_x_continuous(limits = c(0, 1),   breaks = seq(0, 1,   0.25)) +
-  scale_y_continuous(limits = c(0, 0.5), breaks = seq(0, 0.5, 0.1)) +
+  scale_y_continuous(limits = c(0, 0.4), breaks = seq(0, 0.4, 0.1)) +
   labs(
     #title    = paste0("Shannon HC Plane  (D = ", D, ",  n = ", n_val,
     #                  ",  Rep = ", rep_id, ")"),
@@ -185,13 +192,14 @@ p_hc <- ggplot() +
     legend.key.size  = unit(0.5, "cm"),
     panel.grid.minor = element_blank()
   )
+print(p_hc)
 
 # Save standalone HC plot
 ggsave(file.path(output_dir,
                  paste0("HC_Shannon_D", D, "_n", n_val, "_Rep", rep_id, ".pdf")),
        p_hc, width = 10, height = 8, device = cairo_pdf)
 cat(sprintf("✅ Saved: HC_Shannon_D%d_n%d_Rep%d.pdf\n", D, n_val, rep_id))
-print(p_hc)
+
 
 # Version without legend (for combined layout)
 p_hc_no_legend <- p_hc + theme(legend.position = "none")
@@ -293,3 +301,4 @@ ggsave(
   bg     = "white",
   device = cairo_pdf
 )
+

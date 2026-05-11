@@ -31,30 +31,26 @@ model_names <- c(
 )
 
 model_colors <- c(
-  # Pure models
-  "ARMA(2,2)" = "black",
-  "AR(2)"     = "tomato",
-  "MA(2)"     = "navy",
-  "Logistic"  = "dodgerblue",
-  "Sine"      = "forestgreen",
+  "ARMA(2,2)" = "#000000",   # black
+  "AR(2)"     = "#E41A1C",   # red
+  "MA(2)"     = "navy",   # navy blue
+  "Logistic"  = "dodgerblue",   # blue
+  "Sine"      = "forestgreen",   # green
   
-  # ARMA+Sine — 3 models (blue gradient)
-  setNames(colorRampPalette(c("#A8D8EA", "#3B9AB2"))(3),
-           c("ARMA+Sine(w=0.1)", "ARMA+Sine(w=0.2)", "ARMA+Sine(w=0.3)")),
+  "ARMA+Sine(w=0.1)" = "#FF7F00",  # orange
+  "ARMA+Sine(w=0.2)" = "#B15928",  # brown
+  "ARMA+Sine(w=0.3)" = "#F781BF",  # pink
   
-  # AR2+Logistic — 1 model (gold)
-  "AR2+Logistic(w=0.1)" = "#D4A017",
+  "AR2+Logistic(w=0.1)" = "#999999",  # grey
   
-  # AR2+Sine — 1 model (teal)
-  "AR2+Sine(w=0.8)" = "#7EC8A4",
+  "AR2+Sine(w=0.8)" = "#66C2A5",  # turquoise
   
-  # MA2+Logistic — 2 models (red gradient)
-  setNames(colorRampPalette(c("#F5AAAA", "#C0392B"))(2),
-           c("MA2+Logistic(w=0.2)", "MA2+Logistic(w=0.7)")),
+  "MA2+Logistic(w=0.2)" = "#D95F02",  # dark orange
+  "MA2+Logistic(w=0.7)" = "#7570B3",  # purple
   
-  # MA2+Sine — 3 models (purple gradient)
-  setNames(colorRampPalette(c("#D9B8E8", "#8E44AD"))(3),
-           c("MA2+Sine(w=0.4)", "MA2+Sine(w=0.6)", "MA2+Sine(w=0.8)"))
+  "MA2+Sine(w=0.4)" = "#1B9E77",  # teal
+  "MA2+Sine(w=0.6)" = "#E7298A",  # magenta
+  "MA2+Sine(w=0.8)" = "#A6761D"   # mustard
 )
 
 model_shapes <- c(

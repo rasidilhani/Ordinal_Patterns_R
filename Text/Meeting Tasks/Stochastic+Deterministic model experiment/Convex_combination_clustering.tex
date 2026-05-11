@@ -69,6 +69,56 @@ In this experiment, we consider two deterministic signals (sine,logistic map), a
 		\item $\mathrm{Var}(C_{\text{Shannon}})$.
 	\end{itemize}
 	
+\subsection*{Information Theoretic Quantifiers}
+
+For each ordinal pattern probability vector $P=\{p_\ell\}_{\ell=1}^{k}$, we evaluate a collection of 
+global and local information measures.  
+Given an estimator $\hat{P}=\{\hat{p}_\ell\}$ obtained from the empirical ordinal pattern frequencies, our goal is to study the behaviour of the entropy functionals $H(\hat{P})$ and their associated complexity measures.
+
+\paragraph{Shannon entropy.}
+The Shannon entropy is defined as
+\[
+H_{\mathrm{S}}(\hat{P})
+= -\sum_{\ell=1}^{k} \hat{p}_\ell \log \hat{p}_\ell,
+\]
+and we use its normalized version $H_{\mathrm{S}}/H_{\max}$, where $H_{\max}$ corresponds to the 
+uniform distribution.
+
+\paragraph{Tsallis entropy.}
+For $q \in \mathbb{R}\setminus\{1\}$, the Tsallis entropy is given by
+\[
+H^{\mathrm{T}}_{q}(\hat{P})
+= \frac{1}{q-1}\left(1 - \sum_{\ell=1}^{k} \hat{p}_\ell^{\,q}\right),
+\]
+which reduces to Shannon entropy in the limit $q \to 1$.  
+A normalized version is obtained by dividing by its value under the uniform distribution.
+
+\paragraph{Rényi entropy.}
+For $q>0$, $q\neq 1$, the Rényi entropy is defined as
+\[
+H^{\mathrm{R}}_{q}(\hat{P})
+= \frac{1}{1-q}\log\!\left(\sum_{\ell=1}^{k} \hat{p}_\ell^{\,q}\right),
+\]
+and is likewise normalized using its maximum value at the uniform distribution.
+
+\paragraph{Fisher Information Measure.}
+To quantify local sensitivity in the ordinal pattern distribution and this is discussed by Felipe \emph{et al.}~\cite{Olivares2012b}, we adopt the discrete Fisher Information Measure proposed by Ferri \emph{et al.}~\cite{Ferri2009}:
+\[
+F(\hat{P})
+= \frac{1}{2}\sum_{\ell=1}^{k-1}
+\frac{(\hat{p}_{\ell+1}-\hat{p}_{\ell})^{2}}
+{\hat{p}_{\ell+1}+\hat{p}_{\ell}}.
+\]
+
+This expression emphasizes differences between adjacent probabilities and therefore captures 
+fine scale structure that entropy based measures may overlook.
+
+\paragraph{Complexity.}
+For each entropy type, the corresponding statistical complexity is computed as the product of the 
+normalized entropy and the Jensen--Shannon divergence between $\hat{P}$ and the uniform 
+distribution.  
+
+	
 	\item \textbf{Clustering:} Silhouette coefficients are used to assess the quality of clustering obtained via the $k$-means algorithm.
 \end{itemize}
 
@@ -127,9 +177,9 @@ The experimental setup includes the following components:
 	
 	\item A sine function defined as
 	\[
-	f(t) = \sin(2\pi f t),
+	f(t) = \sin(2\pi \nu t),
 	\]
-	where $f = 0.05$ denotes the frequency.
+	where $\nu = 0.05$ denotes the frequency.
 	
 	\item Convex combinations are constructed according to the general formula above. 
 	These combinations were implemented in the simulation using weighted sums of the corresponding model outputs in \texttt{R}. 
