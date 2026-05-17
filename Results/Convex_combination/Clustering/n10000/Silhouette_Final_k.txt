@@ -1,1 +1,1 @@
-Average silhouette width: 0.7554
+Average silhouette width: 0.7331

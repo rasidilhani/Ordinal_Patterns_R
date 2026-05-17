@@ -65,7 +65,8 @@ In this experiment, we consider two deterministic signals (sine,logistic map), a
 		\item $H_{\text{Shannon}}$, $H_{\text{Rényi}}$, $H_{\text{Tsallis}}$, $H_{\text{Fisher}}$,
 		\item $C_{\text{Shannon}}$, $C_{\text{Rényi}}$, $C_{\text{Tsallis}}$, $C_{\text{Fisher}}$,
 		\item Disequilibrium,
-		\item $\mathrm{Var}(H_{\text{Shannon}})$, $\mathrm{Var}(H_{\text{Rényi}})$, $\mathrm{Var}(H_{\text{Tsallis}})$, $\mathrm{Var}(H_{\text{Fisher}})$,
+		\item $\mathrm{Var}(H_{\text{Shannon}})$, $\mathrm{Var}(H_{\text{Rényi}})$, $\mathrm{Var}(H_{\text{Tsallis}})$,
+		% $\mathrm{Var}(H_{\text{Fisher}})$,
 		\item $\mathrm{Var}(C_{\text{Shannon}})$.
 	\end{itemize}
 	
@@ -102,7 +103,7 @@ H^{\mathrm{R}}_{q}(\hat{P})
 and is likewise normalized using its maximum value at the uniform distribution.
 
 \paragraph{Fisher Information Measure.}
-To quantify local sensitivity in the ordinal pattern distribution and this is discussed by Felipe \emph{et al.}~\cite{Olivares2012b}, we adopt the discrete Fisher Information Measure proposed by Ferri \emph{et al.}~\cite{Ferri2009}:
+To quantify local sensitivity in the ordinal pattern distribution and this is discussed by Felipe et.al.~\cite{Olivares2012b}, we adopt the discrete Fisher Information Measure proposed by Ferri et.al.~\cite{Ferri2009}:
 \[
 F(\hat{P})
 = \frac{1}{2}\sum_{\ell=1}^{k-1}
@@ -273,49 +274,68 @@ The convex combination model uses weight \(0.8\) on the \(\mathrm{MA}(2)\) compo
 Although the sine function is deterministic, its behaviour is characteristic of stochastic or noise-dominated dynamics.
 The ordinal patterns occur with nearly uniform probability, resulting in low structural organization despite high unpredictability.
 
+We examined the correlations among the thirteen ordinal pattern features used in this study. 
+The correlation matrix (Figure~\ref{fig:correlationfull_D4}) $(n = 10000)$ reveals several strong dependencies among the 13 ordinal pattern features. 
+A detailed list and description of all thirteen features is given in Section~\ref{sec:methodolpgy}. 
 
-We examined the correlations among the fourteen ordinal pattern features used in this study. The correlation matrix (Figure~\ref{fig:correlation_D4}) $(n = 10000)$ reveals several strong dependencies among the 14 ordinal pattern features. A detailed list and description of all fourteen features is given in the Section~\ref{sec:methodolpgy}. 
-The three entropy measures ($H_{\text{Shannon}}$, $H_{\text{Rényi}}$, $H_{\text{Tsallis}}$) exhibit extremely high positive correlations ($r \approx 0.99$), indicating that they capture nearly identical distributional information. 
-A similar pattern appears among the statistical complexity measures ($C_{\text{Shannon}}$, $C_{\text{Rényi}}$, $C_{\text{Tsallis}}$), which show highly positive correlations ($0.99$). 
-Strong negative correlations are observed between the entropy measures and disequilibrium 
-($r=-0.99$ for $H_{\text{Shannon}}$ vs.\ Disequilibrium). Entropy increases when the pattern distribution becomes more random, whereas disequilibrium increases when the distribution becomes more uneven. 
-Because these behaviours oppose each other, the two measures are strongly negatively correlated.
-Variance based features also display high internal correlation, particularly between $\mathrm{Var}(H_{\text{Rényi}})$ and $\mathrm{Var}(H_{\text{Tsallis}})$ ($r=0.96$). 
-In contrast, several feature pairs exhibit weak associations: Fisher entropy shows only small correlations with entropy variances ($|r| < 0.15$), and $\mathrm{Var}(C_{\text{Shannon}})$ presents generally low correlations with other measures. 
-Overall, the matrix indicates substantial multicollinearity among entropy and complexity based features, while Fisher related and variance based descriptors provide more independent information for clustering.
+The three entropy measures ($H_{\text{Shannon}}$, $H_{\text{Rényi}}$, $H_{\text{Tsallis}}$) exhibit extremely strong positive correlations ($r = 0.99$ for all pairs), indicating that they capture nearly identical distributional information. 
+In contrast, $H_{\text{Fisher}}$ shows moderate negative correlations with these entropies, with values ranging from $r = -0.50$ (vs.\ $H_{\text{Tsallis}}$) to $r = -0.69$ (vs.\  $H_{\text{Shannon}}$).  
+
+A similar pattern appears among the statistical complexity measures ($C_{\text{Shannon}}$, $C_{\text{Rényi}}$, $C_{\text{Tsallis}}$), which show very strong positive correlations 
+($r = 0.99$ for all pairs). 
+Strong positive associations are also observed between the complexity measures and $C_{\text{Fisher}}$ ($r = 0.87$–$0.94$).  
+
+Entropy measures and disequilibrium exhibit extremely strong negative correlations 
+($r = -0.99$ for $H_{\text{Shannon}}$ vs.\ Disequilibrium, 
+$r = -0.90$ for $H_{\text{Rényi}}$, 
+$r = -0.95$ for $H_{\text{Tsallis}}$). 
+Entropy increases when the pattern distribution becomes more random, whereas disequilibrium increases when the distribution becomes more uneven; because these behaviours oppose each other, the two measures are strongly negatively correlated.
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{\convexBase/Correlation}
+%	\caption{Correlation matrix for sequence length $10000$.}
+%	\label{fig:correlation_D4}
+%\end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{\convexBase/Correlation}
+	\includegraphics[width=\textwidth]{\convexBase/Correlation_full}
 	\caption{Correlation matrix for embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $10000$.}
-	\label{fig:correlation_D4}
+	\label{fig:correlationfull_D4}
 \end{figure}
 
-Furthermore, disequilibrium showed only weak to moderate positive correlations with the entropy measures, with correlation values of $r=0.32$ (Shannon), $r=0.37$ (R\'enyi), and $r=0.34$ (Tsallis), and a similarly modest association with the Fisher measure ($r=0.30$).
+Variance-based features also display high internal correlation, particularly between 
+$\mathrm{Var}(H_{\text{Rényi}})$ and $\mathrm{Var}(H_{\text{Tsallis}})$ ($r = 0.93$), 
+and between $\mathrm{Var}(H_{\text{Shannon}})$ and both of these variances ($r = 0.93$). 
+In contrast, $\mathrm{Var}(C_{\text{Shannon}})$ shows only weak correlations with most other features ($|r| \le 0.35$). 
+Fisher entropy, and Fisher complexity also exhibits weak associations with the entropy variances ($|r| \le 0.19$).  
 
-In contrast, the entropy measures themselves exhibited very strong mutual correlations, with coefficients frequently exceeding $0.90$, highlighting that disequilibrium behaves largely independently from both entropy- and variance-based quantities.
+Overall, the matrix indicates substantial multicollinearity among entropy and complexity based features, while Fisher-related and variance-based descriptors provide more independent information for clustering.  
+Disequilibrium also shows only weak to moderate positive correlations with the entropy variances 
+($r = 0.30$–$0.37$), reinforcing that it behaves largely independently from both entropy and variance-based quantities.
 
-Also, we checked the variability of the features across different classes of ARMA models and convex combination models. Figure~\ref{fig:boxplot1} presents the boxplots of the features for each class. The results are quite clear; however, the variance of Fisher measure is on a substantially different scale, making it difficult to assess the variability of the remaining features.
+Also, we checked the variability of the features across different classes of ARMA models and convex combination models. 
+%Figure~\ref{fig:boxplot1} presents the boxplots of the features for each class. The results are quite clear; however, the variance of Fisher measure is on a substantially different scale, making it difficult to assess the variability of the remaining features.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{\convexBase/Boxplots_Normal}
-	\caption{Variability of the features for embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $10000$.}
-	\label{fig:boxplot1}
-\end{figure}
-
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{\convexBase/Boxplots_Normal}
+%	\caption{Comparative Boxplots of the features for sequence length $10000$.}
+%	\label{fig:boxplot1}
+%\end{figure}
 
 To better evaluate how the features vary by class, and noting that all measures are nonnegative (it was confirmed by the summary statistics), we constructed boxplots on a logarithmic scale. This transformation allows for improved visualization of feature variability, particularly for measures spanning a wide range of values (see Figure~\ref{fig:boxplot2}).
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{\convexBase/Boxplots_LogScale}
-	\caption{Variability of the features by logarithmic scale for embedding dimension $D=4,$ time delay $\tau =1,$ and sequence length $10000$.}
+	\caption{Comparative Boxplots of the features by logarithmic scale for sequence length $10000$.}
 	\label{fig:boxplot2}
 \end{figure}
 
-The log scale representation also makes it clear that some features vary across several orders of magnitude, while others remain much more concentrated. 
-In particular, measures such as the Fisher information and the variance based features show wide vertical spreads within certain classes, whereas entropy and complexity measures tend to cluster more tightly, indicating greater stability across models.
+It is clear that some features vary across several orders of magnitude, while others remain much more concentrated. 
+In particular, measures such as the variance based features show wide vertical spreads within certain classes, whereas entropy and complexity measures tend to cluster more tightly, indicating greater stability across models.
 
 \section{Time Series Clustering}
 Clustering is an unsupervised learning process that involves organizing a collection of patterns into similar groups based on their similarity. 
@@ -343,11 +363,55 @@ The clustering is based on the following fourteen ordinal‑pattern features:
 	\item $H_{\text{Shannon}}$, $H_{\text{Rényi}}$, $H_{\text{Tsallis}}$, $H_{\text{Fisher}}$,
 	\item $C_{\text{Shannon}}$, $C_{\text{Rényi}}$, $C_{\text{Tsallis}}$, $C_{\text{Fisher}}$,
 	\item Disequilibrium,
-	\item $\mathrm{Var}(H_{\text{Shannon}})$, $\mathrm{Var}(H_{\text{Rényi}})$, $\mathrm{Var}(H_{\text{Tsallis}})$, $\mathrm{Var}(H_{\text{Fisher}})$,
+	\item $\mathrm{Var}(H_{\text{Shannon}})$, $\mathrm{Var}(H_{\text{Rényi}})$, $\mathrm{Var}(H_{\text{Tsallis}})$, 
+	%$\mathrm{Var}(H_{\text{Fisher}})$,
 	\item $\mathrm{Var}(C_{\text{Shannon}})$.
 \end{itemize}
 
-Both visual inspection of the clustering patterns in the $H \times C$ plane and the silhouette based evaluation are used to compare and validate the algorithmic results.
+Both visual inspection of the clustering patterns in the $H \times C$ plane and the silhouette based evaluation are used to compare and validate the algorithmic results. Moreover, we use density based (DBSCAN) clustering method to further verify our results. 
+
+\subsection{Silhouette-Based Cluster Evaluation}
+The silhouette coefficient provides a quantitative measure of how well each time series is assigned to its cluster. 
+For a given observation $i$, the silhouette value is defined as
+\[
+s(i) = \frac{b(i) - a(i)}{\max\{a(i),\, b(i)\}},
+\]
+where $a(i)$ denotes the average distance between $i$ and all other points in the same cluster, and $b(i)$ is the minimum average distance between $i$ and all points in any other cluster. 
+The silhouette score therefore lies in the interval $[-1,1]$, with values close to $1$ indicating well-separated clusters, values near $0$ suggesting ambiguous assignments, and negative values indicating potential misclassification.
+
+In this study, the silhouette index is used to assess the internal consistency of the clustering results obtained from the ordinal pattern feature space. 
+For each repetition of the experiment, we compute the average silhouette width across all time series, providing a global measure of cluster quality. 
+Higher silhouette values correspond to more coherent groupings of time series generated from the same underlying model, and thus serve as an objective complement to the visual inspection of the $H \times C$ plane.
+
+\subsection{Density-Based Clustering via DBSCAN}
+
+To further validate the clustering structure, we employ the Density-Based Spatial Clustering of Applications with Noise (DBSCAN) algorithm, a widely used density-based method originally introduced by \cite{Ester1996}. 
+DBSCAN is based on a simple idea: clusters appear in parts of the feature space where many points lie close together, while regions with only a few points are treated as gaps or noise. 
+This makes DBSCAN different from methods such as $k$-means, which assume that the number of clusters is known in advance.
+
+DBSCAN uses two parameters: the neighbourhood radius $\varepsilon$ and the minimum number of points needed to form a dense region, denoted $\text{minPts}$. 
+For any point $p$, the $\varepsilon$-neighbourhood is defined as
+\[
+\mathcal{N}_\varepsilon(p) = \{q : d(p,q) \le \varepsilon\}.
+\]
+
+A point is classified as:
+\[
+\text{core point if } |\mathcal{N}_\varepsilon(p)| \ge \text{minPts},
+\]
+border point if it is close to a core point but does not meet the density requirement, noise point otherwise
+
+Clusters are formed by linking core points that are close to each other.  
+If two core points can be reached through a chain of other core points, they belong to the same cluster.  
+Border points are attached to the nearest core region, while noise points remain unassigned.
+
+This density-based view allows DBSCAN to detect clusters of irregular shape and to separate meaningful structure from isolated observations. 
+It is therefore well suited for the ordinal‑pattern feature space, where the geometry of the data may be complex and not well captured by distance‑based partitioning methods.
+
+In our analysis, the value of $\varepsilon$ is chosen using the $k$‑nearest neighbour distance curve, selecting the point where the curve shows a clear ``elbow''. 
+The parameter $\text{minPts}$ is set to the dimensionality of the feature space by adding one ($\text{minPts} = 14$). 
+DBSCAN is applied to each repetition of the experiment to check whether the density-based grouping agrees with the clusters obtained from the primary algorithmic approach.
+
 
 \section{Results and Discussion}
 This section discusses the clustering results. Based on the poor performance of the clustering algorithm for the sample size 1000, we focus on the sample size 10000 when assessing the clustering behaviour. Figures~\ref{fig:Shannon scatter},\ref{fig:Renyi scatter}, \ref{fig:Tsallis scatter}, and~\ref{fig:Fisher scatter} show scatter plots in the $H \times C$ plane for each of the 15 time series models considered in our experimental setup. From these plots, it is visually evident that some classes can be distinguished in the \(H \times C\) plane. However, we formally confirm these visual findings using cluster analysis.
@@ -390,7 +454,7 @@ This section discusses the clustering results. Based on the poor performance of 
 Visual inspection of the $H \times C$ plane indicates that the clusters become clearly separable once the sample size is sufficiently large. 
 To confirm these visually observed patterns, we apply the $k$-means clustering algorithm and evaluate the resulting partition using silhouette coefficients.
 
-Looking at the elbow plot (Figure~\ref{fig:elbow}) and silhouette score plot (Figure~\ref{fig:silhouette}), it is clear that we can distinguish 12 clusters. 
+Looking at the elbow plot (Figure~\ref{fig:elbow}) and silhouette score plot (Figure~\ref{fig:silhouette}), it is clear that we can distinguish 11 clusters. 
 
 \begin{figure}[H]
 	\centering
@@ -416,22 +480,21 @@ The clustering results are summarized in Figures~\ref{fig:cluster_sizes} and \re
 	\label{fig:cluster_sizes}
 \end{figure}
 
-Figure~\ref{fig:cluster_sizes} illustrates the distribution of cluster sizes obtained from the cluster analysis with $k = 12$. 
-A substantial variability in cluster sizes is observed, with some clusters containing fewer than 30 observations, while others include between 100 and 200 observations. 
+Figure~\ref{fig:cluster_sizes} illustrates the distribution of cluster sizes obtained from the cluster analysis with $k = 11$. 
+A substantial variability in cluster sizes is observed, with some clusters containing 25 observations, while others include between 100 and 200 observations. 
 This imbalance suggests that certain ordinal pattern occurs more frequently across the simulated models, whereas others correspond to more specialized or less common dynamical behaviours.
 
 Based on the cluster assignments, the dominant model class within each cluster can be identified. 
-Cluster~1 is primarily associated with the $\mathrm{ARMA+Sine}(w=0.3)$ process, while Cluster~2 is dominated by the $\mathrm{AR2+Logistic}(0.1)$ model. 
-Clusters~3 and~7 both represent the $\mathrm{ARMA}(2,2)$ model, with assignments varying between them due to boundary effects and sensitivity to small variations.
+Cluster~1 is primarily associated with the Sine process, while Clusters~2, 3, 5, 6, and 10 are dominated by $\mathrm{ARMA}(2,2)$, $\mathrm{MA2+Logistic}(0.2)$, $\mathrm{ARMA+Sine}(w=0.2)$, $\mathrm{ARMA+Sine}(w=0.3)$, and $\mathrm{MA2+Sine}(0.4)$, respectively. 
+Cluster~4 groups together the $\mathrm{AR}(2)$ and $\mathrm{AR2+Sine}(0.8)$ processes, whereas Cluster~8 corresponds to the Logistic map and its hybrid extension with $\mathrm{AR}(2)$. 
+Cluster~9 aggregates several moving‑average‑based hybrid processes, including $\mathrm{MA}(2)$, $\mathrm{MA2+Logistic}(0.7)$, $\mathrm{MA2+Sine}(0.6)$, and $\mathrm{MA2+Sine}(0.8)$.
 
-Cluster~4 predominantly contains $\mathrm{MA2+Logistic}(0.2)$ series, whereas Cluster~5 groups together the $\mathrm{AR}(2)$ and $\mathrm{AR2+Sine}(0.8)$ processes. 
-Cluster~6 is mainly associated with $\mathrm{ARMA+Sine}(w=0.2)$, and Cluster~8 corresponds almost exclusively to the Logistic map. 
-Cluster~9 is dominated by the $\mathrm{ARMA+Sine}(w=0.1)$ model, while Cluster~10 aggregates several moving average based hybrid processes, including $\mathrm{MA}(2)$, $\mathrm{MA2+Logistic}(0.7)$, $\mathrm{MA2+Sine}(0.6)$, and $\mathrm{MA2+Sine}(0.8)$. 
-Cluster~11 is largely composed of $\mathrm{MA2+Sine}(0.4)$ series, and Cluster~12 contains primarily Sine function.
+Clusters~8 and 11 are not well separated, as they split the $\mathrm{ARMA+Sine}(0.1)$ series into two halves. 
+This indicates that borderline hybrid cases such as $\mathrm{ARMA+Sine}$ naturally lie between neighbouring dynamical regimes, making them more difficult to assign cleanly to a single cluster.
 
 These findings demonstrate that ordinal pattern features provide a meaningful and interpretable separation of model classes. 
-Purely stochastic models, deterministic systems, and convex combination processes tend to form distinct groups. 
-At the same time, borderline cases such as $\mathrm{ARMA}(2,2)$ highlight natural transitions between neighbouring dynamical regimes. 
+Purely stochastic models, deterministic systems, and convex‑combination processes tend to form distinct groups in the feature space.
+ 
 A summary of the dominant model associated with each cluster is provided in Table~\ref{tab:cluster_dominant_models}.
 
 \begin{table}[H]
@@ -442,23 +505,20 @@ A summary of the dominant model associated with each cluster is provided in Tabl
 		\hline
 		Cluster & Dominant Models \\
 		\hline
-		1  & $\mathrm{ARMA}$+Sine($w=0.3$) \\
-		2  & $\mathrm{AR(2)}$+Logistic($w=0.1$) \\
-		3  & $\mathrm{ARMA(2,2)}$ \\
-		4  & $\mathrm{MA(2)}$+Logistic($w=0.2$) \\
-		5  & $\mathrm{AR(2)}$, $\mathrm{AR(2)}$+Sine($w=0.8$)  \\
-		6  & $\mathrm{ARMA}$+Sine($w=0.2$)\\
-		7  & $\mathrm{ARMA(2,2)}$ \\
-		8  & Logistic \\
-		9  & $\mathrm{ARMA}$+Sine($w=0.1$) \\
-		10 & $\mathrm{MA(2)}$, $\mathrm{MA(2)}$+Logistic($w=0.7$), $\mathrm{MA(2)}$+Sine($w=0.6$), $\mathrm{MA(2)}$+Sine($w=0.8$) \\
-		11 & $\mathrm{MA(2)}$+Sine($w=0.4$) \\
-		12 & Sine \\
+		1  & Sine \\
+		2  & $\mathrm{ARMA(2,2)}$ \\
+		3  & $\mathrm{MA(2)}$+Logistic($w=0.2$) \\
+		4  & $\mathrm{AR(2)}$, $\mathrm{AR(2)}$+Sine($w=0.8$) \\
+		5  & $\mathrm{ARMA}$+Sine($w=0.2$)  \\
+		6  & $\mathrm{ARMA}$+Sine($w=0.3$)\\
+		7  & Logistic, $\mathrm{AR(2)}$+Logistic ($w=0.1$) \\
+		8  & $\mathrm{ARMA}$+Sine($w=0.1$) \\
+		9  & $\mathrm{MA(2)}$, $\mathrm{MA(2)}$+Logistic($w=0.7$), $\mathrm{MA(2)}$+Sine($w=0.6$), $\mathrm{MA(2)}$+Sine($w=0.8$)  \\
+		10 & $\mathrm{MA(2)}$+Sine($w=0.4$) \\
+		11 & $\mathrm{ARMA}$+Sine($w=0.1$) \\
 		\hline
 	\end{tabular}
 \end{table}
-
-
 
 \begin{figure}[H]
 	\centering
@@ -475,18 +535,17 @@ A summary of the dominant model associated with each cluster is provided in Tabl
 		\hline
 		Cluster & Size & \texttt{ave.sil.width} \\
 		\hline
-		1  & 50  & 0.71 \\
+		1  & 50  & 1.00 \\
 		2  & 50 & 0.83 \\
-		3  & 28  & 0.24 \\
-		4  & 50 & 0.83 \\
-		5  & 100  & 0.64 \\
-		6  & 50  & 0.78 \\
-		7  & 22  & 0.27 \\
-		8  & 50  & 1.00 \\
-		9  & 50  & 0.81 \\
-		10 & 200  & 0.76 \\
-		11 & 50  & 0.78 \\
-		12 & 50  & 1.00 \\
+		3  & 50  & 0.88 \\
+		4  & 100 & 0.68 \\
+		5  & 50  & 0.76 \\
+		6  & 50  & 0.57 \\
+		7  & 100  & 0.62 \\
+		8  & 25  & 0.49 \\
+		9  & 200  & 0.76 \\
+		10 & 50  & 0.76 \\
+		11 & 25  & 0.55 \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -523,12 +582,62 @@ Figure~\ref{fig:pca_classes} presents the PCA projection coloured according to t
 The true classes also appear well separated in the first two principal components, with nonlinear models such as the Logistic and Sine processes forming distinct regions, while convex combination ARMA–Sine and AR2–Logistic processes occupy characteristic intermediate positions. 
 This visual structure supports the conclusion that the ordinal pattern features provide strong discriminatory power, since most model classes form identifiable clusters even before applying any clustering algorithm.
 
-Overall, the ordinal pattern features provide a much clearer and more informative representation of the time series than the clustering algorithm alone. 
-The structure visible in the $H \times C$ plane allows the fifteen true model classes to be distinguished almost entirely by visual inspection, demonstrating that the ordinal‑pattern feature space itself contains strong separability. 
-The $k$‑means algorithm, supported by silhouette coefficients, confirms this visual evidence by recovering a similar cluster structure. 
-These results indicate that the entropy–complexity representation offers substantial insight into the underlying dynamics, and that the ordinal pattern features are highly effective for identifying and differentiating the simulated time series models. 
-The next step is to extend this analysis to real world time series, where the same ordinal‑pattern framework can be used to evaluate whether comparable clustering behaviour arises outside a controlled simulation setting.	
+Further, the DBSCAN analysis confirms that it is possible to differentiate 9 clusters from the 15 simulated classes. First, the optimal value of $\varepsilon$ for the DBSCAN algorithm was determined using the elbow plot shown in Figure~\ref{fig:dbscan_elbow}. Based on the location of the elbow point, the value of $\varepsilon = 0.8$ was selected for the clustering analysis.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{\convexBase/kNN_D4}
+	\caption{DBSCAN Elbow plot.}
+	\label{fig:dbscan_elbow}
+\end{figure}
+
+After selecting the optimal parameter, the cluster structure was examined using the \texttt{fviz\_cluster} representation shown in Figure~\ref{fig:dbscan_fviz}. A similar clustering pattern can also be observed in the PCA projection presented in Figure~\ref{fig:dbscan_pca}. Both visualisations indicate a clear separation between several groups in the ordinal pattern feature space.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{\convexBase/fviz_cluster_D4}
+	\caption{DBSCAN cluster structure using the fviz cluster.}
+	\label{fig:dbscan_fviz}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{\convexBase/DBSCAN_PCA_D4}
+	\caption{DBSCAN PCA projection.}
+	\label{fig:dbscan_pca}
+\end{figure}
+
+The resulting cluster assignments are summarised in Table~\ref{tab:cluster_grouped}. The results show that several related models are grouped into the same cluster, while others form distinct isolated groups. In particular, the models based on $\mathrm{MA}(2)$ dynamics and several of its hybrid variations are consistently assigned to Cluster~2, indicating strong structural similarity in the ordinal pattern feature space. In contrast, the Logistic and Sine models each form their own individual clusters, demonstrating that these nonlinear dynamics are clearly distinguishable from the remaining classes. 
+
+The ARMA+Sine mixtures exhibit a progressive separation as the weight parameter increases, producing three different clusters for $w=0.1$, $w=0.2$, and $w=0.3$. This behaviour suggests that the ordinal pattern features are sensitive to gradual changes in the underlying signal composition. Overall, the DBSCAN results demonstrate that the entropy complexity representation preserves meaningful structural differences between the simulated time series models and allows most classes to be separated successfully.
+
+\begin{table}[ht]
+	\centering
+	\caption{Classes grouped according to cluster assignments}
+	\begin{tabular}{cl}
+		\hline
+		\textbf{Cluster} & \textbf{Class} \\
+		\hline
+		1 & ARMA(2,2), AR(2), AR2+Sine(w=0.8) \\
+		2 & MA(2), MA2+Logistic(w=0.7), MA2+Sine(w=0.4), \\
+		& MA2+Sine(w=0.6), MA2+Sine(w=0.8) \\
+		3 & Logistic \\
+		4 & Sine \\
+		5 & ARMA+Sine(w=0.1) \\
+		6 & ARMA+Sine(w=0.2) \\
+		7 & ARMA+Sine(w=0.3) \\
+		8 & AR2+Logistic(w=0.1) \\
+		9 & MA2+Logistic(w=0.2) \\
+		\hline
+	\end{tabular}
+	\label{tab:cluster_grouped}
+\end{table} 
+
+Overall, the ordinal pattern features provide a much clearer and more informative representation of the time series than the clustering algorithm alone. 
+The structure visible in the $H \times C$ plane allows the fifteen true model classes to be distinguished almost entirely by visual inspection, demonstrating that the ordinal pattern feature space itself contains strong separability. 
+The $k$-means algorithm, supported by silhouette coefficients, confirms this visual evidence by recovering a similar cluster structure. 
+These results indicate that the entropy complexity representation offers substantial insight into the underlying dynamics, and that the ordinal pattern features are highly effective for identifying and differentiating the simulated time series models. 
+The next step is to extend this analysis to real world time series, where the same ordinal pattern framework can be used to evaluate whether comparable clustering behaviour arises outside a controlled simulation setting.
 	
 	
 	\bibliographystyle{acm}

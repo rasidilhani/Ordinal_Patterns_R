@@ -14,19 +14,9 @@ library(writexl)
 library(here)
 library(cluster)
 library(factoextra)
+library(dbscan)
 
 
-# Global theme: serif font, size 11
-theme_set(
-  theme_bw(base_size = 11, base_family = "serif") +
-    theme(
-      plot.title = element_text(size = 11, family = "serif", face = "bold"),
-      axis.title = element_text(size = 11, family = "serif"),
-      axis.text  = element_text(size = 10, family = "serif"),
-      legend.text = element_text(size = 9, family = "serif"),
-      legend.title = element_text(size = 10, family = "serif", face = "bold")
-    )
-)
 # ══════════════════════════════════════════════════════════════════════════════
 #  PARAMETERS AND PATHS
 # ══════════════════════════════════════════════════════════════════════════════
@@ -49,21 +39,6 @@ model_names <- c(
   "MA2+Logistic(w=0.2)", "MA2+Logistic(w=0.7)",
   "MA2+Sine(w=0.4)", "MA2+Sine(w=0.6)", "MA2+Sine(w=0.8)"
 )
-
-# Colors/shapes (unchanged)
-#model_colors <- c(
-#  "ARMA(2,2)" = "black",
-#  "AR(2)" = "tomato", "MA(2)" = "navy",
-#  "Logistic" = "dodgerblue", "Sine" = "forestgreen",
-#  setNames(colorRampPalette(c("#A8D8EA","#3B9AB2"))(3),
-#           c("ARMA+Sine(w=0.1)", "ARMA+Sine(w=0.2)", "ARMA+Sine(w=0.3)")),
-#  "AR2+Logistic(w=0.1)" = "#D4A017",
-#  "AR2+Sine(w=0.8)" = "#7EC8A4",
-#  setNames(colorRampPalette(c("#F5AAAA","#C0392B"))(2),
-#           c("MA2+Logistic(w=0.2)", "MA2+Logistic(w=0.7)")),
-#  setNames(colorRampPalette(c("#D9B8E8","#8E44AD"))(3),
-#           c("MA2+Sine(w=0.4)", "MA2+Sine(w=0.6)", "MA2+Sine(w=0.8)"))
-#)
 
 model_colors <- c(
   "ARMA(2,2)" = "#000000",   # black
@@ -98,14 +73,15 @@ model_shapes <- c(
 )
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 14 FEATURES (FULL SET)
+# 13 FEATURES (FULL SET)
 # ══════════════════════════════════════════════════════════════════════════════
 features <- c(
   "H_Shannon", "H_Renyi", "H_Tsallis", "H_Fisher",
   "C_Shannon", "C_Renyi", "C_Tsallis", "C_Fisher",
   "Disequilibrium",
   "Var_H_Shannon", "Var_H_Renyi", "Var_H_Tsallis",
-  "Var_H_Fisher", "Var_C_Shannon"
+  #"Var_H_Fisher",
+  "Var_C_Shannon"
 )
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -142,7 +118,7 @@ p_box_normal <- ggplot(hc_long, aes(x = Feature, y = Value)) +
     text = element_text(family = "serif"), 
     axis.text.x = element_text(angle = 90, hjust = 1),
         legend.position = "none") +
-  labs(title = "Feature Variability by Class",
+  labs(title = "Comparative Boxplots by Class",
        x = "Feature", y = "Value")
 p_box_normal
 
@@ -159,7 +135,7 @@ p_box_log <- ggplot(hc_long, aes(x = Feature, y = Value)) +
     text = element_text(family = "serif"), 
     axis.text.x = element_text(angle = 90, hjust = 1),
         legend.position = "none") +
-  labs(title = "Feature Variability by Class (Log Scale)",
+  labs(title = "Comparative Boxplots by Class (Log Scale)",
        x = "Feature", y = "log10(Value)")
 p_box_log
 
@@ -176,6 +152,12 @@ p2 <- ggcorrplot(cor_matrix, method = "circle", type = "lower", lab = TRUE) +
   theme(text = element_text(family = "serif"))
 p2
 ggsave(file.path(output_dir, "Correlation.pdf"), p2, width=10, height=10)
+
+p2a <- ggcorrplot(cor_matrix, method = "circle", type = "full", lab = TRUE) +
+  theme(text = element_text(family = "serif"))
+p2a
+ggsave(file.path(output_dir, "Correlation_full.pdf"), p2a, width=10, height=10)
+
 write_xlsx(as.data.frame(cor_matrix), file.path(output_dir, "Correlation.xlsx"))
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -216,7 +198,7 @@ p4 <- ggplot(data.frame(k=k_values, WSS=wss_scores), aes(k,WSS)) +
   geom_line() + geom_point() +
   geom_vline(xintercept = optimal_k, linetype="dashed", color="red") +
   theme_bw() +
-  theme(text = element_text(family = "serif"))
+  theme(text = element_text(family = "serif"))+
   labs(title="Elbow Method", subtitle=paste("Optimal k =", optimal_k))
 p4
 ggsave(file.path(output_dir, "Elbow.pdf"), p4, width=10, height=6)
@@ -227,7 +209,7 @@ p5 <- ggplot(data.frame(k=k_values, Sil=sil_scores), aes(k,Sil)) +
   geom_point(data=data.frame(k=optimal_k, Sil=max(sil_scores)),
              aes(k,Sil), color="red", size=4) +
   theme_bw() +
-  theme(text = element_text(family = "serif"))
+  theme(text = element_text(family = "serif"))+
   labs(title="Silhouette Scores", subtitle=paste("Optimal k =", optimal_k))
 p5
 ggsave(file.path(output_dir, "Silhouette.pdf"), p5, width=10, height=6)
@@ -373,7 +355,7 @@ pca_df <- data.frame(PC1=pca_result$x[,1],
 p6 <- ggplot(pca_df, aes(PC1,PC2,color=Cluster)) +
   geom_point(alpha=0.6) +
   theme_bw() +
-  theme(text = element_text(family = "serif"))
+  theme(text = element_text(family = "serif"))+
   labs(title=paste("K-means clustering (k =", optimal_k, ")"))
 p6
 ggsave(file.path(output_dir, "PCA_Clusters.pdf"), p6, width=10, height=8)
@@ -383,19 +365,12 @@ p7 <- ggplot(pca_df, aes(PC1,PC2,color=Class)) +
   geom_point(alpha=0.6) +
   scale_color_manual(values=model_colors) +
   theme_bw() +
-  theme(text = element_text(family = "serif"))
+  theme(text = element_text(family = "serif"))+
   labs(title="True Classes (PCA projection)")
 p7
 ggsave(file.path(output_dir, "PCA_Classes.pdf"), p7, width=12, height=8)
 
-# ══════════════════════════════════════════════════════════════════════════════
-#  STEP-BY-STEP CLUSTER CENTER MOVEMENT (PCA snapshots)
-# ══════════════════════════════════════════════════════════════════════════════
-
-set.seed(123)
-
-# Step 0: initial centers (randomly chosen)
-km_init <- kmeans(features_scaled, centers = optimal_k, nstart = 1, iter.max = 1)
+ init <- kmeans(features_scaled, centers = optimal_k, nstart = 1, iter.max = 1)
 
 # Step 1: after one iteration
 km_step1 <- kmeans(features_scaled, centers = km_init$centers, nstart = 1, iter.max = 1)
@@ -886,7 +861,5 @@ write_xlsx(
 )
 
 message("✓ All outputs saved to: ", output_dir)
-
-
 
 #End of the code
