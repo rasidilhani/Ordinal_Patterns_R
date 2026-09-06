@@ -1,0 +1,55 @@
+---
+title: "Time Series"
+subtitle: "DATA301"
+author: "Alejandro C.\ Frery"
+format:
+  revealjs:
+    transition: slide
+    background-transition: fade
+    slideNumber: "c/t"
+    progress: true
+    self-contained: true
+    theme: vuw 
+    logo: /Users/acfrery/Library/CloudStorage/OneDrive-VictoriaUniversityofWellington-STAFF/Documents/VUW/Brand/Logo-1.png
+editor: source
+bibliography:
+  - /Users/acfrery/Library/CloudStorage/OneDrive-VictoriaUniversityofWellington-STAFF/Documents/LaTeXBibTeX/bibtex/bib/books.bib
+  - /Users/acfrery/Library/CloudStorage/OneDrive-VictoriaUniversityofWellington-STAFF/Documents/LaTeXBibTeX/bibtex/bib/articles.bib
+  - /Users/acfrery/Library/CloudStorage/OneDrive-VictoriaUniversityofWellington-STAFF/Documents/LaTeXBibTeX/bibtex/bib/acfrery.bib
+csl: /Users/acfrery/Zotero/styles/apa.csl
+highlight-style: github
+---
+```{r setup}
+library(ggplot2)
+library(ggthemes)
+  theme_set(theme_tufte() +
+  theme(text=element_text(size=20, family="serif")))
+library(tsibble)
+library(lubridate)
+library(caret)
+library(patchwork)
+library(scales)
+
+set.seed(123456789, kind="Mersenne-Twister")
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  class.source = "small-code"
+)
+```
+
+# Introduction
+
+## Objectives
+
+By the end of these lectures you should be able to:
+
+::: {.incremental}
+- Recognise time series data and explain how it differs from other data
+- Read, plot, and manipulate a time series in R
+- Identify trend, seasonal, cyclic, and irregular behaviour in a series
+- Explain, in plain terms, what stationarity means and why it matters
+- Compute lags and differences, and use them to build simple summaries
+:::
+
+## References
