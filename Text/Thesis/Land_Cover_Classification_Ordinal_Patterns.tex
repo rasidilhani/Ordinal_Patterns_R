@@ -1,0 +1,650 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  conference]{IEEEtran}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+\makeatletter \newcommand{\linebreakand}{\end{@IEEEauthorhalign}
+\hfill{}\par \mbox{}\hfill\begin{@IEEEauthorhalign} } 
+\makeatother
+
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+\documentclass[12pt,a4paper]{report}
+
+% Page and spacing
+\usepackage{setspace}
+\usepackage{parskip}
+
+% Colors, figures, diagrams, units
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% Captions and floats
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+\floatstyle{ruled}
+\newfloat{codelisting}{h}{lop}[chapter]
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+
+% Links and bookmarks
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{}
+\urlstyle{same}
+
+\hypersetup{
+	pdftitle={Land Cover Classification in SAR Time Series Using Ordinal Pattern Features},
+	colorlinks=true,
+	linkcolor={blue},
+	filecolor={Maroon},
+	citecolor={Blue},
+	urlcolor={Blue},
+	pdfcreator={LaTeX via pandoc}
+}
+
+% Names
+\renewcommand*\contentsname{Table of Contents}
+\renewcommand*\listfigurename{List of Figures}
+\renewcommand*\listtablename{List of Tables}
+\renewcommand*\figurename{Figure}
+\renewcommand*\tablename{Table}
+
+\begin{document}
+	
+	\tableofcontents
+	\listoffigures
+	\listoftables
+	\listoflistings
+	
+\chapter{Land Cover Classification in SAR Time Series Using Ordinal Pattern Features}
+	
+\begin{abstract}
+This study investigates ordinal-pattern-based features for Land Use/Land Cover (LULC) classification using Synthetic Aperture Radar (SAR) time series data. Temporal dynamics are characterized through normalized Shannon entropy, Shannon statistical complexity, Fisher Information Measure (FIM), and Fisher-based complexity derived from ordinal pattern distribution. The methodology is applied to SAR time series from five LULC classes: Agriculture, Deforested, Forest, Urban, and Water. The resulting features are analysed using Shannon and Fisher information-complexity planes and a Support Vector Machine (SVM) classifier. The information-complexity representations reveal partial class separation, with Agriculture exhibiting the clearest distinction from the remaining classes, while substantial overlap persists among Forest, Deforested, Urban, and Water samples. Classification results show that Agriculture and Forest achieved the highest sensitivities (\SI{83.3}{\percent} and \SI{91.7}{\percent}, respectively), whereas Urban and Water remain the most challenging LULC classes to distinguish. These findings indicate that ordinal-pattern-based features capture meaningful temporal characteristics of SAR time series and provide useful information for LULC classification, although discrimination among classes with similar temporal dynamics remains challenging.
+
+\end{abstract}
+
+\section{Introduction}\label{introduction}
+
+Time series data often show complex patterns over time, and
+understanding how these patterns are generated is important in many
+scientific and engineering fields. Traditional methods usually analyse
+data in either the time domain or the frequency domain, and often assume
+properties such as linearity, stationarity, or Gaussian behaviour.
+However, real world data frequently violate these assumptions, creating
+the need for more flexible, non-parametric approaches.
+
+Recent advances in Synthetic Aperture Radar (SAR) imaging provide dense
+temporal observations that enable detailed monitoring of land cover
+dynamics~(Sabir et al. 2024). However, SAR time series are often noisy
+and exhibit complex, nonlinear temporal behaviour, making reliable
+classification difficult~(Sabir et al. 2025). This challenge motivates
+the use of ordinal-pattern-based methods, which analyse the relative
+ordering of values rather than their absolute magnitudes. By focusing on
+temporal structure, these methods are inherently robust to monotonic
+transformations, speckle related fluctuations, and outliers, making them
+well suited for capturing meaningful temporal signatures in SAR data.
+
+Ordinal pattern analysis, introduced by~Bandt and Pompe (2002), provides
+a robust framework for studying time series without requiring
+distributional assumptions. Their approach, rooted in information
+theory, transforms successive time-window segments of a time series into
+symbols according to the ordinal relationships among the observations.
+These symbols, known as ordinal patterns, form an empirical probability
+distribution that is invariant under monotonic transformations and is
+resilient to noise and outliers.
+
+Information theoretic descriptors computed from ordinal pattern
+distributions provide a compact summary of the underlying dynamics.
+Shannon entropy, introduced in this context through permutation entropy
+by~Bandt and Pompe (2002), quantifies the unpredictability of the
+ordinal pattern distribution. Statistical complexity combines entropy
+with disequilibrium to characterize the balance between disorder and
+structure, as developed by~Lamberti et al. (2004) and later used with
+ordinal pattern representations by~Rosso et al. (2010). Complementary to
+these global descriptors, the Fisher Information Measure (FIM) captures
+local variations in the ordinal pattern distribution and is sensitive to
+subtle structural changes~(Ferri et al. 2009; Olivares et al. 2012).
+Together, these descriptors provide a rich characterization of temporal
+dynamics.
+
+Chagas et al. (2021) used features from ordinal patters to classify
+samples from intensity SAR images based on their texture. The authors
+serialized patches into time series using Hilbert-Peano curves. The
+approach produced excellent results, at the expense of using
+transition-based features and long time series. In this work, we use
+short time series and features from the histogram of patterns, which are
+computationally inexpensive.
+
+\section{Methodology}\label{methodology}
+
+Our working hypothesis is that the temporal dynamics of different Land
+Use/Land Cover (LULC) classes produce distinct levels of randomness and
+structure in SAR time series data. We expect these differences to be
+reflected in ordinal pattern distributions constructed using an
+embedding dimension of \(D=5\). Furthermore, we hypothesize that the
+resulting distributions can be characterized by Shannon entropy,
+statistical complexity, Fisher Information Measure, and Fisher
+complexity, enabling discrimination among the LULC classes.
+
+\subsection{Ordinal Patterns}\label{ordinal-patterns}
+
+Ordinal patterns are computed using the methodology proposed by~Bandt
+and Pompe (2002). Let \(\mathbf{x} = (x_1, x_2, \dots, x_{n+D-1})\) be a
+real valued time series, where \(D \ge 2\) is the embedding dimension
+and \(n\) is the number of overlapping windows. For each
+\(t = 1,2,\dots,n\), define the overlapping window \[
+s_t = (x_t, x_{t+1}, \dots, x_{t+D-1}).
+\] Let \(\pi^1, \pi^2, \dots, \pi^k\) denote the \(k = D!\) possible
+ordinal patterns associated with embedding dimension \(D\). For each
+window \(s_t\), the corresponding ordinal pattern is the permutation
+that orders its components in increasing order. This produces the
+symbolic sequence \[
+\boldsymbol{\pi} = (\pi_1, \pi_2, \dots, \pi_n), \qquad \pi_t \in \{\pi^1,\pi^2,\dots,\pi^k\}.
+\]
+
+The relative frequencies of the observed ordinal patterns define the
+probability distribution used to compute the information theoretic
+descriptors considered in this study.
+
+\subsection{Ordinal Pattern Probability
+Function}\label{ordinal-pattern-probability-function}
+
+Let \(\boldsymbol{\pi} = (\pi_1, \pi_2, \dots, \pi_n)\) denote the
+sequence of ordinal patterns obtained from a time series. For each
+ordinal pattern \(\pi^{\ell}\), let \(N_\ell\) be the number of times it
+occurs in \(\boldsymbol{\pi}\): \[
+N_\ell = \#\{t : \pi_t = \pi^{\ell}\}, \qquad \ell = 1,2,\dots,k.
+\] The empirical ordinal pattern probability function is \[
+\widehat{\mathbf{p}} = \left(\frac{N_1}{n}, \frac{N_2}{n}, \dots, \frac{N_k}{n}\right) = (\widehat{p}_{1}, \widehat{p}_{2}, \dots, \widehat{p}_{k}).
+\]
+
+\subsection{Permutation Entropy}\label{permutation-entropy}
+
+Shannon entropy provides a quantitative measure of the uncertainty
+encoded in the ordinal pattern distribution. Given the probability
+vector
+\(\widehat{\mathbf{p}} = (\widehat{p}_1,\widehat{p}_{2},\dots,\widehat{p}_k)\),
+the normalized Shannon entropy, called Permutation entropy, is defined
+as the Shannon entropy divided by its maximum value \(\log k\), i.e., \[
+H(\widehat{\mathbf p})
+=
+-\frac{1}{\log k}
+\sum_{\ell=1}^{k}
+\widehat p_\ell \log \widehat p_\ell.
+\] The normalization ensures that \(0\le H(\widehat{\mathbf p})\le1\),
+allowing comparisons across different embedding dimensions.
+
+In the context of ordinal analysis, \(H(\widehat{\mathbf{p}})\) is
+commonly referred to as permutation entropy. It captures the degree of
+disorder in the symbolic dynamics: low values indicate strong regularity
+or determinism, while high values reflect randomness or
+unpredictability. However, entropy alone cannot distinguish between
+randomness and structured complexity, motivating the introduction of
+complementary measures.
+
+\subsection{Fisher Information
+Measure}\label{fisher-information-measure}
+
+As an additional descriptor, we consider the Fisher Information Measure.
+Following~Olivares et al. (2012), FIM captures local variations in the
+ordinal pattern distribution and is sensitive to structural changes that
+may not be reflected by entropy alone. The discrete form adopted in this
+study is given by~Ferri et al. (2009): \[
+F(\widehat{\mathbf p})
+=
+\frac{1}{4}
+\sum_{\ell=1}^{k-1}
+\frac{2(\widehat p_{\ell+1}-\widehat p_\ell)^2}
+{(\widehat p_{\ell+1}+\widehat p_\ell)}.
+\]
+
+\subsection{Disequilibrium}\label{disequilibrium}
+
+Shannon entropy and FIM provide complementary information about the
+ordinal pattern distribution. However, neither descriptor quantifies the
+degree to which the distribution deviates from the uniform distribution.
+To incorporate this information, we consider the concept of
+disequilibrium introduced by~Lopez-Ruiz et al. (1995). In the ordinal
+pattern setting, the natural reference is the uniform distribution
+\(\mathbf{u}=(1/k,1/k,\ldots,1/k)\).
+
+A widely adopted disequilibrium measure is based on the Jensen--Shannon
+divergence, which provides a symmetric, bounded, and information
+theoretically meaningful distance between \(\widehat{\mathbf{p}}\) and
+\(\mathbf{u}\): \[
+J(\widehat{\mathbf{p}},\mathbf{u})
+= H\!\left(\frac{\widehat{\mathbf{p}}+\mathbf{u}}{2}\right)
+- \frac{1}{2}H(\widehat{\mathbf{p}})
+- \frac{1}{2}\log(k).
+\] The maximum possible divergence for a Jensen-Shannon divergence is \[
+J_{\max}
+= -2\left[\frac{(k+1)}{k}\log(k+1) - 2\log(2k) + \log k\right].
+\] Using this, the normalized disequilibrium is defined as \[
+Q(\widehat{\mathbf{p}}) = \frac{J(\widehat{\mathbf{p}},\mathbf{u})}{J_{\max}}.
+\] This quantity satisfies that \(Q(\widehat{\mathbf{p}}) = 0\) for the
+uniform distribution (maximal disorder), and that
+\(Q(\widehat{\mathbf{p}}) = 1\) when all probability mass is
+concentrated on a single pattern (maximal deviation from equilibrium).
+
+\subsection{Shannon and Fisher
+Complexities}\label{shannon-and-fisher-complexities}
+
+Following~Lamberti et al. (2004), statistical complexity combines an
+information measure and a disequilibrium. In this study, we consider two
+complexity measures. \[
+C_S(\widehat{\mathbf p}) = H(\widehat{\mathbf p})Q(\widehat{\mathbf p}),
+\] and \[
+C_F(\widehat{\mathbf p}) = F(\widehat{\mathbf p})Q(\widehat{\mathbf p}).
+\] These measures combine information contained in the ordinal pattern
+distribution with its departure from the uniform distribution, providing
+a joint characterization of disorder and structure.
+
+\subsection{Data Representation}\label{data-representation}
+
+The Sentinel-1 SAR dataset consists of temporal cross-polarized (VH:
+Vertical Transmit, Horizontal Receive) backscatter observations acquired
+over Haldwani, Uttarakhand, India, located in the sub-Himalayan region
+and encompassing the Terai Central Forest Division, a managed forest
+area, as shown in Figure~\ref{fig-studyarea}. Single Look Complex (SLC)
+data were downloaded from the Alaska Satellite Facility Distributed
+Active Archive Center (ASF-DAAC) for the period 2017--2023.
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=\linewidth]{../Figures/PDF/StudyAreaMap_Ingarss2026.pdf}
+\caption{Study area map showing Haldwani in the Uttarakhand State in India. The green polygon outlines the Terai Central Forest Division.}
+\label{fig-studyarea}
+\end{figure}
+
+The data were pre-processed using the InSAR Scientific Computing
+Environment (ISCE3) to generate gamma-nought backscatter products, with
+NASADEM at 1-arcsecond resolution used for terrain correction (Rosen et
+al. 2018). We consider \(T\geq2\) images acquired at approximately
+12-day temporal intervals. These images were resampled to a spatial
+resolution of \SI{25}{\meter} and co-registered using PLAnT
+(Polarimetric-interferometric Lab and Analysis Tools) to the common
+spatial support \[
+S=\{1,2,\dots,R\}\times\{1,2,\dots,C\},
+\] where each image contains \(R\) rows and \(C\) columns (Lavalle et
+al. 2016).
+
+Field visits were conducted in 2023 and 2025 to collect geolocated
+reference information for different LULC classes. This information was
+combined with photo-interpretation of temporal high-resolution optical
+imagery to identify representative samples belonging to five classes:
+Agriculture, Deforested, Forest, Urban, and Water. For each class,
+fourty homogeneous regions covering a \(2\times2\) pixel neighbourhood
+were selected for subsequent analysis.
+
+The SAR image data consist of temporal backscatter observations recorded
+at each spatial location. We have \(T\geq2\) images co-registered to the
+same support. Let \(z(i,j,t)\) denote the real-valued measurement at
+position \((i,j)\in S\) and time \(1\leq t\leq T\). The original time
+series at site \((i,j)\in S\) is denoted by \[
+\mathbf z(i,j)
+=
+\big(z(i,j,1), z(i,j,2), \dots, z(i,j,T)\big).
+\] We augment the original time series with surrounding measurements
+from a \(2\times 2\) neighbourhood of each position, omitting edge and
+corner pixels. Such augmentation can be organised in two ways: Stacked,
+where the four measurements observed at time \(t\) are contiguous in the
+augmented time series, and Interleaved, where time-consecutive
+measurements are contiguous. The stacked time series is defined as \[
+\begin{aligned}
+\mathbf z^{\mathrm S}(i,j)
+&=\\
+\Big(&
+z(i,j,1), z(i+1,j,1), z(i+1,j+1,1), z(i,j+1,1),\\
+&
+z(i,j,2), z(i+1,j,2), z(i+1,j+1,2), z(i,j+1,2),\\
+&
+\dots,\\
+&
+z(i,j,T), z(i+1,j,T), z(i+1,j+1,T),\\
+&
+z(i,j+1,T)
+\Big).
+\end{aligned}
+\] Thus, observations from neighbouring pixels are grouped together at
+each time instant, producing a sequence of length \(4T\).
+
+The interleaved time series is defined as \[
+\begin{aligned}
+\mathbf z^{\mathrm I}(i,j)
+&=\\
+\Big(&
+z(i,j,1), z(i,j,2), \dots, z(i,j,T),\\
+&
+z(i+1,j,1), z(i+1,j,2), \dots, z(i+1,j,T),\\
+&
+z(i+1,j+1,1), z(i+1,j+1,2), \dots,\\
+&
+z(i+1,j+1,T),\\
+&
+z(i,j+1,1), z(i,j+1,2), \dots,z(i,j+1,T)
+\Big).
+\end{aligned}
+\] This representation also produces a sequence of length \(4T\), but
+preserves the temporal ordering within each neighbouring pixel before
+moving to the next spatial location.
+
+Preliminary experiments were conducted using the Original, Stacked, and
+Interleaved representations. Based on these investigations, the Stacked
+representation was selected for the subsequent analysis because it
+combines spatial neighbourhood information while maintaining temporal
+correspondence among neighbouring observations at each acquisition time.
+
+To illustrate the effect of the data transformation procedure, three
+time series representations Original, Interleaved, and Stacked are shown
+in Figure~\ref{fig-15Timeseries}. The example time series are selected
+from the same SAR dataset and are presented only to demonstrate the
+construction of the different representations. The subsequent analysis
+is performed using the LULC classes described previously.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{ChangeDetectionSARTimeSeriesOrdinalPatterns_files/figure-pdf/fig-15Timeseries-1.pdf}}
+
+}
+
+\caption{\label{fig-15Timeseries}Time series for all pixel types across
+data structures.}
+
+\end{figure}%
+
+\subsection{Proposed Methodology}\label{proposed-methodology}
+
+The proposed methodology begins with the extraction of pixel time series
+from different LULC classes, followed by selecting the embedding
+dimension, the computation of ordinal pattern distributions and the
+corresponding entropy- and complexity-based four features. These
+features are then analysed using the \(H\times C_S\) and \(F\times C_F\)
+planes and Support Vector Machine (SVM) classification to evaluate the
+ability of the ordinal-patterns-based approach to distinguish different
+LULC areas.
+
+\section{Results}\label{results}
+
+The ordinal pattern distributions were computed from the stacked SAR
+time series associated with each LULC class. From these distributions,
+four information-theoretic descriptors were extracted: normalized
+Shannon entropy, Shannon statistical complexity, FIM, and Fisher-based
+complexity. Together, these features characterize both global and local
+properties of the ordinal pattern distributions and provide a compact
+representation of the temporal dynamics present in each class.
+
+Figure~\ref{fig-HC-shannon-fisher-D5} presents the resulting Shannon and
+Fisher information-complexity planes for the stacked representation with
+embedding dimension \(D=5\). The Shannon plane shows that several
+classes occupy similar regions of the feature space, producing
+substantial overlap among Forest, Deforested, Urban, and Water samples.
+Agriculture exhibits comparatively greater separation, although some
+overlap with other classes remains. Similar behaviour is observed in the
+Fisher plane, where Agriculture and, to a lesser extent, Water samples
+display improved visual separation relative to the remaining classes.
+
+These results indicate that the ordinal pattern features capture
+meaningful temporal characteristics of the SAR time series. However,
+substantial overlap among several LULC classes suggests that visual
+inspection of the information-complexity planes alone is insufficient to
+assess class separability. A supervised classification approach was
+therefore employed to evaluate the discriminative power of the extracted
+ordinal pattern features.
+
+\begin{figure*}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{ChangeDetectionSARTimeSeriesOrdinalPatterns_files/figure-pdf/fig-HC-shannon-fisher-D5-1.pdf}}
+
+}
+
+\caption{\label{fig-HC-shannon-fisher-D5}Shannon entropy-complexity and
+Fisher information-complexity representations for the five land cover
+classes.}
+
+\end{figure*}%
+
+The discriminative ability of the four ordinal pattern features was
+evaluated using a SVM classifier. The dataset was randomly partitioned
+into training and testing subsets using a stratified sampling scheme,
+with \SI{70}{\percent} of the observations allocated to the training set
+and the remaining \SI{30}{\percent} reserved for testing.
+
+A radial basis function (RBF) kernel was adopted because it can model
+nonlinear class boundaries in the feature space. The SVM hyperparameters
+were selected through a grid-search procedure using the training data.
+The regularization parameter \(c\) was evaluated over the set
+\({0.1,1,10,100}\), while the kernel parameter \(\gamma\) was evaluated
+over the set \({0.01,0.05,0.1,0.5,1}\). Based on 10-fold
+cross-validation, the optimal model was obtained with \(c=100\) and
+\(\gamma=0.1\). This model was subsequently applied to the independent
+test set.
+
+Classification performance was assessed using sensitivity and balanced
+accuracy. Sensitivity quantifies the proportion of correctly identified
+samples within a class, while balanced accuracy is the average of
+sensitivity and specificity and provides a more balanced evaluation
+across LULC classes. This metric is particularly useful when evaluating
+multi-class classification problems because it reduces the influence of
+LULC class imbalance. Figure \ref{fig-svm-pca-d5} illustrates the
+location of the samples in the feature space using the first two
+principal components, which together explain more than
+\SI{99.12}{\percent} of the total variance. The projection reveals
+partial separation among some LULC classes, while considerable overlap
+remains among others, particularly Urban, Water, and Deforested samples.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{ChangeDetectionSARTimeSeriesOrdinalPatterns_files/figure-pdf/fig-svm-pca-d5-1.pdf}}
+
+}
+
+\caption{\label{fig-svm-pca-d5}Projection of the four ordinal pattern
+features onto the first two principal components for the five land cover
+classes.}
+
+\end{figure}%
+
+The classification performance is reported in Table
+\ref{tbl-svm-class-performance} and shows consistency with these
+observations. Agriculture and Forest achieved the highest sensitivity
+and balanced accuracy values, whereas Urban and Water showed
+substantially lower performance, reflecting the overlap observed in the
+PCA representation.
+
+Agriculture and Forest were the most accurately identified LULC classes,
+with sensitivities of \SI{83.3}{\percent} and \SI{91.7}{\percent}, and
+balanced accuracies of \SI{88.5}{\percent} and \SI{84.4}{\percent},
+respectively. Deforested exhibited intermediate performance, with a
+sensitivity of \SI{50.0}{\percent} and a balanced accuracy of
+\SI{67.7}{\percent}. In contrast, Urban and Water were the most
+difficult classes to distinguish, achieving sensitivities of only
+\SI{16.7}{\percent} and \SI{33.3}{\percent}, respectively. Their
+corresponding balanced accuracies of \SI{55.2}{\percent} and
+\SI{63.5}{\percent} indicate substantial confusion with other LULC
+categories.
+
+\begin{table}
+
+\caption{\label{tbl-svm-class-performance}SVM classification performance metrics}
+
+\centering{
+
+\centering
+\begin{tabular}{lcc}
+\toprule
+Class & Sensitivity & Balanced Accuracy \\
+\midrule
+Agri       & 0.833 & 0.885 \\
+Deforested & 0.500 & 0.677 \\
+Forest     & 0.917 & 0.844 \\
+Urban      & 0.167 & 0.552 \\
+Water      & 0.333 & 0.635 \\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+Overall, the results indicate that ordinal-pattern-based features
+provide a useful representation of SAR temporal dynamics, with greater
+separability observed for LULC classes exhibiting distinct temporal
+behaviour and reduced separability for classes with similar temporal
+characteristics.
+
+\section{Conclusion}\label{conclusion}
+
+The results indicate that ordinal-pattern-based features provide a
+useful representation of SAR temporal dynamics for LULC
+characterization. The information-theoretic descriptors capture
+complementary aspects of ordinal pattern distributions, enabling
+discrimination among classes with distinct temporal behaviour while
+highlighting similarities among classes with comparable temporal
+characteristics. The stacked representation further enhanced the
+analysis by incorporating information from neighbouring spatial
+locations while preserving temporal ordering.
+
+The proposed methodology has minimal computational requirements, making
+it suitable for large-scale SAR time series analysis. By efficiently
+characterizing temporal behaviour, ordinal-pattern-based features
+provide a promising framework for future studies of SAR time series and
+their underlying temporal dynamics.
+
+\end{document}
+%\end{document}

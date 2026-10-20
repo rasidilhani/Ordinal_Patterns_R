@@ -1,0 +1,133 @@
+\documentclass[12pt, oneside, a4paper]{book}
+
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[mathscr]{euscript}
+\pgfplotsset{compat = newest}
+\usepackage{float}
+\usepackage{microtype}
+\usepackage[mode=text]{siunitx}
+\usepackage{longtable}
+\usepackage{mathrsfs}
+\graphicspath{
+	{Figures/}
+	{Figures/Chapter1/}
+	{Figures/Chapter2/}
+	{Figures/Chapter3/}
+	{Figures/Chapter4/}
+	{Figures/Chapter5/}
+	{Figures/Appendix/}
+}
+
+\usepackage{vuwproposal} % sets up some local things, mostly the front page
+
+\usepackage{palatino} % sets palatino as the default font
+
+\usepackage{url} % for typesetting urls
+
+\usepackage{booktabs} % for table creation
+
+%\renewcommand{\baselinestretch}{1.00}
+
+
+\begin{document} 
+	
+	
+	\frontmatter
+	% Book style knows about front matter
+	% Report style doesn't so you need to set roman numbering etc yourself :-(
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\title{Ordinal Pattern Features: Statistical Properties and Their Applications to Time Series Clustering}
+	
+	\author{Rasika Dilhani}
+	\supervisors{Alejandro C.\ Frery, Andrea A.\ Rey and Nokuthaba Sibanda}
+	
+\subject{Data Science}
+\abstract{%
+	Time series analysis is central to understanding the dynamics of complex systems, yet classical time- and frequency-domain methods often rely on assumptions such as linearity, stationarity or Gaussianity that real-world data frequently violate. The ordinal-pattern approach introduced by Bandt and Pompe offers a non-parametric alternative: it maps local segments of a series to rank-based symbols and summarises their distribution with information-theoretic descriptors. The method is invariant to monotonic transformations, computationally inexpensive, and robust to outliers. Although these descriptors are widely used to characterise individual series, the joint use of a rich set of ordinal-pattern features as a basis for time series clustering and classification has received limited systematic attention.
+	
+	This thesis develops and evaluates a feature space of thirteen ordinal-pattern descriptors: the Shannon, R\'enyi and Tsallis entropies and the Fisher information measure; their associated statistical complexities; the disequilibrium; and variance-based measures of feature stability derived from the asymptotic distribution of the entropies. The descriptors are first studied through a simulation design based on convex combinations $X_t(w) = wX_t^{(S)} + (1-w)X_t^{(D)}$ of stochastic (AR(2), MA(2), ARMA(2,2)) and deterministic (logistic map, sine) processes. Varying the weight $w$ traces paths across the entropy--complexity plane and fills regions that pure models leave empty. Applying $k$-means to fifteen resulting model classes with series of length $n = 10\,000$ (embedding dimension $D = 4$) yields eleven clusters, selected by silhouette analysis, that largely correspond to the generating mechanisms; only borderline mixtures fall between neighbouring regimes. Clustering is poor for $n = 1000$. The three entropies prove almost perfectly correlated ($r \approx 0.99$), whereas the Fisher-based and variance-based features carry largely independent information.
+	
+	The features are then applied to two real-world problems. For Sentinel-1 SAR time series covering five land-cover classes, entropy, complexity and Fisher-based descriptors classified with a support vector machine reach sensitivities of 91.7\% (Forest) and 83.3\% (Agriculture), while Urban and Water remain difficult to separate. For RSAM seismic amplitude records at Whakaari, New Zealand (stations WIZ and WSRZ, 2014--2019), $k$-means and DBSCAN on weekly feature windows do not recover the Volcanic Alert Level classes (adjusted Rand index $< 0.06$). A class-weighted SVM recovers up to two of four eruption windows at WSRZ, which shows both the potential and the current limits of these features for detecting volcanic unrest.
+	% [once completed I have to add: An event coincidence analysis further shows that ...]
+	
+	Overall, the thesis shows that ordinal-pattern features provide an interpretable, model-free representation that separates distinct dynamical regimes when series are sufficiently long. It also identifies the sample sizes, feature redundancies and application settings in which their discriminative power is limited.
+}
+	
+	
+	% Books don't normally have abstracts, and this is a bit of a hack
+	
+	% Uncomment the appropriate degree
+	\phd
+	%\mscthesisonly
+	%\mscwithhonours
+	%\mscbothparts
+	% \otherdegree{DEGREE OR DIPLOMA NAME}
+	
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%New commands:
+	
+	\newcommand{\Sha}{\rotatebox[origin=c]{180}{$\Pi\kern-0.361em\Pi$}}
+	\newcommand{\ot}{\otimes}
+	\newtheorem{definition}{Definition}
+	\newtheorem{theo}{Theorem}
+	\newtheorem{contoh}{Example}
+	\newtheorem{cor}{Corollary}
+	\newtheorem{prop}{Proposition}
+	\newtheorem{lemma}{Lemma}
+	\newtheorem{remark}{Remark}
+	\newtheorem{conjecture}{Conjecture}
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\maketitle
+	
+	%\include{thesis-acknowledge}
+	
+	\tableofcontents
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	% book style knows about mainmatter
+	% if you are using report style you will have to rest page numbering etc.
+	\mainmatter
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	% individual chapters included here
+	
+%	\include{Chapter1}
+%	\include{Chapter2}
+	\include{Chapter3}
+%	\include{Chapter4}
+%	\include{Chapter5}
+%	\include{Chapter6}
+%	\include{Chapter7}
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	% and of course book style knows about backmatter
+	% \backmatter caused problems with appendices :-(
+	% and of course report style doesn't
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	
+	%\bibliographystyle{ieeetr}
+	\bibliographystyle{acm}
+%	\bibliography{../BearingFaultDiagnosis,../seismic_references,../references}
+\bibliography{../BearingFaultDiagnosis}
+
+	
+\end{document}

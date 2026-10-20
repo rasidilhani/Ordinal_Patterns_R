@@ -1,0 +1,416 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{subcaption} % replaces caption
+\usepackage[shortlabels]{enumitem}
+\usepackage{float}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{microtype}
+\usepackage[mode=text]{siunitx}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{mathrsfs}
+
+\pgfplotsset{compat = newest}
+
+
+% ---------- PATH MACROS FOR FIGURES ----------
+% convex combination plots
+\newcommand{\convexBase}{../../../Results/Convex_combination}
+
+\title{Asymptotic Distribution of Entropy and Complexity}
+\author{Rasika Dilhani}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+
+
+\section{Introduction}
+Ordinal patterns provide a powerful symbolic transformation for uncovering latent dynamics in time series data. This approach involves constructing histograms of ordinal patterns and computing information theoretic quantities such as entropy and statistical complexity. However, determining the exact distribution of features derived from ordinal patterns remains a challenging problem \cite{Chagas2022, Rey2023a, silbernagel2025joint}.
+
+\subsection{Challenges in Determining the Distribution}
+
+Determining the exact distribution of permutation entropy remains difficult mainly because there are very limited theoretical results available. One key challenge is that ordinal patterns are not independent; even if the original time series is simple, the transformation into ordinal patterns introduces dependence between them. Furthermore, as the embedding dimension $(D)$ increases, the number of possible patterns increase rapidly, which makes the analysis more complex. 
+
+In addition, the distribution of ordinal patterns features depends on several factors, including the sample size $n$ and the nature of the underlying process, whether deterministic or stochastic. For these reasons, the probability distribution of ordinal patterns is usually estimated empirically rather than derived analytically. 
+
+\subsection{Empirical Approaches to Entropy Estimation}
+
+Due to these challenges, the study of permutation entropy is largely based on empirical methods. In practice, entropy is estimated using the observed relative frequencies of ordinal patterns, as closed-form expressions for their distribution are generally not available \cite{Bandt2002}. Thus, permutation entropy relies on probability estimates derived directly from the data, since the true underlying distribution is unknown.
+
+The statistical properties of these estimators, including bias, variance, and consistency, are typically investigated using simulation-based techniques such as Monte Carlo experiments and resampling methods \cite{Amigo2012}. These empirical approaches provide valuable insights into the finite-sample behavior of entropy measures and support their application in real-world time series analysis.
+
+\subsection{Summary of Existing Literature}
+
+Although ordinal pattern related methods have been widely used in nonlinear time series analysis, the statistical properties of the derived features, including their distributions and inferential characteristics, remain only partially understood. Consequently, a number of studies have investigated different statistical frameworks for analyzing these features.
+
+Table~\ref{tab:StatisticalProperties} summarizes selected research articles and the corresponding statistical distributions or test statistics employed.
+
+\begin{longtable}{|p{5.5cm}|p{2.5cm}|p{6.5cm}|}
+	\caption{The test statistics used by the research articles for hypothesis testing}
+	\label{tab:StatisticalProperties} \\
+	\hline
+	\textbf{Paper Title/Reference} & \textbf{Distribution} & \textbf{Brief Description} \\
+	\hline
+	\endfirsthead
+	
+	\multicolumn{3}{c}%
+	{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+	\hline
+	\textbf{Paper Title/Reference} & \textbf{Distribution} & \textbf{Brief Description} \\
+	\hline
+	\endhead
+	
+	\hline \multicolumn{3}{r}{{Continued on next page}} \\
+	\endfoot
+	
+	\hline
+	\endlastfoot
+	
+	A non-parametric independence test using permutation entropy. Matilla-García et.al.~\cite{MatillaGarcia2008} & Empirical (permutation) distribution & Tests independence by comparing the observed permutation entropy-based statistic to its distribution under random shuffling (permutation) of the time series.\\
+	\hline
+	Asymptotic distribution of certain types of entropy under the multinomial law. Rey at.at.~\cite{Rey2023} & Normal, Chi-squared ($\chi^2$) & Analyzes the asymptotic distribution (normal and chi-squared) of entropy estimators under the multinomial law. \\
+	\hline
+	Asymptotic distribution of entropies and Fisher information measure of ordinal patterns with applications. Reyet.al.~\cite{Rey2024} & Normal, Chi-squared ($\chi^2$) & Provides asymptotic distributions for entropy and Fisher information measures of ordinal patterns. \\
+	\hline
+	Asymptotic distribution of the permutation entropy. Rey at.al.~\cite{Rey2023a} & Normal & Derives the asymptotic normal distribution for permutation entropy estimators. \\
+	\hline
+	Asymptotic distribution of the statistical complexity under the multinomial law. Rey at.al.~\cite{Rey2025} & Normal, Chi-squared ($\chi^2$) & Studies the asymptotic distribution of statistical complexity measures derived from ordinal patterns under the multinomial law. \\
+	\hline
+	Assessing serial dependence in ordinal patterns processes using chi-squared tests with application to EEG data. Yamashita et.al.~\cite{YamashitaRiosDeSousa2022} & Chi-squared ($\chi^2$) & Applies chi-squared tests to assess serial dependence in ordinal pattern processes, with application to EEG data. \\
+	\hline
+	Bearing fault diagnosis based on Alpha-stable distribution feature extraction and SVM classifier. Chouri et.al.~\cite{Chouri2014} & Alpha-stable & Uses alpha-stable distribution parameters for feature extraction and SVM for classification in bearing fault diagnosis. \\
+	\hline
+	Belief permutation entropy of time series: A natural transition in analytical framework from probability theory to evidence theory. Xie et. al.~\cite{Xie2025} & Belief functions, Evidence theory basis & Introduces belief permutation entropy (BPE) using evidence theory (belief functions and mass assignments) and Deng entropy instead of classical probability distributions. \\
+	\hline
+	Markov modeling via ordinal partitions: An alternative paradigm for network-based time-series analysis. Sakellariou et.al.~\cite{Sakellariou2019} & Markov (transition) probabilities & Uses Markov models constructed from ordinal partitions to analyze time series as networks. \\
+	\hline
+	On the statistical properties of Multiscale Permutation Entropy: Characterization of the estimator's variance. Dávalos et.al.~\cite{Davalos2019a} & Normal (asymptotic) & Shows that the multiscale permutation entropy estimator is asymptotically normally distributed, allowing inference on variance.\\
+	\hline
+	Price predictability at ultra high frequency:Entropy based randomness test. Shternshis et.al.~\cite{Shternshis2025}& Chi-squared ($\chi^2$) & Proposes a randomness test for time series based on entropy, with asymptotic chi-squared distribution for the test statistic. \\
+	\hline
+	Statistical properties of the entropy from ordinal patterns. Chagas et.al.~\cite{Chagas2022} & Normal & Investigates statistical properties and asymptotic normality of entropy estimators from ordinal patterns. \\
+	\hline
+	The asymptotic distribution of the permutation entropy. Rey at.al.~\cite{Rey2023a} & Normal & Derives the asymptotic normal distribution for permutation entropy estimators. \\
+	\hline
+	The modified permutation entropy-based independence test of time series. Ashtari et.al.~\cite{AshtariNezhad2019} & Empirical (permutation) distribution & Tests independence by comparing the observed permutation entropy-based statistic to its distribution under random shuffling (permutation) of the time series.\\
+	\hline
+	White Noise Test from ordinal patterns in the entropy-complexity plane. Chagas et.al.~\cite{Chagas2022a} & Empirical Distribution & Used in white noise tests by repeatedly shuffling the time series to estimate the null distribution of the test statistic.\\
+	\hline
+	The Joint Asymptotic Distribution of Entropy and Complexity. Angelika et.al.~\cite{silbernagel2025joint} & Empirical Distribution & The study derives the asymptotic distribution of ordinal pattern frequencies under weak dependence conditions and examines the long-run covariance matrix. This analysis is conducted both analytically for specific processes, including moving average, Gaussian, and a generalized coin-tossing model, and approximately through simulation-based methods.\\
+	\hline
+	
+\end{longtable}
+
+Two main approaches to statistical analysis can be identified in the literature: empirical distributions and asymptotic distributions.
+
+Empirical distributions are constructed directly from observed data and are often used in hypothesis testing through permutation or resampling techniques \cite{Chagas2022a, DeMicco2008, Larrondo2005, Larrondo2006}. 
+
+On the other hand, asymptotic distributions provide theoretical approximations under specific assumptions. These typically include models based on independent patterns (multinomial model) as well as extensions that account for dependence among ordinal patterns. 
+
+The next three sections examine the distribution of ordinal patterns and present asymptotic results for entropy measures, including Shannon, R\'enyi, and Tsallis entropies. In addition, the asymptotic distribution of statistical complexity is analyzed under both independence and dependence assumptions.
+
+\subsection{Ordinal Patterns} 
+In this section, the ordinal pattern methodology proposed by Bandt and Pompe is briefly described. Let $\mathbf{x}=(x_1, x_2, \dots, x_{n+D-1})$ be a real-valued time series, where $n$ and $D$ are positive integers. For $t=1,2,\dots,n,$ let $s_t=(x_t,x_{t+1},\dots,x_{t+D-1})$ denote an overlapping window of $D$ consecutive values in $\mathbf{x}.$ 
+
+Consider $\pi^1,\pi^2,\dots,\pi^k$, where $k=D!$, as the set of labeled permutations of the elements $0,1,\dots,D-1,$ representing all possible ordinal patterns. From the time series $\mathbf{x}$, a sequence of symbols can be obtained, and its ordinal patterns can be represented as $\boldsymbol{\pi}= (\pi_1,\pi_2,\dots,\pi_n),$ where $\pi_j \in \{\pi^1,\pi^2,\dots,\pi^k\}$ for $j=1,2,\dots, n.$
+
+The ordinal pattern probability vector $\mathbf{p} = (p_1, p_2, \dots, p_k)$, with $p_\ell \ge 0$ and $\sum_{\ell=1}^k p_\ell = 1$, depends on the underlying dynamics of the time series. In this context, $p_\ell$ denotes the relative frequency of $\pi^\ell$ in the sequence of ordinal patterns, for $\ell = 1,2,\dots,k.$ The two limiting cases can be described as follows:
+\begin{enumerate}[label=\roman*.]
+	\item $p_\ell =1$ for a single $\ell$ and $p_j =0$ for all $j \neq \ell,$ corresponding to a monotonic time series;
+	\item $p_\ell =1/k$ for all $\ell = 1,2,\dots,k,$ corresponding to a completely random system. 
+\end{enumerate}
+
+Ordinal patterns $\pi_t$ and $\pi_{t+r}$ are generally dependent for $r=1,2,\dots,D-1$ and $t=1,2,\dots,n-r$. This dependence arises because $\pi_t$ is constructed from the subsequence $s_t$, while $\pi_{t+r}$ is constructed from $s_{t+r}$, and these subsequences overlap. Consequently, the overlap encodes information about the underlying, unobserved dynamics of the time series. The transition structure between ordinal patterns can therefore be characterized probabilistically.
+
+For $r=1,2,\dots,D-1,$ the ordinal pattern transition matrix of order $r$ is defined as $\mathbf{Q}^{(r)} \in \mathbb{R}^{k \times k},$ with entries
+\begin{equation}
+	p^{(r)}_{\ell,j} = \Pr(\pi_t = \pi^{(\ell)}, \pi_{t+r} = \pi^{(j)}) 
+	= p_\ell \Pr(\pi_{t+r} = \pi^{(j)} \mid \pi_t = \pi^{(\ell)}),
+\end{equation}
+for $\ell, j = 1,2,\dots,k.$
+
+Let $\mathbf{N} = (N_1, N_2, \dots, N_k)$ denote the vector of counts, where the $\ell$th component $N_\ell$ represents the number of occurrences of the ordinal pattern $\pi^{(\ell)}$ in the sequence $\boldsymbol{\pi}$, for $\ell = 1,2,\dots,k.$ That is,
+\begin{equation}
+	N_\ell = \#\{\pi_t \in \boldsymbol{\pi} : \pi_t = \pi^{(\ell)}\}.
+\end{equation}
+
+The relative frequency $N_\ell / n$ provides an estimator of $p_\ell$. Accordingly, define the empirical probability vector
+\begin{equation}
+	\hat{\mathbf{p}}_n = \left(\frac{N_1}{n}, \frac{N_2}{n}, \dots, \frac{N_k}{n}\right) 
+	= (\hat{p}_{1,n}, \hat{p}_{2,n}, \dots, \hat{p}_{k,n}).
+\end{equation}
+
+Let $\mathbf{D}_{\mathbf{p}} = \mathrm{Diag}(p_1, p_2, \dots, p_k)$ denote the diagonal matrix formed from $\mathbf{p}$. According to Yamasitha et al.~\cite{YamashitaRiosDeSousa2022}, the estimator $\hat{\mathbf{p}}_n$ satisfies the asymptotic distribution
+\begin{equation}
+	\sqrt{n}(\hat{\mathbf{p}}_n - \mathbf{p}) \xrightarrow{D} \mathcal{N}(\mathbf{0}, \boldsymbol{\Sigma}),
+\end{equation}
+where
+\begin{equation}
+	\boldsymbol{\Sigma} = \mathbf{D}_{\mathbf{p}} - (2D-1)\mathbf{p}\mathbf{p}^T 
+	+ \sum_{r=1}^{D-1} \left( \mathbf{Q}^{(r)} + (\mathbf{Q}^{(r)})^T \right),
+\end{equation}
+and $T$ denotes the transpose operator.
+
+Furthermore, the elements of $\boldsymbol{\Sigma}$ can be expressed explicitly. For $\ell, j = 1,2,\dots,k,$
+\begin{equation}
+	\Sigma_{\ell j} =
+	\begin{cases}
+		p_\ell - (2D-1)p_\ell^2 + 2 \displaystyle\sum_{r=1}^{D-1} p^{(r)}_{\ell,\ell}, & \text{if } \ell = j, \\[6pt]
+		-(2D-1)p_\ell p_j + \displaystyle\sum_{r=1}^{D-1} \left( p^{(r)}_{\ell,j} + p^{(r)}_{j,\ell} \right), & \text{if } \ell \neq j.
+	\end{cases}
+\end{equation}
+
+The covariance structure depends on the transition probabilities defined in Frery et al.~\cite{Frery2024}. Explicit forms of the matrices $\mathbf{Q}^{(r)}$ are available for several processes, including random walks and white noise~\cite{YamashitaRiosDeSousa2022}, as well as for processes generated by repeated draws of a discrete random variable with equally likely outcomes $\pm 1$~\cite{Elsinger2010}, particularly for $D=3$.
+
+In practical applications, the matrices $\mathbf{Q}^{(r)}$ can be estimated directly from data using the relative frequencies of observed transitions between ordinal patterns.
+
+\subsection {Asymptotic Distribution of the Entropy under the Multinomial Model}\label{Subsec:Multinomial} 
+
+The multinomial distribution models counts of observations in $k$ mutually exclusive categories $\pi^1,\pi^2,\dots,\pi^k$ from $n$ independent trials, with probability vector $\mathbf{p} = (p_1, p_2, \dots, p_k)$, $p_\ell \ge 0$, $\sum_{\ell=1}^k p_\ell = 1$. Let $\mathbf{N} = (N_1, \dots, N_k)$ denote category counts, $\sum_{\ell=1}^k N_\ell = n$. Its probability mass function is
+\[
+\Pr(\mathbf{N} = \mathbf{n}) = n! \prod_{\ell=1}^k \frac{p_\ell^{n_\ell}}{n_\ell!}, \quad \mathbf{N} \sim \mathrm{Mult}(n, \mathbf{p}),
+\]
+with moments
+\[
+E(N_\ell) = n p_\ell, \quad
+\mathrm{Var}(N_\ell) = n p_\ell (1-p_\ell), \quad
+\mathrm{Cov}(N_\ell, N_j) = -n p_\ell p_j.
+\]
+
+The maximum likelihood (ML) estimator $\widehat{p}_\ell = N_\ell / n$ satisfies $n\widehat{\mathbf{p}} \sim \mathrm{Mult}(n,\mathbf{p})$. For any smooth function $g(\mathbf{p})$, the plug-in estimator $\widehat{g}(\mathbf{p}) = g(\widehat{\mathbf{p}})$ is also ML, enabling the asymptotic distribution of Shannon entropy
+\begin{equation}
+	H(\mathbf{p}) = -\sum_{\ell=1}^k p_\ell \log p_\ell,
+	\label{eq:AsymEntropy}
+\end{equation}
+to be derived from the asymptotic normality of $\widehat{\mathbf{p}}$ as $n \to \infty$.
+The Shannon's entropy of a multinomial distributed random variable is bounded between 0 and $\ln k$. The minimum is attained when $p_{\ell}=1$ for some $1\leq \ell \leq k$ and $p_j=0$ for every $j\ne \ell$. The expression is maximized by $p_{\ell}=1/k$ for every $1\leq \ell \leq k$.  
+
+Further, asymptotic distribution can be described as follows. Let $X_n=(X_{1n},X_{2n},\dots,X_{kn})$ be a sequence of independent and identical distributed random vectors, with distribution $\text{Mult}(n,\mathbf{p})$. If $\widehat{\mathbf{p}}$ denotes the vector of sample proportions, and 
+\[\mathbf{Y}_n=\sqrt{n}(\widehat{\mathbf{p}}-\mathbf{p})\] 
+then
+\[E(\mathbf{Y}_n)=\bm 0,\]
+\[\text{Cov}(\mathbf{Y}_n)=\mathbf{D_p}-\mathbf{pp}^T,\]
+where $\mathbf{D_p}=\text{Diag}(p_1,p_2,\dots,p_k)$, and the superscript $T$ denotes transposition. The asymptotic distribution of $\mathbf{Y}_n$ is multivariate normal with mean vector $\bm 0$ and covariance matrix $\mathbf{D_p}-\mathbf{pp}^T$, denoted as
+
+\begin{equation}
+	\mathbf{Y}_n \xrightarrow{\mathscr{D}} N(\mathbf{0}, \mathbf{D_p}-\mathbf{pp}^T).
+	\label{eq:Cov} 
+\end{equation}
+
+Our focus is on the statistical properties of $H(\mathbf{p})$ when $\mathbf{p}$ is replaced by its maximum likelihood estimate $\widehat{\mathbf{p}} = (\widehat{p}_1, \widehat{p}_2, \dots, \widehat{p}_k)$. The problem thus reduces to determining the distribution of $H(\widehat{\mathbf{p}})$.
+
+\begin{align}
+	H(\widehat{\mathbf{p}})
+	&= -\sum_{\ell=1}^k \widehat{p}_\ell \log \widehat{p}_\ell \nonumber \\
+	&= -\sum_{\ell=1}^k \frac{N_\ell}{n} \log \frac{N_\ell}{n} \nonumber \\
+	&= \log n - \frac{1}{n} \sum_{\ell=1}^k N_\ell \log N_\ell,
+\end{align}
+under $N=(N_1,N_2,\dots,N_k)\sim \text{Mult}(n,\mathbf{p})$
+
+For the asymptotic distribution case, we refer to the Delta Method theorems and their multivariate version.
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+
+\begin{theorem}[Delta Method, univariate]
+	Let $X_n$ be a sequence of independent and identically distributed random variables such that 
+	$\sqrt{n}(X_n - \theta) \xrightarrow{\mathscr{D}} N(0,\sigma^2)$. 
+	Consider a function $h$ such that $h'(\theta)$ exists and $h'(\theta)\neq 0$. 
+	Then,
+	\[
+	\sqrt{n}\,[h(X_n)-h(\theta)] \xrightarrow{\mathscr{D}} N\!\left(0,\,\sigma^2 [h'(\theta)]^2\right).
+	\]
+\end{theorem}
+
+\begin{theorem}[Delta Method, multivariate]
+	Let $\mathbf{X}_n= (X_{1n}, X_{2n}, \dots, X_{kn})$ be a sequence of independent and identically distributed random vectors such that 
+	\[
+	\sqrt{n}\,(\mathbf{X}_n - \boldsymbol{\theta}) \xrightarrow{\mathscr{D}} N_k(\mathbf{0},\Sigma),
+	\]
+	where $\boldsymbol{\theta} = (\theta_1,\theta_2,\dots,\theta_k)$ and $\Sigma$ is the covariance matrix. 
+	Suppose that $h\colon\mathbb{R}^k \to \mathbb{R}^m$ is continuously differentiable in a neighborhood of $\boldsymbol{\theta}$, with Jacobian matrix
+	\[
+	B = \left( \frac{\partial h_i}{\partial \theta_j} \right)_{i,j=1}^k,
+	\]
+	which is non-singular at $\boldsymbol{\theta}$. Then,
+	\[
+	\sqrt{n}\,\big(h(\mathbf{X}_n)-h(\boldsymbol{\theta})\big) \xrightarrow{\mathscr{D}} N_m\!\left(\mathbf{0},\, B \Sigma B^T\right).
+	\]
+\end{theorem}
+
+Further, covariance matrix of Equation~\eqref{eq:Cov} can be expressed as 
+%%% ACF Use \eqref when referring to equations
+%%% ACF Do not leave blank lines between elements of the same sentence
+\begin{equation}
+	(\mathbf{D_p}-\mathbf{pp}^T)_{\ell j} =
+	\begin{cases}
+		p_{\ell}(1-p_{\ell}), & \text{if } \ell = j, \\[6pt]
+		-\,p_{\ell}p_{j}, & \text{if } \ell \neq j,
+	\end{cases}
+\end{equation}
+for $1\leq {\ell}, j\leq k.$
+Even for dependent processes (e.g., Markov chains), normalized Shannon entropy converges to a normal distribution with variance determined by the covariance structure of $\widehat{\mathbf{p}}$. 
+
+Rey et. al.~\cite{Rey2025} derived the asymptotic distribution of statistical complexity, defined as normalized Shannon entropy times normalized Jensen–Shannon divergence from the uniform distribution under the multinomial model. They demonstrated convergence to normality, with variance and bias reflecting the system’s dynamics. Numerical studies confirm robustness even when the multinomial model is approximate, such as in Bandt–Pompe ordinal patterns. 
+
+We refer the asymptotic equation for the mean and variance provided by Rey et. al.~\cite{Rey2025} for our research work.
+%%% ACF The following is strange; the left part depends on p, the right-hand side depends on \widehat p: Rasika corrected it
+\begin{equation}
+	\mu_{n,\widehat{\mathbf{p}}}	= H(\widehat{\mathbf{p}})
+	= -\sum_{\ell=1}^k \widehat{p}_\ell \log \widehat{p}_\ell 
+	\label{eq:AsympMean}
+\end{equation}  
+
+%%% ACF Is the verb missing?
+The estimator in~\eqref{eq:AsympMean} is normally distributed with mean $H(\mathbf{p})$ and variance $\sigma^2_{n,\mathbf{p}}$, where
+\begin{equation}
+	\sigma^2_{n,\mathbf{p}}=\dfrac{1}{n}\sum_{\ell=1}^{k}p_\ell(1-p_\ell)(\log p_\ell+1)^2-\dfrac{2}{n}\sum_{j=1}^{k-1}\sum_{\ell=j+1}^{k}p_\ell p_j(\log p_\ell+1)(\log p_j+1).
+\end{equation}
+
+
+\subsection{Asymptotic distribution of Permutation Entropy under the pattern dependence}\label{Subsec:PatternDependence}
+
+As we discussed earlier, real-valued time series $\mathbf{x}=\{x_1,x_2,\dots,x_{n+D-1}\}$  transform into the series symbols $\mathbf{{\pi}}=({\pi}_1, {\pi}_2,\dots, {\pi}_n)$ from sub-sequences of embedding dimension $D$, where we considered $D!=k$. Due to the overlapping of time windows, the ordinal patterns which we calculate are dependent. 
+%%% ACF Use \dots and correct punctuation
+For $i=1,2,\dots k$, let $p_i$ be the probability of observing the state $\pi_i$, denote the vector probabilities, $\mathbf{p}={\left\{p_1,p_2,\dots,p_k\right\}}$ and express as $\mathbf{D_p}=\text{Diag}(p_1,p_2, \dots, p_k)$ the diagonal matrix. 
+The transition probability of reaching state $\pi_j$ at time 
+%%% ACF Is this the same \ell as before? No, I corrected it.
+$t+r$ from the state $\pi_i$ at time $t$, for $r=1,2,\dots,D-1$, is denoted by $p^{(r)}_{ij}$. These transition probabilities can be collected in the matrix $\mathbf{Q}^{(r)}$ whose elements are  $p^{(r)}_{ij}$. As describe in the Rey et al.~\cite{Rey2023a} when $n$ is sufficiently large, asymptotic variance of the Shannon entropy defined as follows:
+
+\begin{equation}
+	\begin{split}
+		\widehat{\nu}^2_{\widehat{\mathbf{p}}} = \widehat{\sigma}^2_{\widehat{\mathbf{p}}} + 
+		& \sum_{i=1}^{k}(\log p_i + 1)^2 
+		\left[ (2D - 2)p_i^2 + 2\sum_{r=1}^{D-1} \mathbf{Q}^{(r)}_{ii} \right] \\
+		& - 2 \sum_{i=1}^{k-1} \sum_{j=i+1}^{k} (\log p_i + 1)(\log p_j + 1) \\
+		& \quad \times \left[ (2D - 1)p_i p_j - \sum_{r=1}^{D-1} \left( \mathbf{Q}^{(r)}_{ij} + \mathbf{Q}^{(r)}_{ji} \right) \right].
+	\end{split}
+	\label{eq:asympvar}
+\end{equation} 
+
+
+%%% ACF The first sentence repeats the last of the previous paragraph: remove the preious content 
+%Asymptotic variance of the Shannon entropy of ordinal patterns considering their correlation structure is given in Equation~\ref{eq:asympvar}.
+%%% ACF Again, a deterministic quantity does not have a normal distribution: Modified the sentence
+For practical purposes, given $n$ sufficiently large, the estimator in~\eqref{eq:AsymEntropy} can be approximated by a normal distribution with mean $H(\widehat{\mathbf{p}})$ and variance $\widehat{\nu}^2_{\widehat{\mathbf{p}}}/n$. In addition, for $\alpha \in (0,1)$ and sufficiently large $n$, the $(1-\alpha)$\SI{100}{\percent} confidence interval for the estimated entropy is given below.
+
+\begin{equation}
+	H(\widehat{\mathbf{p}})\pm \dfrac{Z_{\alpha/2}\widehat{\nu}_{\widehat{\mathbf{p}}}}{\sqrt{n}},
+	\label{eq:ConfidenceInterval}
+\end{equation} 
+where $Z_{\alpha/2}$ is the $\alpha/2$-quantile of a standard normal random variable.
+
+For convenience, Equation~\ref{eq:ConfidenceInterval} is referred to and defined as follows.
+\begin{equation}
+	H(\widehat{\mathbf{p}})\pm \textbf{Semi Length},
+	\label{eq:CI}
+\end{equation} 
+where $\textbf{Semi Length}=\dfrac{Z_{\alpha/2}\widehat{\nu}_{\widehat{\mathbf{p}}}}{\sqrt{n}}$
+
+\subsection{Asymptotic Variance of Statistical Complexity $C(\widehat{\mathbf{p}})$} \label{Subsec:AsympVarComplexity} 
+The asymptotic variance of the statistical complexity $C(\widehat{\mathbf{p}})$, under both the multinomial model and dependence, can be expressed using formulas derived for permutation entropy, the Jensen-Shannon divergence, and their joint asymptotics. The key approach follows Rey et al.~\cite{Rey2025} and recent research work by Silbernagel et al.~\cite{silbernagel2025joint} , employing the multivariate Delta method for functions of multinomial proportions.
+
+
+%%% ACF If it is estimated, it is a constant and its variance is zero: corrected it. 
+The variance of the complexity, $C(\widehat{\mathbf{p}})$, has two estimators:
+\begin{itemize}
+	%%% ACF Provide the expression taking care to make the notation match previous definitions
+	\item \textbf{Multinomial model variance}, denoted as $\widehat{\omega}^2_{\widehat{\mathbf{p}}}$, which assumes independent ordinal patterns.
+	\item \textbf{Serial dependence variance}, denoted as $\widehat{\eta}^2_{\widehat{\mathbf{p}}}$.
+\end{itemize}
+
+\subsubsection{Formula for Asymptotic Variance of Statistical Complexity}
+Let:
+\begin{itemize}
+	\item $\mathbf{p} = (p_1,\dots, p_k):$ ordinal patterns probability vector
+	\item $\widehat{\mathbf{p}} = (\widehat{p}_1,\dots, \widehat{p}_k):$ empirical probability vector
+	\item $n:$ sample size
+	\item $H(\widehat{\mathbf{p}}):$ normalized Shannon entropy
+	\item $Q(\widehat{\mathbf{p}}):$ normalized Jensen Shannon divergence from the uniform distribution
+	\item $C(\widehat{\mathbf{p}})=H(\widehat{\mathbf{p}}) \times Q(\widehat{\mathbf{p}}):$ normalized statistical complexity
+\end{itemize}
+
+\begin{enumerate}
+	\item \textbf{Multinomial Model (Independence)}
+	
+	The estimator is asymptotically normal:
+	$$ \sqrt{n}(C(\widehat{\mathbf{p}})-C(\mathbf{p})) \xrightarrow{\mathscr{D}} N(\mathbf{0}, \widehat{\omega}^2_{\widehat{\mathbf{p}}}),$$
+	where the asymptotic variance is 
+	$$\widehat{\omega}^2_{\widehat{\mathbf{p}}}= \nabla C(\mathbf{p})^T \Sigma \nabla C(\mathbf{p}).$$
+	
+	\begin{itemize}
+		\item $\Sigma =\mathbf{D_p}-\mathbf{p}\mathbf{p}^T$ is the covariance matrix of sample proportions under independence. 
+		\item $\nabla C(\mathbf{p})$ is the gradient (vector of partial derivatives) of $C$ with respect to $\mathbf{p}:$
+		$$\dfrac{\partial C}{\partial p_\ell}=Q(\mathbf{p})\dfrac{\partial H}{\partial p_\ell}+H(\mathbf{p})\dfrac{\partial Q}{\partial p_\ell},$$
+		where: 
+		
+		\item $\dfrac{\partial H}{\partial p_\ell}=-(\log p_\ell +1),$ 
+		\item The exact partial derivative of Jensen-Shannon divergence $Q(\mathbf{p})$ with respect to depends on the definition but can be explicitly calculated.
+	\end{itemize}
+	
+	
+	\item \textbf{Serial Dependence Case} 
+	
+	For dependent ordinal patterns, the asymptotic variance increases: 
+	$$\widehat{\eta}^2_{\widehat{\mathbf{p}}} = a \times \widehat{\omega}^2_{\widehat{\mathbf{p}}},$$
+	
+	where:
+	\begin{itemize}
+		\item 
+		$a = \dfrac{\widehat{\nu}^2_{\widehat{\mathbf{p}}}}{\widehat{\sigma}^2_{\widehat{\mathbf{p}}}},$ 
+		\item  $\widehat{\nu}^2_{\widehat{\mathbf{p}}}$ is the variance of entropy under serial dependence,
+		\item $\widehat{\sigma}^2_{\widehat{\mathbf{p}}}$ is the variance of entropy under independence.
+	\end{itemize}
+	
+	%%% ACF Provide the equations
+	% \item \textbf{Variance Expression for Complexity (Expanded)}
+\end{enumerate}
+Bringing these results together:
+\[ \text{Var}(C(\widehat{\mathbf{p}})) = \widehat{\eta}^2_{\widehat{\mathbf{p}}} \approx a \nabla C(\mathbf{{p}})^T \Sigma \nabla C(\mathbf{{p}})
+\]
+
+\subsection{Other types of Entropy}
+%%% ACF At the end of this section, what do we know about them? Any asymptotic result? Under which conditions? Pagraph added 
+
+Moreover, other types of descriptors, such as Rényi entropy~\cite{renyi1961measures}, Tsallis entropy~\cite{tsallis1988possible}, and Fisher information~\cite{frieden2004science}, have been proposed to extract additional information that is not captured by Shannon entropy.
+From these entropy measures, Fisher information has garnered more attention due to its unique properties. Fisher information is defined as the average logarithmic derivative of a continuous probability density function.
+
+For discrete probability distributions, Fisher information can be approximated by calculating the differences between probabilities of consecutive distribution elements. A key distinction between Shannon entropy and Fisher information lies in their focus: Shannon entropy quantifies the overall unpredictability of a system, while Fisher information measures the rate of change between consecutive observations, making it more sensitive to small changes and perturbations.
+
+The following equations define Tsallis entropy $	(H_{T}^{q}(\widehat{\mathbf{p}}))$, Rényi entropy $(H_{R}^{q}(\widehat{\mathbf{p}}))$, and Fisher information measures $(H_{F}(\widehat{\mathbf{p}}))$ \cite{sanchez2009discrete} :
+\begin{equation}
+	H_{T}^{q}(\widehat{\mathbf{p}})=\sum_{\ell=1}^{k}\dfrac{\widehat{p_\ell}-\widehat{p_\ell}^q}{q-1},
+\end{equation}
+where the index $q\in \mathbb{R}\backslash \{1\}$
+\begin{equation}
+	H_{R}^{q}(\widehat{\mathbf{p}})=\dfrac{1}{1-q} \log \sum_{\ell=1}^{k}{\widehat{p_\ell}}^q,
+\end{equation}
+where the index $q\in \mathbb{R}^{+}\backslash \{1\}$
+\begin{equation}
+	H_F(\widehat{\mathbf{p}})=F_0\sum_{\ell=1}^{k-1}\Big(\sqrt{\widehat{p_\ell}_{+1}}-\sqrt{\widehat{p_\ell}}\Big)^2 ,
+\end{equation}
+where the re-normalization coefficient is $F_0=4$ \cite{sanchez2009discrete}
+
+Rényi entropy, Tsallis entropy, and Fisher information are alternative statistical measures that reveal specific aspects of time-series structure and variability not captured by Shannon entropy. Rey et al. demonstrated that, when computed from empirical ordinal pattern distributions, these measures become increasingly reliable as sample size grows. Specifically, their sample estimates approach well-defined asymptotic distributions that can be used for statistical inference and hypothesis testing.
+
+%what do we know about them? Any asymptotic result? Under which conditions? This paragrap explained to the question which you asked
+
+Rényi and Tsallis entropies share well-established asymptotic properties under the multinomial model \cite{Pardo1997, Rey2024, Rey2023}. When ordinal patterns are assumed to be independent and drawn from fixed probabilities, both the sample entropies and the Fisher information converge in distribution as the sample size $n$ increases \cite{Rey2024, Rey2023}. In this setting, the central limit theorem applies, leading to asymptotic normality for the estimators of Rényi and Tsallis entropies, as well as for Fisher information \cite{Bobkov2019, Rey2023}. Explicit expressions for the asymptotic mean and variance are available, allowing for the construction of confidence intervals \cite{Pardo1997, Rey2024}. When the empirical histogram is used instead of true probabilities, these asymptotic results remain valid under large-sample conditions and mild regularity assumptions. Thus, under the multinomial and empirical frameworks, these advanced entropy and information measures possess robust, predictable properties that enable their practical use in time-series analysis and statistical hypothesis testing.
+
+	
+	\bibliographystyle{acm}
+\bibliography{../BearingFaultDiagnosis}
+
+\end{document}
