@@ -1,0 +1,107 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.4ex plus .5ex}{0.8ex}
+\setlist[itemize]{leftmargin=*, itemsep=0.4ex, topsep=0.6ex}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6ex}
+
+\begin{document}
+	
+	\begin{center}
+		{\LARGE\bfseries Six-Month Research Progress Report}\\[1.2ex]
+		\textbf{Name:} Rasika Dilhani \quad$|$\quad
+		\textbf{Programme:} PhD, Victoria University of Wellington\\[0.4ex]
+		\textbf{Supervisor:} A.\,C.~Frery \quad$|$\quad
+		\textbf{Period:} June to December 2026
+	\end{center}
+	
+	\section{Research Overview}
+	
+	My doctoral research focuses on ordinal-pattern (Bandt--Pompe)
+	information-theoretic features, including permutation, Rényi and Tsallis
+	entropies, Fisher information, and statistical complexity, for analyzing
+	and clustering geophysical time series. Over the past six months, I have
+	applied these features to two real-world problems, synthetic aperture
+	radar (SAR) change detection and volcanic seismic monitoring at
+	Whakaari/White Island, while advancing the simulation and writing
+	components of my thesis.
+	
+	\section{Contribution to the IEEE MIGARSS-InGARSS 2026 Conference Paper (SAR)}
+	
+	We submitted a conference paper on ordinal patterns for SAR change
+	detection for the 2026 IEEE MIGARSS-InGARSS conference, in collaboration
+	with researchers at IIT Indore, and my secondary supervisor is from
+	Universidad Nacional de Hurlingham. Paper status: \textbf{Accepted}. My
+	contributions were:
+	
+	\begin{itemize}
+		\item Building the R pipeline that encodes Sentinel-1 SAR pixel time
+		series and computes ordinal-pattern features (Shannon entropy,
+		statistical complexity, and Fisher information).
+		\item Producing the entropy--complexity ($H\times C$) plane analysis of
+		change and no-change pixels at embedding dimensions $D = 3$, $4$,
+		and $5$, which showed that $D = 3$ leads to entropy saturation and
+		supported the recommendation of $D = 4$ or $5$ for series of
+		length~740.
+		\item Preparing the figures and typesetting the manuscript in the IEEE
+		template (Quarto/\LaTeX, Ti\emph{k}Z).
+	\end{itemize}
+	
+	\section{Seismic Amplitude Research at Whakaari/White Island}
+	
+	Using seismic amplitude data from the WIZ and WSRZ stations, I built a
+	reproducible R workflow covering data retrieval from the university
+	server, preprocessing, feature computation and visualisation.
+	
+	\begin{itemize}
+		\item Computed weekly ordinal-pattern features (7-day windows with 1-day
+		overlap and 6-day overlap) from 10-minute RSAM data for July
+		2014 -- December 2019, for the entropy and complexity measures.
+		\item Applied $k$-means and DBSCAN clustering and a class-weighted RBF
+		support vector machine, and validated the results against the
+		GeoNet Volcanic Alert Level (VAL) record using PCA and Sankey
+		visualizations.
+		\item Found that clustering alone did not reliably isolate eruptive
+		periods, such as the 9~December 2019 eruption, even though these
+		periods are clearly visible in the $H\times C$ plane and feature
+		time series. This led me to develop a threshold-based anomaly
+		detection approach and an event coincidence analysis (ECA) that
+		tests whether feature-anomaly weeks coincide with eruption weeks,
+		a novel application of ordinal-pattern features.
+		\item Drafted a report, ``Ordinal-Pattern Cluster Analysis of RSAM Time
+		Series for Detecting Volcanic Seismic Anomalies at Whakaari,
+		2014--2019'', and shared the results with a volcanologist
+		collaborator for expert review of the ground-truth labels.
+	\end{itemize}
+	
+	\section{Thesis Development}
+	
+	I have largely completed the literature review, which surveys how
+	ordinal-pattern features are used across scientific domains and
+	identifies a clear gap: these features have rarely been used for time
+	series clustering or event coincidence analysis. I have also produced
+	simulation results in which 13 ordinal-pattern features computed from
+	convex-combination time series are clustered using the $H\times C$ plane,
+	$k$-means and DBSCAN. I am currently writing the methodology chapter for
+	completed work.
+	
+	\section{Plans for the Next Six Months}
+	
+	I plan to finalize the ECA and threshold-based anomaly detection for
+	Whakaari and prepare the results as a journal manuscript; complete the
+	Wayanad landslide study; integrate the simulation results into the
+	methodology chapter; and complete a full draft of all thesis chapters by
+	April 2027. Continued scholarship support would allow me to complete
+	these outputs and submit my thesis on schedule.
+	
+\end{document}
