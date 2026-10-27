@@ -1,13 +1,13 @@
 % !TeX root = thesis.tex
 \chapter{Methodology}\label{C:aim}
 
-This chapter sets out the methodological framework used throughout the thesis. We begin by explaining why entropy and complexity measures are useful for time series analysis and what their limitations are (Section~\ref{Sec:AdvantagesLimitations}), and why the ordinal pattern approach of Bandt and Pompe is our representation of choice (Section~\ref{Sec:BP method}). Section~\ref{Sec:BackgroundKnowledge} defines the information-theoretic descriptors computed from ordinal pattern distributions: permutation entropy, disequilibrium, statistical complexity, the Rényi and Tsallis entropies, and the two forms of the Fisher information measure used in this work. Section~\ref{Sec:EntropyComplexity} describes the entropy--complexity plane. Section~\ref{Sec:AsymptoticDistribution} reviews the asymptotic distribution of these descriptors, which is what allows us to attach confidence intervals to them. Section~\ref{Sec:Software} describes the two R packages on which all computations rely, and Section~\ref{Subsec:GeneralFramework} summarises the general analysis procedure. Section~\ref{Sec:Simulation} describes the design of a simulation study in which time series with known generating mechanisms are used to test whether ordinal pattern features can separate different dynamics, and Section~\ref{Sec:Clustering} presents the clustering and classification methods used in this study and in the applications. Finally, Section~\ref{Sec:Applications} explains how the same framework is applied to the two geophysical problems studied in this thesis: Synthetic Aperture Radar (SAR) time series for land cover classification and seismic amplitude data from Whakaari/White Island.
+This chapter sets out the methodological framework used throughout the thesis. Section~\ref{Sec:AdvantagesLimitations} explains why entropy and complexity measures are useful for time series analysis and what their limitations are, and Section~\ref{Sec:BP method} explains why the ordinal pattern approach of Bandt and Pompe~\cite{PhysRevLett.88.174102} is our representation of choice. Section~\ref{Sec:OrdinalPatterns} defines ordinal patterns and introduces the notation used in the rest of the thesis. It illustrates the construction with a short synthetic series and with seismic amplitude data from Whakaari/White Island. Section~\ref{Sec:BackgroundKnowledge} defines the information-theoretic descriptors computed from ordinal pattern distributions: permutation entropy, disequilibrium, statistical complexity, the R\'enyi and Tsallis entropies, and the two forms of the Fisher information measure used in this work. Section~\ref{Sec:EntropyComplexity} describes the entropy--complexity plane. Section~\ref{Sec:AsymptoticDistribution} reviews the asymptotic distribution of these descriptors, whose variances we use as additional features. Section~\ref{Sec:Software} describes the two R packages on which all computations rely, and Section~\ref{Subsec:GeneralFramework} summarises the general analysis procedure. Section~\ref{Sec:Simulation} describes the design of a simulation study in which time series with known generating mechanisms are used to test whether ordinal pattern features can separate different dynamics, and Section~\ref{Sec:Clustering} presents the clustering and classification methods used in this study and in the applications. Finally, Section~\ref{Sec:Applications} explains how the same framework is applied to the two geophysical problems studied in this thesis: Synthetic Aperture Radar (SAR) time series for land cover classification and seismic amplitude data from Whakaari/White Island.
 
 \section{Entropy and Complexity Analysis in Time Series: Advantages and Limitations}\label{Sec:AdvantagesLimitations}
 
 Many systems of scientific interest evolve over time in ways that are neither perfectly regular nor purely random. Entropy and complexity measures give us a way to describe where a system sits between these two extremes. Shannon entropy quantifies the uncertainty of a probability distribution. Permutation entropy applies the same idea to the distribution of ordinal patterns extracted from a time series, so that it measures how diverse the order structure of the series is, rather than how spread out its values are.
 
-Entropy on its own, however, cannot tell a structured system apart from a noisy one when both have similar entropy values. Statistical complexity was introduced to fill this gap: it combines entropy with a measure of how far the distribution is from uniform distribution, and so describes the balance between order and disorder. Used together, entropy and complexity are well suited to nonlinear dynamics, that is, systems in which outputs are not proportional to inputs and where small changes can have large or unpredictable effects. Such behaviour is common in biological, financial, climate and geophysical systems.
+Entropy on its own, however, cannot tell a structured system apart from a noisy one when both have similar entropy values. Statistical complexity was introduced to fill this gap: it combines entropy with a measure of how far the distribution is from the uniform distribution, and so describes the balance between order and disorder. Used together, entropy and complexity are well suited to nonlinear dynamics, that is, systems in which outputs are not proportional to inputs and where small changes can have large or unpredictable effects. Such behaviour is common in biological, financial, climate and geophysical systems.
 
 These measures do have practical limitations. Their values depend on the choice of parameters, in particular the embedding dimension and the time delay. They require enough data for the empirical pattern distribution to be a reliable estimate of the underlying one, and the data often need some preprocessing. Interpretation also requires knowledge of the application domain; a high entropy value is not informative unless one knows what a high value means for the system under study.
 
@@ -17,16 +17,108 @@ Despite these limitations, entropy and complexity measures remain valuable. Clas
 
 Classical estimators of complexity, such as the correlation dimension~\cite{Grassberger1983}, fractal dimension and Lyapunov exponents~\cite{Wolf1985}, were developed for low-dimensional dynamical systems~\cite{Huffaker2018}. These are systems whose behaviour can be described by a small number of variables or equations, typically two or three, such as the logistic map or a simple pendulum. Although their dynamics can be rich and even chaotic, their structure is relatively easy to recover from data. The Lyapunov exponent, for example, measures the average rate at which nearby trajectories diverge or converge, and is a natural indicator of chaos in this setting. In real data, however, these estimators tend to perform poorly: they need long and clean records, and their estimates deteriorate quickly once noise is present~\cite{PhysRevLett.88.174102,Huffaker2018}.
 
-Bandt and Pompe~\cite{PhysRevLett.88.174102} proposed a different route. Instead of working with the values of the series, they replace each short window of consecutive observations by its ordinal pattern, that is, the permutation that sorts the values in the window. The time series is thereby turned into a sequence of symbols, and all subsequent analysis is carried out on the distribution of these symbols. The main advantages of this approach are the following:
+Bandt and Pompe~\cite{PhysRevLett.88.174102} proposed a different route. Instead of working with the values of the series, they replace each short window of consecutive observations by its ordinal pattern, that is, the permutation that describes the order of the values in the window. The time series is thereby turned into a sequence of symbols, and all subsequent analysis is carried out on the distribution of these symbols. The main advantages of this approach are the following:
 \begin{itemize}
 	\item it is conceptually simple and requires no model of the data;
 	\item it is computationally fast, even for very long series;
 	\item it is robust to noise and to outliers, because small perturbations rarely change the order of values in a window;
-	\item it is invariant under strictly increasing (monotonic) transformations of the data, so that, for instance, working with amplitudes or with their logarithms (decibels) yields the same patterns.
+	\item it is invariant under strictly increasing (monotonic) transformations of the data, so that, for instance, working with amplitudes or with their logarithms (decibels) yields the same patterns (Section~\ref{Subsec:RSAMExample}).
 \end{itemize}
 Because ordinal patterns are built from consecutive observations, the method also respects the temporal (causal) order of the data. These properties explain why it has been used so widely to distinguish chaotic from stochastic signals.
 
 The method also has known shortcomings. Information about amplitude is discarded, ties between equal values must be resolved by some convention, and the number of possible patterns, $D!$, grows very quickly with the embedding dimension $D$, which increases the amount of data required. Several extensions of the original method have been proposed to address these issues. In this thesis we use the original formulation with time delay $\tau=1$ and choose $D$ so that the length of each series is large relative to $D!$.
+
+\section{Ordinal Patterns}\label{Sec:OrdinalPatterns}
+
+\subsection{Definition and notation}\label{Subsec:Notation}
+
+We use the following notation throughout the thesis. Let $\mathbf{x}=(x_1,x_2,\dots,x_{n+D-1})$ be a real-valued time series of length $n+D-1$, and let $D\geq 2$ be the embedding dimension; in practice $3\leq D\leq 6$. With unit time delay, for $t=1,\dots,n$ we form the overlapping windows
+\[
+\mathbf{s}_t=(x_t,x_{t+1},\dots,x_{t+D-1}).
+\]
+We assume that no window contains tied values. For continuous-valued data ties occur with probability zero; when they do occur in recorded data they are resolved by a fixed convention.
+
+Each window is mapped to one of the $k=D!$ possible permutations of $\{1,\dots,D\}$. In this thesis a window is encoded by the vector of ranks of its values: the $j$-th entry of the pattern is the rank of $x_{t+j-1}$ within $\mathbf{s}_t$, with rank $1$ for the smallest value and rank $D$ for the largest. We list the $k$ possible patterns in lexicographic order and denote them by $\pi^1,\pi^2,\dots,\pi^k$. For $D=3$, for example,
+\[
+\{\pi^1,\dots,\pi^6\}=\{(123),(132),(213),(231),(312),(321)\}.
+\]
+
+This ordering does not affect the entropies, but it does affect the Fisher information measure (Section~\ref{Subsec:Fisher}).
+
+The series is thereby transformed into the symbol sequence $\boldsymbol{\pi}=(\pi_1,\dots,\pi_n)$, with $\pi_t\in\{\pi^1,\dots,\pi^k\}$. Let $N_\ell$ be the number of windows whose pattern is $\pi^\ell$. The empirical probability function of ordinal patterns is
+\begin{equation}
+	\widehat{\mathbf{p}}=\left(\frac{N_1}{n},\frac{N_2}{n},\dots,\frac{N_k}{n}\right)=(\widehat{p}_1,\widehat{p}_2,\dots,\widehat{p}_k),
+	\label{eq:EmpiricalP}
+\end{equation}
+which estimates the true probability function $\mathbf{p}=(p_1,\dots,p_k)$. For statistical purposes the vector of counts $(N_1,\dots,N_k)$ is modelled as a $k$-dimensional multinomial random vector; Section~\ref{Sec:AsymptoticDistribution} discusses this model and its correction for the overlap between windows.
+
+All the features studied in this thesis are functions of $\widehat{\mathbf{p}}$. The descriptors in Section~\ref{Sec:BackgroundKnowledge} are written for a generic probability function $\mathbf{p}$; in practice they are evaluated at $\widehat{\mathbf{p}}$. Throughout, $\log$ denotes the natural logarithm and we adopt the convention $0\log 0=0$. Because $k=D!$ probabilities must be estimated, reliable estimation requires $n\gg D!$; the working rule used in this thesis is given in Section~\ref{Sec:Software}.
+
+\subsection{A synthetic example}\label{Subsec:SyntheticExample}
+
+Consider the short synthetic series
+\[
+\mathbf{x}=(2.1,\ 5.4,\ 3.7,\ 6.8,\ 9.0,\ 4.3,\ 1.6,\ 7.2,\ 8.5)
+\]
+and embedding dimension $D=3$. The $9$ observations produce $n=9-3+1=7$ overlapping windows (Table~\ref{tab:SyntheticOP}). In the first window, $(2.1,5.4,3.7)$, the value $2.1$ is the smallest and receives rank~$1$, $5.4$ is the largest and receives rank~$3$, and $3.7$ receives rank~$2$; the pattern is therefore $(132)$. The window $(3.7,6.8,9.0)$ is increasing and gives $(123)$, while $(9.0,4.3,1.6)$ is decreasing and gives $(321)$.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ccc}
+		\toprule
+		$t$ & Window $\mathbf{s}_t$ & Ordinal pattern \\
+		\midrule
+		1 & $(2.1,\ 5.4,\ 3.7)$ & $(132)=\pi^2$ \\
+		2 & $(5.4,\ 3.7,\ 6.8)$ & $(213)=\pi^3$ \\
+		3 & $(3.7,\ 6.8,\ 9.0)$ & $(123)=\pi^1$ \\
+		4 & $(6.8,\ 9.0,\ 4.3)$ & $(231)=\pi^4$ \\
+		5 & $(9.0,\ 4.3,\ 1.6)$ & $(321)=\pi^6$ \\
+		6 & $(4.3,\ 1.6,\ 7.2)$ & $(213)=\pi^3$ \\
+		7 & $(1.6,\ 7.2,\ 8.5)$ & $(123)=\pi^1$ \\
+		\bottomrule
+	\end{tabular}
+	\caption{Ordinal patterns of dimension $D=3$ for the synthetic series of Section~\ref{Subsec:SyntheticExample}.}
+	\label{tab:SyntheticOP}
+\end{table}
+
+Counting the patterns gives the empirical distribution $\widehat{\mathbf{p}}=(2,1,2,1,0,1)/7$ (Table~\ref{tab:SyntheticP}). Two points are worth noting. First, the pattern $\pi^5=(312)$ never occurs, so $\widehat{p}_5=0$. The empirical distribution always has $k=D!$ entries, including zeros for unobserved patterns; this is why the convention $0\log0=0$ is needed, and why the square-root form of the Fisher information (Section~\ref{Subsec:Fisher}) is convenient. Second, the normalised Shannon entropy~\eqref{eq:NormShannon} of this distribution is $H(\widehat{\mathbf{p}})\approx0.865$, but with only seven patterns for six possible symbols this value is purely illustrative. Real analyses use far more patterns (Section~\ref{Sec:Software}).
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lccc}
+		\toprule
+		Pattern & & Count $N_\ell$ & $\widehat{p}_\ell$ \\
+		\midrule
+		$\pi^1$ & $(123)$ & 2 & $2/7$ \\
+		$\pi^2$ & $(132)$ & 1 & $1/7$ \\
+		$\pi^3$ & $(213)$ & 2 & $2/7$ \\
+		$\pi^4$ & $(231)$ & 1 & $1/7$ \\
+		$\pi^5$ & $(312)$ & 0 & $0$ \\
+		$\pi^6$ & $(321)$ & 1 & $1/7$ \\
+		\bottomrule
+	\end{tabular}
+	\caption{Empirical distribution of ordinal patterns for the synthetic series (Table~\ref{tab:SyntheticOP}).}
+	\label{tab:SyntheticP}
+\end{table}
+
+Only the order of the values within each window entered this computation. If every observation were replaced by its logarithm, its square or its value in different units, the ranks within every window would be unchanged, and so would Tables~\ref{tab:SyntheticOP} and~\ref{tab:SyntheticP}. The next example shows this property on real data.
+
+\subsection{Illustration with seismic amplitude data}\label{Subsec:RSAMExample}
+
+Figure~\ref{fig:RSAMtransform} applies the same construction to the Real-time Seismic Amplitude Measurement (RSAM) recorded at the WIZ station on Whakaari/White Island during January 2019~\cite{GeoNetRSAM}. These are the 10-minute data described in Section~\ref{Subsec:SeismicApplication}. We use $D=4$, so there are $k=24$ possible patterns. Each row of the figure shows the series after a transformation $g$, together with the variance of the transformed values, and the corresponding ordinal pattern distribution with its normalised entropy. The transformations are the identity $g(x)=x$, the square $x^2$, the square root $\sqrt{x}$, the logarithm $\log x$, and the squared deviation from the mean, $(x-\bar{x})^2$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\textwidth]{Figures/Chapter3/rsam_transformations}
+	\caption{RSAM at station WIZ, January 2019, under five transformations, with the variance of each transformed series and its ordinal pattern distribution ($D=4$). The four strictly increasing transformations ($x$, $x^2$, $\sqrt{x}$, $\log x$) give identical pattern distributions ($H=0.995$), although the variance changes by more than $26$ orders of magnitude. The non-monotonic transformation $(x-\bar{x})^2$ changes the pattern distribution ($H=0.996$).}
+	\label{fig:RSAMtransform}
+\end{figure}
+
+The figure is included to show what ordinal patterns do and do not depend on. RSAM values are strictly positive, so the first four transformations are strictly increasing on the range of the data. They preserve the order of the values in every window, and therefore produce exactly the same symbol sequence, the same histogram and the same entropy, $H=0.995$. At the same time, the transformed series look different and their variances range from about $2\times10^{-28}$ (for $x^2$) to about $4\times10^{-2}$ (for $\log x$). Ordinal patterns therefore do not depend on the amplitude, the units or the shape of the marginal distribution of the observations; they depend only on how consecutive values are ordered in time. In practice, this means that the analysis does not require a choice between raw amplitudes, logarithms or decibels, and that a change of units or of a constant instrument gain leaves the features unchanged.
+
+The last row shows that this invariance is specific to monotonic transformations. The map $x\mapsto(x-\bar{x})^2$ folds values below the mean onto values above it, so it reverses some order relations within windows that cross the mean. The pattern frequencies change accordingly. In this example the entropy changes only slightly, from $0.995$ to $0.996$, because both distributions are close to uniform, but the two histograms are not the same.
+
+Two further remarks follow from the figure. First, invariance to amplitude does not mean invariance to time: the patterns depend on the sampling interval, the time delay and the temporal order of the observations, so shuffling the series or changing its resolution would change them. Second, at this resolution the order structure of RSAM is close to that of white noise ($H$ close to one), so the series lies near the point $(1,0)$ of the entropy--complexity plane (Section~\ref{Sec:EntropyComplexity}). Differences between periods of activity are therefore expected to be small in any single descriptor. This is one reason why we combine several descriptors into a feature vector (Section~\ref{Sec:Clustering}), rather than relying on permutation entropy alone.
 
 \section{Information-Theoretic Descriptors of Ordinal Patterns} \label{Sec:BackgroundKnowledge}
 
@@ -35,14 +127,7 @@ Bandt and Pompe computed the Shannon entropy of the histogram of ordinal pattern
 Closer to the problems studied in this thesis, information-theoretic descriptors have been used to track volcanic and hydrothermal activity, with permutation entropy anticipating eruptions of the Strokkur geyser~\cite{Sudibyo2022} and amplitude-based Fisher--Shannon and Shannon entropy measures revealing changes before eruptions at El Hierro and Volcán de Colima~\cite{Telesca2014,ReyDevesa2023}.
 %Further in remote sensing, ordinal pattern features of Sentinel-1 SAR time series have been shown to discriminate between land cover classes~\cite{Dilhani2026SAR}.
 
-\subsection{Notation}\label{Subsec:Notation}
-
-We use the following notation throughout the thesis. Let $\mathbf{x}=(x_1,x_2,\dots,x_{n+D-1})$ be a real-valued time series and $D\geq 2$ the embedding dimension. For $t=1,\dots,n$ we form the overlapping windows $\mathbf{s}_t=(x_t,x_{t+1},\dots,x_{t+D-1})$ and assign to each window its ordinal pattern, as described in Chapter~\ref{C:intro}. There are $k=D!$ possible patterns, which we denote by $\pi^1,\pi^2,\dots,\pi^k$. Let $N_\ell$ be the number of windows whose pattern is $\pi^\ell$. The empirical probability function of ordinal patterns is then
-\begin{equation}
-	\widehat{\mathbf{p}}=\left(\frac{N_1}{n},\frac{N_2}{n},\dots,\frac{N_k}{n}\right)=(\widehat{p}_1,\widehat{p}_2,\dots,\widehat{p}_k),
-	\label{eq:EmpiricalP}
-\end{equation}
-which estimates the true (unknown) probability function $\mathbf{p}=(p_1,\dots,p_k)$. All descriptors below are written for a generic probability function $\mathbf{p}$; in practice they are evaluated at $\widehat{\mathbf{p}}$. Throughout, $\log$ denotes the natural logarithm and we adopt the convention $0\log 0=0$.
+All descriptors below use the notation of Section~\ref{Subsec:Notation}.
 
 \subsection{Permutation entropy}
 
@@ -87,7 +172,7 @@ which equals zero for the uniform distribution and one for a degenerate distribu
 \end{equation}
 Since both factors lie in $[0,1]$, so does $C$. The product form means that complexity is small at both extremes, perfect order ($H=0$) and complete randomness ($Q=0$), and is largest for distributions that combine moderate disorder with marked structure. To make clear which information measure it is built on, we also write $C_S=HQ$ and call it the Shannon complexity.
 
-\subsection{Rényi and Tsallis entropies}
+\subsection{R\'enyi and Tsallis entropies}
 
 Shannon entropy weights every pattern by its probability. Generalised entropies introduce a parameter $q$ that changes this weighting, giving more or less importance to rare patterns. The Rényi entropy~\cite{renyi1961measures} is
 \begin{equation}
@@ -108,7 +193,7 @@ As with the Shannon entropy, both quantities are normalised by their value under
 	\widetilde{H}_{T}^{q}(\mathbf{p})=\frac{(q-1)\,H_{T}^{q}(\mathbf{p})}{1-k^{1-q}},
 	\label{eq:NormRenyiTsallis}
 \end{equation}
-so that both lie in $[0,1]$. Replacing $H$ by $\widetilde{H}_{R}^{q}$ or $\widetilde{H}_{T}^{q}$ in~\eqref{eq:Complexity}, while keeping the same disequilibrium $Q$, gives the Rényi complexity $C_R=\widetilde{H}_{R}^{q}\,Q$ and the Tsallis complexity $C_T=\widetilde{H}_{T}^{q}\,Q$.
+so that both lie in $[0,1]$. Replacing $H$ by $\widetilde{H}_{R}^{q}$ or $\widetilde{H}_{T}^{q}$ in~\eqref{eq:Complexity}, while keeping the same disequilibrium $Q$, gives the R\'enyi complexity $C_R=\widetilde{H}_{R}^{q}\,Q$ and the Tsallis complexity $C_T=\widetilde{H}_{T}^{q}\,Q$.
 
 \subsection{Fisher information measure}\label{Subsec:Fisher}
 
@@ -138,7 +223,7 @@ where terms with $p_{\ell+1}+p_\ell=0$ are taken as zero. In the implementation,
 \end{equation}
 The two measures therefore carry essentially the same information about local changes in the distribution, but they are on different scales and are not interchangeable. For this reason we always state which form is being used, and we never compare numerical values of $F_1$ with values of $F_2$.
 
-A feature shared by both forms is that, unlike the entropies, they depend on the order in which the $k$ patterns are listed. Olivares et al.~\cite{Olivares2012b} discussed this ambiguity and showed that different ordering schemes can lead to different values. The ordering is fixed by the software used to enumerate the patterns, and we keep the same ordering within each analysis so that results are comparable.
+A feature shared by both forms is that, unlike the entropies, they depend on the order in which the $k$ patterns are listed (Section~\ref{Subsec:Notation}). Olivares et al.~\cite{Olivares2012b} discussed this ambiguity and showed that different ordering schemes can lead to different values. The ordering is fixed by the software used to enumerate the patterns, and we keep the same ordering within each analysis so that results are comparable.
 
 \paragraph{Fisher complexity.} By analogy with~\eqref{eq:Complexity}, we define the Fisher complexity as
 \begin{equation}
@@ -149,7 +234,7 @@ where $F$ is whichever Fisher form is used in the analysis at hand. Plotting $C_
 
 \section{The Entropy--Complexity Plane} \label{Sec:EntropyComplexity}
 
-The entropy--complexity plane, also written $H\times C$, is a two-dimensional representation in which each time series is placed according to the permutation entropy and statistical complexity of its ordinal pattern distribution. For a given embedding dimension $D$, not every point of the unit square can be reached, and the location of a series within the feasible region says a great deal about its dynamics.
+The entropy--complexity plane, also written $H\times C$, is a two-dimensional representation in which each time series is placed according to the permutation entropy and statistical complexity of its ordinal pattern distribution~\cite{Rosso2007}. For a given embedding dimension $D$, not every point of the unit square can be reached, and the location of a series within the feasible region says a great deal about its dynamics.
 
 \subsection{Key dynamics in the plane}
 
@@ -180,7 +265,7 @@ Unlike the entropy--complexity plane, the Fisher information--complexity plane h
 
 \section{Asymptotic Distribution of Ordinal Pattern Descriptors}\label{Sec:AsymptoticDistribution}
 
-Every descriptor in Section~\ref{Sec:BackgroundKnowledge} is computed from the estimate $\widehat{\mathbf{p}}$ and is therefore a random quantity. Two series may produce different entropy values simply because of sampling variability, so to compare series in a meaningful way we need to know how much these descriptors vary. The exact distribution of these statistics is difficult to obtain, and the literature has approached the problem in two ways.
+Every descriptor in Section~\ref{Sec:BackgroundKnowledge} is computed from the estimate $\widehat{\mathbf{p}}$ and is therefore a random quantity. Two series may produce different entropy values simply because of sampling variability, so it is useful to know how much these descriptors vary. In this thesis the asymptotic variances reviewed below are not used to build confidence intervals for individual series; because they are functions of $\widehat{\mathbf{p}}$, they are used as features in their own right (Section~\ref{Subsec:SimFeatures}). The exact distribution of these statistics is difficult to obtain, and the literature has approached the problem in two ways.
 
 The first approach is empirical. Here one simulates or resamples many series from a model and builds the distribution of the descriptors directly from the resulting values. Combined with knowledge of the expected variability of entropy and complexity, this allows hypothesis tests for a wide range of models~\cite{Chagas2022a,DeMicco2008,Larrondo2005,Larrondo2006}. Its drawback is that it requires a model and can be computationally expensive.
 
@@ -267,18 +352,7 @@ For $r=1,\dots,D-1$, let $p^{(r)}_{ij}$ denote the probability of observing patt
 \end{equation}
 where the first term is the multinomial variance~\eqref{eq:SigmaMultinomial} and the remaining terms correct for the overlap between windows.
 
-For practical purposes, and for $n$ sufficiently large, the entropy estimator can be approximated by a normal distribution with mean $S(\widehat{\mathbf{p}})$ and variance $\widehat{\nu}^2_{\widehat{\mathbf{p}}}/n$. For $\alpha\in(0,1)$, an approximate $(1-\alpha)\times100\%$ confidence interval for the entropy is therefore
-\begin{equation}
-	S(\widehat{\mathbf{p}})\pm z_{1-\alpha/2}\,\frac{\widehat{\nu}_{\widehat{\mathbf{p}}}}{\sqrt{n}},
-	\label{eq:ConfidenceInterval}
-\end{equation}
-where $z_{1-\alpha/2}$ is the $(1-\alpha/2)$-quantile of the standard normal distribution ($z_{0.975}\approx1.96$ for a $95\%$ interval). The same interval is obtained under the multinomial model by replacing $\widehat{\nu}_{\widehat{\mathbf{p}}}$ with $\widehat{\sigma}_{\widehat{\mathbf{p}}}$. For brevity we write the interval as
-\begin{equation}
-	S(\widehat{\mathbf{p}})\pm\text{semi-length},\qquad
-	\text{semi-length}=z_{1-\alpha/2}\,\frac{\widehat{\nu}_{\widehat{\mathbf{p}}}}{\sqrt{n}},
-	\label{eq:CI}
-\end{equation}
-and, for the normalised entropy $H$, both the estimate and the semi-length are divided by $\log k$.
+For practical purposes, and for $n$ sufficiently large, the entropy estimator can be approximated by a normal distribution with mean $S(\widehat{\mathbf{p}})$ and variance $\widehat{\nu}^2_{\widehat{\mathbf{p}}}/n$, or $\widehat{\sigma}^2_{\widehat{\mathbf{p}}}/n$ under the multinomial model. These approximations make it possible to build asymptotic confidence intervals and hypothesis tests for the entropy~\cite{Rey2023a}; in this thesis we use only the variances themselves. 
 
 \subsection{Asymptotic variance of the statistical complexity}\label{Subsec:AsympVarComplexity}
 
@@ -318,7 +392,7 @@ where $\widehat{\nu}^2_{\widehat{\mathbf{p}}}$ and $\widehat{\sigma}^2_{\widehat
 \mathrm{Var}\big(C(\widehat{\mathbf{p}})\big)\approx\frac{\widehat{\eta}^2_{\widehat{\mathbf{p}}}}{n}
 =\frac{a}{n}\,\nabla C(\widehat{\mathbf{p}})^{T}\,\widehat{\Sigma}\,\nabla C(\widehat{\mathbf{p}}).
 \]
-We stress that~\eqref{eq:EtaApprox} is a practical approximation rather than an exact result, and confidence intervals for the complexity under dependence should be read with this in mind.
+We stress that~\eqref{eq:EtaApprox} is a practical approximation rather than an exact result. The variance of the complexity used as a feature in this thesis is the multinomial variance $\widehat{\omega}^2_{\widehat{\mathbf{p}}}$.
 
 \subsection{Asymptotic results for other descriptors}\label{Subsec:OtherAsymptotics}
 
@@ -328,21 +402,11 @@ We are not aware of a comparable asymptotic result for the difference-ratio form
 
 \section{Computational Implementation}\label{Sec:Software}
 
-All computations in this thesis were carried out in R, using two packages that implement ordinal pattern analysis. We describe them here so that the analyses in later chapters can be reproduced.
-
-\subsection{The \texttt{StatOrdPattHxC} package}
-
-The \texttt{StatOrdPattHxC} package (version~0.1)~\cite{StatOrdPattHxC} was developed by A.A. Rey and A.C. Frery and is distributed through GitHub. It accompanies the theoretical work of Rey et al.~\cite{Rey2025,Rey2023a,Rey2024,Rey2023} and implements the asymptotic results of Section~\ref{Sec:AsymptoticDistribution}. In this thesis we use it for the following tasks:
-\begin{itemize}
-	\item computing the Rényi and Tsallis entropies (\texttt{HRenyi}, \texttt{HTsallis});
-	\item computing asymptotic variances of the entropies under the multinomial model (\texttt{asymptoticVarHShannonMultinomial}, \texttt{sigma2q});
-	\item computing the asymptotic mean and variance of the statistical complexity (\texttt{meanC}, \texttt{varC});
-	\item drawing the boundaries of the entropy--complexity plane, for which the package provides the \texttt{LinfLsup} data set with the lower and upper limit curves for each embedding dimension.
-\end{itemize}
+All computations in this thesis were carried out in R, using two packages that implement ordinal pattern analysis. Both packages implement their core routines in C++ through the \texttt{Rcpp} package and require R~$\geq3.5$. We describe them here so that the analyses in later chapters can be reproduced.
 
 \subsection{The \texttt{ordinalpatterns} package}
 
-The \texttt{ordinalpatterns} package (version~0.2.5) provides the basic tools for turning a time series into an ordinal pattern distribution and computing descriptors from it. We use the following functions:
+The \texttt{ordinalpatterns} package (version~0.2.5)~\cite{ordinalpatterns} was developed by J.~Borges, H.~Ramos and A.~Loureiro and is distributed through GitHub (\texttt{github.com/labepi/ordinalpatterns}). It provides efficient implementations of the ordinal pattern transformation of Bandt and Pompe~\cite{PhysRevLett.88.174102} and of two representations derived from it: the ordinal pattern probability distribution, discussed by Rosso et al.~\cite{Rosso2007}, and the ordinal pattern transition graph, detailed by Borges et al.~\cite{Borges2019}. It also provides functions for extracting information-theoretic measures from these representations and for visualising them. In this thesis we use only the probability distribution, through the following functions:
 \begin{itemize}
 	\item \texttt{op\_pd}, which returns the ordinal pattern probability function $\widehat{\mathbf{p}}$ as a vector of length $D!$, including zeros for patterns that are not observed;
 	\item \texttt{permutation\_entropy} (with \texttt{normalized = TRUE}), which returns $H(\widehat{\mathbf{p}})$;
@@ -352,21 +416,29 @@ The \texttt{ordinalpatterns} package (version~0.2.5) provides the basic tools fo
 \end{itemize}
 The Jensen--Shannon divergence in this package is computed with natural logarithms; when a value in $[0,1]$ is required, it is divided by $\log 2$ or by $J_{\max}$ as in~\eqref{eq:Disequilibrium}.
 
+\subsection{The \texttt{StatOrdPattHxC} package}
+
+The \texttt{StatOrdPattHxC} package (version~0.1)~\cite{StatOrdPattHxC} was developed by A.~Rey, A.~C.~Frery, J.~Gambini and M.~Lucini, and computes statistical properties of features obtained from ordinal patterns. It accompanies the theoretical work of Rey et al.~\cite{Rey2025,Rey2023a,Rey2024,Rey2023} and implements the asymptotic results of Section~\ref{Sec:AsymptoticDistribution}. In this thesis we use it for the following tasks:
+\begin{itemize}
+	\item computing the Rényi and Tsallis entropies (\texttt{HRenyi}, \texttt{HTsallis});
+	\item computing asymptotic variances of the entropies under the multinomial model (\texttt{asymptoticVarHShannonMultinomial}, \texttt{sigma2q});
+	\item computing the asymptotic mean and variance of the statistical complexity (\texttt{meanC}, \texttt{varC});
+	\item drawing the boundaries of the entropy--complexity plane, for which the package provides the \texttt{LinfLsup} data set with the lower and upper limit curves for each embedding dimension.
+\end{itemize}
+
 \subsection{Combining the two packages}
 
-The two packages overlap in part, and we use each for what it does best. The ordinal pattern distribution $\widehat{\mathbf{p}}$ is computed once with \texttt{ordinalpatterns}, and the same vector is passed to the functions of \texttt{StatOrdPattHxC}. This guarantees that all descriptors of a given series, and their variances, are computed from exactly the same distribution and the same ordering of patterns, which matters for the Fisher information. To avoid conflicts between functions with similar names, every call is written with an explicit namespace (for example, \texttt{StatOrdPattHxC::varC}). Unless stated otherwise, we use time delay $\tau=1$, Tsallis and Rényi index $q=1.5$, and $95\%$ confidence intervals ($z_{0.975}=1.96$). The embedding dimension depends on the application and is stated in each case. As a rule, a window is analysed only if it contains at least $5\cdot D!$ patterns, so that the pattern distribution can be estimated reliably.
+The two packages overlap in part, and we use each for what it does best. The ordinal pattern distribution $\widehat{\mathbf{p}}$ is computed once with \texttt{ordinalpatterns}, and the same vector is passed to the functions of \texttt{StatOrdPattHxC}. This guarantees that all descriptors of a given series, and their variances, are computed from exactly the same distribution and the same ordering of patterns, which matters for the Fisher information. To avoid conflicts between functions with similar names, every call is written with an explicit namespace (for example, \texttt{StatOrdPattHxC::varC}). Unless stated otherwise, we use time delay $\tau=1$, and Tsallis and Rényi index $q=1.5$. The embedding dimension depends on the application and is stated in each case. As a rule, a window is analysed only if it contains at least $5\cdot D!$ patterns, so that the pattern distribution can be estimated reliably.
 
 \section{General Analysis Procedure}\label{Subsec:GeneralFramework}
 
-The descriptors, the two planes and the asymptotic confidence intervals described above are combined into the following procedure, which we follow in the rest of the thesis.
+The descriptors, their asymptotic variances and the two planes described above are combined into the following procedure, which we follow in the rest of the thesis.
 \begin{enumerate}
 	\item \textbf{Compute the pattern distribution.} Choose $D$ and $\tau$, divide the series into the windows of interest, and compute $\widehat{\mathbf{p}}$ for each window.
-	\item \textbf{Compute the descriptors.} Calculate entropy and complexity, together with the other descriptors required by the application (Rényi and Tsallis entropies, Fisher information and Fisher complexity).
-	\item \textbf{Quantify uncertainty.} Use the asymptotic variances of Section~\ref{Sec:AsymptoticDistribution} to build confidence intervals, preferring the serial dependence variance whenever it is available.
-	\item \textbf{Plot.} Place each window in the $H\times C$ plane (entropy on the horizontal axis, complexity on the vertical axis) together with the feasible region for the chosen $D$, and add the confidence intervals. The $F\times C_F$ plane is plotted in the same way.
+	\item \textbf{Compute the features.} Calculate the descriptors required by the application: entropy and complexity, and, where used, the Rényi and Tsallis entropies and complexities, the Fisher information and Fisher complexity, the disequilibrium and the asymptotic variances of Section~\ref{Sec:AsymptoticDistribution}.
+	\item \textbf{Plot.} Place each series or window in the $H\times C$ plane (entropy on the horizontal axis, complexity on the vertical axis) together with the feasible region for the chosen $D$. The $F\times C_F$ plane is plotted in the same way.
 	\item \textbf{Interpret.} Read the position of each point using the general guide in Table~\ref{tab:PlaneInterpretation}.
-	\item \textbf{Compare.} When the confidence intervals of two windows or groups do not overlap, this is evidence of a significant difference between them. Overlapping intervals do not, on their own, prove that the two are the same; they only indicate that the data do not show a clear difference.
-	\item \textbf{Group.} When many series or windows are analysed together, use the descriptors as a feature vector for clustering or classification (Section~\ref{Sec:Clustering}).
+	\item \textbf{Group.} Use the features as a feature vector for clustering or classification (Section~\ref{Sec:Clustering}), and compare the resulting groups with the known classes when these are available.
 \end{enumerate}
 
 \begin{table}[H]
@@ -386,7 +458,7 @@ The descriptors, the two planes and the asymptotic confidence intervals describe
 
 \section{Simulation Study Design}\label{Sec:Simulation}
 
-Before applying ordinal pattern features to real data, we study them in a controlled setting in which the mechanism that generated each series is known. This allows us to check whether the features can distinguish different dynamics, and which of them carry useful information, without the additional uncertainty of field data. This section describes the design of the study; the results are presented in Chapter
+Before applying ordinal pattern features to real data, we study them in a controlled setting in which the mechanism that generated each series is known. This allows us to check whether the features can distinguish different dynamics, and which of them carry useful information, without the additional uncertainty of field data. This section describes the design of the study; the results are presented in Chapter......
 %~\ref{C:Simulation}.
 % Note: update later \ref{C:Simulation} to the label of my simulation results chapter.
 
@@ -409,15 +481,7 @@ or, in terms of the lag operator,
 \]
 where $\{w_t\}$ is a Gaussian white noise sequence. The AR$(2)$ and MA$(2)$ processes are the special cases $\theta_1=\theta_2=0$ and $\phi_1=\phi_2=0$, respectively.
 
-The process is stationary when the roots of $\phi(z)=0$ lie outside the unit circle, and invertible when the roots of $\theta(z)=0$ lie outside the unit circle. Stationarity guarantees that the mean, variance and autocorrelation do not change over time, and invertibility guarantees that the model has a unique representation in terms of the white noise. For processes of order two these conditions reduce to
-\[
--1<\phi_2<1,\quad \phi_1+\phi_2<1,\quad \phi_2-\phi_1<1
-\qquad\text{(stationarity)},
-\]
-\[
--1<\theta_2<1,\quad \theta_1+\theta_2>-1,\quad \theta_1-\theta_2<1
-\qquad\text{(invertibility)}.
-\]
+The process is stationary when the roots of $\phi(z)=0$ lie outside the unit circle, and invertible when the roots of $\theta(z)=0$ lie outside the unit circle. Stationarity guarantees that the mean, variance and autocorrelation do not change over time, and invertibility guarantees that the model has a unique representation in terms of the white noise. 
 The coefficients used in this study are listed in Table~\ref{tab:SimParameters}; all three models satisfy these conditions.
 
 \begin{table}[H]
@@ -435,7 +499,7 @@ The coefficients used in this study are listed in Table~\ref{tab:SimParameters};
 	\label{tab:SimParameters}
 \end{table}
 
-Because ordinal patterns do not change when a constant is added to the series or when it is multiplied by a positive constant, the mean and variance of the innovations have no effect on any of the features. We therefore use standard Gaussian innovations, $w_t\sim N(0,1)$.
+Because ordinal patterns do not change when a constant is added to the series or when it is multiplied by a positive constant (Section~\ref{Subsec:RSAMExample}), the mean and variance of the innovations have no effect on any of the features. We therefore use standard Gaussian innovations, $w_t\sim N(0,1)$.
 
 \subsection{Deterministic models}\label{Subsec:SimDeterministic}
 
@@ -540,7 +604,7 @@ For each simulated series we compute the ordinal pattern distribution $\widehat{
 	\label{tab:SimFeatures}
 \end{table}
 
-The asymptotic variances need some explanation. In Section~\ref{Sec:AsymptoticDistribution} they were introduced to build confidence intervals. They are, however, functions of the pattern distribution, and so they also describe its shape: two series with similar entropy can have quite different entropy variances. We therefore include them as features in their own right, to test whether they add information that the descriptors themselves do not carry. Since all series in a given experiment have the same length, their variances are on a common scale. No variance is included for $F_2$, because no asymptotic result is available for this form (Section~\ref{Subsec:OtherAsymptotics}).
+The asymptotic variances need some explanation. In Section~\ref{Sec:AsymptoticDistribution} they were introduced as measures of the sampling variability of the descriptors. They are, however, functions of the pattern distribution, and so they also describe its shape: two series with similar entropy can have quite different entropy variances. We therefore include them as features in their own right, to test whether they add information that the descriptors themselves do not carry. Since all series in a given experiment have the same length, their variances are on a common scale. No variance is included for $F_2$, because no asymptotic result is available for this form (Section~\ref{Subsec:OtherAsymptotics}).
 
 Many of these features are expected to be strongly related; for example, the three entropies all measure disorder of the same distribution. Before clustering, we therefore examine the Pearson correlation matrix of the features to identify redundant ones, and inspect boxplots of each feature by class, on a logarithmic scale, to compare their spread. The clustering methods applied to the feature vectors are described in the next section.
 
@@ -551,7 +615,6 @@ Each series, or each window of a series, is now represented by a vector of ordin
 \subsection{Feature preprocessing}\label{Subsec:Preprocessing}
 
 The features are measured on very different scales: the entropies and complexities lie in $[0,1]$, whereas the asymptotic variances are several orders of magnitude smaller. Since all the methods below rely on Euclidean distances, each feature is standardised to zero mean and unit variance before clustering, so that no feature dominates merely because of its scale. For visualisation, the standardised feature vectors are projected onto their first two principal components (PCA).
-% NOTE: please confirm that features were standardised (scale()) before k-means/DBSCAN.
 
 \subsection{$k$-means clustering}\label{Subsec:kmeans}
 
@@ -603,17 +666,18 @@ The first application uses Sentinel-1 SAR data to characterise land use and land
 
 SAR time series are short and affected by speckle, so a single pixel provides relatively few ordinal patterns. To increase the length of the series and include spatial information, the four pixels of each neighbourhood are combined into one series of length $4T$, where $T$ is the number of images. We use the \emph{stacked} representation, in which the four values observed at the same acquisition time are placed next to each other, so that the time correspondence between neighbouring pixels is preserved. An alternative \emph{interleaved} representation, in which the complete series of each pixel is placed one after the other, was also examined in preliminary experiments.
 
-For each series we compute the ordinal pattern distribution with $D=5$ and extract four descriptors: the permutation entropy $H$, the Shannon complexity $C_S$, the Fisher information in its difference-ratio form $F_2$~\eqref{eq:Fisher2} and the Fisher complexity $C_F=F_2\,Q$. The descriptors are displayed in the $H\times C_S$ and $F\times C_F$ planes and used as inputs to an SVM with radial basis function kernel (Section~\ref{Subsec:SVM}), trained on a stratified $70\%$--$30\%$ split with hyperparameters chosen by $10$-fold cross-validation. Classification performance is assessed with the sensitivity and balanced accuracy of each class. The details and results are presented in Chapter
+For each series we compute the ordinal pattern distribution with $D=5$ and extract four descriptors: the permutation entropy $H$, the Shannon complexity $C_S$, the Fisher information in its difference-ratio form $F_2$~\eqref{eq:Fisher2} and the Fisher complexity $C_F=F_2\,Q$. The descriptors are displayed in the $H\times C_S$ and $F\times C_F$ planes and used as inputs to an SVM with radial basis function kernel (Section~\ref{Subsec:SVM}), trained on a stratified $70\%$--$30\%$ split with hyperparameters chosen by $10$-fold cross-validation. Classification performance is assessed with the sensitivity and balanced accuracy of each class. The details and results are presented in Chapter....
 %~\ref{C:SAR}.
 % NOTE: update \ref{C:SAR} to the label of my SAR chapter.
 
 \subsection{Seismic amplitude at Whakaari/White Island}\label{Subsec:SeismicApplication}
 
-The second application uses the same descriptors, computed in exactly the same way, on a very different type of data. Whakaari/White Island is an active andesitic volcano off the coast of the Bay of Plenty, New Zealand, and is monitored by GeoNet~\cite{GeoNetRSAM}. We analyse the Real-time Seismic Amplitude Measurement (RSAM) recorded at the WIZ seismic station, which summarises the average amplitude of ground vibration over consecutive intervals. The data used here are sampled every $10$ minutes, which gives $144$ values per day, and cover the period from 1~July~2014 to 31~December~2019. This period ends with the eruption of 9~December~2019.
+The second application uses the same pipeline on a very different type of data, but with a larger set of descriptors than the SAR application: the thirteen features of the simulation study (Table~\ref{tab:SimFeatures}) rather than four. Whakaari/White Island is an active andesitic volcano off the coast of the Bay of Plenty, New Zealand, and is monitored by GeoNet~\cite{GeoNetRSAM}. We analyse the Real-time Seismic Amplitude Measurement (RSAM) recorded at the WIZ seismic station, which summarises the average amplitude of ground vibration over consecutive intervals. The data used here are sampled every $10$ minutes, which gives $144$ values per day, and cover the period from 1~July~2014 to 31~December~2019. This period ends with the eruption of 9~December~2019.
 
-Our hypothesis is that changes in volcanic activity alter the order structure of the RSAM series, and that these changes are reflected in the ordinal pattern descriptors before, during or after periods of unrest. To track how the descriptors evolve over time, we use a sliding window of $7$~days ($1008$ observations) that advances by one day, so that consecutive windows overlap by $6$~days. Within each window we compute the ordinal pattern distribution with embedding dimension $D=5$ and $\tau=1$, giving $k=120$ possible patterns; each window therefore contains more than $1000$ patterns, comfortably above the $5\cdot D!=600$ threshold of Section~\ref{Sec:Software}. Because ordinal patterns are invariant under monotonic transformations, the raw RSAM values can be used directly, without logarithmic transformation or normalisation.
+Our hypothesis is that changes in volcanic activity alter the order structure of the RSAM series, and that these changes are reflected in the ordinal pattern descriptors before, during or after periods of unrest. To track how the descriptors evolve over time, we use a sliding window of $7$~days ($1008$ observations) that advances by one day, so that consecutive windows overlap by $6$~days. Within each window we compute the ordinal pattern distribution with embedding dimension $D=5$ and $\tau=1$, giving $k=120$ possible patterns; each window therefore contains more than $1000$ patterns, comfortably above the $5\cdot D!=600$ threshold of Section~\ref{Sec:Software}. Because ordinal patterns are invariant under monotonic transformations (Figure~\ref{fig:RSAMtransform}), the raw RSAM values can be used directly, without logarithmic transformation or normalisation.
 
-For each window we compute the permutation entropy and Shannon complexity, the Rényi and Tsallis entropies, the Fisher information and Fisher complexity, and the asymptotic confidence intervals of Section~\ref{Sec:AsymptoticDistribution}. The resulting time series of descriptors are displayed in the $H\times C$ and $F\times C_F$ planes and as functions of time.
+For each window we compute the thirteen features of Table~\ref{tab:SimFeatures}: the Shannon, Rényi and Tsallis entropies and their associated complexities ($C_S$, $C_R$ and $C_T$); the Fisher information measure and the Fisher complexity; the disequilibrium $Q$; and the asymptotic variances of the Shannon, Rényi and Tsallis entropies and of the Shannon complexity (Section~\ref{Sec:AsymptoticDistribution}).
+The resulting time series of descriptors are displayed in the $H\times C$ and $F\times C_F$ planes and as functions of time.
 
 To validate the results, we compare them with the Volcanic Alert Level (VAL) issued by GeoNet. We use version~3 of the VAL system, in force since 1~July~2014, under which level~1 corresponds to minor volcanic unrest, level~2 to moderate to heightened unrest, and levels~3 and~4 to minor and moderate eruptions, respectively. Each window is labelled with the VAL in force at that time, and the levels are grouped into three activity classes: minor unrest (VAL~1), moderate to heightened unrest (VAL~2) and eruption (VAL~3 or~4). Levels~0 and~5 do not occur in the study period. We then assess whether the descriptors separate these classes using DBSCAN (Section~\ref{Subsec:DBSCAN}) and a class-weighted SVM (Section~\ref{Subsec:SVM}). We also examine a threshold-based approach, in which unusual values of individual descriptors are flagged as potential anomalies and compared with the timing of known eruptions. The details and results are presented in %Chapter~\ref{C:Seismic}.
 % NOTE: update \ref{C:Seismic} to the label of my seismic chapter.
